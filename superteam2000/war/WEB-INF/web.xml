@@ -7,7 +7,9 @@
 
   <!-- Default page to serve -->
   <welcome-file-list>
+       <welcome-file>Superteam_start.html</welcome-file>
     <welcome-file>Superteam2000.html</welcome-file>
+
   </welcome-file-list>
 
   <!-- Servlets -->
@@ -19,6 +21,7 @@
   <servlet-mapping>
 	<servlet-name>partnerboerseAdministrationImpl</servlet-name>
 	<url-pattern>/superteam2000/pba</url-pattern>
+	<url-pattern>/superteam_start/pba</url-pattern>
   </servlet-mapping>
 
  

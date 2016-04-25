@@ -54,11 +54,31 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Profil createProfil(String nachname, String vorname, String email, Date geburtsdatum, String haarfarbe,
-			String raucher, String religion, int groesse) throws IllegalArgumentException {
+	public Profil createProfil(String nachname, String vorname, String email, String geburtsdatum, String haarfarbe,
+			String raucher, String religion, int groesse, String geschlecht) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		Profil p = new Profil();
-		return p;
+		
+	    Profil p = new Profil();
+	    p.setNachname(nachname);
+	    p.setVorname(vorname);
+	    p.setEmail(email);
+	    p.setGeburtsdatum(geburtsdatum);
+	    p.setHaarfarbe(haarfarbe);
+	    p.setRaucher(raucher);
+	    p.setReligion(religion);
+	    p.setGroesse(groesse);
+	    p.setGeschlecht(geschlecht);
+//	    p.setId(12);
+//	    p.getId();
+	    /*
+	     * Setzen einer vorläufigen Kundennr. Der insert-Aufruf liefert dann ein
+	     * Objekt, dessen Nummer mit der Datenbank konsistent ist.
+	     */
+	    p.setId(1);
+
+	    // Objekt in der DB speichern.
+	    return this.pMapper.insert(p);
+	
 	}
 
 	@Override

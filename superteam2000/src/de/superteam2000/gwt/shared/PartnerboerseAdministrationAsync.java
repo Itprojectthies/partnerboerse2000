@@ -21,8 +21,8 @@ public interface PartnerboerseAdministrationAsync {
 //Profile
 	void save(Profil profil, AsyncCallback<Void> callback);
 	void createProfil(String nachname, String vorname, String email,
-			Date geburtsdatum, String haarfarbe, String raucher, String 
-			religion, int groesse, AsyncCallback<Profil> callback);
+			String geburtsdatum, String haarfarbe, String raucher, String 
+			religion, int groesse,String geschlecht, AsyncCallback<Profil> callback);
 	void delete(Profil profil, AsyncCallback<Void> callback);
 	void getAllProfiles(AsyncCallback<ArrayList<Profil>> callback);
 	void getProfilById(int id, AsyncCallback<Profil> callback);

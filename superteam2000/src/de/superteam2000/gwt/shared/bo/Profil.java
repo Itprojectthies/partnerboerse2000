@@ -8,7 +8,7 @@ public class Profil extends BusinessObject {
 	  private String nachname;
 	  private String vorname;
 	  private String email;
-	  private Date geburtsdatum;
+	  private String geburtsdatum;
 	  private Date erstelldatum;
 	  private String haarfarbe;
 	  private String raucher;
@@ -36,10 +36,10 @@ public class Profil extends BusinessObject {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Date getGeburtsdatum() {
+	public String getGeburtsdatum() {
 		return geburtsdatum;
 	}
-	public void setGeburtsdatum(Date geburtsdatum) {
+	public void setGeburtsdatum(String geburtsdatum) {
 		this.geburtsdatum = geburtsdatum;
 	}
 	public Date getErstelldatum() {

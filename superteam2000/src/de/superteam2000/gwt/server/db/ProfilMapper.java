@@ -226,7 +226,7 @@ public class ProfilMapper {
        * Primärschlüsselwert ist.
        */
       ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-          + "FROM Profil ");
+          + "FROM Profil");
       
       // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
       if (rs.next()) {
@@ -240,11 +240,13 @@ public class ProfilMapper {
 
         // Jetzt erst erfolgt die tatsächliche Einfügeoperation
         stmt.executeUpdate("INSERT INTO Profil (id, Vorname, Nachname, Email, "
-        		+ "Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht) "
+        		+ "Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht, Geburtsdatum) "
             + "VALUES (" + p.getId() + ",'" + p.getVorname() + "','"
-            + p.getNachname() + ",'" + p.getEmail() + ",'" + p.getHaarfarbe() + 
-            ",'" + p.getGroesse() + ",'" + p.getRaucher() + ",'" + p.getReligion() +
-            ",'" + p.getGeschlecht() +"')");
+            + p.getNachname() + "','" + p.getEmail() + "','" + p.getHaarfarbe() + 
+            "'," + p.getGroesse() + ",'" + p.getRaucher() + "','" + p.getReligion() +
+            "','" + p.getGeschlecht() +"','"+ p.getGeburtsdatum() +"')");
+        
+        
       }
     }
     catch (SQLException e) {
