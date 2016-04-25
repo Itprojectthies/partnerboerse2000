@@ -21,16 +21,7 @@
 	<url-pattern>/superteam2000/pba</url-pattern>
   </servlet-mapping>
 
-  <!-- Servlets -->
-  <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>de.superteam2000.gwt.server.GreetingServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/superteam2000/greet</url-pattern>
-  </servlet-mapping>
+ 
   
 
 
