@@ -10,7 +10,6 @@ import de.superteam2000.gwt.shared.bo.*;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 
-@SuppressWarnings("serial")
 public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	implements PartnerboerseAdministration {
 	

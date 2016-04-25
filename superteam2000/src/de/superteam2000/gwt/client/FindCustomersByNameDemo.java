@@ -1,8 +1,5 @@
 package de.superteam2000.gwt.client;
 
-import java.util.ArrayList;
-
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;

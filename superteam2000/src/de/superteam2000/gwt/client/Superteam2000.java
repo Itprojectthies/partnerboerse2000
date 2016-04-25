@@ -1,23 +1,10 @@
 package de.superteam2000.gwt.client;
 
-
-import de.superteam2000.gwt.shared.FieldVerifier;
-import de.superteam2000.gwt.shared.PartnerboerseAdministration;
-import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.client.FindCustomersByNameDemo;
 import de.superteam2000.gwt.client.Showcase;
-import de.superteam2000.gwt.server.*;
-
-import java.util.Date;
-
-import com.gargoylesoftware.htmlunit.javascript.host.Console;
 import com.google.gwt.core.client.*;
 import com.google.gwt.event.dom.client.*;
-import com.google.gwt.logging.client.ConsoleLogHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-import de.superteam2000.gwt.shared.bo.*;
-import com.google.gwt.logging.*;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
