@@ -3,10 +3,13 @@ package de.superteam2000.gwt.server;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.superteam2000.gwt.server.db.*;
 import de.superteam2000.gwt.shared.PartnerboerseAdministration;
 import de.superteam2000.gwt.shared.bo.*;
+import de.superteam2000.gwt.server.*;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 
@@ -48,7 +51,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		this.mMapper = MerkzettelMapper.merkzettelMapper();
 		this.pMapper = ProfilMapper.profilMapper();
 		//private SuchprofilMapper sMapper = null;
-		
+		Logger logger = ServersideSettings.getLogger();
 		
 	}
 
@@ -56,7 +59,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	public Profil createProfil(String nachname, String vorname, String email, String geburtsdatum, String haarfarbe,
 			String raucher, String religion, int groesse, String geschlecht) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+		Logger logger = ServersideSettings.getLogger();
 	    Profil p = new Profil();
 	    p.setNachname(nachname);
 	    p.setVorname(vorname);
@@ -74,10 +77,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	     * Objekt, dessen Nummer mit der Datenbank konsistent ist.
 	     */
 	    p.setId(1);
-
+	    
+	    logger.log(Level.SEVERE, "user \""+ p.getNachname() +"\" erstellt");
+	    
 	    // Objekt in der DB speichern.
 	    return this.pMapper.insert(p);
-	
+	    
 	}
 
 	@Override
