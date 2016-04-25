@@ -2,7 +2,6 @@ package de.superteam2000.gwt.server.db;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import de.superteam2000.gwt.shared.bo.*;
 
