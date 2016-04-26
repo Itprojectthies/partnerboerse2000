@@ -41,9 +41,9 @@ public class FindCustomersByNameDemo extends Showcase {
   @Override
   protected void run() {
     this.append("Bla");
-
+    
     PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
-
+    
     // Die BankAdministration fragen wir, ob sie Kunden namens Kohl kennt.
     pbVerwaltung.getProfilById(2, new KundenAusgebenCallback(this));
   }

@@ -24,7 +24,7 @@ import de.superteam2000.gwt.shared.CommonSettings;
 public class ServersideSettings extends CommonSettings {
   private static final String LOGGER_NAME = "BankProjekt Server";
   private static final Logger log = Logger.getLogger(LOGGER_NAME);
-
+  public static final String URL_EDITOR = "http://127.0.0.1:8888/Superteam2000.html";
   /**
    * <p>
    * Auslesen des applikationsweiten (Server-seitig!) zentralen Loggers.

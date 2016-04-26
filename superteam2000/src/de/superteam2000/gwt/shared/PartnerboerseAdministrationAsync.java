@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.superteam2000.gwt.client.LoginInfo;
 import de.superteam2000.gwt.shared.bo.*;
 
 /**
@@ -17,6 +18,7 @@ import de.superteam2000.gwt.shared.bo.*;
  */
 public interface PartnerboerseAdministrationAsync {
 	void init(AsyncCallback<Void> callback);
+	void login(String requestUri, AsyncCallback<LoginInfo> async);
 	
 //Profile
 	void save(Profil profil, AsyncCallback<Void> callback);

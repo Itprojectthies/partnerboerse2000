@@ -6,13 +6,16 @@ import java.util.Date;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import de.superteam2000.gwt.client.LoginInfo;
 import de.superteam2000.gwt.shared.bo.*;
 
 @RemoteServiceRelativePath("pba")
 public interface PartnerboerseAdministration extends RemoteService{
 	
-	public void init() throws IllegalArgumentException;
+		public void init() throws IllegalArgumentException;
 
+		public LoginInfo login(String requestUri);
+	
 //Profile
 		public Profil createProfil(String nachname, String vorname, String email,
 			String geburtsdatum, String haarfarbe, String raucher, String 

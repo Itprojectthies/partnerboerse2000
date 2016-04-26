@@ -6,6 +6,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.superteam2000.gwt.shared.*;
+import de.superteam2000.gwt.shared.bo.Profil;
 /**
  * Klasse mit Eigenschaften und Diensten, die für alle Client-seitigen Klassen
  * relevant sind.
@@ -30,10 +31,15 @@ public class ClientsideSettings extends CommonSettings {
    */
   private static ReportGeneratorAsync reportGenerator = null;
 
+	/**
+	 * Der momentane Benutzer
+	 */
+	private static Profil currentUser = null;
+  
   /**
    * Name des Client-seitigen Loggers.
    */
-  private static final String LOGGER_NAME = "BankProjekt Web Client";
+  private static final String LOGGER_NAME = "Partnerbörse Web Client";
   
   /**
    * Instanz des Client-seitigen Loggers.
@@ -164,5 +170,21 @@ public class ClientsideSettings extends CommonSettings {
     // So, nun brauchen wir den ReportGenerator nur noch zurückzugeben.
     return reportGenerator;
   }
+  
+	/**
+	 * + * Auslesen des momentanen Benutzers + * @return Momentaner Benutzer +
+	 */
+	public static Profil getCurrentUser() {
+		return currentUser;
+	}
+
+	/**
+	 * + * Setzen des momentanen Benutzers + * @param currentUser Momentaner
+	 * Benutzer +
+	 */
+	public static void setCurrentUser(Profil currentUser) {
+		ClientsideSettings.currentUser = currentUser;
+	}
+
 
 }
