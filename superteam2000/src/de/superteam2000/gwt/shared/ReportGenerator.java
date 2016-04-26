@@ -28,7 +28,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
  * dem Anwendungsfall entsprechende Parameterliste. Diese Parameter benötigt der
  * der Generator, um den Report erstellen zu können.
  * </p>
- * <p> 
+ * <p>
  * Bei neu hinzukommenden Bedarfen an Berichten, kann diese Klasse auf einfache
  * Weise erweitert werden. Hierzu können zusätzliche <code>create...</code>
  * -Methoden implementiert werden. Die bestehenden Methoden bleiben davon
@@ -39,63 +39,72 @@ import com.google.gwt.user.client.rpc.RemoteService;
  */
 @RemoteServiceRelativePath("reportgenerator")
 public interface ReportGenerator extends RemoteService {
-	
-  /**TODO: überarbeiten
-   * Initialisierung des Objekts. Diese Methode ist vor dem Hintergrund von GWT
-   * RPC zusätzlich zum No Argument Constructor der implementierenden Klasse
-   *Impl} notwendig. Bitte diese Methode direkt nach der
-   * Instantiierung aufrufen.
-   * 
-   * @throws IllegalArgumentException
-   */
-  public void init() throws IllegalArgumentException;
 
-  /**TODO: überarbeiten
-   * Erstellen eines <code>AllAccountsOfCustomerReport</code>-Reports. Dieser
-   * Report-Typ stellt sämtliche Konten eines Kunden dar.
-   * 
-   * @param c eine Referenz auf das Kundenobjekt bzgl. dessen der Report
-   *          erstellt werden soll.
-   * @return das fertige Reportobjekt
-   * @throws IllegalArgumentException
-   * @see AllAccountsOfCustomerReport
-   */
-  public abstract ProfilReport createProfilReport(Profil p)throws IllegalArgumentException;
-  /**TODO: überarbeiten
-   * Erstellen eines <code>AllAccountsOfCustomerReport</code>-Reports. Dieser
-   * Report-Typ stellt sämtliche Konten eines Kunden dar.
-   * 
-   * @param c eine Referenz auf das Kundenobjekt bzgl. dessen der Report
-   *          erstellt werden soll.
-   * @return das fertige Reportobjekt
-   * @throws IllegalArgumentException
-   * @see AllAccountsOfCustomerReport
-   */
-  public abstract AllNotVisitedProfileReport createAllNotVisitedProfileReport (
-		Profil p) throws IllegalArgumentException;
-  /**TODO: überarbeiten
-   * Erstellen eines <code>AllAccountsOfCustomerReport</code>-Reports. Dieser
-   * Report-Typ stellt sämtliche Konten eines Kunden dar.
-   * 
-   * @param c eine Referenz auf das Kundenobjekt bzgl. dessen der Report
-   *          erstellt werden soll.
-   * @return das fertige Reportobjekt
-   * @throws IllegalArgumentException
-   * @see AllAccountsOfCustomerReport
-   */
-  public abstract AllNewProfileReport createAllNewProfilesReport(
-		Profil p);
-  /** TODO: überarbeiten
-   * Erstellen eines <code>AllAccountsOfCustomerReport</code>-Reports. Dieser
-   * Report-Typ stellt sämtliche Konten eines Kunden dar.
-   * 
-   * @param c eine Referenz auf das Kundenobjekt bzgl. dessen der Report
-   *          erstellt werden soll.
-   * @return das fertige Reportobjekt
-   * @throws IllegalArgumentException
-   * @see AllAccountsOfCustomerReport
-   */
-  public abstract AllProfileBySuche createAllProfileBySucheReport(
-		Profil p) throws IllegalArgumentException;
+	/**
+	 * TODO: überarbeiten Initialisierung des Objekts. Diese Methode ist vor dem
+	 * Hintergrund von GWT RPC zusätzlich zum No Argument Constructor der
+	 * implementierenden Klasse Impl} notwendig. Bitte diese Methode direkt nach
+	 * der Instantiierung aufrufen.
+	 * 
+	 * @throws IllegalArgumentException
+	 */
+	public void init() throws IllegalArgumentException;
+
+	/**
+	 * TODO: überarbeiten Erstellen eines
+	 * <code>AllAccountsOfCustomerReport</code>-Reports. Dieser Report-Typ
+	 * stellt sämtliche Konten eines Kunden dar.
+	 * 
+	 * @param c
+	 *            eine Referenz auf das Kundenobjekt bzgl. dessen der Report
+	 *            erstellt werden soll.
+	 * @return das fertige Reportobjekt
+	 * @throws IllegalArgumentException
+	 * @see AllAccountsOfCustomerReport
+	 */
+	public abstract ProfilReport createProfilReport(Profil p) throws IllegalArgumentException;
+
+	/**
+	 * TODO: überarbeiten Erstellen eines
+	 * <code>AllAccountsOfCustomerReport</code>-Reports. Dieser Report-Typ
+	 * stellt sämtliche Konten eines Kunden dar.
+	 * 
+	 * @param c
+	 *            eine Referenz auf das Kundenobjekt bzgl. dessen der Report
+	 *            erstellt werden soll.
+	 * @return das fertige Reportobjekt
+	 * @throws IllegalArgumentException
+	 * @see AllAccountsOfCustomerReport
+	 */
+	public abstract AllNotVisitedProfileReport createAllNotVisitedProfileReport(Profil p)
+			throws IllegalArgumentException;
+
+	/**
+	 * TODO: überarbeiten Erstellen eines
+	 * <code>AllAccountsOfCustomerReport</code>-Reports. Dieser Report-Typ
+	 * stellt sämtliche Konten eines Kunden dar.
+	 * 
+	 * @param c
+	 *            eine Referenz auf das Kundenobjekt bzgl. dessen der Report
+	 *            erstellt werden soll.
+	 * @return das fertige Reportobjekt
+	 * @throws IllegalArgumentException
+	 * @see AllAccountsOfCustomerReport
+	 */
+	public abstract AllNewProfileReport createAllNewProfilesReport(Profil p);
+
+	/**
+	 * TODO: überarbeiten Erstellen eines
+	 * <code>AllAccountsOfCustomerReport</code>-Reports. Dieser Report-Typ
+	 * stellt sämtliche Konten eines Kunden dar.
+	 * 
+	 * @param c
+	 *            eine Referenz auf das Kundenobjekt bzgl. dessen der Report
+	 *            erstellt werden soll.
+	 * @return das fertige Reportobjekt
+	 * @throws IllegalArgumentException
+	 * @see AllAccountsOfCustomerReport
+	 */
+	public abstract AllProfileBySuche createAllProfileBySucheReport(Profil p) throws IllegalArgumentException;
 
 }

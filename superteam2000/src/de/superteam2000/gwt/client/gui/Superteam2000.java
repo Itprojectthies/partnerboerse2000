@@ -8,13 +8,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 
-
 /**
  * Entry-Point-Klasse des Projekts <b>BankProjekt</b>.
  */
 public class Superteam2000 implements EntryPoint {
-	
-
 
 	PartnerboerseAdministrationAsync bpVerwaltung = null;
 
@@ -26,7 +23,7 @@ public class Superteam2000 implements EntryPoint {
 	 */
 	@Override
 	public void onModuleLoad() {
-		
+
 		/*
 		 * Zunächst weisen wir der BankAdministration eine Bank-Instanz zu, die
 		 * das Kreditinstitut repräsentieren soll, für das diese Applikation
@@ -36,19 +33,17 @@ public class Superteam2000 implements EntryPoint {
 			bpVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 		}
 
-
 		/*
 		 * Die Bankanwendung besteht aus einem Navigationsteil mit Baumstruktur
-		 * und einem Datenteil mit Formularen für den ausgewählten Kunden und das
-		 * ausgewählte Konto.
+		 * und einem Datenteil mit Formularen für den ausgewählten Kunden und
+		 * das ausgewählte Konto.
 		 */
-		
-		CustomerForm cf = new CustomerForm();
-		
 
-				
+		CustomerForm cf = new CustomerForm();
+
 		/*
-		 * Die Panels und der CellTree werden erzeugt und angeordnet und in das RootPanel eingefügt.
+		 * Die Panels und der CellTree werden erzeugt und angeordnet und in das
+		 * RootPanel eingefügt.
 		 */
 		VerticalPanel detailsPanel = new VerticalPanel();
 		detailsPanel.add(cf);
@@ -71,8 +66,7 @@ public class Superteam2000 implements EntryPoint {
 			 * Wenn ein Fehler auftritt, dann geben wir eine kurze Log Message
 			 * aus.
 			 */
-			ClientsideSettings.getLogger().severe(
-					"Setzen der Bank fehlgeschlagen!");
+			ClientsideSettings.getLogger().severe("Setzen der Bank fehlgeschlagen!");
 		}
 
 		@Override
