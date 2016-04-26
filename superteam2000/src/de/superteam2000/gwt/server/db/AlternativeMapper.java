@@ -19,6 +19,7 @@ import de.superteam2000.gwt.shared.bo.*;
  * @see 
  * @author Thies
  */
+// bla bal bla
 
 public class AlternativeMapper {
 
