@@ -57,7 +57,7 @@ public class Home extends BasicFrame {
 	 */
 	@Override
 	protected void run() {
-		HTML welcomeText = new HTML("Das ist eine Partnerbörse JUHUUUU");
+		HTML welcomeText = new HTML("Das ist eine Partnerbörse");
 		this.add(welcomeText);
 		
 

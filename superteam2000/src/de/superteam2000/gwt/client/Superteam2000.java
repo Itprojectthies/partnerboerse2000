@@ -31,28 +31,10 @@ public class Superteam2000 implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		// Check login status using login service.
-		PartnerboerseAdministrationAsync loginService = ClientsideSettings.getPartnerboerseVerwaltung();
-		loginService.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback()
-				
-//				new AsyncCallback<LoginInfo>() {
-//			@Override
-//			public void onFailure(Throwable error) {
-//			}
-//
-//			@Override
-//			public void onSuccess(LoginInfo result) {
-//				loginInfo = result;
-//				if (loginInfo.isLoggedIn()) {
-//					ClientsideSettings.setCurrentUser(result);
-//					loadPartnerboerse();
-//				} else {
-//					
-//					loadLogin();
-//					
-//				}
-//			}
-//		}
-				);
+		PartnerboerseAdministrationAsync pbVerwaltung = 
+				ClientsideSettings.getPartnerboerseVerwaltung();
+		pbVerwaltung.login(GWT.getHostPageBaseURL() + "Superteam2000.html", 
+				new LoginCallback());
 
 	}
 	/**
@@ -90,44 +72,44 @@ public class Superteam2000 implements EntryPoint {
 		@Override
 		public void onSuccess(LoginInfo result) {
 			if (result.isLoggedIn()) {
-				ClientsideSettings.getLogger().severe(
-						"User " + result.getEmailAddress()
-								+ " erfolgreich eingeloggt.");
+//				ClientsideSettings.getLogger().severe(
+//						"User " + result.getEmailAddress()
+//								+ " erfolgreich eingeloggt.");
 				ClientsideSettings.setCurrentUser(result);
-				// Inhalt zur Sicherheit nochmal entfernen.
-				RootPanel.get("main").clear();
-				RootPanel.get("clientTitle").clear();
+//				// Inhalt zur Sicherheit nochmal entfernen.
+//				RootPanel.get("main").clear();
+//				RootPanel.get("clientTitle").clear();
 
-				
-				
-				// Titel des Clients
-				Button clientTitle = new Button("&nbsp;Editor & Viewer");
-				clientTitle.addClickHandler(new ClickHandler() {
-					@Override
-					public void onClick(ClickEvent event) {
-						RootPanel.get("main").clear();
-						RootPanel.get("main").add(new Home());
-						//SearchPanel sp = new SearchPanel();
-						//sp.load();
-					}
-				});
-				// Tooltip des Titels
-				clientTitle.setTitle("Zurück zur Startseite");
-
-				// StyleSheet festlegen
-				clientTitle.setStylePrimaryName("btn btn-link navbar-brand");
-
-				// Titel-Button dem entsprechenden Layer hinzufügen.
-				RootPanel.get("clientTitle").add(clientTitle);
+//				// Titel des Clients
+//				Button clientTitle = new Button("&nbsp;Editor & Viewer");
+//				clientTitle.addClickHandler(new ClickHandler() {
+//					@Override
+//					public void onClick(ClickEvent event) {
+//						RootPanel.get("main").clear();
+//						RootPanel.get("main").add(new Home());
+//						//SearchPanel sp = new SearchPanel();
+//						//sp.load();
+//					}
+//				});
+//				// Tooltip des Titels
+//				clientTitle.setTitle("Zurück zur Startseite");
+//
+//				// StyleSheet festlegen
+//				clientTitle.setStylePrimaryName("btn btn-link navbar-brand");
+//
+//				// Titel-Button dem entsprechenden Layer hinzufügen.
+//				RootPanel.get("clientTitle").add(clientTitle);
 
 				loadPartnerboerse();
 			} else {
 				
 				signInLink.setHref(result.getLoginUrl());
+				signInLink.addStyleName("nav navbar-nav navbar-right");
 				loginPanel.add(loginLabel);
 				loginPanel.add(signInLink);
-				RootPanel.get("main").add(loginPanel);
-				RootPanel.get("main").add(new Home());
+				RootPanel.get("navbar-right").add(signInLink);
+				//RootPanel.get("login").add(signInLink);
+				
 			}
 		}
 	}
