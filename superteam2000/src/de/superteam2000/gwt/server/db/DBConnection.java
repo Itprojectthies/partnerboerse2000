@@ -2,7 +2,12 @@ package de.superteam2000.gwt.server.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.logging.Logger;
+
+
 import com.google.appengine.api.utils.SystemProperty;
+
+import de.superteam2000.gwt.client.ClientsideSettings;
 
 /**
  * Verwalten einer Verbindung zur Datenbank.
@@ -35,6 +40,8 @@ public class DBConnection {
 	 */
 	private static Connection con = null;
 
+	private static Logger logger = ClientsideSettings.getLogger();
+	
 	/**
 	 * Die URL, mit deren Hilfe die Datenbank angesprochen wird. In einer
 	 * professionellen Applikation würde diese Zeichenkette aus einer
@@ -42,8 +49,10 @@ public class DBConnection {
 	 * mitgegeben, um bei einer Veränderung dieser URL nicht die gesamte
 	 * Software neu komilieren zu müssen.
 	 */
-	private static String googleUrl = "jdbc:google:mysql://prof-thies.de:thies-bankproject:thies-bankproject/bankproject?user=demo&password=demo";
-	private static String localUrl = "jdbc:mysql://127.0.0.1:3306/partnerboerse2000?user=root&password=test";
+	
+
+	private static String googleUrl = "jdbc:google:mysql://partnerboerse2000:partnerboerse2000-db/partnerboerse2000?user=root&password=test";
+	private static String localUrl = "jdbc:mysql://127.0.0.1:3306/partnerboerse2000?user=root&password=";
 
 	/**
 	 * Diese statische Methode kann aufgrufen werden durch
@@ -75,6 +84,8 @@ public class DBConnection {
 			String url = null;
 			try {
 				if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
+					
+					logger.info("produktions modus");
 					// Load the class that provides the new
 					// "jdbc:google:mysql://" prefix.
 					Class.forName("com.mysql.jdbc.GoogleDriver");
@@ -83,6 +94,7 @@ public class DBConnection {
 					// Local MySQL instance to use during development.
 					Class.forName("com.mysql.jdbc.Driver");
 					url = localUrl;
+					logger.info("lokaler modus");
 				}
 				/*
 				 * Dann erst kann uns der DriverManager eine Verbindung mit den
@@ -94,9 +106,11 @@ public class DBConnection {
 				 */
 				con = DriverManager.getConnection(url);
 				System.out.println("Verbindung geklappt");
+				logger.info("verbindung geklappt");
 			} catch (Exception e) {
 				con = null;
 				e.printStackTrace();
+				logger.info("netzwerkverbindung fehlgeschlagen");
 			}
 		}
 

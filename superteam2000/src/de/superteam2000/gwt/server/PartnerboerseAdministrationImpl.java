@@ -84,15 +84,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		p.setReligion(religion);
 		p.setGroesse(groesse);
 		p.setGeschlecht(geschlecht);
-		// p.setId(12);
-		// p.getId();
+	
 		/*
 		 * Setzen einer vorläufigen Kundennr. Der insert-Aufruf liefert dann ein
 		 * Objekt, dessen Nummer mit der Datenbank konsistent ist.
 		 */
 		p.setId(1);
 
-		logger.log(Level.SEVERE, "user \"" + p.getNachname() + "\" erstellt");
+		logger.log(Level.INFO, "user \"" + p.getNachname() + "\" erstellt");
 
 		// Objekt in der DB speichern.
 		return this.pMapper.insert(p);

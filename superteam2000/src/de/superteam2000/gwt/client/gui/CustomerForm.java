@@ -1,5 +1,7 @@
 package de.superteam2000.gwt.client.gui;
 
+import java.util.logging.Logger;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -41,6 +43,7 @@ public class CustomerForm extends VerticalPanel {
 
 	Label test = new Label("");
 
+	Logger logger = ClientsideSettings.getLogger();
 	/*
 	 * Im Konstruktor werden die anderen Widgets erzeugt. Alle werden in einem
 	 * Raster angeordnet, dessen Größe sich aus dem Platzbedarf der enthaltenen
@@ -138,14 +141,13 @@ public class CustomerForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
+			logger.info("Erstellen des useres hat nicht funktioniert");
 
 		}
 
 		@Override
 		public void onSuccess(Profil p) {
 			test.setText("Der neue User heißt " + p.getVorname());
-
 			firstNameTextBox.setText("");
 			lastNameTextBox.setText("");
 			idValueLabel.setText("");

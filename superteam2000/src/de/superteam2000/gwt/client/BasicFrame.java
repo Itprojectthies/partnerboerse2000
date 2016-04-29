@@ -3,14 +3,14 @@ package de.superteam2000.gwt.client;
 import com.google.gwt.user.client.ui.*;
 
 /**
- * Diese Klasse ist die Basisklasse aller Showcases. Jeder Showcase ist ein
+ * Diese Klasse ist die Basisklasse aller BasicFrames. Jeder BasicFrame ist ein
  * VerticalPanel und lässt sich somit unter GWT entsprechend anordnen.
  * 
  * @author thies
  * @version 1.0
  * 
  */
-public abstract class Showcase extends VerticalPanel {
+public abstract class BasicFrame extends VerticalPanel {
 
 	/**
 	 * Jedes GWT Widget muss diese Methode implementieren. Sie gibt an, sas
@@ -25,7 +25,7 @@ public abstract class Showcase extends VerticalPanel {
 		super.onLoad();
 
 		/*
-		 * Als erstes geben wir stets die Headline des Showcase aus. Da
+		 * Als erstes geben wir stets die Headline des BasicFrame aus. Da
 		 * getHeadlineText() als abstrakte Methode bzw. als Einschubmethode
 		 * realisiert wird, obliegt es den Subklassen, für eine Ausgestaltung
 		 * also Implementierung zu sorgen.
@@ -59,11 +59,11 @@ public abstract class Showcase extends VerticalPanel {
 	/**
 	 * Mit Hilfe dieser Methode erstellen wir aus einem Strinng ein mittels CSS
 	 * formatierbares HTML-Element, das an das Ende der bisherigen Ausgabe
-	 * dieses Showcase angehängt wird. Unter CSS lässt sich das Ergebnis über
+	 * dieses BasicFrame angehängt wird. Unter CSS lässt sich das Ergebnis über
 	 * <code>.bankproject-simpletext</code> referenzieren bzw. formatieren.
 	 * 
 	 * @param text
-	 *            der String, den wir als HTML an die bisherige Showcase-Ausgabe
+	 *            der String, den wir als HTML an die bisherige BasicFrame-Ausgabe
 	 *            anhängen wollen.
 	 */
 	protected void append(String text) {

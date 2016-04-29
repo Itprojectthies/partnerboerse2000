@@ -20,13 +20,13 @@ import de.superteam2000.gwt.shared.bo.Profil;
  * @version 1.0
  * 
  */
-public class FindCustomersByNameDemo extends Showcase {
+public class FindCustomersByNameDemo extends BasicFrame {
 
 	/**
 	 * Jeder Showcase besitzt eine einleitende Überschrift, die durch diese
 	 * Methode zu erstellen ist.
 	 * 
-	 * @see Showcase#getHeadlineText()
+	 * @see BasicFrame#getHeadlineText()
 	 */
 	@Override
 	protected String getHeadlineText() {
@@ -68,9 +68,9 @@ public class FindCustomersByNameDemo extends Showcase {
 	 * @see CreateAccountDemo.UseCustomer
 	 */
 	class KundenAusgebenCallback implements AsyncCallback<Profil> {
-		private Showcase showcase = null;
+		private BasicFrame showcase = null;
 
-		public KundenAusgebenCallback(Showcase c) {
+		public KundenAusgebenCallback(BasicFrame c) {
 			this.showcase = c;
 		}
 
