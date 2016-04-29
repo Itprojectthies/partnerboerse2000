@@ -5,6 +5,7 @@ import de.superteam2000.gwt.client.FindCustomersByNameDemo;
 import de.superteam2000.gwt.client.BasicFrame;
 import de.superteam2000.gwt.client.gui.CustomerForm;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
+import de.superteam2000.gwt.shared.bo.*;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 import com.google.gwt.core.client.*;
@@ -31,8 +32,8 @@ public class Superteam2000 implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		// Check login status using login service.
-		PartnerboerseAdministrationAsync loginService = ClientsideSettings.getPartnerboerseVerwaltung();
-		loginService.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback()
+		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+		pbVerwaltung.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback()
 				
 //				new AsyncCallback<LoginInfo>() {
 //			@Override
@@ -61,7 +62,7 @@ public class Superteam2000 implements EntryPoint {
 	 * @author Timo Fesseler
 	 *
 	 */
-	class LoginCallback implements AsyncCallback<LoginInfo> {
+	class LoginCallback implements AsyncCallback<Profil> {
 
 		/**
 		 * Konstruktor der Callback Klasse, diese legt bei der Instanziierung
@@ -88,7 +89,7 @@ public class Superteam2000 implements EntryPoint {
 		 * wird eine SuccessMsg im Showcase eingefügt.
 		 */
 		@Override
-		public void onSuccess(LoginInfo result) {
+		public void onSuccess(Profil result) {
 			if (result.isLoggedIn()) {
 				ClientsideSettings.getLogger().severe(
 						"User " + result.getEmailAddress()

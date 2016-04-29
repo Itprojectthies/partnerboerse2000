@@ -9,6 +9,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.superteam2000.gwt.shared.bo.Profil;
+
 /**
  * Hier werden Elemente der Navigationsleiste erzeugt
  * 
@@ -33,7 +35,7 @@ public class NavigationBar {
 		});
 		RootPanel.get("navbar").add(infoBtn);
 	
-		final LoginInfo user = ClientsideSettings.getCurrentUser();
+		final Profil user = ClientsideSettings.getCurrentUser();
 		
 		Button logoutBtn = new Button("<span class=\"glyphicon glyphicon-log-out\" aria-hidden=\"true\"></span>");
 		logoutBtn.setStylePrimaryName("btn btn-link");

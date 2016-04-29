@@ -35,7 +35,7 @@ public class ClientsideSettings extends CommonSettings {
 	/**
 	 * Der momentane Benutzer
 	 */
-	private static LoginInfo currentUser = null;
+	private static Profil currentUser = null;
 
 	/**
 	 * Name des Client-seitigen Loggers.
@@ -174,7 +174,7 @@ public class ClientsideSettings extends CommonSettings {
 	/**
 	 * + * Auslesen des momentanen Benutzers + * @return Momentaner Benutzer +
 	 */
-	public static LoginInfo getCurrentUser() {
+	public static Profil getCurrentUser() {
 		return currentUser;
 	}
 
@@ -182,7 +182,7 @@ public class ClientsideSettings extends CommonSettings {
 	 * + * Setzen des momentanen Benutzers + * @param currentUser Momentaner
 	 * Benutzer +
 	 */
-	public static void setCurrentUser(LoginInfo currentUser) {
+	public static void setCurrentUser(Profil currentUser) {
 		ClientsideSettings.currentUser = currentUser;
 	}
 
