@@ -3,7 +3,7 @@ package de.superteam2000.gwt.shared;
 import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.superteam2000.gwt.client.LoginInfo;
+//import de.superteam2000.gwt.client.LoginInfo;
 import de.superteam2000.gwt.shared.bo.*;
 
 /**
@@ -17,7 +17,7 @@ import de.superteam2000.gwt.shared.bo.*;
 public interface PartnerboerseAdministrationAsync {
 	void init(AsyncCallback<Void> callback);
 
-	void login(String requestUri, AsyncCallback<LoginInfo> async);
+	void login(String requestUri, AsyncCallback<Profil> async);
 
 	// Profile
 	void save(Profil profil, AsyncCallback<Void> callback);

@@ -2,6 +2,8 @@ package de.superteam2000.gwt.client;
 
 import com.google.gwt.user.client.ui.HTML;
 
+import de.superteam2000.gwt.shared.bo.Profil;
+
 /**
  * Home bietet ein Showcase um die Begrüßungsfläche (rechtes Panel) darstellen
  * zu können.
@@ -28,7 +30,7 @@ public class Home extends BasicFrame {
 	 * eingeloggt Benutzer mit dem von Google übergebenen Username begrüßt wird.
 	 */
 	public Home() {
-		LoginInfo user = ClientsideSettings.getCurrentUser();
+		Profil user = ClientsideSettings.getCurrentUser();
 		this.headlineText = "Herzlich Willkommen " + user.getNickname();
 		this.headlineTextStyle = "formTitle";
 	}

@@ -5,6 +5,7 @@ import de.superteam2000.gwt.client.FindCustomersByNameDemo;
 import de.superteam2000.gwt.client.BasicFrame;
 import de.superteam2000.gwt.client.gui.CustomerForm;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
+import de.superteam2000.gwt.shared.bo.*;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 import com.google.gwt.core.client.*;
@@ -43,7 +44,7 @@ public class Superteam2000 implements EntryPoint {
 	 * @author Timo Fesseler
 	 *
 	 */
-	class LoginCallback implements AsyncCallback<LoginInfo> {
+	class LoginCallback implements AsyncCallback<Profil> {
 
 		/**
 		 * Konstruktor der Callback Klasse, diese legt bei der Instanziierung
@@ -70,46 +71,40 @@ public class Superteam2000 implements EntryPoint {
 		 * wird eine SuccessMsg im Showcase eingefügt.
 		 */
 		@Override
-		public void onSuccess(LoginInfo result) {
+		public void onSuccess(Profil result) {
 			if (result.isLoggedIn()) {
-//				ClientsideSettings.getLogger().severe(
-//						"User " + result.getEmailAddress()
-//								+ " erfolgreich eingeloggt.");
+				ClientsideSettings.getLogger().severe(
+						"User " + result.getEmailAddress()
+								+ " erfolgreich eingeloggt.");
 				ClientsideSettings.setCurrentUser(result);
-//				// Inhalt zur Sicherheit nochmal entfernen.
-//				RootPanel.get("main").clear();
-//				RootPanel.get("clientTitle").clear();
+				// Inhalt zur Sicherheit nochmal entfernen.
+				RootPanel.get("main").clear();
+				RootPanel.get("clientTitle").clear();
 
-//				// Titel des Clients
-//				Button clientTitle = new Button("&nbsp;Editor & Viewer");
-//				clientTitle.addClickHandler(new ClickHandler() {
-//					@Override
-//					public void onClick(ClickEvent event) {
-//						RootPanel.get("main").clear();
-//						RootPanel.get("main").add(new Home());
-//						//SearchPanel sp = new SearchPanel();
-//						//sp.load();
-//					}
-//				});
-//				// Tooltip des Titels
-//				clientTitle.setTitle("Zurück zur Startseite");
-//
-//				// StyleSheet festlegen
-//				clientTitle.setStylePrimaryName("btn btn-link navbar-brand");
-//
-//				// Titel-Button dem entsprechenden Layer hinzufügen.
-//				RootPanel.get("clientTitle").add(clientTitle);
+				
+				
+				// Titel des Clients
+				Button clientTitle = new Button("&nbsp;Editor & Viewer");
+				clientTitle.addClickHandler(new ClickHandler() {
+					@Override
+					public void onClick(ClickEvent event) {
+						RootPanel.get("main").clear();
+						RootPanel.get("main").add(new Home());
+						//SearchPanel sp = new SearchPanel();
+						//sp.load();
+					}
+				});
+				// Tooltip des Titels
+				clientTitle.setTitle("Zurück zur Startseite");
 
 				loadPartnerboerse();
 			} else {
 				
 				signInLink.setHref(result.getLoginUrl());
-				signInLink.addStyleName("nav navbar-nav navbar-right");
 				loginPanel.add(loginLabel);
 				loginPanel.add(signInLink);
-				RootPanel.get("navbar-right").add(signInLink);
-				//RootPanel.get("login").add(signInLink);
-				
+				RootPanel.get("main").add(loginPanel);
+				RootPanel.get("main").add(new Home());
 			}
 		}
 	}

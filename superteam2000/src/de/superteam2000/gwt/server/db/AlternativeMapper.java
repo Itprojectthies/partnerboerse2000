@@ -15,12 +15,12 @@ import java.util.ArrayList;
  * @see
  * @author Thies
  */
+// bla bal bla
 
 public class AlternativeMapper {
 
 	/**
-	 * Die Klasse AlternativeMapper wird nur einmal instantiiert. Man spricht
-	 * hierbei von einem sogenannten <b>Singleton</b>.
+	 * Die Klasse AlternativeMapper wird nur einmal instantiiert. Man spricht hierbei von einem sogenannten <b>Singleton</b>.
 	 * <p>
 	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal
 	 * für sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie
