@@ -107,15 +107,6 @@ public class CustomerForm extends VerticalPanel {
 		customerButtonsPanel.add(test);
 	}
 
-	/*
-	 * Click Handlers.
-	 */
-
-	/**
-	 * Auch wenn ein neuer Kunde hinzukommt, muss der Kunden- und Kontenbaum
-	 * aktualisiert werden.
-	 * 
-	 */
 	private class NewClickHandler implements ClickHandler {
 
 		@Override
@@ -154,43 +145,5 @@ public class CustomerForm extends VerticalPanel {
 		}
 
 	}
-
-	// @Override
-	// public void onFailure(Throwable caught) {
-	// Window.alert("Das Anlegen eines neuen Kunden ist fehlgeschlagen!");
-	// }
-	//
-	// @Override
-	// public void onSuccess(Profil profil) {
-	// if (profil != null) {
-	// // Das erfolgreiche Hinzufügen eines Kunden wird an den Kunden- und
-	// // Kontenbaum propagiert.
-	// catvm.addCustomer(customer);
-	// }
-	// }
-	// }
-	//
-	// // catvm setter
-	// void setCatvm(CustomerAccountsTreeViewModel catvm) {
-	// this.catvm = catvm;
-	// }
-
-	/*
-	 * Wenn der anzuzeigende Kunde gesetzt bzw. gelöscht wird, werden die
-	 * zugehörenden Textfelder mit den Informationen aus dem Kundenobjekt
-	 * gefüllt bzw. gelöscht.
-	 */
-	// void setSelected(Customer c) {
-	// if (c != null) {
-	// customerToDisplay = c;
-	// firstNameTextBox.setText(customerToDisplay.getFirstName());
-	// lastNameTextBox.setText(customerToDisplay.getLastName());
-	// idValueLabel.setText(Integer.toString(customerToDisplay.getId()));
-	// } else {
-	// firstNameTextBox.setText("");
-	// lastNameTextBox.setText("");
-	// idValueLabel.setText("");
-	// }
-	// }
 
 }

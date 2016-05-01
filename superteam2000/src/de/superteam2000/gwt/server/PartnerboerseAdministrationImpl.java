@@ -50,42 +50,42 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		// private SuchprofilMapper sMapper = null;
 
 	}
-	
+
 	@Override
 	public Profil login(String requestUri) {
-	UserService userService = UserServiceFactory.getUserService();
-	User user = userService.getCurrentUser();
-//	LoginInfo loginInfo = new LoginInfo();
-	Profil profil = new Profil();
-	
-	if (user != null) {
-		profil.setLoggedIn(true);
-		profil.setEmailAddress(user.getEmail());
-		profil.setNickname(user.getNickname());
-		profil.setLogoutUrl(userService.createLogoutURL(requestUri));
-	} else {
-		profil.setLoggedIn(false);
-		profil.setLoginUrl(userService.createLoginURL(requestUri));
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+		// LoginInfo loginInfo = new LoginInfo();
+		Profil profil = new Profil();
+
+		if (user != null) {
+			profil.setLoggedIn(true);
+			profil.setEmailAddress(user.getEmail());
+			profil.setNickname(user.getNickname());
+			profil.setLogoutUrl(userService.createLogoutURL(requestUri));
+		} else {
+			profil.setLoggedIn(false);
+			profil.setLoginUrl(userService.createLoginURL(requestUri));
+		}
+		return profil;
 	}
-	return profil;
-}
-//	@Override
-//	public LoginInfo login(String requestUri) {
-//		UserService userService = UserServiceFactory.getUserService();
-//		User user = userService.getCurrentUser();
-//		LoginInfo loginInfo = new LoginInfo();
-//
-//		if (user != null) {
-//			loginInfo.setLoggedIn(true);
-//			loginInfo.setEmailAddress(user.getEmail());
-//			loginInfo.setNickname(user.getNickname());
-//			loginInfo.setLogoutUrl(userService.createLogoutURL(requestUri));
-//		} else {
-//			loginInfo.setLoggedIn(false);
-//			loginInfo.setLoginUrl(userService.createLoginURL(requestUri));
-//		}
-//		return loginInfo;
-//	}
+	// @Override
+	// public LoginInfo login(String requestUri) {
+	// UserService userService = UserServiceFactory.getUserService();
+	// User user = userService.getCurrentUser();
+	// LoginInfo loginInfo = new LoginInfo();
+	//
+	// if (user != null) {
+	// loginInfo.setLoggedIn(true);
+	// loginInfo.setEmailAddress(user.getEmail());
+	// loginInfo.setNickname(user.getNickname());
+	// loginInfo.setLogoutUrl(userService.createLogoutURL(requestUri));
+	// } else {
+	// loginInfo.setLoggedIn(false);
+	// loginInfo.setLoginUrl(userService.createLoginURL(requestUri));
+	// }
+	// return loginInfo;
+	// }
 
 	@Override
 	public Profil createProfil(String nachname, String vorname, String email, String geburtsdatum, String haarfarbe,
@@ -102,7 +102,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		p.setReligion(religion);
 		p.setGroesse(groesse);
 		p.setGeschlecht(geschlecht);
-	
+
 		/*
 		 * Setzen einer vorläufigen Kundennr. Der insert-Aufruf liefert dann ein
 		 * Objekt, dessen Nummer mit der Datenbank konsistent ist.

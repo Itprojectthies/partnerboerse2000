@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 
-public class LoggingDialog {
+public class LogConsole {
 	private static DialogBox dialog;
 	
 	public static DialogBox getDialogBox() {
@@ -57,8 +57,8 @@ public class LoggingDialog {
 			
 		
 			dialog.add(contentPane);
-			dialog.setGlassEnabled(true);
-			dialog.setAnimationEnabled(true);
+			//dialog.setGlassEnabled(true);
+			//dialog.setAnimationEnabled(true);
 			dialog.center();
 			dialog.hide();
 			

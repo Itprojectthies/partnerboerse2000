@@ -5,24 +5,24 @@ import com.google.gwt.event.dom.client.ClickHandler;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.superteam2000.gwt.shared.bo.Profil;
 
-/**
- * Hier werden Elemente der Navigationsleiste erzeugt
- * 
- * @author Thomas Burkart
- *
- */
+
 public class NavigationBar {
 
+	
+	
 	/**
 	 * Diese Methode ladet die Navigationsleiste, mit Buttons etc.
 	 */
 	public static void load() {
+		final Profil user = ClientsideSettings.getCurrentUser();
+		
 		
 		//Button infoBtn = new Button("<span class=\"glyphicon glyphicon-dashboard\" aria-hidden=\"true\"></span>");
 		Button infoBtn = new Button("Logger");
@@ -30,24 +30,33 @@ public class NavigationBar {
 		infoBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				LoggingDialog.getDialogBox().show();
+				LogConsole.getDialogBox().show();
 			}
 		});
-		RootPanel.get("navbar-right").add(infoBtn);
-	
-		final Profil user = ClientsideSettings.getCurrentUser();
 		
-		//Button logoutBtn = new Button("<span class=\"glyphicon glyphicon-log-out\" aria-hidden=\"true\"></span>");
-		Button logoutBtn = new Button("Logout");
-		logoutBtn.setStylePrimaryName("btn btn-default navbar-btn");
-		logoutBtn.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
+		RootPanel.get("navbar").add(infoBtn);
+	
+		Anchor logOutLink = new Anchor("Logout");
+		
+		//logOutLink.addStyleName("nav navbar-nav navbar-right");
+		
+		logOutLink.setHref(user.getLogoutUrl());
 
-				Window.Location.assign(user.getLogoutUrl());
-			}
-		});
-		RootPanel.get("navbar-right").add(logoutBtn);
+		RootPanel.get("navbar").add(logOutLink);
+		
+		
+		
+//		//Button logoutBtn = new Button("<span class=\"glyphicon glyphicon-log-out\" aria-hidden=\"true\"></span>");
+//		Button logoutBtn = new Button("Logout");
+//		logoutBtn.setStylePrimaryName("btn btn-default navbar-btn");
+//		logoutBtn.addClickHandler(new ClickHandler() {
+//			@Override
+//			public void onClick(ClickEvent event) {
+//
+//				Window.Location.assign(user.getLogoutUrl());
+//			}
+//		});
+//		RootPanel.get("navbar-right").add(logoutBtn);
 	}
 	/*
 	 * Diese Methode ladet die Navigationsleiste für den Report Generator, hier

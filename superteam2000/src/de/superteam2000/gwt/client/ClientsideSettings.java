@@ -172,15 +172,17 @@ public class ClientsideSettings extends CommonSettings {
 	}
 
 	/**
-	 * + * Auslesen des momentanen Benutzers + * @return Momentaner Benutzer +
+	 * Auslesen des momentanen Benutzers
+	 * @return Momentaner Benutzer 
 	 */
 	public static Profil getCurrentUser() {
 		return currentUser;
 	}
 
 	/**
-	 * + * Setzen des momentanen Benutzers + * @param currentUser Momentaner
-	 * Benutzer +
+	 * Setzen des momentanen Benutzers
+	 * @param currentUser Momentaner Benutzer
+	 * 
 	 */
 	public static void setCurrentUser(Profil currentUser) {
 		ClientsideSettings.currentUser = currentUser;
