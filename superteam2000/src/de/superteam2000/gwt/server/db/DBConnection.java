@@ -40,7 +40,7 @@ public class DBConnection {
 	 */
 	private static Connection con = null;
 
-	private static Logger logger = ClientsideSettings.getLogger();
+	
 	
 	/**
 	 * Die URL, mit deren Hilfe die Datenbank angesprochen wird. In einer
@@ -79,6 +79,7 @@ public class DBConnection {
 	 * @see con
 	 */
 	public static Connection connection() {
+		Logger logger = ClientsideSettings.getLogger();
 		// Wenn es bisher keine Conncetion zur DB gab, ...
 		if (con == null) {
 			String url = null;

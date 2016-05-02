@@ -10,6 +10,7 @@ import de.superteam2000.gwt.shared.bo.*;
 import de.superteam2000.gwt.client.ClientsideSettings;
 import com.google.gwt.core.client.*;
 import com.google.gwt.event.dom.client.*;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
@@ -28,9 +29,12 @@ public class Superteam2000 implements EntryPoint {
 			"Please sign in to your Google Account to access the StockWatcher application.");
 	private Anchor signInLink = new Anchor("Sign In");
 	Logger logger = ClientsideSettings.getLogger();
-
+	
+	final Anchor logOutLink = new Anchor("Logout");
+	
 	@Override
 	public void onModuleLoad() {
+		
 		// Check login status using login service.
 		PartnerboerseAdministrationAsync pbVerwaltung = 
 				ClientsideSettings.getPartnerboerseVerwaltung();
@@ -38,10 +42,11 @@ public class Superteam2000 implements EntryPoint {
 				new LoginCallback());
 
 	}
+	
 	/**
 	 * Asynchrone Anmelde-Klasse. 
 	 * Showcase in dem die Antwort des Callbacks eingefügt wird.
-	 * @author Timo Fesseler
+	 * @author Volz, Funke
 	 *
 	 */
 	class LoginCallback implements AsyncCallback<Profil> {
@@ -77,35 +82,16 @@ public class Superteam2000 implements EntryPoint {
 						"User " + result.getEmailAddress()
 								+ " erfolgreich eingeloggt.");
 				ClientsideSettings.setCurrentUser(result);
-				// Inhalt zur Sicherheit nochmal entfernen.
-//				RootPanel.get("main").clear();
-//				RootPanel.get("clientTitle").clear();
-
 				
-				
-				// Titel des Clients
-				Button clientTitle = new Button("&nbsp;Editor & Viewer");
-				clientTitle.addClickHandler(new ClickHandler() {
-					@Override
-					public void onClick(ClickEvent event) {
-						RootPanel.get("main").clear();
-						RootPanel.get("main").add(new Home());
-						//SearchPanel sp = new SearchPanel();
-						//sp.load();
-					}
-				});
-				// Tooltip des Titels
-				clientTitle.setTitle("Zurück zur Startseite");
 
 				loadPartnerboerse();
 			} else {
 
 				signInLink.setHref(result.getLoginUrl());
-				signInLink.addStyleName("nav navbar-nav navbar-right");
 				loginPanel.add(loginLabel);
 				loginPanel.add(signInLink);
 				RootPanel.get("main").add(signInLink);
-				//RootPanel.get("login").add(signInLink);
+				
 			}
 		}
 	}

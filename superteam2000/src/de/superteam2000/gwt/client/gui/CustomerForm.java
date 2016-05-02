@@ -2,6 +2,7 @@ package de.superteam2000.gwt.client.gui;
 
 import java.util.logging.Logger;
 
+import com.google.gwt.aria.client.TextboxRole;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -10,6 +11,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -23,6 +25,9 @@ import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
  * @author Christian Rathke
  */
 public class CustomerForm extends VerticalPanel {
+	
+	
+	
 	PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	Profil profilToDisplay = null;
 
@@ -32,7 +37,7 @@ public class CustomerForm extends VerticalPanel {
 	TextBox firstNameTextBox = new TextBox();
 	TextBox lastNameTextBox = new TextBox();
 	Label idValueLabel = new Label();
-	TextBox emailTextBox = new TextBox();
+	Label emailTextBox = new Label();
 	// DateBox gebDatumDateBox = new DateBox();
 	TextBox gebDatumDateBox = new TextBox();
 	TextBox haarfarbeTextBox = new TextBox();
@@ -40,9 +45,9 @@ public class CustomerForm extends VerticalPanel {
 	TextBox religionTextBox = new TextBox();
 	TextBox geschlechtTextBox = new TextBox();
 	IntegerBox koerpergroesseIntegerBox = new IntegerBox();
-
+	
 	Label test = new Label("");
-
+	Profil user = ClientsideSettings.getCurrentUser();
 	Logger logger = ClientsideSettings.getLogger();
 	/*
 	 * Im Konstruktor werden die anderen Widgets erzeugt. Alle werden in einem
@@ -50,12 +55,14 @@ public class CustomerForm extends VerticalPanel {
 	 * Widgets bestimmt.
 	 */
 	public CustomerForm() {
+		
+		
 		Grid customerGrid = new Grid(11, 2);
 		this.add(customerGrid);
 
-		Label idLabel = new Label("ID");
-		customerGrid.setWidget(0, 0, idLabel);
-		customerGrid.setWidget(0, 1, idValueLabel);
+//		Label idLabel = new Label("ID");
+//		customerGrid.setWidget(0, 0, idLabel);
+//		customerGrid.setWidget(0, 1, idValueLabel);
 
 		Label firstNameLabel = new Label("Vorname");
 		customerGrid.setWidget(1, 0, firstNameLabel);
@@ -68,6 +75,7 @@ public class CustomerForm extends VerticalPanel {
 		Label emailLabel = new Label("Email");
 		customerGrid.setWidget(3, 0, emailLabel);
 		customerGrid.setWidget(3, 1, emailTextBox);
+		emailTextBox.setText(user.getEmailAddress());
 
 		// Label gebDatumLabel = new Label("Geburtstag");
 		// customerGrid.setWidget(4, 0, gebDatumLabel);
