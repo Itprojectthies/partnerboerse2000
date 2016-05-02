@@ -5,22 +5,23 @@ import java.util.Date;
 public class Profil extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
-
-	private String nachname;
-	private String vorname;
-	private String email;
-	private String geburtsdatum;
-	private Date erstelldatum;
-	private String haarfarbe;
-	private String raucher;
-	private String religion;
-	private int groesse;
-	private String geschlecht;
+	
+	private String nickname = "";
+	private String nachname = "";
+	private String vorname = "";
+	private String email = "";
+	private String geburtsdatum = "";
+	private Date erstelldatum = null;
+	private String haarfarbe  = "";
+	private String raucher = "";
+	private String religion = "";
+	private int groesse = 0;
+	private String geschlecht = "";
 	private boolean loggedIn = false;
-	private String loginUrl;
-	private String logoutUrl;
-	private String emailAddress;
-	private String nickname;
+	private String loginUrl = "";
+	private String logoutUrl = "";
+	private boolean isCreated = false;
+	
 
 	public boolean isLoggedIn() {
 		return loggedIn;
@@ -44,14 +45,6 @@ public class Profil extends BusinessObject {
 
 	public void setLogoutUrl(String logoutUrl) {
 		this.logoutUrl = logoutUrl;
-	}
-
-	public String getEmailAddress() {
-		return emailAddress;
-	}
-
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
 	}
 
 	public String getNickname() {
@@ -140,6 +133,14 @@ public class Profil extends BusinessObject {
 
 	public void setGeschlecht(String geschlecht) {
 		this.geschlecht = geschlecht;
+	}
+
+	public boolean isCreated() {
+		return isCreated;
+	}
+
+	public void setCreated(boolean isCreated) {
+		this.isCreated = isCreated;
 	}
 
 }

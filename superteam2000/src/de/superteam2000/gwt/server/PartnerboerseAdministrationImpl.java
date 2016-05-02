@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.server.db.*;
 import de.superteam2000.gwt.shared.PartnerboerseAdministration;
 import de.superteam2000.gwt.shared.bo.*;
@@ -30,6 +31,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	private ProfilMapper pMapper = null;
 	private SuchprofilMapper sMapper = null;
 
+	/**
+	 * Der momentane Benutzer
+	 */
+	private static Profil currentUser = null;
+
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
 		// TODO Auto-generated constructor stub
 	}
@@ -51,42 +57,65 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+//	@Override
+//	public Profil login(String requestUri) {
+//		UserService userService = UserServiceFactory.getUserService();
+//		User user = userService.getCurrentUser();
+//		Profil neuesProfil = new Profil();
+////		Profil bestehendesProfil = this.pMapper.findByEmail(user.getEmail());
+//
+//		if (user != null) {
+////			if (bestehendesProfil != null) {
+////				bestehendesProfil.setLoggedIn(true);
+////				bestehendesProfil.setLogoutUrl(userService.createLogoutURL(requestUri));
+////				return bestehendesProfil;
+////				
+////			}
+//			neuesProfil.setLoggedIn(true);
+//			neuesProfil.setEmail(user.getEmail());
+//			neuesProfil.setNickname(user.getNickname());
+//			neuesProfil.setLogoutUrl(userService.createLogoutURL(requestUri));
+//		} else {
+//			neuesProfil.setLoggedIn(false);
+//			neuesProfil.setLoginUrl(userService.createLoginURL(requestUri));
+//		}
+//		
+//		return neuesProfil;
+//	}
+
+	
+	
 	@Override
 	public Profil login(String requestUri) {
-		UserService userService = UserServiceFactory.getUserService();
-		User user = userService.getCurrentUser();
-		// LoginInfo loginInfo = new LoginInfo();
-		Profil profil = new Profil();
-
-		if (user != null) {
-			profil.setLoggedIn(true);
-			profil.setEmailAddress(user.getEmail());
-			profil.setNickname(user.getNickname());
-			profil.setLogoutUrl(userService.createLogoutURL(requestUri));
-		} else {
-			profil.setLoggedIn(false);
-			profil.setLoginUrl(userService.createLoginURL(requestUri));
+	UserService userService = UserServiceFactory.getUserService();
+	User user = userService.getCurrentUser();
+////	LoginInfo loginInfo = new LoginInfo();
+	
+	Profil profil = new Profil();
+	
+	if (user != null) {
+		Profil bestehendesProfil = this.pMapper.findByEmail(user.getEmail());
+		if (bestehendesProfil != null) {
+			ClientsideSettings.getLogger().severe("Userobjekt email"+user.getEmail() + "bestehender user mail  "+ bestehendesProfil.getEmail() + bestehendesProfil.getHaarfarbe());
+			bestehendesProfil.setLoggedIn(true);
+			bestehendesProfil.setLogoutUrl(userService.createLogoutURL(requestUri));
+			return bestehendesProfil;
+			
 		}
-		return profil;
+		profil.setLoggedIn(true);
+		profil.setEmail(user.getEmail());
+		profil.setNickname(user.getNickname());
+		profil.setLogoutUrl(userService.createLogoutURL(requestUri));
+		
+	} else {
+		profil.setLoggedIn(false);
+		profil.setLoginUrl(userService.createLoginURL(requestUri));
 	}
-	// @Override
-	// public LoginInfo login(String requestUri) {
-	// UserService userService = UserServiceFactory.getUserService();
-	// User user = userService.getCurrentUser();
-	// LoginInfo loginInfo = new LoginInfo();
-	//
-	// if (user != null) {
-	// loginInfo.setLoggedIn(true);
-	// loginInfo.setEmailAddress(user.getEmail());
-	// loginInfo.setNickname(user.getNickname());
-	// loginInfo.setLogoutUrl(userService.createLogoutURL(requestUri));
-	// } else {
-	// loginInfo.setLoggedIn(false);
-	// loginInfo.setLoginUrl(userService.createLoginURL(requestUri));
-	// }
-	// return loginInfo;
-	// }
-
+	
+	return profil;
+	
+}
+	
 	@Override
 	public Profil createProfil(String nachname, String vorname, String email, String geburtsdatum, String haarfarbe,
 			String raucher, String religion, int groesse, String geschlecht) throws IllegalArgumentException {
@@ -297,5 +326,22 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return null;
 	}
 
+	
+	/**
+	 * Setzen des momentanen Benutzers
+	 * 
+	 * @param currentUser
+	 *            Momentaner Benutzer
+	 * 
+	 */
+	public void setCurrentUser(Profil currentUser) {
+
+	}
+
+	@Override
+	public Profil getCurrentUser() throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

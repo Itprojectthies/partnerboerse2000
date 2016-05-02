@@ -75,7 +75,7 @@ public class CustomerForm extends VerticalPanel {
 		Label emailLabel = new Label("Email");
 		customerGrid.setWidget(3, 0, emailLabel);
 		customerGrid.setWidget(3, 1, emailTextBox);
-		emailTextBox.setText(user.getEmailAddress());
+		emailTextBox.setText(user.getEmail());
 
 		// Label gebDatumLabel = new Label("Geburtstag");
 		// customerGrid.setWidget(4, 0, gebDatumLabel);

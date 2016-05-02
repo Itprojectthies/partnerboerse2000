@@ -4,8 +4,8 @@ public abstract class Eigenschaft extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
 
-	private String name;
-	private String beschreibungstext;
+	private String name = "";
+	private String beschreibungstext = "";
 
 	public String getName() {
 		return name;

@@ -6,7 +6,7 @@ public class Aehnlichkeitsmass extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
 
-	private float aehnlichkeitsmass;
+	private float aehnlichkeitsmass = 0;
 
 	public float getAehnlichkeitsmass() {
 		return aehnlichkeitsmass;

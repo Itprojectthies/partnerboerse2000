@@ -21,7 +21,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
  * 
  */
 public class FindCustomersByNameDemo extends BasicFrame {
-
+	Profil user = ClientsideSettings.getCurrentUser();
 	/**
 	 * Jeder Showcase besitzt eine einleitende Überschrift, die durch diese
 	 * Methode zu erstellen ist.
@@ -43,9 +43,10 @@ public class FindCustomersByNameDemo extends BasicFrame {
 		this.append("Bla");
 
 		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
-
+		
+		//this.headlineText = "Herzlich Willkommen " + user.getNickname();
 		// Die BankAdministration fragen wir, ob sie Kunden namens Kohl kennt.
-		pbVerwaltung.getProfilById(2, new KundenAusgebenCallback(this));
+		pbVerwaltung.getProfilById(user.getId() , new KundenAusgebenCallback(this));
 	}
 
 	/**
@@ -85,6 +86,7 @@ public class FindCustomersByNameDemo extends BasicFrame {
 			// for (Profil p : result) {
 			// if (p != null) {
 			// Kundennummer und Name ausgeben
+			
 			this.showcase.append("Kunde #" + p.getId() + ": " + p.getNachname() + ", " + p.getVorname());
 			// }
 			// }

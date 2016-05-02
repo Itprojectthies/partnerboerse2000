@@ -4,8 +4,8 @@ public class Merkzettel extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
 
-	private int gemerkterId;
-	private int merkerId;
+	private int gemerkterId = 0;
+	private int merkerId = 0;
 
 	public int getGemerkterId() {
 		return gemerkterId;

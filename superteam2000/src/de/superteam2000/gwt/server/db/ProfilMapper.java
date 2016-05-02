@@ -3,6 +3,7 @@ package de.superteam2000.gwt.server.db;
 import java.sql.*;
 import java.util.ArrayList;
 
+import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.bo.*;
 
 /**
@@ -110,6 +111,62 @@ public class ProfilMapper {
 		return null;
 	}
 
+	/**
+	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
+	 * ist, wird genau ein Objekt zur�ckgegeben.
+	 * 
+	 * @param email
+	 *            Primärschlüsselattribut (->DB)
+	 * @return Kunden-Objekt, das dem übergebenen Schlüssel entspricht, null bei
+	 *         nicht vorhandenem DB-Tupel.
+	 */
+	public Profil findByEmail(String email) {
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
+
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+
+			// Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs = stmt.executeQuery(
+					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht FROM Profil "
+							+ "WHERE Email LIKE '" + email + "'");
+
+			/*
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * werden. Prüfe, ob ein Ergebnis vorliegt.
+			 */
+			
+			
+			if (rs.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln
+				Profil p = new Profil();
+				p.setId(rs.getInt("id"));
+				p.setVorname(rs.getString("Vorname"));
+				p.setNachname(rs.getString("Nachname"));
+				p.setEmail(rs.getString("Email"));
+				p.setHaarfarbe(rs.getString("Haarfarbe"));
+				p.setGroesse(rs.getInt("Koerpergroesse"));
+				p.setRaucher(rs.getString("Raucher"));
+				p.setReligion(rs.getString("Religion"));
+				p.setGeschlecht(rs.getString("Geschlecht"));
+				p.setCreated(true);
+
+				ClientsideSettings.getLogger().severe("User byEmail zurückgegeben");
+				return p;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Profil p = new Profil();
+			p.setCreated(false);
+			ClientsideSettings.getLogger().severe("Fehler beim Zurückgbeen byEmail");
+			return null;
+		}
+
+		return null;
+	}
+	
 	/**
 	 * Auslesen aller Kunden.
 	 * 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import de.superteam2000.gwt.client.ClientsideSettings;
 //import de.superteam2000.gwt.client.LoginInfo;
 import de.superteam2000.gwt.shared.bo.*;
 
@@ -12,7 +13,14 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void init() throws IllegalArgumentException;
 
-	public Profil login(String requestUri);
+	public Profil login(String requestUri) throws IllegalArgumentException;
+	
+	
+	public  Profil getCurrentUser() throws IllegalArgumentException;
+
+	public void setCurrentUser(Profil currentUser) throws IllegalArgumentException;
+	
+	
 
 	// Profile
 	public Profil createProfil(String nachname, String vorname, String email, String geburtsdatum, String haarfarbe,

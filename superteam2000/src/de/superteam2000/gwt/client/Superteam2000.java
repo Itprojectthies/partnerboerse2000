@@ -54,46 +54,44 @@ public class Superteam2000 implements EntryPoint {
 		public LoginCallback() {
 		}
 
-		/**
-		 * Wenn der asynchrone Aufruf fehlschlug oder das Element nicht gelöscht
-		 * werden konnte wird die onFailure Methode aufgerufen und der Fehler
-		 * als ErrorMsg dem Showcase eingefügt, sowie im Client-Logger
-		 * verzeichnet.
-		 */
+		
 		@Override
 		public void onFailure(Throwable caught) {
 
-			ClientsideSettings.getLogger().severe(
-					"Error: " + caught.getMessage());
+			ClientsideSettings.getLogger().severe("login nicht geklappt");
 		}
 
-		/**
-		 * Wenn der asynchrone Aufruf zum löschen des Elements erfolgreich war,
-		 * wird eine SuccessMsg im Showcase eingefügt.
-		 */
+
 		@Override
 		public void onSuccess(Profil result) {
-			if (result.isLoggedIn()) {
-				ClientsideSettings.getLogger().severe(
-						"User " + result.getEmailAddress()
+			if (result.isLoggedIn() && !result.isCreated()) {
+				ClientsideSettings.getLogger().severe(" erstell datum " + result.getGeburtsdatum() +
+						"User " + result.getEmail()
 								+ " erfolgreich eingeloggt.");
 				ClientsideSettings.setCurrentUser(result);
 				
 
-				loadPartnerboerse();
+				loadProfilErstellen();
+			}
+			else if (result.isLoggedIn() && result.isCreated()) {
+				ClientsideSettings.setCurrentUser(result);
+				loadProfil();
+				ClientsideSettings.getLogger().severe(" erstell datum " + result.getGeburtsdatum() +
+						"User " + result.getEmail()
+								+ " erfolgreich eingeloggt.");
 			} else {
-
 				signInLink.setHref(result.getLoginUrl());
 				loginPanel.add(loginLabel);
 				loginPanel.add(signInLink);
 				RootPanel.get("main").add(signInLink);
-				
+				ClientsideSettings.getLogger().severe(" zeige login url" + result.getEmail() 
+				+ " Created? " + result.isCreated() + " Loggedin? " + result.isLoggedIn());
 			}
 		}
 	}
 	
 	
-	private void loadPartnerboerse() {
+	private void loadProfilErstellen() {
 
 		NavigationBar.load();
 		RootPanel.get("main").add(new Home());
@@ -106,4 +104,19 @@ public class Superteam2000 implements EntryPoint {
 		RootPanel.get("main").add(detailsPanel);
 
 	}
+	
+	private void loadProfil() {
+
+		NavigationBar.load();
+		RootPanel.get("main").add(new Home());
+
+		FindCustomersByNameDemo fc = new FindCustomersByNameDemo();
+		
+		VerticalPanel detailsPanel = new VerticalPanel();
+		detailsPanel.add(fc);
+
+		RootPanel.get("main").add(detailsPanel);
+
+	}
+	
 }

@@ -4,7 +4,7 @@ public class Beschreibung extends Eigenschaft {
 
 	private static final long serialVersionUID = 1L;
 
-	private String text;
+	private String text = "";
 
 	public String getText() {
 		return text;

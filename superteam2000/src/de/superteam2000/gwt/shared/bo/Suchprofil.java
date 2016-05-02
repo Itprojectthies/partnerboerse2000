@@ -6,17 +6,17 @@ public class Suchprofil extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
 
-	private String name;
-	private String text;
-	private String nachname;
-	private String vorname;
-	private String email;
-	private Date geburtsdatum;
-	private Date erstelldatum;
-	private String haarfarbe;
-	private String raucher;
-	private String religion;
-	private int groesse;
+	private String name  = "";
+	private String text = "";
+	private String nachname = "";
+	private String vorname = "";
+	private String email = "";
+	private Date geburtsdatum = null;
+	private Date erstelldatum = null;
+	private String haarfarbe = "";
+	private String raucher = "";
+	private String religion = "";
+	private int groesse = 0;
 
 	public String getNachname() {
 		return nachname;

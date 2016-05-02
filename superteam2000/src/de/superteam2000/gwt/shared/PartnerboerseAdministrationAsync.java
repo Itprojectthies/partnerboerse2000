@@ -89,6 +89,10 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getKontaktsperreForProfil(Profil profil, AsyncCallback<ArrayList<Kontaktsperre>> callback);
 
+	void setCurrentUser(Profil currentUser, AsyncCallback<Void> callback);
+
+	void getCurrentUser(AsyncCallback<Profil> callback);
+
 	// Suchprofil
 
 }

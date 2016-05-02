@@ -16,7 +16,7 @@ public class Home extends BasicFrame {
 	
 	public Home() {
 		Profil user = ClientsideSettings.getCurrentUser();
-		this.headlineText = "Herzlich Willkommen " + user.getNickname();
+		this.headlineText = "Herzlich Willkommen " + user.getEmail();
 		this.headlineTextStyle = "formTitle";
 	}
 

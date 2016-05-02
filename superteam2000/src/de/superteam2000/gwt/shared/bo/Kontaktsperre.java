@@ -4,8 +4,8 @@ public class Kontaktsperre extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
 
-	private int gesperrterId;
-	private int sperrerId;
+	private int gesperrterId = 0;
+	private int sperrerId = 0;
 
 	public int getGesperrterId() {
 		return gesperrterId;
