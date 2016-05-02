@@ -5,7 +5,6 @@
   "http://gwtproject.org/doctype/2.7.0/gwt-module.dtd">
 <module rename-to='superteam2000'>
 	<!-- Inherit the core Web Toolkit stuff. -->
-	<inherits name="org.gwtbootstrap3.GwtBootstrap3"/>
 	<inherits name='com.google.gwt.user.User' />
 
 	<!-- Inherit the default GWT style sheet. You can change -->
