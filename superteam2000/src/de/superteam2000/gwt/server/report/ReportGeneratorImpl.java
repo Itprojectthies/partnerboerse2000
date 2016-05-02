@@ -1,6 +1,5 @@
 package de.superteam2000.gwt.server.report;
 
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.superteam2000.gwt.server.*;
@@ -11,14 +10,14 @@ import de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport;
 import de.superteam2000.gwt.shared.report.AllProfileBySuche;
 import de.superteam2000.gwt.shared.report.ProfilReport;
 
-public class ReportGeneratorImpl extends RemoteServiceServlet 
-	implements ReportGenerator {
+public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator {
 
 	private PartnerboerseAdministration administration = null;
 
 	public ReportGeneratorImpl() throws IllegalArgumentException {
 	}
 
+	@Override
 	public void init() throws IllegalArgumentException {
 		/*
 		 * Ein ReportGeneratorImpl-Objekt instantiiert für seinen Eigenbedarf
@@ -28,7 +27,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet
 		a.init();
 		this.administration = a;
 	}
-
 
 	@Override
 	public ProfilReport createProfilReport(Profil p) throws IllegalArgumentException {
@@ -53,5 +51,5 @@ public class ReportGeneratorImpl extends RemoteServiceServlet
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }
