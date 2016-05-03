@@ -86,7 +86,7 @@ public class DBConnection {
 			try {
 				if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
 					
-					logger.info("produktions modus");
+					logger.info("Google Cloud MySQL-DB");
 					// Load the class that provides the new
 					// "jdbc:google:mysql://" prefix.
 					Class.forName("com.mysql.jdbc.GoogleDriver");
@@ -95,7 +95,7 @@ public class DBConnection {
 					// Local MySQL instance to use during development.
 					Class.forName("com.mysql.jdbc.Driver");
 					url = localUrl;
-					logger.info("lokaler modus");
+					logger.info("Lokale MySQL-DB");
 				}
 				/*
 				 * Dann erst kann uns der DriverManager eine Verbindung mit den
@@ -106,12 +106,12 @@ public class DBConnection {
 				 * abgespeichert und fortan verwendet.
 				 */
 				con = DriverManager.getConnection(url);
-				System.out.println("Verbindung geklappt");
-				logger.info("verbindung geklappt");
+				
+				logger.info("MySQL-Verbindung erfolgreich");
 			} catch (Exception e) {
 				con = null;
 				e.printStackTrace();
-				logger.info("netzwerkverbindung fehlgeschlagen");
+				logger.info("MySQL-Verbindung fehlgeschlagen");
 			}
 		}
 

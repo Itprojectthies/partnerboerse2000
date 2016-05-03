@@ -157,9 +157,9 @@ public class ProfilMapper {
 				return p;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			Profil p = new Profil();
-			p.setCreated(false);
+//			e.printStackTrace();
+//			Profil p = new Profil();
+//			p.setCreated(false);
 			ClientsideSettings.getLogger().severe("Fehler beim Zurückgbeen byEmail");
 			return null;
 		}

@@ -8,7 +8,8 @@ import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.server.db.*;
 import de.superteam2000.gwt.shared.PartnerboerseAdministration;
 import de.superteam2000.gwt.shared.bo.*;
-//import de.superteam2000.gwt.client.LoginInfo;
+
+import com.google.api.server.spi.Client;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -57,70 +58,42 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
-//	@Override
-//	public Profil login(String requestUri) {
-//		UserService userService = UserServiceFactory.getUserService();
-//		User user = userService.getCurrentUser();
-//		Profil neuesProfil = new Profil();
-////		Profil bestehendesProfil = this.pMapper.findByEmail(user.getEmail());
-//
-//		if (user != null) {
-////			if (bestehendesProfil != null) {
-////				bestehendesProfil.setLoggedIn(true);
-////				bestehendesProfil.setLogoutUrl(userService.createLogoutURL(requestUri));
-////				return bestehendesProfil;
-////				
-////			}
-//			neuesProfil.setLoggedIn(true);
-//			neuesProfil.setEmail(user.getEmail());
-//			neuesProfil.setNickname(user.getNickname());
-//			neuesProfil.setLogoutUrl(userService.createLogoutURL(requestUri));
-//		} else {
-//			neuesProfil.setLoggedIn(false);
-//			neuesProfil.setLoginUrl(userService.createLoginURL(requestUri));
-//		}
-//		
-//		return neuesProfil;
-//	}
-
-	
-	
 	@Override
 	public Profil login(String requestUri) {
-	UserService userService = UserServiceFactory.getUserService();
-	User user = userService.getCurrentUser();
-////	LoginInfo loginInfo = new LoginInfo();
-	
-	Profil profil = new Profil();
-	
-	if (user != null) {
-		Profil bestehendesProfil = this.pMapper.findByEmail(user.getEmail());
-		if (bestehendesProfil != null) {
-			ClientsideSettings.getLogger().severe("Userobjekt email"+user.getEmail() + "bestehender user mail  "+ bestehendesProfil.getEmail() + bestehendesProfil.getHaarfarbe());
-			bestehendesProfil.setLoggedIn(true);
-			bestehendesProfil.setLogoutUrl(userService.createLogoutURL(requestUri));
-			return bestehendesProfil;
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+
+		Profil profil = new Profil();
+
+		if (user != null) {
+			Profil bestehendesProfil = this.pMapper.findByEmail(user.getEmail());
 			
+			if (bestehendesProfil != null) {
+				ClientsideSettings.getLogger().severe("Userobjekt email "+user.getEmail() + "bestehender user mail  "+ bestehendesProfil.getEmail() );
+				bestehendesProfil.setLoggedIn(true);
+				bestehendesProfil.setLogoutUrl(userService.createLogoutURL(requestUri));
+				
+				return bestehendesProfil;	
+			}
+			
+			profil.setLoggedIn(true);
+			profil.setLogoutUrl(userService.createLogoutURL(requestUri));
+			profil.setEmail(user.getEmail());
+			ClientsideSettings.getLogger().severe(" email user " + user.getEmail());
+
+		} else {
+			profil.setLoggedIn(false);
+			profil.setLoginUrl(userService.createLoginURL(requestUri));
 		}
-		profil.setLoggedIn(true);
-		profil.setEmail(user.getEmail());
-		profil.setNickname(user.getNickname());
-		profil.setLogoutUrl(userService.createLogoutURL(requestUri));
-		
-	} else {
-		profil.setLoggedIn(false);
-		profil.setLoginUrl(userService.createLoginURL(requestUri));
+
+		return profil;
+
 	}
-	
-	return profil;
-	
-}
-	
+
 	@Override
 	public Profil createProfil(String nachname, String vorname, String email, String geburtsdatum, String haarfarbe,
 			String raucher, String religion, int groesse, String geschlecht) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		Logger logger = ServersideSettings.getLogger();
+
 		Profil p = new Profil();
 		p.setNachname(nachname);
 		p.setVorname(vorname);
@@ -137,8 +110,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		 * Objekt, dessen Nummer mit der Datenbank konsistent ist.
 		 */
 		p.setId(1);
-
-		logger.log(Level.INFO, "user \"" + p.getNachname() + "\" erstellt");
+		ClientsideSettings.setCurrentUser(p);
+		ClientsideSettings.getLogger().info("user \"" + p.getNachname() + "\" erstellt");
 
 		// Objekt in der DB speichern.
 		return this.pMapper.insert(p);
@@ -326,7 +299,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return null;
 	}
 
-	
 	/**
 	 * Setzen des momentanen Benutzers
 	 * 

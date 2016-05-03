@@ -16,12 +16,14 @@ import de.superteam2000.gwt.shared.bo.Profil;
  * </p>
  * 
  * @see CreateAccountDemo
- * @author thies
+ * @author thies, volz
  * @version 1.0
  * 
  */
-public class FindCustomersByNameDemo extends BasicFrame {
+public class ShowProfil extends BasicFrame {
+	
 	Profil user = ClientsideSettings.getCurrentUser();
+	
 	/**
 	 * Jeder Showcase besitzt eine einleitende Überschrift, die durch diese
 	 * Methode zu erstellen ist.
@@ -30,7 +32,7 @@ public class FindCustomersByNameDemo extends BasicFrame {
 	 */
 	@Override
 	protected String getHeadlineText() {
-		return "Find Customers by Name";
+		return "Profil:";
 	}
 
 	/**
@@ -40,12 +42,9 @@ public class FindCustomersByNameDemo extends BasicFrame {
 	 */
 	@Override
 	protected void run() {
-		this.append("Bla");
-
-		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 		
-		//this.headlineText = "Herzlich Willkommen " + user.getNickname();
-		// Die BankAdministration fragen wir, ob sie Kunden namens Kohl kennt.
+		//this.append(this.getHeadlineText());
+		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 		pbVerwaltung.getProfilById(user.getId() , new KundenAusgebenCallback(this));
 	}
 
@@ -82,24 +81,15 @@ public class FindCustomersByNameDemo extends BasicFrame {
 
 		@Override
 		public void onSuccess(Profil p) {
-			// if (result != null) {
-			// for (Profil p : result) {
-			// if (p != null) {
-			// Kundennummer und Name ausgeben
 			
-			this.showcase.append("Kunde #" + p.getId() + ": " + p.getNachname() + ", " + p.getVorname());
-			// }
-			// }
-
-			// if (result.size() == 1)
-			// this.showcase.append("1 Element erhalten");
-			// else
-			// this.showcase.append(result.size() + " Elemente erhalten");
-
-			// }
-			// else {
-			// ClientsideSettings.getLogger().info("result == null");
-			// }
+			if (p != null) {
+			// Kundennummer und Name ausgeben
+			this.showcase.append("Profil ID:" + p.getId() + ": " + p.getNachname() + ", " + p.getVorname());
+			} else {
+				this.showcase.append("Kunde nicht vorhanden");
+				ClientsideSettings.getLogger().severe("Name " + user.getNachname() + 
+						" email " + user.getEmail() + " ID " +user.getId());
+			}
 		}
 
 	}

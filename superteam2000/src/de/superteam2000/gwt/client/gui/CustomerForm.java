@@ -16,6 +16,9 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
+import de.superteam2000.gwt.client.Home;
+import de.superteam2000.gwt.client.NavigationBar;
+import de.superteam2000.gwt.client.ShowProfil;
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 
@@ -130,8 +133,10 @@ public class CustomerForm extends VerticalPanel {
 			String religion = religionTextBox.getText();
 			String geschlecht = geschlechtTextBox.getText();
 			int groesse = koerpergroesseIntegerBox.getValue();
-			pbVerwaltung.createProfil(lastName, firstName, email, geburtsdatum, haarfarbe, raucher, religion, groesse,
-					geschlecht, new CreateCustomerCallback());
+			pbVerwaltung.createProfil(lastName, firstName, email, geburtsdatum, 
+					haarfarbe, raucher, religion, groesse, geschlecht, 
+					new CreateCustomerCallback());
+			
 
 		}
 	}
@@ -146,10 +151,18 @@ public class CustomerForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Profil p) {
-			test.setText("Der neue User heißt " + p.getVorname());
-			firstNameTextBox.setText("");
-			lastNameTextBox.setText("");
-			idValueLabel.setText("");
+//			test.setText("Der neue User heißt " + p.getVorname());
+//			firstNameTextBox.setText("");
+//			lastNameTextBox.setText("");
+//			idValueLabel.setText("");
+			
+			ClientsideSettings.setCurrentUser(p);
+			ShowProfil fc = new ShowProfil();
+
+			VerticalPanel detailsPanel = new VerticalPanel();
+			detailsPanel.add(fc);
+			RootPanel.get("main").clear();
+			RootPanel.get("main").add(detailsPanel);
 		}
 
 	}
