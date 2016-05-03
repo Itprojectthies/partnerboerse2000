@@ -270,7 +270,7 @@ public class ProfilMapper {
 	 */
 	public Profil insert(Profil p) {
 		Connection con = DBConnection.connection();
-
+		ClientsideSettings.getLogger().info("Profil " +p.getEmail() + " in DB schreiben");
 		try {
 			Statement stmt = con.createStatement();
 
@@ -296,10 +296,14 @@ public class ProfilMapper {
 						+ p.getId() + ",'" + p.getVorname() + "','" + p.getNachname() + "','" + p.getEmail() + "','"
 						+ p.getHaarfarbe() + "'," + p.getGroesse() + ",'" + p.getRaucher() + "','" + p.getReligion()
 						+ "','" + p.getGeschlecht() + "','" + p.getGeburtsdatum() + "')");
+				
+				ClientsideSettings.getLogger().info("Profil " +p.getEmail() + " in DB geschrieben");
 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+			e.getMessage() + " " + e.getCause() + " ");
 		}
 
 		/*

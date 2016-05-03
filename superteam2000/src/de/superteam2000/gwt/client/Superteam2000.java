@@ -63,6 +63,7 @@ public class Superteam2000 implements EntryPoint {
 				ClientsideSettings.setCurrentUser(result);
 				profilErstellen();
 				ClientsideSettings.getLogger().info("Erstelle profil für " + result.getEmail());
+				
 			} else if (result.isLoggedIn() && result.isCreated()) {
 
 				ClientsideSettings.setCurrentUser(result);

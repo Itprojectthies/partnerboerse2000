@@ -83,12 +83,11 @@ public class ShowProfil extends BasicFrame {
 		public void onSuccess(Profil p) {
 			
 			if (p != null) {
-			// Kundennummer und Name ausgeben
+		
 			this.showcase.append("Profil ID:" + p.getId() + ": " + p.getNachname() + ", " + p.getVorname());
 			} else {
-				this.showcase.append("Kunde nicht vorhanden");
-				ClientsideSettings.getLogger().severe("Name " + user.getNachname() + 
-						" email " + user.getEmail() + " ID " +user.getId());
+				this.showcase.append("Profil nicht vorhanden");
+				ClientsideSettings.getLogger().severe("Profil-Objekt ist nicht vorhanden");
 			}
 		}
 

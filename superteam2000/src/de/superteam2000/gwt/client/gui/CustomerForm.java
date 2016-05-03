@@ -111,7 +111,7 @@ public class CustomerForm extends VerticalPanel {
 		HorizontalPanel customerButtonsPanel = new HorizontalPanel();
 		this.add(customerButtonsPanel);
 
-		Button newButton = new Button("Neu");
+		Button newButton = new Button("Weiter");
 		newButton.addClickHandler(new NewClickHandler());
 		customerButtonsPanel.add(newButton);
 
@@ -145,23 +145,23 @@ public class CustomerForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			logger.info("Erstellen des useres hat nicht funktioniert");
+			logger.severe("Erstellen des useres hat nicht funktioniert");
 
 		}
 
 		@Override
 		public void onSuccess(Profil p) {
-//			test.setText("Der neue User heißt " + p.getVorname());
-//			firstNameTextBox.setText("");
-//			lastNameTextBox.setText("");
-//			idValueLabel.setText("");
+
 			
 			ClientsideSettings.setCurrentUser(p);
+			
+			
 			ShowProfil fc = new ShowProfil();
-
+			
 			VerticalPanel detailsPanel = new VerticalPanel();
 			detailsPanel.add(fc);
 			RootPanel.get("main").clear();
+			RootPanel.get("main").add(new Home());
 			RootPanel.get("main").add(detailsPanel);
 		}
 
