@@ -1,0 +1,43 @@
+.navBt {
+float: left;
+padding: 4px;
+}
+#navbar li {
+	display: inline; 
+	padding-top: 10px;
+}
+
+.buttonDef {
+	background-color: #ffffff;
+	border-radius: 8px;
+	border: 1px solid #dcdcdc;
+	display: inline-block;
+	cursor: pointer;
+	color: #666666;
+	font-family: Arial;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 4px 4px 4px 4px;
+	text-decoration: none;
+	margin: 10px;
+}
+
+.verticalPanel {
+	float: left;
+	height: 15px;
+	width: 200px;
+	max-height: 15px;
+	max-width: 200px;
+	background-color: #ffffff;
+	border-radius: 8px;
+	border: 1px solid #dcdcdc;
+	color: #666666;
+	font-family: Arial;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 4px 4px 4px 4px;
+	text-decoration: none;
+	margin: 10px;
+}
+
+
