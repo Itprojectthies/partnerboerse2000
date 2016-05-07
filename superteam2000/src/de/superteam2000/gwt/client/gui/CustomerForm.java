@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.client.Home;
-import de.superteam2000.gwt.client.ShowProfil;
+import de.superteam2000.gwt.client.ShowProfil_old;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 
@@ -46,8 +46,6 @@ public class CustomerForm extends VerticalPanel {
 	TextBox raucherTextBox = new TextBox();
 	TextBox religionTextBox = new TextBox();
 	TextBox geschlechtTextBox = new TextBox();
-	@NotNull
-	@Size(max = 3, min = 3, message = "Name must be at least 4 characters long.")
 	IntegerBox koerpergroesseIntegerBox = new IntegerBox();
 
 	Label test = new Label("");
@@ -154,7 +152,7 @@ public class CustomerForm extends VerticalPanel {
 
 			ClientsideSettings.setCurrentUser(p);
 
-			ShowProfil fc = new ShowProfil();
+			ShowProfil_old fc = new ShowProfil_old();
 
 			VerticalPanel detailsPanel = new VerticalPanel();
 			detailsPanel.add(fc);

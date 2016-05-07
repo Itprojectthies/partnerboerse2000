@@ -15,7 +15,7 @@ public class NavigationBar extends BasicFrame {
 	 * Diese Methode ladet die Navigationsleiste, mit Buttons etc.
 	 */
 	private String headlineText;
-	private Profil user;
+	Profil user = ClientsideSettings.getCurrentUser();
 
 	//Button infoBtn = new Button("<span class=\"glyphicon glyphicon-dashboard\" aria-hidden=\"true\"></span>");
 
@@ -37,25 +37,15 @@ public class NavigationBar extends BasicFrame {
 		return this.headlineText;
 	}
 	
-	public NavigationBar(Profil user) {
-		
-		if (user != null && user.isLoggedIn()) {
-			this.headlineText = "Herzlich Willkommen " + user.getEmail();
-		}
-	}
 	
 	
 	@Override
 	protected void run() {
-//		Profil user = ClientsideSettings.getCurrentUser();
-		//		this.append(user.getEmail());
-		append("asdasdasda");
-		//		this.append(user.getLoginUrl());
+		
 		if (user != null && user.isLoggedIn()) {
 
 
 			Button infoBtn = new Button("Logout");
-			//infoBtn.setStylePrimaryName("btn btn-default navbar-btn");
 			infoBtn.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -67,10 +57,9 @@ public class NavigationBar extends BasicFrame {
 
 
 
-			Anchor logOutLink = new Anchor("Logout");
-			//			logOutLink.setHref(user.getLogoutUrl());
-			this.append(logOutLink);
-			this.append("asd");
+//			Anchor logOutLink = new Anchor("Logout");
+//						logOutLink.setHref(user.getLogoutUrl());
+//			this.append(logOutLink);
 		}
 
 

@@ -3,11 +3,15 @@ body {
   }
 
 h1 {
-  font-size: 2em;
-  font-weight: bold;
-  color: #777777;
-  margin: 40px 0px 20px;
-  text-align: center;
+  /* font-size: 2em; */
+  /* font-weight: bold; */
+  /* color: #777777; */
+  /* margin: 40px 0px 20px; */
+  /* text-align: center; */
+  
+    margin-top: 0px;
+    margin-bottom: 0px;
+  
 }
 
 .bankproject-headline {
@@ -54,41 +58,44 @@ h1 {
 }
 
 div#TopLevelFrame {
-	max-width: 600px;
-	min-width: 300px;
-	
-	background: #FFFF99;
- }
+	/* max-width: 600px; */
+	/* min-width: 300px; */
+	/* background: #FFFF99; */
+	}
  
 
 div#Header {
-	margin: 5px; 	
-	background: #CCCCFF
+	/* margin: 5px; */
+	/* background: #EAEAEC; */
 }
 
 div#Navigator {
-	max-height: 300px;
-	overflow:scroll;
+	/* max-height: 300px; */
+	/* overflow:scroll; */
 	padding: 1em 1em;
-	
-	background: #FFFF99;
+	/* background: #FFFF99; */
+	border-top: 1px dashed #235AFF;
+	border-bottom: 1px dashed #235AFF;
 }
 
 div#Details {
-	padding: 4em 1em;
-	
-	background: #FFFF99;
+	padding: 1em 1em;
+	/* background: #FFFF99; */
+	text-align: center;
+	font-family: Helvetica;
+	font-size: smaller;
 }
 
 div#Trailer {
 	clear: both;
 	padding: 10px 0;
-	margin: 0 auto;      /* standardkonforme horizontale Zentrierung */
-	border-top: 1px dashed silver;
+	/* margin: 0 auto; */      /* standardkonforme horizontale Zentrierung */
+	/* border-top: 1px dashed silver; */
 	font-size: 80%;
 	text-align: center;
-	
-	background: #FFCCCC;
+	/* background: #FFCCCC; */
+	border-top: 1px dashed #235AFF;
+	border-bottom: 1px dashed #235AFF;
 }
 
 /**
@@ -115,4 +122,20 @@ div#Trailer {
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
   margin: 15px 6px 6px;
+}
+
+/**
+ * 
+ * meine Test
+ */
+
+ input:disabled, textarea:disabled {
+     color: #C3BFBF;
+}
+
+html {
+	
+    margin-left: 200px;
+    margin-right: 200px;
+	
 }

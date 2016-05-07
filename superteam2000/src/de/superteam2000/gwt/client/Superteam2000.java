@@ -67,13 +67,13 @@ public class Superteam2000 implements EntryPoint {
 			} else {
 				VerticalPanel loginPanel = new VerticalPanel();
 				Label loginLabel = new Label(
-						"Please sign in to your Google Account to access the StockWatcher application.");
+						"Logge Dich mit deinem Google Account ein, um die Partnerboerse2000 zu nutzen!");
 				Anchor signInLink = new Anchor("Sign In");
 
 				signInLink.setHref(result.getLoginUrl());
 				loginPanel.add(loginLabel);
 				loginPanel.add(signInLink);
-				RootPanel.get("stockList").add(loginPanel);
+				RootPanel.get("Details").add(loginPanel);
 
 			}
 		}
@@ -81,7 +81,7 @@ public class Superteam2000 implements EntryPoint {
 		private void profilErstellen() {
 
 			// NavigationBar.load();
-			RootPanel.get("main").add(new Home());
+			RootPanel.get("Details").add(new Home());
 
 			CustomerForm cf = new CustomerForm();
 			VerticalPanel detailsPanel = new VerticalPanel();
@@ -93,15 +93,16 @@ public class Superteam2000 implements EntryPoint {
 
 		private void loadProfil() {
 
-			// NavigationBar.load();
-			RootPanel.get("main").add(new Home());
+			NavigationBar nb = new NavigationBar();
+			RootPanel.get("Navigator").add(nb);
+			RootPanel.get("Details").add(new Home());
 
-			ShowProfil fc = new ShowProfil();
-
+			//ShowProfil fc = new ShowProfil();
+			ShowProfil sep = new ShowProfil();
 			VerticalPanel detailsPanel = new VerticalPanel();
-			detailsPanel.add(fc);
+			detailsPanel.add(sep);
 
-			RootPanel.get("main").add(detailsPanel);
+			RootPanel.get("Details").add(detailsPanel);
 
 		}
 	}
