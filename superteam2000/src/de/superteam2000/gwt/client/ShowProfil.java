@@ -43,7 +43,6 @@ public class ShowProfil extends BasicFrame {
 	@Override
 	protected void run() {
 		
-		//this.append(this.getHeadlineText());
 		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 		pbVerwaltung.getProfilById(user.getId() , new KundenAusgebenCallback(this));
 	}
