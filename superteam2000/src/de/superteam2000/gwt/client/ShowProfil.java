@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IntegerBox;
@@ -47,7 +48,7 @@ public class ShowProfil extends VerticalPanel {
 	IntegerBox koerpergroesseIntegerBox = new IntegerBox();
 	
 	Button saveButton = new Button("Speichern");
-	
+	DialogBox dialogBox = new DialogBox();
 	
 	Profil user = ClientsideSettings.getCurrentUser();
 	Logger logger = ClientsideSettings.getLogger();
@@ -120,17 +121,29 @@ public class ShowProfil extends VerticalPanel {
 		this.add(customerButtonsPanel);
 
 		Button editButton = new Button("Bearbeiten");
-		editButton.addClickHandler(new NewClickHandler());
+		editButton.addClickHandler(new NewClickHandlerEdit());
 		customerButtonsPanel.add(editButton);
 		
-		
-		saveButton.addClickHandler(new NewClickHandler2());
+		saveButton.addClickHandler(new NewClickHandlerSave());
 		customerButtonsPanel.add(saveButton);
 		saveButton.setEnabled(false);
+		
+		Button deleteBtn = new Button("Profil löschen");
+		deleteBtn.addClickHandler(new NewClickHandlerDelete());
+		customerButtonsPanel.add(deleteBtn);
 
 	}
+	
+	private class NewClickHandlerDelete implements ClickHandler {
 
-	private class NewClickHandler implements ClickHandler {
+		@Override
+		public void onClick(ClickEvent event) {
+			
+			
+		}
+	}
+	
+	private class NewClickHandlerEdit implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -148,7 +161,7 @@ public class ShowProfil extends VerticalPanel {
 		}
 	}
 
-	private class NewClickHandler2 implements ClickHandler {
+	private class NewClickHandlerSave implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {

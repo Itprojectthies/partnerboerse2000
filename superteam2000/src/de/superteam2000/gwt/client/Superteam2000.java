@@ -93,8 +93,11 @@ public class Superteam2000 implements EntryPoint {
 
 		private void loadProfil() {
 
-			NavigationBar nb = new NavigationBar();
+//			NavigationBar nb = new NavigationBar();
+//			RootPanel.get("Navigator").add(nb);
+			navbar nb = new navbar();
 			RootPanel.get("Navigator").add(nb);
+			
 			RootPanel.get("Details").add(new Home());
 
 			//ShowProfil fc = new ShowProfil();
