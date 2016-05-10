@@ -18,11 +18,11 @@ import de.superteam2000.gwt.shared.report.ProfilReport;
  */
 public interface ReportGeneratorAsync {
 
-	// wieso hat er einen setbank? brauchen wir da auch?
-	// void setBank(Bank b, AsyncCallback<Void> callback);
+
 
 	void init(AsyncCallback<Void> callback);
 
+	//Für das Erstellen von einem Report für das Anzeigen von einem Profil
 	void createProfilReport(Profil p, AsyncCallback<ProfilReport> callback);
 
 	void createAllNotVisitedProfileReport(Profil p, AsyncCallback<AllNotVisitedProfileReport> callback);

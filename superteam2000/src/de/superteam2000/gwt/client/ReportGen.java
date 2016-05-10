@@ -48,7 +48,8 @@ public class ReportGen implements EntryPoint {
 
 			@Override
 			public void onSuccess(Profil result) {
-				RootPanel.get().add(new Label(result.getEmail()));
+				 p = result;
+
 				
 			}
 		});

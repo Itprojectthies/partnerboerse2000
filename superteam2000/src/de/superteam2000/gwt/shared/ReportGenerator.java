@@ -50,18 +50,7 @@ public interface ReportGenerator extends RemoteService {
 	 */
 	public void init() throws IllegalArgumentException;
 
-	/**
-	 * TODO: Ã¼berarbeiten Erstellen eines
-	 * <code>AllAccountsOfCustomerReport</code>-Reports. Dieser Report-Typ
-	 * stellt sÃ¤mtliche Konten eines Kunden dar.
-	 * 
-	 * @param c
-	 *            eine Referenz auf das Kundenobjekt bzgl. dessen der Report
-	 *            erstellt werden soll.
-	 * @return das fertige Reportobjekt
-	 * @throws IllegalArgumentException
-	 * @see AllAccountsOfCustomerReport
-	 */
+//Für das Erstellen von einem Report für das Anzeigen von einem Profil
 	public abstract ProfilReport createProfilReport(Profil p) throws IllegalArgumentException;
 
 	/**

@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
@@ -19,6 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.client.Home;
+import de.superteam2000.gwt.client.ShowProfil;
 import de.superteam2000.gwt.client.ShowProfil_old;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
@@ -152,13 +154,14 @@ public class CustomerForm extends VerticalPanel {
 
 			ClientsideSettings.setCurrentUser(p);
 
-			ShowProfil_old fc = new ShowProfil_old();
+			ShowProfil fc = new ShowProfil();
 
 			VerticalPanel detailsPanel = new VerticalPanel();
 			detailsPanel.add(fc);
-			RootPanel.get("main").clear();
-			RootPanel.get("main").add(new Home());
-			RootPanel.get("main").add(detailsPanel);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(new Home());
+			RootPanel.get("Details").add(detailsPanel);
+			Window.Location.reload();
 		}
 
 	}
