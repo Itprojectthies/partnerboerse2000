@@ -2,8 +2,10 @@ package de.superteam2000.gwt.server.report;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 
 import de.superteam2000.gwt.server.*;
 import de.superteam2000.gwt.shared.*;
@@ -82,22 +84,84 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		
 	}
 
+
+	@Override
+	public AllProfilesReport createAllProfilesReport() throws IllegalArgumentException {
+		if(this.administration==null){
+			return null;}
+		
+		//zu befüllenden Report erstellen
+		AllProfilesReport result = new AllProfilesReport();
+		
+		result.setCreated(new Date());
+		
+		//mit Inhalt befüllen
+		result.setTitle("Alle Profile anzeigen Report");
+		result.setCreated(new Date());
+		
+		CompositeParagraph header = new CompositeParagraph();
+		CompositeParagraph imprint = new CompositeParagraph();
+		header.addSubParagraph(new SimpleParagraph("Test"));
+		header.addSubParagraph(new SimpleParagraph("Test"));
+		imprint.addSubParagraph(new SimpleParagraph("Test2"));
+		imprint.addSubParagraph(new SimpleParagraph("Test2"));
+		
+		
+		//Kopfzeile der Tabelle erstellen 
+		Row headline = new Row();
+		
+		headline.addColumn(new Column("Vorname"));
+		headline.addColumn(new Column("Nachname"));
+		
+		
+		 // Hinzufügen der Kopfzeile
+//	    result.addRow(headline);
+	    
+	    
+	    //alle Profile abfragen
+	    ArrayList<Profil> profile = this.administration.getAllProfiles();
+	    
+	    for(Profil p: profile){
+	    	result.addSubReport(this.createProfilReport(p));
+	    	
+	    }
+
+	    //alle Profile in Tabelle befüllen
+//	    for (Profil profil : p) {
+//	      // Eine leere Zeile anlegen.
+//	      Row profilRow = new Row();
+//	      
+//	      //erste Spalte: Vorname hinzufügen
+//	      profilRow.addColumn(new Column(profil.getVorname()));
+//	      //zweite Spalte: Nachname hinzufügen
+//	      profilRow.addColumn(new Column(profil.getNachname()));
+//
+//	      // und schließlich die Zeile dem Report hinzufügen.
+//	      result.addRow(profilRow);
+//	    }
+		
+		
+		
+		
+		
+		return result;
+	}
+
 	@Override
 	public AllNotVisitedProfileReport createAllNotVisitedProfileReport(Profil p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public AllNewProfileReport createAllNewProfilesReport(Profil p) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public AllProfileBySuche createAllProfileBySucheReport(Profil p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

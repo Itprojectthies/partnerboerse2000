@@ -189,6 +189,7 @@ public class ProfilMapper {
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Profil-Objekt
 			// erstellt.
+			ClientsideSettings.getLogger().severe("Statement ausgef�hrt");
 			while (rs.next()) {
 				// Ergebnis-Tupel in Objekt umwandeln
 				Profil p = new Profil();
@@ -207,6 +208,7 @@ public class ProfilMapper {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler im ProfilMapper findAll Methode");
 		}
 
 		// Ergebnisvektor zurückgeben
