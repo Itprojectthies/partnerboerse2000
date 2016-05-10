@@ -85,7 +85,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public ArrayList<Kontaktsperre> getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException;
 
-	Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException;
+	public Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException;
 
 
 //	Profil getCurrentProfil() throws IllegalArgumentException;
