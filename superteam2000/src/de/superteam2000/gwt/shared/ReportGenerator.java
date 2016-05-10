@@ -54,7 +54,7 @@ public interface ReportGenerator extends RemoteService {
 	 */
 	public void init() throws IllegalArgumentException;
 
-//Für das Erstellen von einem Report für das Anzeigen von einem Profil
+//Fï¿½r das Erstellen von einem Report fï¿½r das Anzeigen von einem Profil
 	public abstract ProfilReport createProfilReport(Profil p) throws IllegalArgumentException;
 
 	/**
@@ -101,5 +101,6 @@ public interface ReportGenerator extends RemoteService {
 	public abstract AllProfileBySuche createAllProfileBySucheReport(Profil p) throws IllegalArgumentException;
 	
 	public abstract AllProfilesReport createAllProfilesReport() throws IllegalArgumentException;
+
 
 }

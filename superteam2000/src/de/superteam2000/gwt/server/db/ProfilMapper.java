@@ -158,9 +158,7 @@ public class ProfilMapper {
 				return p;
 			}
 		} catch (SQLException e) {
-//			e.printStackTrace();
-//			Profil p = new Profil();
-//			p.setCreated(false);
+//
 			ClientsideSettings.getLogger().severe("Fehler beim Zurückgbeen byEmail");
 			return null;
 		}
@@ -185,11 +183,11 @@ public class ProfilMapper {
 
 			ResultSet rs = stmt.executeQuery(
 					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht "
-							+ "FROM Profil " + "ORDER BY Nachname");
+							+ "FROM Profil ORDER BY Nachname");
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Profil-Objekt
 			// erstellt.
-			ClientsideSettings.getLogger().severe("Statement ausgef�hrt");
+			ClientsideSettings.getLogger().severe("Statement ausgeführt");
 			while (rs.next()) {
 				// Ergebnis-Tupel in Objekt umwandeln
 				Profil p = new Profil();
@@ -208,7 +206,8 @@ public class ProfilMapper {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ClientsideSettings.getLogger().severe("Fehler im ProfilMapper findAll Methode");
+			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+					e.getMessage() + " " + e.getCause() + " ");
 		}
 
 		// Ergebnisvektor zurückgeben

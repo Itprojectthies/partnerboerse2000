@@ -20,146 +20,129 @@ import de.superteam2000.gwt.shared.report.AllProfilesReport;
 import de.superteam2000.gwt.shared.report.HTMLReportWriter;
 import de.superteam2000.gwt.shared.report.ProfilReport;
 
-
-
-
 public class ReportGen implements EntryPoint {
 	
-	ReportGeneratorAsync reportGenerator = null;
+	
 	Button profilAnzeigenButton = new Button("Profil anzeigen");
+	Button alleProfileAnzeigenButton = new Button("alle Profile anzeigen");
+
+	ArrayList<Profil> profile = new ArrayList<Profil>();
+	Profil p = new Profil();
+	ReportGeneratorAsync reportGenerator = null;
+	Logger logger = ClientsideSettings.getLogger();
 	PartnerboerseAdministrationAsync pb = ClientsideSettings.getPartnerboerseVerwaltung();
 	
-	Button alleProfileAnzeigenButton = new Button("alle Profile anzeigen");
-	
-	Profil p = new Profil();
-	ArrayList<Profil> profile = new ArrayList<Profil>();
-	
-	Logger logger = ClientsideSettings.getLogger();
-	Profil p2 = new Profil();
-	Profil p3= new Profil();
-	Profil p4 = new Profil();
-	int x;
 
 	@Override
 	public void onModuleLoad() {
-		
-//		p2.setVorname("hans");
-//		p2.setNachname("Müller");
-//		p3.setVorname("hans");
-//		p3.setNachname("Müller");
-//		p4.setVorname("hans");
-//		p4.setNachname("Müller");
-//		profile.add(p2);
-//		profile.add(p3);
-//		profile.add(p4);
 
 		RootPanel.get("Details").add(profilAnzeigenButton);
 		RootPanel.get("Details").add(alleProfileAnzeigenButton);
 		
-		if (reportGenerator == null) {
-			reportGenerator = ClientsideSettings.getReportGenerator();
-		}
-		
-		
-		pb.getAllProfiles(new AsyncCallback<ArrayList<Profil>>() {
+		pb.getProfilById(18, new AsyncCallback<Profil>() {
 			
 			@Override
-			public void onSuccess(ArrayList<Profil> result) {
-				profile = result;
-				ClientsideSettings.getLogger().severe("async callback get all profiles");
-	
-				
+			public void onSuccess(Profil result) {
+				p = result;
 				
 			}
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				ClientsideSettings.getLogger().severe("Fehler im Asynccallback Reportgen getAllProfiles");
+				// TODO Auto-generated method stub
 				
 			}
 		});
-		
+		if (reportGenerator == null) {
+			reportGenerator = ClientsideSettings.getReportGenerator();
+		}
+
+		pb.getAllProfiles(new AsyncCallback<ArrayList<Profil>>() {
+
+			@Override
+			public void onSuccess(ArrayList<Profil> result) {
+				if (result != null) {
+					profile = result;
+					ClientsideSettings.getLogger().severe("async callback get all profiles");
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				ClientsideSettings.getLogger().severe("Fehler im Asynccallback Reportgen getAllProfiles");
+
+			}
+		});
+
 		alleProfileAnzeigenButton.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
-				
+
 				reportGenerator.createAllProfilesReport(new AsyncCallback<AllProfilesReport>() {
-					
+
 					@Override
 					public void onSuccess(AllProfilesReport result) {
+						if (result != null) {
 						RootPanel.get("Details").clear();
-//						HTMLReportWriter writer = new HTMLReportWriter();
-//						writer.process(result);
-//						HTML html = new HTML(writer.getReportText());
-//						RootPanel.get("Details").add(html);
-//						
+						HTMLReportWriter writer = new HTMLReportWriter();
+						writer.process(result);
+						RootPanel.get("Details").add(new HTML(writer.getReportText()));
+						//
+						}
 					}
-					
+
 					@Override
 					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
+						ClientsideSettings.getLogger().severe("createallprofiles funktioniert nicht");
+
 					}
 				});
-				
+
 			}
 		});
-		
 
-		
+		// pb.getProfilById(17, new AsyncCallback<Profil>() {
+		//
+		// @Override
+		// public void onFailure(Throwable caught) {
+		// // TODO Auto-generated method stub
+		//
+		// }
+		//
+		// @Override
+		// public void onSuccess(Profil result) {
+		// p = result;
+		//
+		//
+		// }
+		// });
 
-//		pb.getProfilById(17, new AsyncCallback<Profil>() {
-//
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void onSuccess(Profil result) {
-//				 p = result;
-//
-//				
-//			}
-//		});
-		
-
-		
-
-		
-		
 		profilAnzeigenButton.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				reportGenerator.createProfilReport(p, new createProfilReportCallback());
-				
+
 			}
 		});
-	
-	
-		
-
 
 	}
 
 }
 
-
-class createProfilReportCallback implements AsyncCallback<ProfilReport>{
+class createProfilReportCallback implements AsyncCallback<ProfilReport> {
 
 	@Override
 	public void onFailure(Throwable caught) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onSuccess(ProfilReport report) {
-		
-		if(report != null){
+
+		if (report != null) {
 			HTMLReportWriter writer = new HTMLReportWriter();
 			writer.process(report);
 			RootPanel.get("Details").clear();
@@ -167,5 +150,5 @@ class createProfilReportCallback implements AsyncCallback<ProfilReport>{
 			RootPanel.get("Details").add(html);
 		}
 	}
-	
+
 }

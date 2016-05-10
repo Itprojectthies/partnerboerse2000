@@ -102,7 +102,7 @@ public class navbar extends HorizontalPanel {
 				public void onClick(ClickEvent event) {
 //					Window.open(user.getLogoutUrl(), "_self", "");
 //					Window.confirm("OK = true      Cancel = false");
-					Window.Location.replace("http://127.0.0.1:8888/Reportgen.html");;
+					Window.Location.replace("http://127.0.0.1:8888/Reportgen.html");
 				}
 			});
 			append(reportButton);
