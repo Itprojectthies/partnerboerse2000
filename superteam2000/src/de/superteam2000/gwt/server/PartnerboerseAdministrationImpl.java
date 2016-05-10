@@ -20,7 +20,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	 */
 	private static final long serialVersionUID = 1L;
 	private AehnlichkeitsmassMapper aehnlichMapper = null;
-	private AlternativeMapper alternativMapper = null;
 	private AuswahlMapper auswahlMapper = null;
 	private BeschreibungMapper beschrMapper = null;
 	private EigenschaftMapper eMapper = null;
@@ -136,8 +135,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void delete(Profil profil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
+		this.pMapper.delete(profil);
 	}
 
 	@Override
@@ -180,14 +178,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<Auswahl> getAllAuswahl() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.auswahlMapper.findAll();
 	}
 
 	@Override
 	public Auswahl getAuswahlById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return this.auswahlMapper.findByKey(id);
 	}
 
 	@Override
@@ -201,11 +198,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	@Override
-	public Info createInfoFor(Profil profil, Auswahl auswahl) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException {
+
+		Info i = new Info();
+		i.setText(text);
+		i.setEigenschaftId(auswahl.getId());
+		i.setProfilId(profil.getId());
+		
+		return this.iMapper.insert(i);
 	}
 
 	@Override
@@ -228,8 +230,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<Info> getInfoByProfile(Profil profil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.iMapper.findAllByProfilId(profil.getId());
 	}
 
 	@Override

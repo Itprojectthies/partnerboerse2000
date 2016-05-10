@@ -87,7 +87,7 @@ public class Superteam2000 implements EntryPoint {
 			VerticalPanel detailsPanel = new VerticalPanel();
 			detailsPanel.add(cf);
 
-			// RootPanel.get("main").add(detailsPanel);
+			 RootPanel.get("Details").add(detailsPanel);
 
 		}
 

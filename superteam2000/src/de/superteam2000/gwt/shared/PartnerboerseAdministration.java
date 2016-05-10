@@ -52,7 +52,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public Beschreibung getBeschreibungById(int id) throws IllegalArgumentException;
 
 	// Info
-	public Info createInfoFor(Profil profil, Auswahl auswahl) throws IllegalArgumentException;
 
 	public Info createInfoFor(Profil profil, Beschreibung beschreibung) throws IllegalArgumentException;
 
@@ -85,6 +84,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void deleteKontaktsperre(Kontaktsperre kontaktsperre) throws IllegalArgumentException;
 
 	public ArrayList<Kontaktsperre> getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException;
+
+	Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException;
 
 
 //	Profil getCurrentProfil() throws IllegalArgumentException;

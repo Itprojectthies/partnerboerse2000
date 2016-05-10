@@ -55,7 +55,6 @@ public interface PartnerboerseAdministrationAsync {
 	void getBeschreibungById(int id, AsyncCallback<Beschreibung> callback);
 
 	// Info
-	void createInfoFor(Profil profil, Auswahl auswahl, AsyncCallback<Info> callback);
 
 	void createInfoFor(Profil profil, Beschreibung beschreibung, AsyncCallback<Info> callback);
 
@@ -88,6 +87,8 @@ public interface PartnerboerseAdministrationAsync {
 	void deleteKontaktsperre(Kontaktsperre kontaktsperre, AsyncCallback<Void> callback);
 
 	void getKontaktsperreForProfil(Profil profil, AsyncCallback<ArrayList<Kontaktsperre>> callback);
+
+	void createInfoFor(Profil profil, Auswahl auswahl, String text, AsyncCallback<Info> callback);
 
 //	void getCurrentProfil(AsyncCallback<Profil> callback);
 

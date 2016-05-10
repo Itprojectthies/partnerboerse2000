@@ -19,7 +19,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.client.Home;
+import de.superteam2000.gwt.client.ShowProfil;
 import de.superteam2000.gwt.client.ShowProfil_old;
+import de.superteam2000.gwt.client.navbar;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 
@@ -115,7 +117,6 @@ public class CustomerForm extends VerticalPanel {
 		newButton.addClickHandler(new NewClickHandler());
 		customerButtonsPanel.add(newButton);
 
-		customerButtonsPanel.add(test);
 	}
 
 	private class NewClickHandler implements ClickHandler {
@@ -152,13 +153,14 @@ public class CustomerForm extends VerticalPanel {
 
 			ClientsideSettings.setCurrentUser(p);
 
-			ShowProfil_old fc = new ShowProfil_old();
-
+			ShowProfil fc = new ShowProfil();
+			navbar nb = new navbar();
 			VerticalPanel detailsPanel = new VerticalPanel();
 			detailsPanel.add(fc);
-			RootPanel.get("main").clear();
-			RootPanel.get("main").add(new Home());
-			RootPanel.get("main").add(detailsPanel);
+			RootPanel.get("Navigator").add(nb);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(new Home());
+			RootPanel.get("Details").add(detailsPanel);
 		}
 
 	}

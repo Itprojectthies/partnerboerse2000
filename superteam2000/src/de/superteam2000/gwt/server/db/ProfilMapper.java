@@ -367,6 +367,8 @@ public class ProfilMapper {
 			stmt.executeUpdate("DELETE FROM Profil " + "WHERE id=" + p.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+					e.getMessage() + " " + e.getCause() + " ");
 		}
 	}
 

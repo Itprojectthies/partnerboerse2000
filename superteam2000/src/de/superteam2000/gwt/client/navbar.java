@@ -4,9 +4,13 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.superteam2000.gwt.client.gui.CustomerForm;
 import de.superteam2000.gwt.shared.bo.Profil;
 
 public class navbar extends HorizontalPanel {
@@ -36,6 +40,7 @@ public class navbar extends HorizontalPanel {
 	// this.setCellHorizontalAlignment(hp, ALIGN_RIGHT);
 	// hp.setHorizontalAlignment(ALIGN_RIGHT);
 	void run() {
+		
 		if (user != null && user.isLoggedIn()) {
 
 			Button logoutBtn = new Button("Logout");
@@ -49,6 +54,27 @@ public class navbar extends HorizontalPanel {
 			});
 			append(logoutBtn);
 
+			Button profilBtn = new Button("Profil");
+//			hp.add(profilBtn);
+			profilBtn.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					
+					
+					
+
+					//ShowProfil fc = new ShowProfil();
+					ShowProfil sep = new ShowProfil();
+					VerticalPanel detailsPanel = new VerticalPanel();
+					detailsPanel.add(sep);
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(detailsPanel);				
+				}
+			});
+			append(profilBtn);
+			
+			
 			Button merklisteBtn = new Button("Merkliste");
 			// hp.add(merklisteBtn);
 			merklisteBtn.addClickHandler(new ClickHandler() {
@@ -87,7 +113,12 @@ public class navbar extends HorizontalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					Window.alert("Eignschaften");
+
+					Eigenschaft e = new Eigenschaft();
+					VerticalPanel detailsPanel = new VerticalPanel();
+					detailsPanel.add(e);
+					RootPanel.get("Details").clear();
+					 RootPanel.get("Details").add(detailsPanel);
 				}
 			});
 			append(eigenschaftenBtn);
