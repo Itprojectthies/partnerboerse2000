@@ -30,6 +30,7 @@ import de.superteam2000.gwt.client.Home;
 import de.superteam2000.gwt.client.ShowProfil_old;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
+import de.superteam2000.gwt.shared.bo.Beschreibung;
 import de.superteam2000.gwt.shared.bo.Info;
 import de.superteam2000.gwt.shared.bo.Profil;
 
@@ -260,7 +261,7 @@ public class ShowProfil extends BasicFrame {
 					if (result != null) {
 //						this.b.append("Info #" + i.getId() + ": " + i.getText());
 						pbVerwaltung.getAuswahlById(i.getEigenschaftId(), new GetAuswahlCallback(this.b, i));
-
+						pbVerwaltung.getBeschreibungById(i.getEigenschaftId(), new GetBeschreibungCallback(this.b, i));
 					} else {
 						this.b.append("Result ist leer");
 					}
@@ -272,10 +273,35 @@ public class ShowProfil extends BasicFrame {
 		}
 
 	}
-	
+
+
+	class GetBeschreibungCallback implements AsyncCallback<Beschreibung> {
+
+
+		private BasicFrame b = null;
+		private Info i = null;
+		public GetBeschreibungCallback(BasicFrame b, Info i) {
+			this.b = b;
+			this.i = i;
+		}
+
+		@Override
+		public void onFailure(Throwable caught) {
+			this.b.append("Fehler bei der Abfrage " + caught.getMessage());
+
+		}
+
+		@Override
+		public void onSuccess(Beschreibung result) {
+			this.b.append("Frage: " +result.getBeschreibungstext() + " Antwort: " + i.getText());
+		}
+
+
+	}
+
 	class GetAuswahlCallback implements AsyncCallback<Auswahl> {
-		
-		
+
+
 		private BasicFrame b = null;
 		private Info i = null;
 		public GetAuswahlCallback(BasicFrame b, Info i) {
@@ -286,13 +312,13 @@ public class ShowProfil extends BasicFrame {
 		@Override
 		public void onFailure(Throwable caught) {
 			this.b.append("Fehler bei der Abfrage " + caught.getMessage());
-			
+
 		}
 
 		@Override
 		public void onSuccess(Auswahl result) {
 			this.b.append("Frage: " +result.getBeschreibungstext() + " Antwort: " + i.getText());
 		}
-		
+
 	}
 }

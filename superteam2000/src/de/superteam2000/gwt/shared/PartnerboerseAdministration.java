@@ -53,7 +53,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	// Info
 
-	public Info createInfoFor(Profil profil, Beschreibung beschreibung) throws IllegalArgumentException;
 
 	public void saveInfoForProfil(Profil profil, Info info) throws IllegalArgumentException;
 
@@ -61,7 +60,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public ArrayList<Info> getInfoByProfile(Profil profil) throws IllegalArgumentException;
 
-	public ArrayList<Info> getInfoByEigenschaftsId(int id) throws IllegalArgumentException;
+	public Info getInfoByEigenschaftsId(int id) throws IllegalArgumentException;
 
 	// �hnlichkeitsma�
 	public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil profil) throws IllegalArgumentException;
@@ -86,6 +85,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public ArrayList<Kontaktsperre> getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException;
 
 	public Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException;
+
+	public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text) throws IllegalArgumentException;
 
 
 //	Profil getCurrentProfil() throws IllegalArgumentException;

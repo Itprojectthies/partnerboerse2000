@@ -114,6 +114,55 @@ public class InfoMapper {
 
 		
 	}
+	
+	/**
+	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
+	 * ist, wird genau ein Objekt zur�ckgegeben.
+	 * 
+	 * @param id
+	 *            Primärschlüsselattribut (->DB)
+	 * @return Kunden-Objekt, das dem übergebenen Schlüssel entspricht, null bei
+	 *         nicht vorhandenem DB-Tupel.
+	 */
+	public Info findByKey(int id) {
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
+
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+			
+			// Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs1 = stmt.executeQuery(
+					"SELECT id, Text, Profil_id, Eigenschaft_id FROM Info WHERE Eigenschaft_id =" + id);
+
+			
+			/*
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * werden. Prüfe, ob ein Ergebnis vorliegt.
+			 */
+			
+			if (rs1.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln
+				Info i = new Info();
+				i.setId(rs1.getInt("id"));
+				i.setText(rs1.getString("Text"));
+				i.setProfilId(rs1.getInt("Profil_id"));
+				i.setEigenschaftId(rs1.getInt("Eigenschaft_id"));
+				return i;
+					
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim Lesen aus der DB" + 
+					e.getMessage() + " " + e.getCause() + " ");
+			return null;
+		}
+		return null;
+
+		
+	}
 
 	/**
 	 * Auslesen aller Kunden.

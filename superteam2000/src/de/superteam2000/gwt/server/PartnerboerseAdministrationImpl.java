@@ -211,9 +211,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public Info createInfoFor(Profil profil, Beschreibung beschreibung) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text) throws IllegalArgumentException {
+		Info i = new Info();
+		i.setText(text);
+		i.setEigenschaftId(beschreibung.getId());
+		i.setProfilId(profil.getId());
+		
+		return this.iMapper.insert(i);
 	}
 
 	@Override
@@ -234,9 +238,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<Info> getInfoByEigenschaftsId(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Info getInfoByEigenschaftsId(int id) throws IllegalArgumentException {
+		return this.iMapper.findByKey(id);
 	}
 
 	@Override
@@ -306,14 +309,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Beschreibung getBeschreibungById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.beschrMapper.findByKey(id);
 	}
 
 	@Override
 	public ArrayList<Beschreibung> getAllBeschreibung() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.beschrMapper.findAll();
 	}
 
 

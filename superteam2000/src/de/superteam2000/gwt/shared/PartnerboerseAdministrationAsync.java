@@ -56,7 +56,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	// Info
 
-	void createInfoFor(Profil profil, Beschreibung beschreibung, AsyncCallback<Info> callback);
 
 	void saveInfoForProfil(Profil profil, Info info, AsyncCallback<Void> callback);
 
@@ -64,7 +63,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getInfoByProfile(Profil profil, AsyncCallback<ArrayList<Info>> callback);
 
-	void getInfoByEigenschaftsId(int id, AsyncCallback<ArrayList<Info>> callback);
+	void getInfoByEigenschaftsId(int id, AsyncCallback<Info> callback);
 
 	// Aehnlichkeitsmass
 	void getProfilesByAehnlichkeitsmass(Profil profil, AsyncCallback<ArrayList<Profil>> callback);
@@ -90,6 +89,8 @@ public interface PartnerboerseAdministrationAsync {
 
 
 	void createInfoFor(Profil profil, Auswahl auswahl, String text, AsyncCallback<Info> callback);
+
+	void createInfoFor(Profil profil, Beschreibung beschreibung, String text, AsyncCallback<Info> callback);
 
 
 	// Suchprofil

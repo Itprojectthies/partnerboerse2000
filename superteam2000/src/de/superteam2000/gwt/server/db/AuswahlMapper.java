@@ -53,7 +53,7 @@ public class AuswahlMapper {
 	 * Methode.
 	 * 
 	 * @return DAS <code>AuswahlMapper</code>-Objekt.
-	 * @see AuswahlMapper
+	 * @see BeschreibungMapper
 	 */
 	public static AuswahlMapper auswahlMapper() {
 		if (AuswahlMapper == null) {
