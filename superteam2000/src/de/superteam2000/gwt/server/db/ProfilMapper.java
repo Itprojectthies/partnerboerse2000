@@ -130,7 +130,7 @@ public class ProfilMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht FROM Profil "
+					"SELECT id, Vorname, Nachname, Email, Geburtsdatum, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht FROM Profil "
 							+ "WHERE Email LIKE '" + email + "'");
 
 			/*
@@ -146,6 +146,7 @@ public class ProfilMapper {
 				p.setVorname(rs.getString("Vorname"));
 				p.setNachname(rs.getString("Nachname"));
 				p.setEmail(rs.getString("Email"));
+				p.setGeburtsdatum(rs.getString("Geburtsdatum"));
 				p.setHaarfarbe(rs.getString("Haarfarbe"));
 				p.setGroesse(rs.getInt("Koerpergroesse"));
 				p.setRaucher(rs.getString("Raucher"));
@@ -328,18 +329,23 @@ public class ProfilMapper {
 	 */
 	public Profil update(Profil p) {
 		Connection con = DBConnection.connection();
-
+		ClientsideSettings.getLogger().info("Versuche Änderungen in DB geschrieben");
 		// Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE Profil " + "SET Vorname=\"" + p.getVorname() + "\", " + "Nachname=\""
-					+ p.getNachname() + "\", " + "Email=\"" + p.getEmail() + "\", " + "Koerpergroesse=\""
-					+ p.getGroesse() + "\", " + "Raucher=\"" + p.getRaucher() + "\", " + "Religion=\"" + p.getReligion()
-					+ "\", " + "Geschlecht=\"" + p.getGeschlecht() + "\", " + " " + "WHERE id=" + p.getId());
+			stmt.executeUpdate("UPDATE Profil SET Vorname=\"" + p.getVorname() + "\", Nachname=\""
+					+ p.getNachname() + "\", Haarfarbe=\"" + p.getHaarfarbe() + "\", Koerpergroesse="
+					+ p.getGroesse() + ", Raucher=\"" + p.getRaucher() + "\", Religion=\"" + p.getReligion()
+					+ "\", Geburtsdatum=\"" + p.getGeburtsdatum() + "\" WHERE id=" + p.getId());
+			
+			ClientsideSettings.getLogger().info("Profil " +p.getEmail() + " Änderungen in DB geschrieben");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+					e.getMessage() + " " + e.getCause() + " ");
+			
 		}
 
 		// Um Analogie zu insert(Profil p) zu wahren, geben wir p zurück

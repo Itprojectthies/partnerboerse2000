@@ -112,6 +112,8 @@ public class DBConnection {
 				con = null;
 				e.printStackTrace();
 				logger.info("MySQL-Verbindung fehlgeschlagen");
+				ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+						e.getMessage() + " " + e.getCause() + " ");
 			}
 		}
 

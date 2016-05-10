@@ -2,9 +2,12 @@ package de.superteam2000.gwt.client.gui;
 
 import java.util.logging.Logger;
 
-import com.google.gwt.aria.client.TextboxRole;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
@@ -17,10 +20,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.client.Home;
-import de.superteam2000.gwt.client.NavigationBar;
 import de.superteam2000.gwt.client.ShowProfil;
-import de.superteam2000.gwt.shared.bo.Profil;
+import de.superteam2000.gwt.client.ShowProfil_old;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
+import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
  * Formular für die Darstellung des selektierten Kunden
@@ -28,9 +31,7 @@ import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
  * @author Christian Rathke
  */
 public class CustomerForm extends VerticalPanel {
-	
-	
-	
+
 	PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	Profil profilToDisplay = null;
 
@@ -48,24 +49,24 @@ public class CustomerForm extends VerticalPanel {
 	TextBox religionTextBox = new TextBox();
 	TextBox geschlechtTextBox = new TextBox();
 	IntegerBox koerpergroesseIntegerBox = new IntegerBox();
-	
+
 	Label test = new Label("");
 	Profil user = ClientsideSettings.getCurrentUser();
 	Logger logger = ClientsideSettings.getLogger();
+
 	/*
 	 * Im Konstruktor werden die anderen Widgets erzeugt. Alle werden in einem
 	 * Raster angeordnet, dessen Größe sich aus dem Platzbedarf der enthaltenen
 	 * Widgets bestimmt.
 	 */
 	public CustomerForm() {
-		
-		
+
 		Grid customerGrid = new Grid(11, 2);
 		this.add(customerGrid);
 
-//		Label idLabel = new Label("ID");
-//		customerGrid.setWidget(0, 0, idLabel);
-//		customerGrid.setWidget(0, 1, idValueLabel);
+		// Label idLabel = new Label("ID");
+		// customerGrid.setWidget(0, 0, idLabel);
+		// customerGrid.setWidget(0, 1, idValueLabel);
 
 		Label firstNameLabel = new Label("Vorname");
 		customerGrid.setWidget(1, 0, firstNameLabel);
@@ -106,6 +107,7 @@ public class CustomerForm extends VerticalPanel {
 
 		Label groesseLabel = new Label("Körpergröße");
 		customerGrid.setWidget(9, 0, groesseLabel);
+
 		customerGrid.setWidget(9, 1, koerpergroesseIntegerBox);
 
 		HorizontalPanel customerButtonsPanel = new HorizontalPanel();
@@ -133,10 +135,8 @@ public class CustomerForm extends VerticalPanel {
 			String religion = religionTextBox.getText();
 			String geschlecht = geschlechtTextBox.getText();
 			int groesse = koerpergroesseIntegerBox.getValue();
-			pbVerwaltung.createProfil(lastName, firstName, email, geburtsdatum, 
-					haarfarbe, raucher, religion, groesse, geschlecht, 
-					new CreateCustomerCallback());
-			
+			pbVerwaltung.createProfil(lastName, firstName, email, geburtsdatum, haarfarbe, raucher, religion, groesse,
+					geschlecht, new CreateCustomerCallback());
 
 		}
 	}
@@ -152,17 +152,16 @@ public class CustomerForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Profil p) {
 
-			
 			ClientsideSettings.setCurrentUser(p);
-			
-			
+
 			ShowProfil fc = new ShowProfil();
-			
+
 			VerticalPanel detailsPanel = new VerticalPanel();
 			detailsPanel.add(fc);
-			RootPanel.get("main").clear();
-			RootPanel.get("main").add(new Home());
-			RootPanel.get("main").add(detailsPanel);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(new Home());
+			RootPanel.get("Details").add(detailsPanel);
+			Window.Location.reload();
 		}
 
 	}

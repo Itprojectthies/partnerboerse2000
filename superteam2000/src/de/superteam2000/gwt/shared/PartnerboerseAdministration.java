@@ -15,12 +15,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public Profil login(String requestUri) throws IllegalArgumentException;
 	
-	
-	public  Profil getCurrentUser() throws IllegalArgumentException;
-
-	public void setCurrentUser(Profil currentUser) throws IllegalArgumentException;
-	
-	
 
 	// Profile
 	public Profil createProfil(String nachname, String vorname, String email, String geburtsdatum, String haarfarbe,
@@ -91,6 +85,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void deleteKontaktsperre(Kontaktsperre kontaktsperre) throws IllegalArgumentException;
 
 	public ArrayList<Kontaktsperre> getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException;
+
+
+//	Profil getCurrentProfil() throws IllegalArgumentException;
 
 	// Suchprofil
 

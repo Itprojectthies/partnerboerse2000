@@ -1,19 +1,17 @@
 package de.superteam2000.gwt.server;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.server.db.*;
 import de.superteam2000.gwt.shared.PartnerboerseAdministration;
 import de.superteam2000.gwt.shared.bo.*;
-
-import com.google.api.server.spi.Client;
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implements PartnerboerseAdministration {
 
@@ -89,6 +87,24 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return profil;
 
 	}
+	
+//	@Override
+//	public Profil getCurrentProfil() {
+//		UserService userService = UserServiceFactory.getUserService();
+//		User user = userService.getCurrentUser();
+//		String Uri = GWT.getHostPageBaseURL() + "Superteam2000.html";
+//
+//		Profil bestehendesProfil = this.pMapper.findByEmail(user.getEmail());
+//
+//		ClientsideSettings.getLogger().severe(
+//				"Userobjekt email " + user.getEmail() + "bestehender user mail  " + bestehendesProfil.getEmail());
+//		
+//		bestehendesProfil.setLoggedIn(true);
+//		bestehendesProfil.setLogoutUrl(userService.createLogoutURL(Uri));
+//
+//		return bestehendesProfil;
+//
+//	}
 
 	@Override
 	public Profil createProfil(String nachname, String vorname, String email, String geburtsdatum, String haarfarbe,
@@ -126,8 +142,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void save(Profil profil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
+		this.pMapper.update(profil);
+		
 	}
 
 	@Override
@@ -138,7 +154,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Profil getProfilById(int id) {
-		// TODO Auto-generated method stub
+		
 
 		return this.pMapper.findByKey(id);
 	}
@@ -299,21 +315,5 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return null;
 	}
 
-	/**
-	 * Setzen des momentanen Benutzers
-	 * 
-	 * @param currentUser
-	 *            Momentaner Benutzer
-	 * 
-	 */
-	public void setCurrentUser(Profil currentUser) {
-
-	}
-
-	@Override
-	public Profil getCurrentUser() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
