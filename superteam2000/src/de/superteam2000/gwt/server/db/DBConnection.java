@@ -50,7 +50,7 @@ public class DBConnection {
 	 */
 	
 
-	private static String googleUrl = "jdbc:google:mysql://partnerboerse2000:partnerboerse2000-db/partnerboerse2000?user=root&password=";
+	private static String googleUrl = "jdbc:google:mysql://partnerboerse2000:partnerboerse2000-db/partnerboerse2000?user=root&password=test";
 	private static String localUrl = "jdbc:mysql://127.0.0.1:3306/partnerboerse2000?user=root&password=";
 
 

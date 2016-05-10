@@ -230,7 +230,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<Info> getInfoByProfile(Profil profil) throws IllegalArgumentException {
-		return this.iMapper.findAllByProfilId(profil.getId());
+		
+		if (this.iMapper.findAllByProfilId(profil.getId()) != null) {
+			ClientsideSettings.getLogger().info("InfobyProfil zurückgegeben");
+			return this.iMapper.findAllByProfilId(profil.getId());
+		}
+		
+		return null;
 	}
 
 	@Override

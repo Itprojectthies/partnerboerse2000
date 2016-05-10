@@ -85,7 +85,7 @@ public class InfoMapper {
 			
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs1 = stmt.executeQuery(
-					"SELECT id, Text, Profil_id, Eigenschaft_id FROM info WHERE Profil_id=" + id);
+					"SELECT id, Text, Profil_id, Eigenschaft_id FROM Info WHERE Profil_id=" + id);
 
 			
 			/*
@@ -101,15 +101,14 @@ public class InfoMapper {
 				i.setText(rs1.getString("Text"));
 				i.setProfilId(rs1.getInt("Profil_id"));
 				i.setEigenschaftId(rs1.getInt("Eigenschaft_id"));
-				ArrayList<String> al = new ArrayList<>();
 				
-				result.add(i);
-				
-				
+				result.add(i);	
 			}
 			return result;
-		} catch (SQLException a) {
-			a.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim Lesen aus der DB" + 
+					e.getMessage() + " " + e.getCause() + " ");
 			return null;
 		}
 
@@ -134,7 +133,7 @@ public class InfoMapper {
 						
 						// Statement ausfüllen und als Query an die DB schicken
 						ResultSet rs1 = stmt.executeQuery(
-								"SELECT id, Text, Profil_id, Eigenschaft_id FROM info");
+								"SELECT id, Text, Profil_id, Eigenschaft_id FROM Info");
 
 						
 						/*
@@ -150,7 +149,6 @@ public class InfoMapper {
 							i.setText(rs1.getString("Text"));
 							i.setProfilId(rs1.getInt("Profil_id"));
 							i.setEigenschaftId(rs1.getInt("Eigenschaft_id"));
-							ArrayList<String> al = new ArrayList<>();
 							
 							result.add(i);
 						}
@@ -251,13 +249,13 @@ public class InfoMapper {
 	 * @param a
 	 *            das aus der DB zu löschende "Objekt"
 	 */
-	public void delete(Auswahl a) {
+	public void delete(Info i) {
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM Eigenschaft " + "WHERE id=" + a.getId());
+			stmt.executeUpdate("DELETE FROM Info " + "WHERE id=" + i.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

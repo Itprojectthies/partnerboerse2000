@@ -76,7 +76,7 @@ public class ShowProfil extends BasicFrame {
 
 	@Override
 	protected void run() {
-
+		final PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 		Grid customerGrid = new Grid(11, 2);
 		this.add(customerGrid);
 
@@ -250,21 +250,24 @@ public class ShowProfil extends BasicFrame {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			ClientsideSettings.getLogger().severe("Ausgabe von info und auswahl nicht funktioniert");
-
+			this.b.append("Fehler bei der Abfrage " + caught.getMessage());
 		}
 
 		@Override
 		public void onSuccess(ArrayList<Info> result) {
+			try {
+				for (Info i : result) {
+					if (result != null) {
+//						this.b.append("Info #" + i.getId() + ": " + i.getText());
+						pbVerwaltung.getAuswahlById(i.getEigenschaftId(), new GetAuswahlCallback(this.b, i));
 
-			for ( Info i : result) {
-				if (result != null) {
-					// Kundennummer und Name ausgeben
-//					this.b.append("Info #" + i.getId() + ": " + i.getText());
-					pbVerwaltung.getAuswahlById(i.getEigenschaftId(), new GetAuswahlCallback(this.b, i));
-					
-				}
+					} else {
+						this.b.append("Result ist leer");
+					}
 
+				} 
+			} catch (Exception e) {
+				ClientsideSettings.getLogger().severe("Fehler " + e.getMessage());
 			}
 		}
 
@@ -282,7 +285,7 @@ public class ShowProfil extends BasicFrame {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			ClientsideSettings.getLogger().severe("Ausgabe von info und auswahl nicht funktioniert");
+			this.b.append("Fehler bei der Abfrage " + caught.getMessage());
 			
 		}
 

@@ -14,6 +14,11 @@ h1 {
   
 }
 
+#logDialogBox td {
+	border-bottom: dashed 1px #e1e1e1;
+}
+
+
 .bankproject-headline {
 	font-size: 12pt;
 	font-weight: bold;

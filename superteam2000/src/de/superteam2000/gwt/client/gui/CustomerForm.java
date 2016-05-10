@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.client.Home;
 import de.superteam2000.gwt.client.ShowProfil;
-import de.superteam2000.gwt.client.ShowProfil_old;
 import de.superteam2000.gwt.client.navbar;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;

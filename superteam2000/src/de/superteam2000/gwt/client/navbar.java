@@ -53,6 +53,19 @@ public class navbar extends HorizontalPanel {
 				}
 			});
 			append(logoutBtn);
+			
+			Button logBtn = new Button("Loger");
+			// hp.add(logoutBtn);
+			logBtn.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					
+					LogConsole.getDialogBox().show();
+					
+				}
+			});
+			append(logBtn);
 
 			Button profilBtn = new Button("Profil");
 //			hp.add(profilBtn);
