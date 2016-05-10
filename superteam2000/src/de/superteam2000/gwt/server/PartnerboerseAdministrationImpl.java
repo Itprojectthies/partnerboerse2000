@@ -154,7 +154,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Profil getProfilById(int id) {
-		// TODO Auto-generated method stub
+		
 
 		return this.pMapper.findByKey(id);
 	}

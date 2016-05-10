@@ -25,5 +25,24 @@
 		<servlet-name>partnerboerseAdministrationImpl</servlet-name>
 		<url-pattern>/reportgen/pba</url-pattern>
 	</servlet-mapping>
+	
+	
+	
+	
+	<servlet>
+		<servlet-name>ReportGeneratorImpl</servlet-name>
+		<servlet-class>de.superteam2000.gwt.server.report.ReportGeneratorImpl
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ReportGeneratorImpl</servlet-name>
+		<url-pattern>/superteam2000/rg</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ReportGeneratorImpl</servlet-name>
+		<url-pattern>/reportgen/rg</url-pattern>
+	</servlet-mapping>
 
 </web-app>

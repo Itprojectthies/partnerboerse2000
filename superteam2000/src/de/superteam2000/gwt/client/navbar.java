@@ -37,6 +37,8 @@ public class navbar extends HorizontalPanel {
 	// hp.setHorizontalAlignment(ALIGN_RIGHT);
 	void run() {
 		if (user != null && user.isLoggedIn()) {
+			
+
 
 			Button logoutBtn = new Button("Logout");
 			// hp.add(logoutBtn);
@@ -91,6 +93,18 @@ public class navbar extends HorizontalPanel {
 				}
 			});
 			append(eigenschaftenBtn);
+			
+			Button reportButton = new Button("Report");
+			// hp.add(logoutBtn);
+			reportButton.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+//					Window.open(user.getLogoutUrl(), "_self", "");
+					Window.confirm("OK = true      Cancel = false");
+				}
+			});
+			append(reportButton);
 
 
 			// Anchor logOutLink = new Anchor("Logout");

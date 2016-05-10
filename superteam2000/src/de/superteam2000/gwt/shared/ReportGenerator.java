@@ -37,7 +37,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
  * 
  * @author thies
  */
-@RemoteServiceRelativePath("reportgenerator")
+@RemoteServiceRelativePath("rg")
 public interface ReportGenerator extends RemoteService {
 
 	/**
