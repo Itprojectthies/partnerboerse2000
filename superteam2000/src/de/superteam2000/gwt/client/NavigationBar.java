@@ -50,7 +50,7 @@ public class NavigationBar extends BasicFrame {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					navbar nb = new navbar();
+					Navbar nb = new Navbar();
 					RootPanel.get("Navigator").add(nb);
 					
 					RootPanel.get("Details").add(new Home());

@@ -95,7 +95,7 @@ public class Superteam2000 implements EntryPoint {
 
 //			NavigationBar nb = new NavigationBar();
 //			RootPanel.get("Navigator").add(nb);
-			navbar nb = new navbar();
+			Navbar nb = new Navbar();
 			RootPanel.get("Navigator").add(nb);
 			
 			RootPanel.get("Details").add(new Home());

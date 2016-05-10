@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.superteam2000.gwt.client.gui.CustomerForm;
 import de.superteam2000.gwt.shared.bo.Profil;
 
-public class navbar extends HorizontalPanel {
+public class Navbar extends HorizontalPanel {
 	
 	public void onLoad() {
 		/*

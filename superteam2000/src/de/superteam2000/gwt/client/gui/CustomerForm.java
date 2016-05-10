@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.client.Home;
 import de.superteam2000.gwt.client.ShowProfil;
-import de.superteam2000.gwt.client.navbar;
+import de.superteam2000.gwt.client.Navbar;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 
@@ -153,7 +153,7 @@ public class CustomerForm extends VerticalPanel {
 			ClientsideSettings.setCurrentUser(p);
 
 			ShowProfil fc = new ShowProfil();
-			navbar nb = new navbar();
+			Navbar nb = new Navbar();
 			VerticalPanel detailsPanel = new VerticalPanel();
 			detailsPanel.add(fc);
 			RootPanel.get("Navigator").add(nb);
