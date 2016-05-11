@@ -3,6 +3,7 @@ package de.superteam2000.gwt.client;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import com.google.api.server.spi.auth.common.User;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -26,6 +27,7 @@ public class ReportGen implements EntryPoint {
 	Button profilAnzeigenButton = new Button("Profil anzeigen");
 	Button alleProfileAnzeigenButton = new Button("alle Profile anzeigen");
 
+	
 	ArrayList<Profil> profile = new ArrayList<Profil>();
 	Profil p = new Profil();
 	ReportGeneratorAsync reportGenerator = null;
@@ -35,7 +37,7 @@ public class ReportGen implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-
+		Profil user = ClientsideSettings.getCurrentUser();
 		RootPanel.get("Details").add(profilAnzeigenButton);
 		RootPanel.get("Details").add(alleProfileAnzeigenButton);
 		

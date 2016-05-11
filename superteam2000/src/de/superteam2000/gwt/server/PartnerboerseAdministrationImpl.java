@@ -157,6 +157,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return this.pMapper.findByKey(id);
 	}
+	
+	@Override
+	public Profil getProfilByMail(String email) {
+	
+		return this.pMapper.findByEmail(email);
+	}
 
 	@Override
 	public Auswahl createAuswahl(String name, String beschreibungstext, ArrayList<String> alternativen)

@@ -89,6 +89,8 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getKontaktsperreForProfil(Profil profil, AsyncCallback<ArrayList<Kontaktsperre>> callback);
 
+	void getProfilByMail(String email, AsyncCallback<Profil> callback);
+
 //	void getCurrentProfil(AsyncCallback<Profil> callback);
 
 	// Suchprofil
