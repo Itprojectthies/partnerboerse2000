@@ -3,7 +3,10 @@ package de.superteam2000.gwt.client;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import com.google.api.server.spi.auth.common.User;
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -37,11 +40,14 @@ public class ReportGen implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		Profil user = ClientsideSettings.getCurrentUser();
 		RootPanel.get("Details").add(profilAnzeigenButton);
 		RootPanel.get("Details").add(alleProfileAnzeigenButton);
 		
-		pb.getProfilById(18, new AsyncCallback<Profil>() {
+		UserService userService = UserServiceFactory.getUserService();
+		User user = userService.getCurrentUser();
+		
+		
+		pb.getProfilByMail(user.getEmail(), new AsyncCallback<Profil>() {
 			
 			@Override
 			public void onSuccess(Profil result) {
