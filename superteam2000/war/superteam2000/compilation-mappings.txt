@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 3947AC7D75C98E848BA16B87BFD840C3.cache.js
+=======
+25CF55C059D32E70434B784B1C337BD8.cache.js
+user.agent ie10
+
+4853C2102E8B0B3A2989299AB48D8E43.cache.js
+>>>>>>> refs/heads/ChristopherFunke
 user.agent safari
 
+<<<<<<< HEAD
 3A984277851C9C1DB347AE97FC0FEE77.cache.js
 user.agent gecko1_8
 
@@ -12,5 +20,15 @@ user.agent ie8
 
 C1405EED70F4A37E25EF415527C81002.cache.js
 user.agent ie10
+=======
+8179622D372194BBC4B2E7E2F48123C5.cache.js
+user.agent gecko1_8
+
+9AF9A958054A1447D52BD94509BB018E.cache.js
+user.agent ie9
+
+C0F432E51C501FAD2A8707C97C98C4A3.cache.js
+user.agent ie8
+>>>>>>> refs/heads/ChristopherFunke
 
 Devmode:devmode.js

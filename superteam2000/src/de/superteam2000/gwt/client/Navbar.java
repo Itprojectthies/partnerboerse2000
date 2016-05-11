@@ -135,7 +135,19 @@ public class Navbar extends HorizontalPanel {
 				}
 			});
 			append(eigenschaftenBtn);
+			
+			Button reportButton = new Button("Report");
+			// hp.add(logoutBtn);
+			reportButton.addClickHandler(new ClickHandler() {
 
+				@Override
+				public void onClick(ClickEvent event) {
+//					Window.open(user.getLogoutUrl(), "_self", "");
+//					Window.confirm("OK = true      Cancel = false");
+					Window.Location.replace("http://127.0.0.1:8888/Reportgen.html");
+				}
+			});
+			append(reportButton);
 
 			// Anchor logOutLink = new Anchor("Logout");
 			// logOutLink.setHref(user.getLogoutUrl());

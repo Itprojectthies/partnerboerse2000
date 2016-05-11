@@ -146,15 +146,20 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		return this.pMapper.findAll();
 	}
 
 	@Override
 	public Profil getProfilById(int id) {
-		// TODO Auto-generated method stub
+		
 
 		return this.pMapper.findByKey(id);
+	}
+	
+	@Override
+	public Profil getProfilByMail(String email) {
+	
+		return this.pMapper.findByEmail(email);
 	}
 
 	@Override

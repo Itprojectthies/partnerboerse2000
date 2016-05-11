@@ -88,6 +88,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text) throws IllegalArgumentException;
 
+	public Profil getProfilByMail(String email);
+
 
 //	Profil getCurrentProfil() throws IllegalArgumentException;
 

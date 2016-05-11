@@ -5,8 +5,12 @@ import de.superteam2000.gwt.shared.report.ProfilReport;
 import de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport;
 import de.superteam2000.gwt.shared.report.AllNewProfileReport;
 import de.superteam2000.gwt.shared.report.AllProfileBySuche;
+import de.superteam2000.gwt.shared.report.AllProfilesReport;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 
 /**
@@ -37,7 +41,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
  * 
  * @author thies
  */
-@RemoteServiceRelativePath("reportgenerator")
+@RemoteServiceRelativePath("rg")
 public interface ReportGenerator extends RemoteService {
 
 	/**
@@ -50,18 +54,7 @@ public interface ReportGenerator extends RemoteService {
 	 */
 	public void init() throws IllegalArgumentException;
 
-	/**
-	 * TODO: überarbeiten Erstellen eines
-	 * <code>AllAccountsOfCustomerReport</code>-Reports. Dieser Report-Typ
-	 * stellt sämtliche Konten eines Kunden dar.
-	 * 
-	 * @param c
-	 *            eine Referenz auf das Kundenobjekt bzgl. dessen der Report
-	 *            erstellt werden soll.
-	 * @return das fertige Reportobjekt
-	 * @throws IllegalArgumentException
-	 * @see AllAccountsOfCustomerReport
-	 */
+//F�r das Erstellen von einem Report f�r das Anzeigen von einem Profil
 	public abstract ProfilReport createProfilReport(Profil p) throws IllegalArgumentException;
 
 	/**
@@ -106,5 +99,8 @@ public interface ReportGenerator extends RemoteService {
 	 * @see AllAccountsOfCustomerReport
 	 */
 	public abstract AllProfileBySuche createAllProfileBySucheReport(Profil p) throws IllegalArgumentException;
+	
+	public abstract AllProfilesReport createAllProfilesReport() throws IllegalArgumentException;
+
 
 }

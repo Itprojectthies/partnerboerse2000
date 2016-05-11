@@ -8,8 +8,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.superteam2000.gwt.shared.bo.Profil;
 	
@@ -44,38 +42,17 @@ public class NavigationBar extends BasicFrame {
 			});
 			append(logoutBtn);
 			
-			Button profilBtn = new Button("Profil");
-			hp.add(profilBtn);
-			profilBtn.addClickHandler(new ClickHandler() {
+			Button merklisteBtn = new Button("Merkliste");
+			hp.add(merklisteBtn);
+			merklisteBtn.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					Navbar nb = new Navbar();
-					RootPanel.get("Navigator").add(nb);
+					Window.alert("Merkliste");
 					
-					RootPanel.get("Details").add(new Home());
-
-					//ShowProfil fc = new ShowProfil();
-					ShowProfil sep = new ShowProfil();
-					VerticalPanel detailsPanel = new VerticalPanel();
-					detailsPanel.add(sep);
-
-					RootPanel.get("Details").add(detailsPanel);				
 				}
 			});
-			append(profilBtn);
-			
-//			Button merklisteBtn = new Button("Merkliste");
-//			hp.add(merklisteBtn);
-//			merklisteBtn.addClickHandler(new ClickHandler() {
-//
-//				@Override
-//				public void onClick(ClickEvent event) {
-//					Window.alert("Merkliste");
-//					
-//				}
-//			});
-//			append(merklisteBtn);
+			append(merklisteBtn);
 			
 			Button sperrlisteBtn = new Button("Sperrliste");
 			hp.add(sperrlisteBtn);
