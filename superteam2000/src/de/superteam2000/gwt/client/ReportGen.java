@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -36,15 +35,15 @@ public class ReportGen implements EntryPoint {
 	ReportGeneratorAsync reportGenerator = null;
 	Logger logger = ClientsideSettings.getLogger();
 	PartnerboerseAdministrationAsync pb = ClientsideSettings.getPartnerboerseVerwaltung();
-	
+	UserService userService = UserServiceFactory.getUserService();
+	User user = userService.getCurrentUser();
 
 	@Override
 	public void onModuleLoad() {
 		RootPanel.get("Details").add(profilAnzeigenButton);
 		RootPanel.get("Details").add(alleProfileAnzeigenButton);
 		
-		UserService userService = UserServiceFactory.getUserService();
-		User user = userService.getCurrentUser();
+		
 		
 		
 		pb.getProfilByMail(user.getEmail(), new AsyncCallback<Profil>() {
