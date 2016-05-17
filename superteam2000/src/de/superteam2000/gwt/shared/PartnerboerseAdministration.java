@@ -27,6 +27,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException;
 
 	public Profil getProfilById(int id) throws IllegalArgumentException;
+	
+	public ArrayList<Profil> getProfilesBySuche(Profil p) throws IllegalArgumentException; 
 
 	// Auswahl Eigenschaft
 	public Auswahl createAuswahl(String name, String beschreibungstext, ArrayList<String> alternativen)

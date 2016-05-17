@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.ibm.icu.util.Calendar;
 
+import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.server.*;
 import de.superteam2000.gwt.shared.*;
 import de.superteam2000.gwt.shared.bo.*;
@@ -44,8 +46,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		ProfilReport result = new ProfilReport();
 
 		// ab hier result mit Inhalten bef�llen
-		result.setTitle("Profil" + p.getId());
-		result.setCreated(new Date());
+		result.setTitle(p.getVorname()+" "+p.getNachname());
+//		result.setCreated(new Date());
 
 		// Header des Reports erstellen
 		CompositeParagraph header = new CompositeParagraph();
@@ -60,26 +62,60 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		imprint.addSubParagraph(new SimpleParagraph("Email: " + p.getEmail()));
 		imprint.addSubParagraph(new SimpleParagraph("Geschlecht: " + p.getGeschlecht()));
 		imprint.addSubParagraph(new SimpleParagraph("geb. am: " + p.getGeburtsdatum()));
+		imprint.addSubParagraph(new SimpleParagraph(p.getRaucher()));
+		imprint.addSubParagraph(new SimpleParagraph("Religion: "+p.getReligion()));
 
 		result.setImprint(imprint);
 
 		// Eigenschaften anh�ngen als Tabelle mit zwei Spalten
 		// TODO ggf Info anpassen f�r besseres auslesen
-		//
-		// ArrayList<Info> infos = this.administration.getInfoByProfile(p);
-		//
-		// for(Info i: infos){
-		// Row infoRow = new Row();
-		//
-		// infoRow.addColumn(new Column(i.getText()));
-		//
-		// }
-		//
+
+		ArrayList<Info> infos = this.administration.getInfoByProfile(p);
+		
+		//Kopfzeile anlegen
+		Row headline = new Row();
+		headline.addColumn(new Column("Eigenschaften:"));
+		result.addRow(headline);
+
+		if(infos != null){
+		
+			for(Info i: infos){
+				Row infoRow = new Row();
+
+				infoRow.addColumn(new Column(i.getText()));
+				
+				result.addRow(infoRow);
+
+			}}
+			
+		
+		
 
 		return result;
 
 	}
 
+	@Override
+	public AllProfileBySuche createSuchreport(ArrayList<Profil> p){
+		
+		ClientsideSettings.getLogger().info("createSuchreport Methode in ReportGenerator aufgerufen");
+		if (this.administration == null) {
+			return null;
+		}
+		
+		AllProfileBySuche result = new AllProfileBySuche();
+		
+		// mit Inhalt befüllen
+		result.setTitle("Die Suche ergab: " + p.size() + " Treffer");
+//		result.setCreated(new Date());
+		
+		for (Profil profil : p) {
+			result.addSubReport(this.createProfilReport(profil));
+
+		}
+		return result;
+		
+	}
 	@Override
 	public AllProfilesReport createAllProfilesReport() throws IllegalArgumentException {
 		if (this.administration == null) {
@@ -88,25 +124,25 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		// zu bef�llenden Report erstellen
 		AllProfilesReport result = new AllProfilesReport();
-		
-		
-//
-//		// mit Inhalt bef�llen
+
+
+		//
+		//		// mit Inhalt bef�llen
 		result.setTitle("Alle Profile anzeigen Report");
 		result.setCreated(new Date());
-//
-//		CompositeParagraph header = new CompositeParagraph();
-//		CompositeParagraph imprint = new CompositeParagraph();
-//		header.addSubParagraph(new SimpleParagraph("Test"));
-//		header.addSubParagraph(new SimpleParagraph("Test"));
-//		imprint.addSubParagraph(new SimpleParagraph("Test2"));
-//		imprint.addSubParagraph(new SimpleParagraph("Test2"));
-//
-//		// Kopfzeile der Tabelle erstellen
-//		Row headline = new Row();
-//
-//		headline.addColumn(new Column("Vorname"));
-//		headline.addColumn(new Column("Nachname"));
+		//
+		//		CompositeParagraph header = new CompositeParagraph();
+		//		CompositeParagraph imprint = new CompositeParagraph();
+		//		header.addSubParagraph(new SimpleParagraph("Test"));
+		//		header.addSubParagraph(new SimpleParagraph("Test"));
+		//		imprint.addSubParagraph(new SimpleParagraph("Test2"));
+		//		imprint.addSubParagraph(new SimpleParagraph("Test2"));
+		//
+		//		// Kopfzeile der Tabelle erstellen
+		//		Row headline = new Row();
+		//
+		//		headline.addColumn(new Column("Vorname"));
+		//		headline.addColumn(new Column("Nachname"));
 
 		// Hinzuf�gen der Kopfzeile
 		// result.addRow(headline);
@@ -119,19 +155,19 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		}
 
-////		 alle Profile in Tabelle bef�llen
-//		 for (Profil profil : p) {
-//		 // Eine leere Zeile anlegen.
-//		 Row profilRow = new Row();
-//		
-//		 //erste Spalte: Vorname hinzuf�gen
-//		 profilRow.addColumn(new Column(profil.getVorname()));
-//		 //zweite Spalte: Nachname hinzuf�gen
-//		 profilRow.addColumn(new Column(profil.getNachname()));
-//		
-//		 // und schlie�lich die Zeile dem Report hinzuf�gen.
-//		 result.addRow(profilRow);
-//		 }
+		////		 alle Profile in Tabelle bef�llen
+		//		 for (Profil profil : p) {
+		//		 // Eine leere Zeile anlegen.
+		//		 Row profilRow = new Row();
+		//		
+		//		 //erste Spalte: Vorname hinzuf�gen
+		//		 profilRow.addColumn(new Column(profil.getVorname()));
+		//		 //zweite Spalte: Nachname hinzuf�gen
+		//		 profilRow.addColumn(new Column(profil.getNachname()));
+		//		
+		//		 // und schlie�lich die Zeile dem Report hinzuf�gen.
+		//		 result.addRow(profilRow);
+		//		 }
 
 		return result;
 	}

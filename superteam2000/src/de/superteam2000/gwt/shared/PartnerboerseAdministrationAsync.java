@@ -96,6 +96,8 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getProfilByMail(String email, AsyncCallback<Profil> callback);
 
+	void getProfilesBySuche(Profil p, AsyncCallback<ArrayList<Profil>> callback);
+
 //	void getCurrentProfil(AsyncCallback<Profil> callback);
 
 

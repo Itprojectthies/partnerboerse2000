@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.appengine.labs.repackaged.com.google.common.base.Objects;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -161,6 +162,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	
 		return this.pMapper.findByEmail(email);
 	}
+	
+
 
 	@Override
 	public Auswahl createAuswahl(String name, String beschreibungstext, ArrayList<String> alternativen)
@@ -321,6 +324,33 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public ArrayList<Beschreibung> getAllBeschreibung() throws IllegalArgumentException {
 		return this.beschrMapper.findAll();
 	}
+
+	@Override
+	public ArrayList<Profil> getProfilesBySuche(Profil p) throws IllegalArgumentException {
+		
+		if(p != null){ClientsideSettings.getLogger().info("getProfilesBySuche Methode in pbImpl aufgerufen");}
+		
+		ArrayList<Profil> profile = this.pMapper.findAll();
+		ArrayList<Profil> result = new ArrayList<>();
+		
+		for(Profil profil: profile){
+			if(Objects.equal(profil.getGeschlecht(), p.getGeschlecht()) &&
+					Objects.equal(profil.getRaucher(), p.getRaucher()) &&
+					Objects.equal(profil.getReligion(), p.getReligion()) &&  
+					Objects.equal(profil.getHaarfarbe(), p.getHaarfarbe()) ) {
+				
+				ClientsideSettings.getLogger().info("passendes Profil hinzugefügt");
+				result.add(profil);
+				
+			}
+		}
+		
+		
+		
+		return result;
+	}
+
+
 
 
 }

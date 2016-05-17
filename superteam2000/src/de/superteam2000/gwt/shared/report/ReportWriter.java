@@ -17,7 +17,7 @@ package de.superteam2000.gwt.shared.report;
  */
 public abstract class ReportWriter {
 	
-	
+	public abstract void process(AllProfileBySuche r);
 	
 	public abstract void process(ProfilReport r);
 

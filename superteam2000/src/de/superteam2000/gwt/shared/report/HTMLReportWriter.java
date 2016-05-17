@@ -254,6 +254,7 @@ public class HTMLReportWriter extends ReportWriter {
 		result.append("</tr><tr><td></td><td>" + r.getCreated().toString() + "</td></tr></table>");
 
 		Vector<Row> rows = r.getRows();
+		if(rows != null){ClientsideSettings.getLogger().info("Vector an Rows im HTMLWriter ungleich null");}
 		result.append("<table style=\"width:400px\">");
 
 		for (int i = 0; i < rows.size(); i++) {
@@ -408,6 +409,63 @@ public class HTMLReportWriter extends ReportWriter {
 	     */
 	    this.reportText = result.toString();
 	  
+		
+	}
+
+	@Override
+	public void process(AllProfileBySuche r) {
+		 // Zun�chst l�schen wir das Ergebnis vorhergehender Prozessierungen.
+	    this.resetReportText();
+
+	    /*
+	     * In diesen Buffer schreiben wir w�hrend der Prozessierung sukzessive
+	     * unsere Ergebnisse.
+	     */
+	    StringBuffer result = new StringBuffer();
+
+	    /*
+	     * Nun werden Schritt f�r Schritt die einzelnen Bestandteile des Reports
+	     * ausgelesen und in HTML-Form �bersetzt.
+	     */
+	    result.append("<H1>" + r.getTitle() + "</H1>");
+	    result.append("<table><tr>");
+//
+	    if (r.getHeaderData() != null) {
+	      result.append("<td>" + paragraph2HTML(r.getHeaderData()) + "</td>");
+
+	    }
+	    
+//	    result.append("<td>" + paragraph2HTML(r.getImprint()) + "</td>");
+//	    result.append("</tr><tr><td></td><td>" + r.getCreated().toString()
+//	        + "</td></tr></table>");
+
+
+	    for (int i = 0; i < r.getNumSubReports(); i++) {
+	      /*
+	       * AllAccountsOfCustomerReport wird als Typ der SubReports vorausgesetzt.
+	       * Sollte dies in einer erweiterten Form des Projekts nicht mehr gelten,
+	       * so m�sste hier eine detailliertere Implementierung erfolgen.
+	       */
+	      ProfilReport subReport = (ProfilReport) r
+	          .getSubReportAt(i);
+
+	      this.process(subReport);
+
+	      result.append(this.reportText + "\n");
+
+	      /*
+	       * Nach jeder �bersetzung eines Teilreports und anschlie�endem Auslesen
+	       * sollte die Ergebnisvariable zur�ckgesetzt werden.
+	       */
+	      this.resetReportText();
+	    }
+
+	    /*
+	     * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und der
+	     * reportText-Variable zugewiesen. Dadurch wird es m�glich, anschlie�end das
+	     * Ergebnis mittels getReportText() auszulesen.
+	     */
+	    this.reportText = result.toString();
 		
 	}
 
