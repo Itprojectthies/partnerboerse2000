@@ -1,6 +1,8 @@
 package de.superteam2000.gwt.shared;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 //import de.superteam2000.gwt.client.LoginInfo;
@@ -22,7 +24,7 @@ public interface PartnerboerseAdministrationAsync {
 	// Profile
 	void save(Profil profil, AsyncCallback<Void> callback);
 
-	void createProfil(String nachname, String vorname, String email, String geburtsdatum, String haarfarbe,
+	void createProfil(String nachname, String vorname, String email, Date date, String haarfarbe,
 			String raucher, String religion, int groesse, String geschlecht, AsyncCallback<Profil> callback);
 
 	void delete(Profil profil, AsyncCallback<Void> callback);

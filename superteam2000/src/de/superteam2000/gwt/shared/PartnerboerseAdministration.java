@@ -1,6 +1,8 @@
 package de.superteam2000.gwt.shared;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -14,11 +16,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void init() throws IllegalArgumentException;
 
 	public Profil login(String requestUri) throws IllegalArgumentException;
-	
 
-	// Profile
-	public Profil createProfil(String nachname, String vorname, String email, String geburtsdatum, String haarfarbe,
-			String raucher, String religion, int groesse, String geschlecht) throws IllegalArgumentException;
+	public Profil createProfil(String nachname, String vorname, String email, Date date, String haarfarbe,
+			String raucher, String religion, int groesse, String geschlecht);
 
 	public void delete(Profil profil) throws IllegalArgumentException;
 
@@ -52,7 +52,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public Beschreibung getBeschreibungById(int id) throws IllegalArgumentException;
 
 	// Info
-
 
 	public void saveInfoForProfil(Profil profil, Info info) throws IllegalArgumentException;
 
@@ -90,8 +89,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public Profil getProfilByMail(String email);
 
-
-//	Profil getCurrentProfil() throws IllegalArgumentException;
+	// Profil getCurrentProfil() throws IllegalArgumentException;
 
 	// Suchprofil
 

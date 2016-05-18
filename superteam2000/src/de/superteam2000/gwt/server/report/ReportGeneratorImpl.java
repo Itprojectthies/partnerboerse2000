@@ -59,7 +59,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		CompositeParagraph imprint = new CompositeParagraph();
 		imprint.addSubParagraph(new SimpleParagraph("Email: " + p.getEmail()));
 		imprint.addSubParagraph(new SimpleParagraph("Geschlecht: " + p.getGeschlecht()));
-		imprint.addSubParagraph(new SimpleParagraph("geb. am: " + p.getGeburtsdatum()));
+		imprint.addSubParagraph(new SimpleParagraph("geb. am: " + p.getAlter()));
 
 		result.setImprint(imprint);
 

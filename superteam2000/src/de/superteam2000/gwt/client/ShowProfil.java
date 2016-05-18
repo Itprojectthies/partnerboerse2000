@@ -1,22 +1,18 @@
 package de.superteam2000.gwt.client;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Logger;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.Label;
@@ -25,9 +21,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.superteam2000.gwt.client.ClientsideSettings;
-import de.superteam2000.gwt.client.Home;
-import de.superteam2000.gwt.client.ShowProfil_old;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
@@ -50,12 +43,16 @@ public class ShowProfil extends BasicFrame {
 	TextBox lastNameTextBox = new TextBox();
 	Label idValueLabel = new Label();
 	TextBox emailTextBox = new TextBox();
-	TextBox gebDatumDateBox = new TextBox();
+	TextBox alterTextBox = new TextBox();
 	TextBox haarfarbeTextBox = new TextBox();
 	TextBox raucherTextBox = new TextBox();
 	TextBox religionTextBox = new TextBox();
 	TextBox geschlechtTextBox = new TextBox();
 	IntegerBox koerpergroesseIntegerBox = new IntegerBox();
+	ListBox gebDatumTagListBox = new ListBox();
+	ListBox gebDatumMonatListBox = new ListBox();
+	ListBox gebDatumJahrListBOx = new ListBox();
+	
 
 	Button saveButton = new Button("Speichern");
 	DialogBox dialogBox = new DialogBox();
@@ -78,7 +75,7 @@ public class ShowProfil extends BasicFrame {
 	@Override
 	protected void run() {
 		final PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
-		Grid customerGrid = new Grid(11, 2);
+		Grid customerGrid = new Grid(11, 4);
 		this.add(customerGrid);
 
 		Label firstNameLabel = new Label("Vorname");
@@ -99,11 +96,27 @@ public class ShowProfil extends BasicFrame {
 		emailTextBox.setText(user.getEmail());
 		emailTextBox.setEnabled(false);
 
-		Label gebDatumLabel = new Label("Geburtstag");
-		customerGrid.setWidget(4, 0, gebDatumLabel);
-		customerGrid.setWidget(4, 1, gebDatumDateBox);
-		gebDatumDateBox.setText(user.getGeburtsdatum());
-		gebDatumDateBox.setEnabled(false);
+		Label alterLabel = new Label("Alter");
+		customerGrid.setWidget(4, 0, alterLabel);
+		customerGrid.setWidget(4, 1, alterTextBox);
+		alterTextBox.setText(String.valueOf(user.getAlter()));
+		alterTextBox.setEnabled(false);
+		
+//		Label gebDatumLabel = new Label("Geburtstag");
+//		customerGrid.setWidget(5, 0, gebDatumLabel);
+//		customerGrid.setWidget(5, 1, gebDatumTagListBox);
+//		customerGrid.setWidget(5, 2, gebDatumMonatListBox);
+//		customerGrid.setWidget(5, 3, gebDatumJahrListBOx);
+//		
+//		for (int i = 1; i < 31; i++) {
+//			gebDatumTagListBox.addItem(String.valueOf(i));
+//		}
+//		for (int i = 1; i < 12; i++) {
+//			gebDatumMonatListBox.addItem(String.valueOf(i));
+//		}
+//		for (int i = 1900; i < 2000 ; i++) {
+//			gebDatumJahrListBOx.addItem(String.valueOf(i));
+//		}
 
 		Label haarfarbeLabel = new Label("Haarfarbe");
 		customerGrid.setWidget(5, 0, haarfarbeLabel);
@@ -148,7 +161,6 @@ public class ShowProfil extends BasicFrame {
 				religionTextBox.setEnabled(true);
 				raucherTextBox.setEnabled(true);
 				haarfarbeTextBox.setEnabled(true);
-				gebDatumDateBox.setEnabled(true);
 				emailTextBox.setEnabled(false);
 				lastNameTextBox.setEnabled(true);
 				firstNameTextBox.setEnabled(true);
@@ -164,15 +176,18 @@ public class ShowProfil extends BasicFrame {
 				Profil p = new Profil();
 				String vorname = firstNameTextBox.getText();
 				String nachname = lastNameTextBox.getText();
-				String geburtsdatum = gebDatumDateBox.getText();
 				String haarfarbe = haarfarbeTextBox.getText();
 				String raucher = raucherTextBox.getText();
 				String religion = religionTextBox.getText();
 				int groesse = koerpergroesseIntegerBox.getValue();
-
+				int geburtsTag = Integer.valueOf(gebDatumTagListBox.getSelectedItemText());
+				int geburtsMonat = Integer.valueOf(gebDatumMonatListBox.getSelectedItemText());
+				int geburtsJahr = Integer.valueOf(gebDatumJahrListBOx.getSelectedItemText());
+				Date gebTag2 = DateTimeFormat.getFormat("yyyy-MM-dd").parse(geburtsJahr +"-"+ geburtsMonat+"-"+geburtsTag);
+				java.sql.Date gebTag = new java.sql.Date(gebTag2.getTime());
 				p.setVorname(vorname);
 				p.setNachname(nachname);
-				p.setGeburtsdatum(geburtsdatum);
+				p.setGeburtsdatum(gebTag);
 				p.setHaarfarbe(haarfarbe);
 				p.setRaucher(raucher);
 				p.setReligion(religion);

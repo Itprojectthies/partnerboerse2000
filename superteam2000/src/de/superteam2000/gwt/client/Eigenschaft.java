@@ -57,26 +57,24 @@ public class Eigenschaft extends BasicFrame {
 								.append("Auswahl #" + b.getId() + ": " + b.getName() + ", " + b.getBeschreibungstext());
 
 						final TextBox tb = new TextBox();
-						
-						
+
 						pbVerwaltung.getInfoByEigenschaftsId(b.getId(), new AsyncCallback<Info>() {
 							@Override
 							public void onSuccess(Info result) {
 								tb.setText(result.getText());
-								
-								
+
 							}
-							
+
 							@Override
 							public void onFailure(Throwable caught) {
-								ClientsideSettings.getLogger().severe("fehler");								
+								ClientsideSettings.getLogger().severe("fehler");
 							}
 						});
 						tb.setText(a);
 						this.showcase.add(tb);
-						
+
 						ArrayList<String> al = new ArrayList<>();
-						
+
 						Button addBtn = new Button("Speichern", new ClickHandler() {
 
 							@Override
