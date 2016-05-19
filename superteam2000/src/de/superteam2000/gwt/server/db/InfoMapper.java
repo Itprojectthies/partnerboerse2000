@@ -1,5 +1,15 @@
 package de.superteam2000.gwt.server.db;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import de.superteam2000.gwt.client.ClientsideSettings;
+import de.superteam2000.gwt.shared.bo.Auswahl;
+import de.superteam2000.gwt.shared.bo.Info;
+
 /**
  * Mapper-Klasse, die <code>Info</code>-Objekte auf eine relationale Datenbank
  * abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung gestellt, mit
@@ -65,207 +75,240 @@ public class InfoMapper {
 	 * @return Kunden-Objekt, das dem übergebenen Schlüssel entspricht, null bei
 	 *         nicht vorhandenem DB-Tupel.
 	 */
-	// public ArrayList<Info> findByProfil(Profil profil) {
-	// // DB-Verbindung holen
-	// Connection con = DBConnection.connection();
-	//
-	// try {
-	// // Leeres SQL-Statement (JDBC) anlegen
-	// Statement stmt = con.createStatement();
-	//
-	// // Statement ausfüllen und als Query an die DB schicken
-	// ResultSet rs = stmt
-	// .executeQuery("SELECT id, firstName, lastName FROM Profils "
-	// + "WHERE id=" + id + " ORDER BY lastName");
-	//
-	// /*
-	// * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-	// * werden. Prüfe, ob ein Ergebnis vorliegt.
-	// */
-	// if (rs.next()) {
-	// // Ergebnis-Tupel in Objekt umwandeln
-	// Info i = new Info();
-	// i.setId(rs.getInt("id"));
-	// i.setFirstName(rs.getString("firstName"));
-	// i.setLastName(rs.getString("lastName"));
-	//
-	// return i;
-	// }
-	// }
-	// catch (SQLException i) {
-	// i.printStackTrace();
-	// return null;
-	// }
-	//
-	// return null;
-	// }
-	//
-	// /**
-	// * Auslesen aller Kunden.
-	// *
-	// * @return Ein Vektor mit Info-Objekten, die sämtliche Kunden
-	// * repräsentieren. Bei evtl. Exceptions wird ein partiell gef�llter
-	// * oder ggf. auch leerer Vetor zurückgeliefert.
-	// */
-	// public Vector<Info> findAll() {
-	// Connection con = DBConnection.connection();
-	// // Ergebnisvektor vorbereiten
-	// Vector<Info> result = new Vector<Info>();
-	//
-	// try {
-	// Statement stmt = con.createStatement();
-	//
-	// ResultSet rs = stmt.executeQuery("SELECT id, firstName, lastName "
-	// + "FROM Profils " + "ORDER BY lastName");
-	//
-	// // Für jeden Eintrag im Suchergebnis wird nun ein Info-Objekt
-	// // erstellt.
-	// while (rs.next()) {
-	// Info i = new Info();
-	// i.setId(rs.getInt("id"));
-	// i.setFirstName(rs.getString("firstName"));
-	// i.setLastName(rs.getString("lastName"));
-	//
-	// // Hinzufügen des neuen Objekts zum Ergebnisvektor
-	// result.addElement(i);
-	// }
-	// }
-	// catch (SQLException i) {
-	// i.printStackTrace();
-	// }
-	//
-	// // Ergebnisvektor zurückgeben
-	// return result;
-	// }
-	//
-	//
-	// /**
-	// * Einfügen eines <code>Info</code>-Objekts in die Datenbank. Dabei wird
-	// * auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
-	// * berichtigt.
-	// *
-	// * @param i das zu speichernde Objekt
-	// * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
-	// * <code>id</code>.
-	// */
-	// public Info insertAuswahl(Profil p, Auswahl a) {
-	// Connection con = DBConnection.connection();
-	//
-	// try {
-	// Statement stmt = con.createStatement();
-	//
-	// /*
-	// * Zunächst schauen wir nach, welches der momentan höchste
-	// * Primärschlüsselwert ist.
-	// */
-	// ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-	// + "FROM Profils ");
-	//
-	// // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
-	// if (rs.next()) {
-	// /*
-	// * i erhält den bisher maximalen, nun um 1 inkrementierten
-	// * Primärschlüssel.
-	// */
-	// i.setId(rs.getInt("maxid") + 1);
-	//
-	// stmt = con.createStatement();
-	//
-	// // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-	// stmt.executeUpdate("INSERT INTO Profils (id, firstName, lastName) "
-	// + "VALUES (" + i.getId() + ",'" + i.getFirstName() + "','"
-	// + i.getLastName() + "')");
-	// }
-	// }
-	// catch (SQLException i) {
-	// i.printStackTrace();
-	// }
-	// public Info insertBeschreibung(Profil p, Beschreibung b) {
-	// Connection con = DBConnection.connection();
-	//
-	// try {
-	// Statement stmt = con.createStatement();
-	//
-	// /*
-	// * Zunächst schauen wir nach, welches der momentan höchste
-	// * Primärschlüsselwert ist.
-	// */
-	// ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-	// + "FROM Profils ");
-	//
-	// // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
-	// if (rs.next()) {
-	// /*
-	// * i erhält den bisher maximalen, nun um 1 inkrementierten
-	// * Primärschlüssel.
-	// */
-	// i.setId(rs.getInt("maxid") + 1);
-	//
-	// stmt = con.createStatement();
-	//
-	// // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-	// stmt.executeUpdate("INSERT INTO Profils (id, firstName, lastName) "
-	// + "VALUES (" + i.getId() + ",'" + i.getFirstName() + "','"
-	// + i.getLastName() + "')");
-	// }
-	// }
-	// catch (SQLException i) {
-	// i.printStackTrace();
-	// }
-	//
-	// /*
-	// * Rückgabe, des evtl. korrigierten Profils.
-	// *
-	// * HINWEIS: Da in Java nur Referenzen auf Objekte und keine physischen
-	// * Objekte übergeben werden, wäre die Anpassung des Info-Objekts auch
-	// * ohne diese explizite Rückgabe außerhalb dieser Methode sichtbar. Die
-	// * explizite Rückgabe von i ist eher ein Stilmittel, um zu signalisieren,
-	// * dass sich das Objekt evtl. im Laufe der Methode verändert hat.
-	// */
-	// return i;
-	// }
-	//
-	// /**
-	// * Wiederholtes Schreiben eines Objekts in die Datenbank.
-	// *
-	// * @param i das Objekt, das in die DB geschrieben werden soll
-	// * @return das als Parameter übergebene Objekt
-	// */
-	// public Info updateForProfil(Profil p, Info i) {
-	// Connection con = DBConnection.connection();
-	//
-	// try {
-	// Statement stmt = con.createStatement();
-	//
-	// stmt.executeUpdate("UPDATE Profils " + "SET firstName=\""
-	// + i.getFirstName() + "\", " + "lastName=\"" + i.getLastName() + "\" "
-	// + "WHERE id=" + i.getId());
-	//
-	// }
-	// catch (SQLException i) {
-	// i.printStackTrace();
-	// }
-	//
-	// // Um Analogie zu insert(Info i) zu wahren, geben wir i zurück
-	// return i;
-	// }
-	//
-	// /**
-	// * Löschen der Daten eines <code>Info</code>-Objekts aus der Datenbank.
-	// *
-	// * @param i das aus der DB zu löschende "Objekt"
-	// */
-	// public void deleteForProfil(Profil p, Info i) {
-	// Connection con = DBConnection.connection();
-	//
-	// try {
-	// Statement stmt = con.createStatement();
-	//
-	// stmt.executeUpdate("DELETE FROM Profils " + "WHERE id=" + i.getId());
-	// }
-	// catch (SQLException i) {
-	// i.printStackTrace();
-	// }
-	// }
+	public ArrayList<Info> findAllByProfilId(int id) {
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
+
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+			
+			// Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs1 = stmt.executeQuery(
+					"SELECT id, Text, Profil_id, Eigenschaft_id FROM Info WHERE Profil_id=" + id);
+
+			
+			/*
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * werden. Prüfe, ob ein Ergebnis vorliegt.
+			 */
+			ArrayList<Info> result = new ArrayList<>();
+			
+			while (rs1.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln
+				Info i = new Info();
+				i.setId(rs1.getInt("id"));
+				i.setText(rs1.getString("Text"));
+				i.setProfilId(rs1.getInt("Profil_id"));
+				i.setEigenschaftId(rs1.getInt("Eigenschaft_id"));
+				
+				result.add(i);	
+			}
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim Lesen aus der DB" + 
+					e.getMessage() + " " + e.getCause() + " ");
+			return null;
+		}
+
+		
+	}
+	
+	/**
+	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
+	 * ist, wird genau ein Objekt zur�ckgegeben.
+	 * 
+	 * @param id
+	 *            Primärschlüsselattribut (->DB)
+	 * @return Kunden-Objekt, das dem übergebenen Schlüssel entspricht, null bei
+	 *         nicht vorhandenem DB-Tupel.
+	 */
+	public Info findByKey(int id) {
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
+
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+			
+			// Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs1 = stmt.executeQuery(
+					"SELECT id, Text, Profil_id, Eigenschaft_id FROM Info WHERE Eigenschaft_id =" + id);
+
+			
+			/*
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * werden. Prüfe, ob ein Ergebnis vorliegt.
+			 */
+			
+			if (rs1.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln
+				Info i = new Info();
+				i.setId(rs1.getInt("id"));
+				i.setText(rs1.getString("Text"));
+				i.setProfilId(rs1.getInt("Profil_id"));
+				i.setEigenschaftId(rs1.getInt("Eigenschaft_id"));
+				return i;
+					
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim Lesen aus der DB" + 
+					e.getMessage() + " " + e.getCause() + " ");
+			return null;
+		}
+		return null;
+
+		
+	}
+
+	/**
+	 * Auslesen aller Kunden.
+	 *
+	 * @return Ein Vektor mit Auswahl-Objekten, die sämtliche Kunden
+	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gef�llter
+	 *         oder ggf. auch leerer Vetor zurückgeliefert.
+	 */
+	public ArrayList<Info> findAll() {
+		Connection con = DBConnection.connection();
+		// Ergebnisvektor vorbereiten
+		ArrayList<Info> result = new ArrayList<Info>();
+
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+						Statement stmt = con.createStatement();
+						
+						// Statement ausfüllen und als Query an die DB schicken
+						ResultSet rs1 = stmt.executeQuery(
+								"SELECT id, Text, Profil_id, Eigenschaft_id FROM Info");
+
+						
+						/*
+						 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+						 * werden. Prüfe, ob ein Ergebnis vorliegt.
+						 */
+						
+						
+						while (rs1.next()) {
+							// Ergebnis-Tupel in Objekt umwandeln
+							Info i = new Info();
+							i.setId(rs1.getInt("id"));
+							i.setText(rs1.getString("Text"));
+							i.setProfilId(rs1.getInt("Profil_id"));
+							i.setEigenschaftId(rs1.getInt("Eigenschaft_id"));
+							
+							result.add(i);
+						}
+							
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+					e.getMessage() + " " + e.getCause() + " ");
+		}
+
+		// Ergebnisvektor zurückgeben
+		return result;
+	}
+
+	/**
+	 * Einfügen eines <code>Auswahl</code>-Objekts in die Datenbank. Dabei wird
+	 * auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
+	 * berichtigt.
+	 *
+	 * @param a
+	 *            das zu speichernde Objekt
+	 * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
+	 *         <code>id</code>.
+	 */
+	public Info insert(Info i) {
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			/*
+			 * Zunächst schauen wir nach, welches der momentan höchste
+			 * Primärschlüsselwert ist.
+			 */
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM Info ");
+
+			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+			if (rs.next()) {
+				/*
+				 * a erhält den bisher maximalen, nun um 1 inkrementierten
+				 * Primärschlüssel.
+				 */
+				i.setId(rs.getInt("maxid") + 1);
+
+				stmt = con.createStatement();
+
+				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
+				stmt.executeUpdate("INSERT INTO Info (id, Text, Profil_id, Eigenschaft_id) VALUES (" + i.getId() + ",'"
+						+ i.getText() + "'," + i.getProfilId() + "," + i.getEigenschaftId() + ")");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+					e.getMessage() + " " + e.getCause() + " ");
+		}
+
+		/*
+		 * Rückgabe, des evtl. korrigierten Profils.
+		 *
+		 * HINWEIS: Da in Java nur Referenzen auf Objekte und keine physischen
+		 * Objekte übergeben werden, wäre die Anpassung des Auswahl-Objekts auch
+		 * ohne diese explizite Rückgabe außerhalb dieser Methode sichtbar. Die
+		 * explizite Rückgabe von a ist eher ein Stilmittel, um zu
+		 * signalisieren, dass sich das Objekt evtl. im Laufe der Methode
+		 * verändert hat.
+		 */
+		return i;
+	}
+
+	/**
+	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
+	 *
+	 * @param a
+	 *            das Objekt, das in die DB geschrieben werden soll
+	 * @return das als Parameter übergebene Objekt
+	 */
+	public Auswahl update(Auswahl a) {
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("UPDATE Eigenschaft SET Name=\"" + a.getName() + "\", Beschreibungstext=\""
+					+ a.getBeschreibungstext() + "\", e_typ=\"a\" WHERE id=" + a.getId());
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		// Um Analogie zu insert(Auswahl a) zu wahren, geben wir a zurück
+		return a;
+	}
+
+	/**
+	 * Löschen der Daten eines <code>Auswahl</code>-Objekts aus der Datenbank.
+	 *
+	 * @param a
+	 *            das aus der DB zu löschende "Objekt"
+	 */
+	public void delete(Info i) {
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM Info " + "WHERE id=" + i.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 }

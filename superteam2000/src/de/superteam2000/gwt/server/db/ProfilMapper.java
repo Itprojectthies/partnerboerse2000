@@ -81,7 +81,8 @@ public class ProfilMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht FROM Profil "
+					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht, Geburtsdatum FROM Profil "
+					
 							+ "WHERE id=" + id + " ORDER BY Nachname");
 
 			/*
@@ -96,10 +97,12 @@ public class ProfilMapper {
 				p.setNachname(rs.getString("Nachname"));
 				p.setEmail(rs.getString("Email"));
 				p.setHaarfarbe(rs.getString("Haarfarbe"));
+				p.setGeburtsdatum(rs.getDate("Geburtsdatum"));
 				p.setGroesse(rs.getInt("Koerpergroesse"));
 				p.setRaucher(rs.getString("Raucher"));
 				p.setReligion(rs.getString("Religion"));
 				p.setGeschlecht(rs.getString("Geschlecht"));
+				p.setGeburtsdatum(rs.getDate("Geburtsdatum"));
 
 				return p;
 			}
@@ -130,15 +133,15 @@ public class ProfilMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht FROM Profil "
+					"SELECT id, Vorname, Nachname, Email, Geburtsdatum, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht FROM Profil "
 							+ "WHERE Email LIKE '" + email + "'");
 
 			/*
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
 			 * werden. Prüfe, ob ein Ergebnis vorliegt.
 			 */
-			
-			
+
+
 			if (rs.next()) {
 				// Ergebnis-Tupel in Objekt umwandeln
 				Profil p = new Profil();
@@ -146,6 +149,7 @@ public class ProfilMapper {
 				p.setVorname(rs.getString("Vorname"));
 				p.setNachname(rs.getString("Nachname"));
 				p.setEmail(rs.getString("Email"));
+				p.setGeburtsdatum(rs.getDate("Geburtsdatum"));
 				p.setHaarfarbe(rs.getString("Haarfarbe"));
 				p.setGroesse(rs.getInt("Koerpergroesse"));
 				p.setRaucher(rs.getString("Raucher"));
@@ -157,16 +161,14 @@ public class ProfilMapper {
 				return p;
 			}
 		} catch (SQLException e) {
-//			e.printStackTrace();
-//			Profil p = new Profil();
-//			p.setCreated(false);
+			//
 			ClientsideSettings.getLogger().severe("Fehler beim Zurückgbeen byEmail");
 			return null;
 		}
 
 		return null;
 	}
-	
+
 	/**
 	 * Auslesen aller Kunden.
 	 * 
@@ -183,11 +185,12 @@ public class ProfilMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht "
-							+ "FROM Profil " + "ORDER BY Nachname");
+					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht, Geburtsdatum "
+							+ "FROM Profil ORDER BY Nachname");
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Profil-Objekt
 			// erstellt.
+
 			while (rs.next()) {
 				// Ergebnis-Tupel in Objekt umwandeln
 				Profil p = new Profil();
@@ -200,63 +203,21 @@ public class ProfilMapper {
 				p.setRaucher(rs.getString("Raucher"));
 				p.setReligion(rs.getString("Religion"));
 				p.setGeschlecht(rs.getString("Geschlecht"));
+				p.setGeburtsdatum(rs.getDate("Geburtsdatum"));
 
 				// Hinzufügen des neuen Objekts zum Ergebnisvektor
 				result.add(p);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+					e.getMessage() + " " + e.getCause() + " ");
 		}
 
 		// Ergebnisvektor zurückgeben
 		return result;
 	}
 
-	/**
-	 * Auslesen aller Kunden-Objekte mit gegebenem Nachnamen
-	 * 
-	 * @param name
-	 *            Nachname der Kunden, die ausgegeben werden sollen
-	 * @return Ein Vektor mit Profil-Objekten, die sämtliche Kunden mit dem
-	 *         gesuchten Nachnamen repräsentieren. Bei evtl. Exceptions wird ein
-	 *         partiell gefüllter oder ggf. auch leerer Vetor zurückgeliefert.
-	 */
-	public ArrayList<Profil> findByLastName(String name) {
-		Connection con = DBConnection.connection();
-		ArrayList<Profil> result = new ArrayList<>();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery(
-					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht "
-							+ "FROM Profil " + "WHERE Nachname LIKE '" + name + "' ORDER BY Nachname");
-
-			// Für jeden Eintrag im Suchergebnis wird nun ein Profil-Objekt
-			// erstellt.
-			while (rs.next()) {
-				// Ergebnis-Tupel in Objekt umwandeln
-				Profil p = new Profil();
-				p.setId(rs.getInt("id"));
-				p.setVorname(rs.getString("Vorname"));
-				p.setNachname(rs.getString("Nachname"));
-				p.setEmail(rs.getString("Email"));
-				p.setHaarfarbe(rs.getString("Haarfarbe"));
-				p.setGroesse(rs.getInt("Koerpergroesse"));
-				p.setRaucher(rs.getString("Raucher"));
-				p.setReligion(rs.getString("Religion"));
-				p.setGeschlecht(rs.getString("Geschlecht"));
-
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
-				result.add(p);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		// Ergebnisvektor zurückgeben
-		return result;
-	}
 
 	/**
 	 * Einfügen eines <code>Profil</code>-Objekts in die Datenbank. Dabei wird
@@ -296,14 +257,14 @@ public class ProfilMapper {
 						+ p.getId() + ",'" + p.getVorname() + "','" + p.getNachname() + "','" + p.getEmail() + "','"
 						+ p.getHaarfarbe() + "'," + p.getGroesse() + ",'" + p.getRaucher() + "','" + p.getReligion()
 						+ "','" + p.getGeschlecht() + "','" + p.getGeburtsdatum() + "')");
-				
+
 				ClientsideSettings.getLogger().info("Profil " +p.getEmail() + " in DB geschrieben");
 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
-			e.getMessage() + " " + e.getCause() + " ");
+					e.getMessage() + " " + e.getCause() + " ");
 		}
 
 		/*
@@ -328,18 +289,23 @@ public class ProfilMapper {
 	 */
 	public Profil update(Profil p) {
 		Connection con = DBConnection.connection();
-
+		ClientsideSettings.getLogger().info("Versuche Änderungen in DB geschrieben");
 		// Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE Profil " + "SET Vorname=\"" + p.getVorname() + "\", " + "Nachname=\""
-					+ p.getNachname() + "\", " + "Email=\"" + p.getEmail() + "\", " + "Koerpergroesse=\""
-					+ p.getGroesse() + "\", " + "Raucher=\"" + p.getRaucher() + "\", " + "Religion=\"" + p.getReligion()
-					+ "\", " + "Geschlecht=\"" + p.getGeschlecht() + "\", " + " " + "WHERE id=" + p.getId());
+			stmt.executeUpdate("UPDATE Profil SET Vorname=\"" + p.getVorname() + "\", Nachname=\""
+					+ p.getNachname() + "\", Haarfarbe=\"" + p.getHaarfarbe() + "\", Koerpergroesse="
+					+ p.getGroesse() + ", Raucher=\"" + p.getRaucher() + "\", Religion=\"" + p.getReligion()
+					+ "\", Geburtsdatum=\"" + p.getGeburtsdatum() + "\" WHERE id=" + p.getId());
+
+			ClientsideSettings.getLogger().info("Profil " +p.getEmail() + " Änderungen in DB geschrieben");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+					e.getMessage() + " " + e.getCause() + " ");
+
 		}
 
 		// Um Analogie zu insert(Profil p) zu wahren, geben wir p zurück
@@ -353,26 +319,76 @@ public class ProfilMapper {
 	 *            das aus der DB zu löschende "Objekt"
 	 */
 	public void delete(Profil p) {
+		//TODO: alle FK beziehnungen löschen bevor profil löschen
+		
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
-
-			stmt.executeUpdate("DELETE FROM Profil " + "WHERE id=" + p.getId());
+			stmt.executeUpdate("DELETE FROM Info WHERE Profil_id=" + p.getId());
+			stmt.executeUpdate("DELETE FROM Profil WHERE id=" + p.getId());
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB: " + 
+					e.getMessage() + " " + e.getCause() + " ");
 		}
 	}
 
-	public void setVisited(Profil a, Profil b) {
-		// soll in Besuchertabelle schreiben wann wer wen besucht hat. und eine
-		// Variable "visited" true setzen
+	// soll in Besuchertabelle schreiben wann wer wen besucht hat. und eine
+	// Variable "visited" true setzen
+	public void setVisited(Profil besucher, Profil besuchter) {
+		Connection con = DBConnection.connection();
+		ClientsideSettings.getLogger().info("Profil " + besucher.getEmail() + " besucht " + besuchter.getEmail());
+		try {
+			Statement stmt = con.createStatement();
+
+			
+			stmt.executeQuery("INSERT INTO Profilbesuch (Besucher_id, Besuchter_id) VALUES ("
+					+ besucher.getId() + "," + besuchter.getId() + ")");
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+					e.getMessage() + " " + e.getCause() + " ");
+		}
 
 	}
 
-	// public ArrayList<Profil> getVisitedProfiles(Profil a){
-	// // soll eine Liste mit allen Profilen returnen wo ein timestamp drin is
-	// return result;
-	// }
+	// soll eine Liste mit allen Profilen returnen wo ein timestamp drin is
+	 public ArrayList<Profil> getVisitedProfiles(Profil a){
+		 
+		 Connection con = DBConnection.connection();
+			// Ergebnisvektor vorbereiten
+			ArrayList<Profil> result = new ArrayList<>();
+
+			try {
+				Statement stmt = con.createStatement();
+
+				ResultSet rs = stmt.executeQuery(
+						"SELECT Besuchter_id "
+								+ "FROM Profilbesuch WHERE Besucher_id=" + a.getId());
+				
+				// Für jeden Eintrag im Suchergebnis wird nun ein Profil-Objekt
+				// erstellt.
+				ClientsideSettings.getLogger().severe("Statement ausgeführt");
+				while (rs.next()) {
+					// Ergebnis-Tupel in Objekt umwandeln
+					
+					Profil p = new Profil();
+					p = ProfilMapper.findByKey(rs.getInt("Besuchter_id"));
+
+					// Hinzufügen des neuen Objekts zum Ergebnisvektor
+					result.add(p);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+						e.getMessage() + " " + e.getCause() + " ");
+			}
+		 
+	 return result;
+	 }
 
 }

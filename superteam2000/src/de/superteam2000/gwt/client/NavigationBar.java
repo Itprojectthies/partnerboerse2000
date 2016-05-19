@@ -1,93 +1,103 @@
 package de.superteam2000.gwt.client;
 
 
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+
 import de.superteam2000.gwt.shared.bo.Profil;
+	
 
+public class NavigationBar extends BasicFrame {
 
-public class NavigationBar {
-
-
-	/**
-	 * Diese Methode ladet die Navigationsleiste, mit Buttons etc.
-	 */
-	public static void load() {
-		final Profil user = ClientsideSettings.getCurrentUser();
-
-		//Button infoBtn = new Button("<span class=\"glyphicon glyphicon-dashboard\" aria-hidden=\"true\"></span>");
-		Button infoBtn = new Button("Logger");
-		//infoBtn.setStylePrimaryName("btn btn-default navbar-btn");
-		infoBtn.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				//LogConsole.getDialogBox().show();
-				 Window.open(user.getLogoutUrl(), "_self", "");
-			}
-		});
-
-		RootPanel.get("navbar").add(infoBtn);
-
-		Anchor logOutLink = new Anchor("Logout");
-
-		//logOutLink.addStyleName("nav navbar-nav navbar-right");
-
-		logOutLink.setHref(user.getLogoutUrl());
-
-		RootPanel.get("navbar").add(logOutLink);
-
-
-
-		//		//Button logoutBtn = new Button("<span class=\"glyphicon glyphicon-log-out\" aria-hidden=\"true\"></span>");
-		//		Button logoutBtn = new Button("Logout");
-		//		logoutBtn.setStylePrimaryName("btn btn-default navbar-btn");
-		//		logoutBtn.addClickHandler(new ClickHandler() {
-		//			@Override
-		//			public void onClick(ClickEvent event) {
-		//
-		//				Window.Location.assign(user.getLogoutUrl());
-		//			}
-		//		});
-		//		RootPanel.get("navbar-right").add(logoutBtn);
+	Profil user = ClientsideSettings.getCurrentUser();
+	private String headlineText;
+	HorizontalPanel hp = new HorizontalPanel();
+	
+	@Override
+	protected String getHeadlineText() {
+		return this.headlineText;
 	}
-	/*
-	 * Diese Methode ladet die Navigationsleiste für den Report Generator, hier
-	 * ist kein "anlegen"-Button enthalten.
-	 */
-	//	public static void loadForReportGen() {
-	//		// Anlegen-Button einfügen
-	//
-	//		Button infoBtn = new Button("<img src=\"img/info.png\" style=\"width: 19px\" />");
-	//		infoBtn.setStylePrimaryName("btn btn-link");
-	//		infoBtn.addClickHandler(new ClickHandler() {
-	//			@Override
-	//			public void onClick(ClickEvent event) {
-	//				LoggingDialog.getDialogBox().show();
-	//			}
-	//		});
-	//		RootPanel.get("navbar").add(infoBtn);
-	//
-	//		Button logoutBtn = new Button("<img src=\"img/logout.png\" style=\"width: 19px\" />");
-	//		logoutBtn.setStylePrimaryName("btn btn-link");
-	//		logoutBtn.addClickHandler(new ClickHandler() {
-	//			@Override
-	//			public void onClick(ClickEvent event) {
-	//				RootPanel.get("main").clear();
-	//				RootPanel.get("navigator").clear();
-	//				RootPanel.get("navbar").clear();
-	//				// LoginLogout.load();
-	//				// AdministrationCommonAsync administration = ClientsideSettings
-	//				// .getAdministration();
-	//				// administration.logoutUser(true, new LogoutCallback());
-	//			}
-	//		});
-	//		RootPanel.get("navbar").add(logoutBtn);
-	//	}
+	
 
+	@Override
+	protected void run() {
+		this.setCellHorizontalAlignment(hp, ALIGN_RIGHT);
+		hp.setHorizontalAlignment(ALIGN_RIGHT);
+		if (user != null && user.isLoggedIn()) {
+
+
+			Button logoutBtn = new Button("Logout");
+			hp.add(logoutBtn);
+			logoutBtn.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					Window.open(user.getLogoutUrl(), "_self", "");					
+				}
+			});
+			append(logoutBtn);
+			
+			Button merklisteBtn = new Button("Merkliste");
+			hp.add(merklisteBtn);
+			merklisteBtn.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					Window.alert("Merkliste");
+					
+				}
+			});
+			append(merklisteBtn);
+			
+			Button sperrlisteBtn = new Button("Sperrliste");
+			hp.add(sperrlisteBtn);
+			sperrlisteBtn.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					Window.alert("SPerrliste");
+				}
+				
+			});
+			append(sperrlisteBtn);
+			
+			Button suchprofilBtn = new Button("Suchprofil");
+			hp.add(suchprofilBtn);
+			suchprofilBtn.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					Window.alert("Suchprofil");
+				}
+			});
+			append(suchprofilBtn);
+			
+			Button eigenschaftenBtn = new Button("Eigenschaften");
+			hp.add(eigenschaftenBtn);
+			eigenschaftenBtn.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					Window.alert("Eignschaften");
+				}
+			});
+			append(eigenschaftenBtn);
+
+			this.add(hp);
+			
+
+//			Anchor logOutLink = new Anchor("Logout");
+//						logOutLink.setHref(user.getLogoutUrl());
+//			this.append(logOutLink);
+		}
+
+
+	}
 }
 
 

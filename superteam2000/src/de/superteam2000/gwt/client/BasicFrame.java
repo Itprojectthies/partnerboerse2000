@@ -71,6 +71,20 @@ public abstract class BasicFrame extends VerticalPanel {
 		//content.setStylePrimaryName("bankproject-simpletext");
 		this.add(content);
 	}
+	
+	/**  
+	 * Mit Hilfe dieser Methode erstellen wir aus einem Strinng ein mittels CSS
+	 * formatierbares HTML-Element, das an das Ende der bisherigen Ausgabe
+	 * dieses BasicFrame angehängt wird. Unter CSS lässt sich das Ergebnis über
+	 * <code>.bankproject-simpletext</code> referenzieren bzw. formatieren.
+	 * 
+	 * @param text
+	 *            der String, den wir als HTML an die bisherige BasicFrame-Ausgabe
+	 *            anhängen wollen.
+	 */
+	protected void append(Widget wi) {
+		this.add(wi);
+	}
 
 	/**
 	 * Abstrakte Einschubmethode, die in den Subklassen zu realisieren ist.

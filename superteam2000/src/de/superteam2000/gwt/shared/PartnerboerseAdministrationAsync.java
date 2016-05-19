@@ -1,6 +1,8 @@
 package de.superteam2000.gwt.shared;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 //import de.superteam2000.gwt.client.LoginInfo;
@@ -22,7 +24,7 @@ public interface PartnerboerseAdministrationAsync {
 	// Profile
 	void save(Profil profil, AsyncCallback<Void> callback);
 
-	void createProfil(String nachname, String vorname, String email, String geburtsdatum, String haarfarbe,
+	void createProfil(String nachname, String vorname, String email, Date date, String haarfarbe,
 			String raucher, String religion, int groesse, String geschlecht, AsyncCallback<Profil> callback);
 
 	void delete(Profil profil, AsyncCallback<Void> callback);
@@ -55,9 +57,7 @@ public interface PartnerboerseAdministrationAsync {
 	void getBeschreibungById(int id, AsyncCallback<Beschreibung> callback);
 
 	// Info
-	void createInfoFor(Profil profil, Auswahl auswahl, AsyncCallback<Info> callback);
 
-	void createInfoFor(Profil profil, Beschreibung beschreibung, AsyncCallback<Info> callback);
 
 	void saveInfoForProfil(Profil profil, Info info, AsyncCallback<Void> callback);
 
@@ -65,7 +65,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getInfoByProfile(Profil profil, AsyncCallback<ArrayList<Info>> callback);
 
-	void getInfoByEigenschaftsId(int id, AsyncCallback<ArrayList<Info>> callback);
+	void getInfoByEigenschaftsId(int id, AsyncCallback<Info> callback);
 
 	// Aehnlichkeitsmass
 	void getProfilesByAehnlichkeitsmass(Profil profil, AsyncCallback<ArrayList<Profil>> callback);
@@ -89,9 +89,19 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getKontaktsperreForProfil(Profil profil, AsyncCallback<ArrayList<Kontaktsperre>> callback);
 
-	void setCurrentUser(Profil currentUser, AsyncCallback<Void> callback);
 
-	void getCurrentUser(AsyncCallback<Profil> callback);
+
+	void createInfoFor(Profil profil, Auswahl auswahl, String text, AsyncCallback<Info> callback);
+
+	void createInfoFor(Profil profil, Beschreibung beschreibung, String text, AsyncCallback<Info> callback);
+
+
+	void getProfilByMail(String email, AsyncCallback<Profil> callback);
+
+	void getProfilesBySuche(Profil p, AsyncCallback<ArrayList<Profil>> callback);
+
+//	void getCurrentProfil(AsyncCallback<Profil> callback);
+
 
 	// Suchprofil
 

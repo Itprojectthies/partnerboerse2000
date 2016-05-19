@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.util.logging.Logger;
 
 
+
 import com.google.appengine.api.utils.SystemProperty;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
@@ -50,7 +51,7 @@ public class DBConnection {
 	 */
 	
 
-	private static String googleUrl = "jdbc:google:mysql://partnerboerse2000:partnerboerse2000-db/partnerboerse2000?user=root&password=";
+	private static String googleUrl = "jdbc:google:mysql://partnerboerse2000:partnerboerse2000-db/partnerboerse2000?user=root&password=test";
 	private static String localUrl = "jdbc:mysql://127.0.0.1:3306/partnerboerse2000?user=root&password=";
 
 
@@ -112,6 +113,8 @@ public class DBConnection {
 				con = null;
 				e.printStackTrace();
 				logger.info("MySQL-Verbindung fehlgeschlagen");
+				ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+						e.getMessage() + " " + e.getCause() + " ");
 			}
 		}
 

@@ -1,26 +1,28 @@
 package de.superteam2000.gwt.client.gui;
 
+import java.util.Date;
 import java.util.logging.Logger;
 
-import com.google.gwt.aria.client.TextboxRole;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.client.Home;
-import de.superteam2000.gwt.client.NavigationBar;
+import de.superteam2000.gwt.client.Navbar;
 import de.superteam2000.gwt.client.ShowProfil;
-import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
+import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
  * Formular für die Darstellung des selektierten Kunden
@@ -28,9 +30,7 @@ import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
  * @author Christian Rathke
  */
 public class CustomerForm extends VerticalPanel {
-	
-	
-	
+
 	PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	Profil profilToDisplay = null;
 
@@ -41,31 +41,29 @@ public class CustomerForm extends VerticalPanel {
 	TextBox lastNameTextBox = new TextBox();
 	Label idValueLabel = new Label();
 	Label emailTextBox = new Label();
-	// DateBox gebDatumDateBox = new DateBox();
-	TextBox gebDatumDateBox = new TextBox();
-	TextBox haarfarbeTextBox = new TextBox();
-	TextBox raucherTextBox = new TextBox();
-	TextBox religionTextBox = new TextBox();
-	TextBox geschlechtTextBox = new TextBox();
+	ListBox gebDatumTagListBox = new ListBox();
+	ListBox gebDatumMonatListBox = new ListBox();
+	ListBox gebDatumJahrListBOx = new ListBox();
+	ListBox haarfarbeListBox = new ListBox();
+	ListBox raucherListBox = new ListBox();
+	ListBox religionListBox = new ListBox();
+	ListBox geschlechtListBox = new ListBox();
+	ListBox koerpergroesseListBox = new ListBox();
 	IntegerBox koerpergroesseIntegerBox = new IntegerBox();
-	
+
 	Label test = new Label("");
 	Profil user = ClientsideSettings.getCurrentUser();
 	Logger logger = ClientsideSettings.getLogger();
+	
 	/*
 	 * Im Konstruktor werden die anderen Widgets erzeugt. Alle werden in einem
 	 * Raster angeordnet, dessen Größe sich aus dem Platzbedarf der enthaltenen
 	 * Widgets bestimmt.
 	 */
 	public CustomerForm() {
-		
-		
-		Grid customerGrid = new Grid(11, 2);
-		this.add(customerGrid);
 
-//		Label idLabel = new Label("ID");
-//		customerGrid.setWidget(0, 0, idLabel);
-//		customerGrid.setWidget(0, 1, idValueLabel);
+		Grid customerGrid = new Grid(11, 4);
+		this.add(customerGrid);
 
 		Label firstNameLabel = new Label("Vorname");
 		customerGrid.setWidget(1, 0, firstNameLabel);
@@ -80,33 +78,60 @@ public class CustomerForm extends VerticalPanel {
 		customerGrid.setWidget(3, 1, emailTextBox);
 		emailTextBox.setText(user.getEmail());
 
-		// Label gebDatumLabel = new Label("Geburtstag");
-		// customerGrid.setWidget(4, 0, gebDatumLabel);
-		// customerGrid.setWidget(4, 1, gebDatumDateBox);
-
 		Label gebDatumLabel = new Label("Geburtstag");
 		customerGrid.setWidget(4, 0, gebDatumLabel);
-		customerGrid.setWidget(4, 1, gebDatumDateBox);
+		customerGrid.setWidget(4, 1, gebDatumTagListBox);
+		customerGrid.setWidget(4, 2, gebDatumMonatListBox);
+		customerGrid.setWidget(4, 3, gebDatumJahrListBOx);
+		
+		for (int i = 1; i <= 31; i++) {
+			gebDatumTagListBox.addItem(String.valueOf(i));
+		}
+		for (int i = 1; i <= 12; i++) {
+			gebDatumMonatListBox.addItem(String.valueOf(i));
+		}
+		for (int i = 1900; i <= 2000 ; i++) {
+			gebDatumJahrListBOx.addItem(String.valueOf(i));
+		}
 
 		Label haarfarbeLabel = new Label("Haarfarbe");
 		customerGrid.setWidget(5, 0, haarfarbeLabel);
-		customerGrid.setWidget(5, 1, haarfarbeTextBox);
+		customerGrid.setWidget(5, 1, haarfarbeListBox);
+		haarfarbeListBox.addItem("braun");
+		haarfarbeListBox.addItem("blond");
+		haarfarbeListBox.addItem("schwarz");
+		haarfarbeListBox.addItem("grün");
 
 		Label raucherLabel = new Label("Raucher");
 		customerGrid.setWidget(6, 0, raucherLabel);
-		customerGrid.setWidget(6, 1, raucherTextBox);
+		customerGrid.setWidget(6, 1, raucherListBox);
+		raucherListBox.addItem("Raucher");
+		raucherListBox.addItem("Nichtraucher");
 
 		Label religionLabel = new Label("Religion");
 		customerGrid.setWidget(7, 0, religionLabel);
-		customerGrid.setWidget(7, 1, religionTextBox);
+		customerGrid.setWidget(7, 1, religionListBox);
+		religionListBox.addItem("römisch-katholisch");
+		religionListBox.addItem("evangelisch");
+		religionListBox.addItem("jüdisch");
+		religionListBox.addItem("muslimisch");
+		religionListBox.addItem("sonstige");
 
 		Label geschlechtLabel = new Label("Geschlecht");
 		customerGrid.setWidget(8, 0, geschlechtLabel);
-		customerGrid.setWidget(8, 1, geschlechtTextBox);
+		customerGrid.setWidget(8, 1, geschlechtListBox);
+		geschlechtListBox.addItem("männlich");
+		geschlechtListBox.addItem("weiblich");
 
 		Label groesseLabel = new Label("Körpergröße");
 		customerGrid.setWidget(9, 0, groesseLabel);
-		customerGrid.setWidget(9, 1, koerpergroesseIntegerBox);
+		
+		for (int i = 140; i < 210; i++) {
+			koerpergroesseListBox.addItem("" + i);
+			
+		}
+		customerGrid.setWidget(9, 1, koerpergroesseListBox);
+
 
 		HorizontalPanel customerButtonsPanel = new HorizontalPanel();
 		this.add(customerButtonsPanel);
@@ -115,7 +140,6 @@ public class CustomerForm extends VerticalPanel {
 		newButton.addClickHandler(new NewClickHandler());
 		customerButtonsPanel.add(newButton);
 
-		customerButtonsPanel.add(test);
 	}
 
 	private class NewClickHandler implements ClickHandler {
@@ -124,19 +148,23 @@ public class CustomerForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 			// TODO: erstelldatum im adminimpl hinzufügen
 
+			
 			String firstName = firstNameTextBox.getText();
 			String lastName = lastNameTextBox.getText();
 			String email = emailTextBox.getText();
-			String geburtsdatum = gebDatumDateBox.getText();
-			String haarfarbe = haarfarbeTextBox.getText();
-			String raucher = raucherTextBox.getText();
-			String religion = religionTextBox.getText();
-			String geschlecht = geschlechtTextBox.getText();
-			int groesse = koerpergroesseIntegerBox.getValue();
-			pbVerwaltung.createProfil(lastName, firstName, email, geburtsdatum, 
-					haarfarbe, raucher, religion, groesse, geschlecht, 
-					new CreateCustomerCallback());
+			int geburtsTag = Integer.valueOf(gebDatumTagListBox.getSelectedItemText());
+			int geburtsMonat = Integer.valueOf(gebDatumMonatListBox.getSelectedItemText());
+			int geburtsJahr = Integer.valueOf(gebDatumJahrListBOx.getSelectedItemText());
+			Date gebTag2 = DateTimeFormat.getFormat("yyyy-MM-dd").parse(geburtsJahr +"-"+ geburtsMonat+"-"+geburtsTag);
+			java.sql.Date gebTag = new java.sql.Date(gebTag2.getTime());
+			String haarfarbe = haarfarbeListBox.getSelectedItemText();
+			String raucher = raucherListBox.getSelectedItemText();
+			String religion = religionListBox.getSelectedItemText();
+			String geschlecht = geschlechtListBox.getSelectedItemText();
+			int groesse = Integer.valueOf(koerpergroesseListBox.getSelectedItemText());
 			
+			pbVerwaltung.createProfil(lastName, firstName, email, gebTag, haarfarbe, raucher, religion, groesse,
+					geschlecht, new CreateCustomerCallback());
 
 		}
 	}
@@ -152,17 +180,16 @@ public class CustomerForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Profil p) {
 
-			
 			ClientsideSettings.setCurrentUser(p);
-			
-			
+
 			ShowProfil fc = new ShowProfil();
-			
+			Navbar nb = new Navbar();
 			VerticalPanel detailsPanel = new VerticalPanel();
 			detailsPanel.add(fc);
-			RootPanel.get("main").clear();
-			RootPanel.get("main").add(new Home());
-			RootPanel.get("main").add(detailsPanel);
+			RootPanel.get("Navigator").add(nb);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(new Home());
+			RootPanel.get("Details").add(detailsPanel);
 		}
 
 	}

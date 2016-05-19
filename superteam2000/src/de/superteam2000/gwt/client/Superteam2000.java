@@ -1,36 +1,28 @@
 package de.superteam2000.gwt.client;
 
-import java.util.logging.Logger;
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
 import de.superteam2000.gwt.client.gui.CustomerForm;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
-import de.superteam2000.gwt.shared.bo.*;
-
-import de.superteam2000.gwt.client.ClientsideSettings;
-import com.google.gwt.core.client.*;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.*;
+import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Superteam2000 implements EntryPoint {
 
-	private VerticalPanel loginPanel = new VerticalPanel();
-	private Label loginLabel = new Label(
-			"Please sign in to your Google Account to access the StockWatcher application.");
-	private Anchor signInLink = new Anchor("Sign In");
-	final Anchor logOutLink = new Anchor("Logout");
-
-	Logger logger = ClientsideSettings.getLogger();
-
 	@Override
 	public void onModuleLoad() {
-
-		PartnerboerseAdministrationAsync pbVerwaltung = 
-				ClientsideSettings.getPartnerboerseVerwaltung();
-
-		pbVerwaltung.login(GWT.getHostPageBaseURL() + 
-				"Superteam2000.html", new LoginCallback());
+		
+	
+		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+		pbVerwaltung.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback());
 
 	}
 
@@ -43,13 +35,6 @@ public class Superteam2000 implements EntryPoint {
 	 */
 	class LoginCallback implements AsyncCallback<Profil> {
 
-		/**
-		 * Konstruktor der Callback Klasse, diese legt bei der Instanziierung
-		 * das übergebene Showcase fest.
-		 */
-		public LoginCallback() {
-		}
-
 		@Override
 		public void onFailure(Throwable caught) {
 
@@ -58,54 +43,69 @@ public class Superteam2000 implements EntryPoint {
 
 		@Override
 		public void onSuccess(Profil result) {
-			if (result.isLoggedIn() && !result.isCreated()) {
+			// alternativ kann auch result.getReligion().equals("") verwendet
+			// werden
+			// um zu schauen, ob das
+			// zurückgegeben profil objekt in der datenbank existiert oder nicht
 
+			// User eingeloggt und nicht in der db vorhanden?
+			if (result.isLoggedIn() && !result.isCreated()) {
 				ClientsideSettings.setCurrentUser(result);
 				profilErstellen();
 				ClientsideSettings.getLogger().info("Erstelle profil für " + result.getEmail());
-				
-			} else if (result.isLoggedIn() && result.isCreated()) {
+
+				// User exisitiert in der db und loggt sich ein.
+			} else if (result.isLoggedIn()) {
 
 				ClientsideSettings.setCurrentUser(result);
 				loadProfil();
 				ClientsideSettings.getLogger().info("Lade vorhandenes Profil");
 
+				// signup link für login anzeigen
 			} else {
+				VerticalPanel loginPanel = new VerticalPanel();
+				Label loginLabel = new Label(
+						"Logge Dich mit deinem Google Account ein, um die Partnerboerse2000 zu nutzen!");
+				Anchor signInLink = new Anchor("Sign In");
 
 				signInLink.setHref(result.getLoginUrl());
 				loginPanel.add(loginLabel);
 				loginPanel.add(signInLink);
-				RootPanel.get("main").add(signInLink);
+				RootPanel.get("Details").add(loginPanel);
 
 			}
 		}
-	}
 
-	private void profilErstellen() {
+		private void profilErstellen() {
 
-		NavigationBar.load();
-		RootPanel.get("main").add(new Home());
+			// NavigationBar.load();
+			RootPanel.get("Details").add(new Home());
 
-		CustomerForm cf = new CustomerForm();
-		VerticalPanel detailsPanel = new VerticalPanel();
-		detailsPanel.add(cf);
+			CustomerForm cf = new CustomerForm();
+			VerticalPanel detailsPanel = new VerticalPanel();
+			detailsPanel.add(cf);
 
-		RootPanel.get("main").add(detailsPanel);
+			 RootPanel.get("Details").add(detailsPanel);
 
-	}
+		}
 
-	private void loadProfil() {
+		private void loadProfil() {
 
-		NavigationBar.load();
-		RootPanel.get("main").add(new Home());
+//			NavigationBar nb = new NavigationBar();
+//			RootPanel.get("Navigator").add(nb);
+			Navbar nb = new Navbar();
+			RootPanel.get("Navigator").add(nb);
+			
+			RootPanel.get("Details").add(new Home());
 
-		ShowProfil fc = new ShowProfil();
+			//ShowProfil fc = new ShowProfil();
+			ShowProfil sep = new ShowProfil();
+			VerticalPanel detailsPanel = new VerticalPanel();
+			detailsPanel.add(sep);
 
-		VerticalPanel detailsPanel = new VerticalPanel();
-		detailsPanel.add(fc);
+			RootPanel.get("Details").add(detailsPanel);
 
-		RootPanel.get("main").add(detailsPanel);
-
+		}
 	}
 
 }

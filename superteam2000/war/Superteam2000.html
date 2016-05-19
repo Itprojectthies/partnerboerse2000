@@ -6,9 +6,21 @@
 
 <html>
 <head>
+
+
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- <link rel="stylesheet" href="css/normalize.min.css"> -->
+<!-- <link rel="stylesheet" href="css/main.css"> -->
+
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+
+
+
 
 <link rel="icon" href="favicon.png">
 <!--                                                               -->
@@ -17,6 +29,8 @@
 <!-- Latest compiled and minified CSS -->
 
 <link type="text/css" rel="stylesheet" href="css/Partnerboerse2000.css">
+<!-- <link type="text/css" rel="stylesheet" href="css/main.css"> -->
+<!-- <link type="text/css" rel="stylesheet" href="css/normalize.min.css"> -->
 
 <!--                                           -->
 <!-- Any title is fine                         -->
@@ -30,6 +44,8 @@
 <!--                                           -->
 <script type="text/javascript"
 	src="superteam2000/superteam2000.nocache.js"></script>
+	<script type="text/javascript"
+	src="reportgen/reportgen.nocache.js"></script>
 </head>
 
 <!--                                           -->
@@ -39,6 +55,11 @@
 <!--                                           -->
 <body>
 
+	<!-- OPTIONAL: include this if you want history support -->
+	<iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1'
+		style="position: absolute; width: 0; height: 0; border: 0"></iframe>
+
+	
 	<!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
 	<noscript>
 		<div
@@ -48,53 +69,15 @@
 	</noscript>
 
 
-	<div id="navbar">
-	<li><button class="navBt buttonDef" id="Startseite" onclick="startSeiteAnzeigen()">Startseite</button></li>
-	<li><button class="navBt buttonDef" id="Profil anzeigen" onclick= "location.href= 'profilAnzeigen.html'">Profil anzeigen</button></li>
-	<li><button class="navBt buttonDef" id="Merkliste anzeigen" onclick= "merklisteAnzeigen()">Merkliste anzeigen</button></li>
-	<li><button class="navBt buttonDef" id="Sperrliste anzeigen" onclick= "sperrlisteAnzeigen()">Sperrliste anzeigen</button></li>
-	<li><button class="navBt buttonDef" id="Suche starten" onclick= "sucheStarten()">Suche starten</button></li>
-	<li><button class="navBt buttonDef" id="abmelden" onclick= "abmelden()">Abmelden</button></li>
+	<div id="TopLevelFrame">
+		<div id="Header"><h1>Partnerboerse2000</h1></div>
+		<div id="Navigator"></div>
+		<div id="Details"></div>
+		<div id="Trailer">Hochschule der Medien, Stuttgart</div>
 	
 	</div>
+ 
 
-	<div id="main"></div>
-	
-<script>
-	function startSeiteAnzeigen(){
-		alert("Test functions");
-	}
-</script>
-
-<script>
-	function profilAnzeigen(){
-		alert("Test functions");
-	}
-</script>
-
-<script>
-	function merklisteAnzeigen(){
-		alert("Test functions");
-	}
-</script>
-
-<script>
-	function sperrlisteAnzeigen(){
-		alert("Test functions");
-	}
-</script>
-
-<script>
-	function sucheStarten(){
-		alert("Test functions");
-	}
-</script>
-
-<script>
-	function abmelden(){
-		alert("Test functions");
-	}
-</script>
 
 
 </body>

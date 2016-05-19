@@ -21,7 +21,6 @@
 	<set-property name="gwt.logging.enabled" value="TRUE" />
 	<set-property name='gwt.logging.consoleHandler' value='ENABLED' />
 	
-	
 	<!-- Specify the app entry point class. -->
 	<entry-point class='de.superteam2000.gwt.client.Superteam2000' />
 

@@ -1,12 +1,17 @@
 package de.superteam2000.gwt.shared;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-import de.superteam2000.gwt.client.ClientsideSettings;
-//import de.superteam2000.gwt.client.LoginInfo;
-import de.superteam2000.gwt.shared.bo.*;
+import de.superteam2000.gwt.shared.bo.Auswahl;
+import de.superteam2000.gwt.shared.bo.Beschreibung;
+import de.superteam2000.gwt.shared.bo.Info;
+import de.superteam2000.gwt.shared.bo.Kontaktsperre;
+import de.superteam2000.gwt.shared.bo.Merkzettel;
+import de.superteam2000.gwt.shared.bo.Profil;
 
 @RemoteServiceRelativePath("pba")
 public interface PartnerboerseAdministration extends RemoteService {
@@ -14,17 +19,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void init() throws IllegalArgumentException;
 
 	public Profil login(String requestUri) throws IllegalArgumentException;
-	
-	
-	public  Profil getCurrentUser() throws IllegalArgumentException;
 
-	public void setCurrentUser(Profil currentUser) throws IllegalArgumentException;
-	
-	
-
-	// Profile
-	public Profil createProfil(String nachname, String vorname, String email, String geburtsdatum, String haarfarbe,
-			String raucher, String religion, int groesse, String geschlecht) throws IllegalArgumentException;
+	public Profil createProfil(String nachname, String vorname, String email, Date date, String haarfarbe,
+			String raucher, String religion, int groesse, String geschlecht);
 
 	public void delete(Profil profil) throws IllegalArgumentException;
 
@@ -33,6 +30,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException;
 
 	public Profil getProfilById(int id) throws IllegalArgumentException;
+	
+	public ArrayList<Profil> getProfilesBySuche(Profil p) throws IllegalArgumentException; 
 
 	// Auswahl Eigenschaft
 	public Auswahl createAuswahl(String name, String beschreibungstext, ArrayList<String> alternativen)
@@ -58,9 +57,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public Beschreibung getBeschreibungById(int id) throws IllegalArgumentException;
 
 	// Info
-	public Info createInfoFor(Profil profil, Auswahl auswahl) throws IllegalArgumentException;
-
-	public Info createInfoFor(Profil profil, Beschreibung beschreibung) throws IllegalArgumentException;
 
 	public void saveInfoForProfil(Profil profil, Info info) throws IllegalArgumentException;
 
@@ -68,7 +64,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public ArrayList<Info> getInfoByProfile(Profil profil) throws IllegalArgumentException;
 
-	public ArrayList<Info> getInfoByEigenschaftsId(int id) throws IllegalArgumentException;
+	public Info getInfoByEigenschaftsId(int id) throws IllegalArgumentException;
 
 	// �hnlichkeitsma�
 	public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil profil) throws IllegalArgumentException;
@@ -91,6 +87,14 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void deleteKontaktsperre(Kontaktsperre kontaktsperre) throws IllegalArgumentException;
 
 	public ArrayList<Kontaktsperre> getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException;
+
+	public Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException;
+
+	public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text) throws IllegalArgumentException;
+
+	public Profil getProfilByMail(String email);
+
+	// Profil getCurrentProfil() throws IllegalArgumentException;
 
 	// Suchprofil
 
