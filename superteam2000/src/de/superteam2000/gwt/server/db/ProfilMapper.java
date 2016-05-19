@@ -218,51 +218,6 @@ public class ProfilMapper {
 		return result;
 	}
 
-	/**
-	 * Auslesen aller Kunden-Objekte mit gegebenem Nachnamen
-	 * 
-	 * @param name
-	 *            Nachname der Kunden, die ausgegeben werden sollen
-	 * @return Ein Vektor mit Profil-Objekten, die sämtliche Kunden mit dem
-	 *         gesuchten Nachnamen repräsentieren. Bei evtl. Exceptions wird ein
-	 *         partiell gefüllter oder ggf. auch leerer Vetor zurückgeliefert.
-	 */
-	public ArrayList<Profil> findByLastName(String name) {
-		Connection con = DBConnection.connection();
-		ArrayList<Profil> result = new ArrayList<>();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery(
-					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht "
-							+ "FROM Profil " + "WHERE Nachname LIKE '" + name + "' ORDER BY Nachname");
-
-			// Für jeden Eintrag im Suchergebnis wird nun ein Profil-Objekt
-			// erstellt.
-			while (rs.next()) {
-				// Ergebnis-Tupel in Objekt umwandeln
-				Profil p = new Profil();
-				p.setId(rs.getInt("id"));
-				p.setVorname(rs.getString("Vorname"));
-				p.setNachname(rs.getString("Nachname"));
-				p.setEmail(rs.getString("Email"));
-				p.setHaarfarbe(rs.getString("Haarfarbe"));
-				p.setGroesse(rs.getInt("Koerpergroesse"));
-				p.setRaucher(rs.getString("Raucher"));
-				p.setReligion(rs.getString("Religion"));
-				p.setGeschlecht(rs.getString("Geschlecht"));
-
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
-				result.add(p);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		// Ergebnisvektor zurückgeben
-		return result;
-	}
 
 	/**
 	 * Einfügen eines <code>Profil</code>-Objekts in die Datenbank. Dabei wird
