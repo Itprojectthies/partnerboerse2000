@@ -29,7 +29,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	public void init() throws IllegalArgumentException {
 		/*
 		 * Ein ReportGeneratorImpl-Objekt instantiiert für seinen Eigenbedarf
-		 * eine BankVerwaltungImpl-Instanz.
+		 * eine pbAdministration-Instanz.
 		 */
 		PartnerboerseAdministrationImpl a = new PartnerboerseAdministrationImpl();
 		a.init();

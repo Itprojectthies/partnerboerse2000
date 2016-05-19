@@ -88,6 +88,9 @@ public class ReportGen implements EntryPoint {
 			}
 		});
 
+		/**
+		 * ClickHandler der onClick alle Profile der Partnerbörse ausgibt
+		 */
 		alleProfileAnzeigenButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -163,6 +166,7 @@ class createProfilReportCallback implements AsyncCallback<ProfilReport> {
 			RootPanel.get("Details").clear();
 			HTML html = new HTML(writer.getReportText());
 			RootPanel.get("Details").add(html);
+			
 		}
 	}
 
