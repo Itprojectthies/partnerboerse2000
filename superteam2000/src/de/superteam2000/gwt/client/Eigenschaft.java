@@ -1,8 +1,14 @@
 package de.superteam2000.gwt.client;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
+
+
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -54,7 +60,7 @@ public class Eigenschaft extends BasicFrame {
 					if (result != null) {
 						// Kundennummer und Name ausgeben
 						this.showcase
-								.append("Auswahl #" + b.getId() + ": " + b.getName() + ", " + b.getBeschreibungstext());
+						.append("Auswahl #" + b.getId() + ": " + b.getName() + ", " + b.getBeschreibungstext());
 
 						final TextBox tb = new TextBox();
 
@@ -124,45 +130,46 @@ class AuswahlCallback implements AsyncCallback<ArrayList<Auswahl>> {
 	}
 
 	@Override
-	public void onSuccess(ArrayList<Auswahl> result) {
+	public void onSuccess(final ArrayList<Auswahl> result) {
 		final PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+		final Map<Integer, Info> infos = new HashMap<>();
 		final Profil p = ClientsideSettings.getCurrentUser();
 		if (result != null) {
 			for (final Auswahl a : result) {
 				if (result != null) {
 					// Kundennummer und Name ausgeben
 					this.showcase
-							.append("Auswahl #" + a.getId() + ": " + a.getName() + ", " + a.getBeschreibungstext());
-
+					.append("Auswahl #" + a.getId() + ": " + a.getName() + ", " + a.getBeschreibungstext());
+					
 					final ListBox lb = new ListBox();
 					ArrayList<String> al = new ArrayList<>();
 					al = a.getAlternativen();
 					for (String string : al) {
 						lb.addItem(string);
 					}
-					this.showcase.add(lb);
 
-					Button addBtn = new Button("Speichern", new ClickHandler() {
+					this.showcase.add(lb);
+					lb.addChangeHandler(new ChangeHandler() {
 
 						@Override
-						public void onClick(ClickEvent event) {
+						public void onChange(ChangeEvent event) {
+							
+								Info i = new Info();
 
-							ClientsideSettings.getLogger().severe("Speichern gedrückt");
-							pbVerwaltung.createInfoFor(p, a, lb.getSelectedValue(), new AsyncCallback<Info>() {
-
-								@Override
-								public void onSuccess(Info result) {
-									ClientsideSettings.getLogger().severe("Info erstellt");
+								i.setText(lb.getSelectedValue() );
+								i.setEigenschaftId(a.getId());
+								i.setProfilId(p.getId());
+								infos.put(a.getId(), i);
+								for (Map.Entry<Integer, Info> entry: infos.entrySet()) {
+									ClientsideSettings.getLogger().severe("Info " + entry.getKey() + "/" + entry.getValue().getText());
+									
 								}
+							
+							
 
-								@Override
-								public void onFailure(Throwable caught) {
-									ClientsideSettings.getLogger().severe("Info nicht erstellt");
-								}
-							});
 						}
 					});
-					this.showcase.add(addBtn);
+
 				}
 			}
 
@@ -174,6 +181,38 @@ class AuswahlCallback implements AsyncCallback<ArrayList<Auswahl>> {
 		} else {
 			ClientsideSettings.getLogger().info("result == null");
 		}
+
+		Button addBtn = new Button("Speichern", new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				ClientsideSettings.getLogger().severe("Speichern gedrückt");
+//				for (Info info : infos) {
+//					ClientsideSettings.getLogger().severe("Info Text " + info.getText());	
+//				}
+				if (infos.size() > 0) {
+					pbVerwaltung.createInfosFor(infos, new AsyncCallback<Void>() {
+
+						@Override
+						public void onSuccess(Void result) {
+							ClientsideSettings.getLogger().severe("Info erstellt");
+						}
+
+						@Override
+						public void onFailure(Throwable caught) {
+							ClientsideSettings.getLogger().severe("Info nicht erstellt");
+						}
+					});
+				}
+				else {
+					ClientsideSettings.getLogger().severe("Info nicht erstellt, weil infos < 0");
+				}
+	
+			}
+		});
+
+		this.showcase.add(addBtn);	
 	}
 
 }

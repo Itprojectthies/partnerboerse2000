@@ -54,7 +54,7 @@ public class Navbar extends HorizontalPanel {
 			});
 			append(logoutBtn);
 			
-			Button logBtn = new Button("Loger");
+			Button logBtn = new Button("Logger");
 			// hp.add(logoutBtn);
 			logBtn.addClickHandler(new ClickHandler() {
 
@@ -82,6 +82,7 @@ public class Navbar extends HorizontalPanel {
 					VerticalPanel detailsPanel = new VerticalPanel();
 					detailsPanel.add(sep);
 					RootPanel.get("Details").clear();
+					RootPanel.get("Menu").clear();
 					RootPanel.get("Details").add(detailsPanel);				
 				}
 			});
@@ -119,6 +120,7 @@ public class Navbar extends HorizontalPanel {
 					Suche s = new Suche();
 					
 					RootPanel.get("Details").clear();
+					RootPanel.get("Menu").clear();
 					RootPanel.get("Details").add(s);
 				}
 			});
@@ -134,6 +136,7 @@ public class Navbar extends HorizontalPanel {
 					VerticalPanel detailsPanel = new VerticalPanel();
 					detailsPanel.add(e);
 					RootPanel.get("Details").clear();
+					RootPanel.get("Menu").clear();
 					 RootPanel.get("Details").add(detailsPanel);
 				}
 			});

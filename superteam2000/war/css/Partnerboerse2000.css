@@ -1,6 +1,6 @@
 
 body {
-    text-align: center;  /* Zentrierung im Internet Explorer */
+    /* text-align: center; */  /* Zentrierung im Internet Explorer */
   }
 
 h1 {
@@ -78,10 +78,25 @@ div#Header {
 div#Navigator {
 	/* max-height: 300px; */
 	/* overflow:scroll; */
+	text-align: left;
 	padding: 1em 1em;
 	/* background: #FFFF99; */
 	border-top: 1px dashed #235AFF;
 	border-bottom: 1px dashed #235AFF;
+	
+	
+}
+
+div#wrapper {
+	/* background-color: lightblue; */
+	width: 711px;
+}
+
+div#Menu {
+	/* background-color: yellow; */
+	width: 210px;
+	float:left;
+	padding-top: 100px;
 }
 
 div#Details {
@@ -90,6 +105,9 @@ div#Details {
 	text-align: center;
 	font-family: Helvetica;
 	font-size: smaller;
+	/* background-color: green; */
+	margin-left: 200px;
+	width: 500px;
 }
 
 div#Trailer {

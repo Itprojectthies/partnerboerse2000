@@ -2,6 +2,7 @@ package de.superteam2000.gwt.shared;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -92,9 +93,14 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text) throws IllegalArgumentException;
 
-	public Profil getProfilByMail(String email);
+	public Profil getProfilByMail(String email) throws IllegalArgumentException;
 
-	// Profil getCurrentProfil() throws IllegalArgumentException;
+	public String getEigenschaftsNameById(int id) throws IllegalArgumentException;
+
+	public void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException;
+
+
+
 
 	// Suchprofil
 

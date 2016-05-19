@@ -9,6 +9,7 @@ import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.server.PartnerboerseAdministrationImpl;
 import de.superteam2000.gwt.shared.PartnerboerseAdministration;
 import de.superteam2000.gwt.shared.ReportGenerator;
+import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Info;
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.report.AllNewProfileReport;
@@ -71,9 +72,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		imprint.addSubParagraph(new SimpleParagraph("Alter: " + p.getAlter()));
 		imprint.addSubParagraph(new SimpleParagraph(p.getRaucher()));
 		imprint.addSubParagraph(new SimpleParagraph("Religion: "+p.getReligion()));
-
 		result.setImprint(imprint);
 
+		
 		// Eigenschaften anhängen als Tabelle mit zwei Spalten
 		// TODO ggf Info anpassen für besseres auslesen
 
@@ -83,21 +84,21 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Row headline = new Row();
 		headline.addColumn(new Column("Eigenschaften:"));
 		result.addRow(headline);
-
+	
 		if(infos != null){
 		
 			for(Info i: infos){
 				Row infoRow = new Row();
-
+				// Füge zwei zweilen zur eigschaftsspalte hinzu
+				// 1. Spalte = Eigenschafstname des Infoobjekts
+				// 2. Spalte = Infotext des jeweiligen Infoobjekts
+				infoRow.addColumn(new Column(this.administration.getEigenschaftsNameById(i.getEigenschaftId())));
 				infoRow.addColumn(new Column(i.getText()));
-				
 				result.addRow(infoRow);
 
 			}}
 			
 		
-		
-
 		return result;
 
 	}
@@ -114,7 +115,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		
 		// mit Inhalt befüllen
 		result.setTitle("Die Suche ergab: " + p.size() + " Treffer");
-//		result.setCreated(new Date());
+		result.setCreated(new Date());
 		
 		for (Profil profil : p) {
 			result.addSubReport(this.createProfilReport(profil));
@@ -137,22 +138,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		//		// mit Inhalt befüllen
 		result.setTitle("Alle Profile anzeigen Report");
 		result.setCreated(new Date());
-		//
-		//		CompositeParagraph header = new CompositeParagraph();
-		//		CompositeParagraph imprint = new CompositeParagraph();
-		//		header.addSubParagraph(new SimpleParagraph("Test"));
-		//		header.addSubParagraph(new SimpleParagraph("Test"));
-		//		imprint.addSubParagraph(new SimpleParagraph("Test2"));
-		//		imprint.addSubParagraph(new SimpleParagraph("Test2"));
-		//
-		//		// Kopfzeile der Tabelle erstellen
-		//		Row headline = new Row();
-		//
-		//		headline.addColumn(new Column("Vorname"));
-		//		headline.addColumn(new Column("Nachname"));
 
-		// Hinzufügen der Kopfzeile
-		// result.addRow(headline);
 
 		// alle Profile abfragen
 		ArrayList<Profil> profile = this.administration.getAllProfiles();
@@ -161,20 +147,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			result.addSubReport(this.createProfilReport(p));
 
 		}
-
-		////		 alle Profile in Tabelle befüllen
-		//		 for (Profil profil : p) {
-		//		 // Eine leere Zeile anlegen.
-		//		 Row profilRow = new Row();
-		//		
-		//		 //erste Spalte: Vorname hinzuf�gen
-		//		 profilRow.addColumn(new Column(profil.getVorname()));
-		//		 //zweite Spalte: Nachname hinzuf�gen
-		//		 profilRow.addColumn(new Column(profil.getNachname()));
-		//		
-		//		 // und schlie�lich die Zeile dem Report hinzuf�gen.
-		//		 result.addRow(profilRow);
-		//		 }
 
 		return result;
 	}

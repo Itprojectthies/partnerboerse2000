@@ -53,9 +53,9 @@ public class Suche extends BasicFrame {
 	protected void run() {
 
 		Grid customerGrid = new Grid(5, 2);
-		this.add(customerGrid);
+		RootPanel.get("Menu").add(customerGrid);
 
-		this.add(suchButton);
+		RootPanel.get("Menu").add(suchButton);
 		suchButton.addClickHandler(new SuchButtonClickHandler());
 
 		//Raucher
