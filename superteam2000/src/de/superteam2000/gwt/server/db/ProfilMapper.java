@@ -81,7 +81,8 @@ public class ProfilMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, Vorname, Nachname, Email, Geburtsdatum, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht FROM Profil "
+					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht, Geburtsdatum FROM Profil "
+					
 							+ "WHERE id=" + id + " ORDER BY Nachname");
 
 			/*
@@ -101,6 +102,7 @@ public class ProfilMapper {
 				p.setRaucher(rs.getString("Raucher"));
 				p.setReligion(rs.getString("Religion"));
 				p.setGeschlecht(rs.getString("Geschlecht"));
+				p.setGeburtsdatum(rs.getDate("Geburtsdatum"));
 
 				return p;
 			}
@@ -183,12 +185,12 @@ public class ProfilMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht "
+					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht, Geburtsdatum "
 							+ "FROM Profil ORDER BY Nachname");
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Profil-Objekt
 			// erstellt.
-			ClientsideSettings.getLogger().severe("Statement ausgeführt");
+
 			while (rs.next()) {
 				// Ergebnis-Tupel in Objekt umwandeln
 				Profil p = new Profil();
@@ -201,6 +203,7 @@ public class ProfilMapper {
 				p.setRaucher(rs.getString("Raucher"));
 				p.setReligion(rs.getString("Religion"));
 				p.setGeschlecht(rs.getString("Geschlecht"));
+				p.setGeburtsdatum(rs.getDate("Geburtsdatum"));
 
 				// Hinzufügen des neuen Objekts zum Ergebnisvektor
 				result.add(p);
@@ -367,9 +370,9 @@ public class ProfilMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-
 			stmt.executeUpdate("DELETE FROM Info WHERE Profil_id=" + p.getId());
 			stmt.executeUpdate("DELETE FROM Profil WHERE id=" + p.getId());
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB: " + 

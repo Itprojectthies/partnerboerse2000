@@ -6,9 +6,12 @@ import java.util.Date;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-import de.superteam2000.gwt.client.ClientsideSettings;
-//import de.superteam2000.gwt.client.LoginInfo;
-import de.superteam2000.gwt.shared.bo.*;
+import de.superteam2000.gwt.shared.bo.Auswahl;
+import de.superteam2000.gwt.shared.bo.Beschreibung;
+import de.superteam2000.gwt.shared.bo.Info;
+import de.superteam2000.gwt.shared.bo.Kontaktsperre;
+import de.superteam2000.gwt.shared.bo.Merkzettel;
+import de.superteam2000.gwt.shared.bo.Profil;
 
 @RemoteServiceRelativePath("pba")
 public interface PartnerboerseAdministration extends RemoteService {
@@ -27,6 +30,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException;
 
 	public Profil getProfilById(int id) throws IllegalArgumentException;
+	
+	public ArrayList<Profil> getProfilesBySuche(Profil p) throws IllegalArgumentException; 
 
 	// Auswahl Eigenschaft
 	public Auswahl createAuswahl(String name, String beschreibungstext, ArrayList<String> alternativen)

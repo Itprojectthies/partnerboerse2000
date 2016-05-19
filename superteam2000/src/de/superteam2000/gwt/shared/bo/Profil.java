@@ -2,7 +2,8 @@ package de.superteam2000.gwt.shared.bo;
 
 import java.util.Date;
 
-import com.google.gwt.i18n.shared.DateTimeFormat;
+import de.superteam2000.gwt.client.DateTimeFormat;
+
 
 public class Profil extends BusinessObject {
 
@@ -26,14 +27,14 @@ public class Profil extends BusinessObject {
 	
 	@SuppressWarnings("deprecation")
 	public int getAlter() {
-		String dateString = DateTimeFormat.getFormat("dd/MM/yyyy").format(geburtsdatum);
-		String[] gebDaten = dateString.split("/");
+		String dateString = DateTimeFormat.getFormat("yyyy-MM-dd").format(geburtsdatum);
+		String[] gebDaten = dateString.split("-");
 		Date now = new Date();
 	    int nowMonth = now.getMonth()+1;
 	    int nowYear = now.getYear()+1900;
-	    int year = Integer.valueOf(gebDaten[2]);
+	    int year = Integer.valueOf(gebDaten[0]);
 	    int month = Integer.valueOf(gebDaten[1]);
-	    int day = Integer.valueOf(gebDaten[0]);
+	    int day = Integer.valueOf(gebDaten[2]);
 	    
 	    int result = nowYear - year;
 

@@ -6,6 +6,7 @@ import java.util.Date;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.appengine.labs.repackaged.com.google.common.base.Objects;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -32,15 +33,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	/**
 	 * Der momentane Benutzer
 	 */
-	private static Profil currentUser = null;
 
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void init() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 
 		this.aehnlichMapper = AehnlichkeitsmassMapper.aehnlichkeitsmassMapper();
 		// this.alternativeMapper alternativMapper = null;
@@ -139,6 +137,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public Profil getProfilByMail(String email) {
 		return this.pMapper.findByEmail(email);
+
 	}
 
 	@Override
@@ -260,6 +259,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.beschrMapper.findAll();
 	}
 
+
 	/*
 	 * Diese Methoden brauchen wir wohl nicht
 	 */
@@ -300,5 +300,33 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public ArrayList<Profil> getProfilesBySuche(Profil p) throws IllegalArgumentException {
+		
+		if(p != null){ClientsideSettings.getLogger().info("getProfilesBySuche Methode in pbImpl aufgerufen");}
+		
+		ArrayList<Profil> profile = this.pMapper.findAll();
+		ArrayList<Profil> result = new ArrayList<>();
+		
+		for(Profil profil: profile){
+			if(Objects.equal(profil.getGeschlecht(), p.getGeschlecht()) &&
+					Objects.equal(profil.getRaucher(), p.getRaucher()) &&
+					Objects.equal(profil.getReligion(), p.getReligion()) &&  
+					Objects.equal(profil.getHaarfarbe(), p.getHaarfarbe()) ) {
+				
+				ClientsideSettings.getLogger().info("passendes Profil hinzugefügt");
+				result.add(profil);
+				
+			}
+		}
+		
+		
+		
+		return result;
+	}
+
+
+
 
 }

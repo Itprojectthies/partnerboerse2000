@@ -25,7 +25,7 @@ public interface ReportGeneratorAsync {
 
 	void init(AsyncCallback<Void> callback);
 
-	//Für das Erstellen von einem Report für das Anzeigen von einem Profil
+	//Fï¿½r das Erstellen von einem Report fï¿½r das Anzeigen von einem Profil
 	void createProfilReport(Profil p, AsyncCallback<ProfilReport> callback);
 
 	void createAllNotVisitedProfileReport(Profil p, AsyncCallback<AllNotVisitedProfileReport> callback);
@@ -35,5 +35,7 @@ public interface ReportGeneratorAsync {
 	void createAllProfileBySucheReport(Profil p, AsyncCallback<AllProfileBySuche> callback);
 	
 	void  createAllProfilesReport( AsyncCallback<AllProfilesReport> callback);
+
+	void createSuchreport(ArrayList<Profil> p, AsyncCallback<AllProfileBySuche> callback);
 
 }

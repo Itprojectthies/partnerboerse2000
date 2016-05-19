@@ -116,7 +116,10 @@ public class Navbar extends HorizontalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					Window.alert("Suchprofil");
+					Suche s = new Suche();
+					
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(s);
 				}
 			});
 			append(suchprofilBtn);

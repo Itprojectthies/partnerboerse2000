@@ -1,4 +1,5 @@
 package de.superteam2000.gwt.shared;
+import java.util.Date;
 
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.report.ProfilReport;
@@ -71,6 +72,10 @@ public interface ReportGenerator extends RemoteService {
 	 */
 	public abstract AllNotVisitedProfileReport createAllNotVisitedProfileReport(Profil p)
 			throws IllegalArgumentException;
+	
+	//public AllProfileBySuche createSuchreport(ArrayList<Profil> p)
+	
+
 
 	/**
 	 * TODO: überarbeiten Erstellen eines
@@ -101,6 +106,8 @@ public interface ReportGenerator extends RemoteService {
 	public abstract AllProfileBySuche createAllProfileBySucheReport(Profil p) throws IllegalArgumentException;
 	
 	public abstract AllProfilesReport createAllProfilesReport() throws IllegalArgumentException;
+
+	public abstract AllProfileBySuche createSuchreport(ArrayList<Profil> p);
 
 
 }

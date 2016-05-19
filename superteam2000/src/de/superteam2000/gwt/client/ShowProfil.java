@@ -6,7 +6,8 @@ import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.shared.DateTimeFormat;
+//import com.google.gwt.i18n.shared.DateTimeFormat;
+import de.superteam2000.gwt.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -180,6 +181,7 @@ public class ShowProfil extends BasicFrame {
 				String raucher = raucherTextBox.getText();
 				String religion = religionTextBox.getText();
 				int groesse = koerpergroesseIntegerBox.getValue();
+				
 				int geburtsTag = Integer.valueOf(gebDatumTagListBox.getSelectedItemText());
 				int geburtsMonat = Integer.valueOf(gebDatumMonatListBox.getSelectedItemText());
 				int geburtsJahr = Integer.valueOf(gebDatumJahrListBOx.getSelectedItemText());
