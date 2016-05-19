@@ -53,7 +53,7 @@ public class ReportGen implements EntryPoint {
 		
 		
 		
-		pb.getProfilById(19, new AsyncCallback<Profil>() {
+		pb.getProfilById(23, new AsyncCallback<Profil>() {
 			
 			@Override
 			public void onSuccess(Profil result) {

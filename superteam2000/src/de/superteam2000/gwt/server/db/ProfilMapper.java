@@ -361,15 +361,18 @@ public class ProfilMapper {
 	 *            das aus der DB zu löschende "Objekt"
 	 */
 	public void delete(Profil p) {
+		//TODO: alle FK beziehnungen löschen bevor profil löschen
+		
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM Profil " + "WHERE id=" + p.getId());
+			stmt.executeUpdate("DELETE FROM Info WHERE Profil_id=" + p.getId());
+			stmt.executeUpdate("DELETE FROM Profil WHERE id=" + p.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB: " + 
 					e.getMessage() + " " + e.getCause() + " ");
 		}
 	}
