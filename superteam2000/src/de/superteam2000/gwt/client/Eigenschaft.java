@@ -25,13 +25,13 @@ import de.superteam2000.gwt.shared.bo.Profil;
 public class Eigenschaft extends BasicFrame {
 
 	@Override
-	protected String getHeadlineText() {
+	public String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return "Eigenschaften";
 	}
 
 	@Override
-	protected void run() {
+	public void run() {
 		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 		pbVerwaltung.getAllAuswahl(new AuswahlCallback(this));
 		pbVerwaltung.getAllBeschreibung(new BeschreibungCallback(this));

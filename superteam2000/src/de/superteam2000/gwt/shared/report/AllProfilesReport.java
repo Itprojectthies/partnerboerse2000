@@ -3,7 +3,7 @@ package de.superteam2000.gwt.shared.report;
 import java.io.Serializable;
 
 /**
-Report für alle Profile (noch unsortiert)
+Report fï¿½r alle Profile (noch unsortiert)
  */
 public class AllProfilesReport extends CompositeReport implements Serializable {
 

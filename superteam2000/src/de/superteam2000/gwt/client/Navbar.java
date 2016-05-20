@@ -6,7 +6,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -67,7 +69,7 @@ public class Navbar extends HorizontalPanel {
 			});
 			append(logBtn);
 
-			Button profilBtn = new Button("Profil");
+			final PushButton profilBtn = new PushButton("Profil");
 //			hp.add(profilBtn);
 			profilBtn.addClickHandler(new ClickHandler() {
 
@@ -81,6 +83,7 @@ public class Navbar extends HorizontalPanel {
 					ShowProfil sep = new ShowProfil();
 					VerticalPanel detailsPanel = new VerticalPanel();
 					detailsPanel.add(sep);
+					profilBtn.setEnabled(isVisible());
 					RootPanel.get("Details").clear();
 					RootPanel.get("Menu").clear();
 					RootPanel.get("Details").add(detailsPanel);				

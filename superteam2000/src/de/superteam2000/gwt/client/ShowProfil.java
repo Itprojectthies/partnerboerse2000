@@ -68,13 +68,13 @@ public class ShowProfil extends BasicFrame {
 	 */
 
 	@Override
-	protected String getHeadlineText() {
+	public String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected void run() {
+	public void run() {
 		final PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 		final Grid customerGrid = new Grid(11, 4);
 		this.add(customerGrid);

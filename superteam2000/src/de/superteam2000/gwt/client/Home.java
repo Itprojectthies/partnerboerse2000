@@ -22,18 +22,18 @@ public class Home extends BasicFrame {
 
 	
 	@Override
-	protected String getHeadlineText() {
+	public String getHeadlineText() {
 		return this.headlineText;
 	}
 
 
-	protected String getHeadlineTextStyle() {
+	public String getHeadlineTextStyle() {
 		return this.headlineTextStyle;
 	}
 
 
 	@Override
-	protected void run() {
+	public void run() {
 		HTML welcomeText = new HTML("Das ist eine Partnerbörse");
 		this.add(welcomeText);
 		

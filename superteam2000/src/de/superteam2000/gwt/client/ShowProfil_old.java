@@ -30,7 +30,7 @@ public class ShowProfil_old extends BasicFrame {
 	 * @see BasicFrame#getHeadlineText()
 	 */
 	@Override
-	protected String getHeadlineText() {
+	public String getHeadlineText() {
 		return "Profil:";
 	}
 
@@ -40,7 +40,7 @@ public class ShowProfil_old extends BasicFrame {
 	 * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
 	 */
 	@Override
-	protected void run() {
+	public void run() {
 		
 		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 		Profil profil = ClientsideSettings.getCurrentUser();

@@ -114,7 +114,8 @@ public class ReportGen implements EntryPoint {
 								RootPanel.get("Details").clear();
 								HTMLReportWriter writer = new HTMLReportWriter();
 								writer.process(result);
-								RootPanel.get("Details").add(new HTML(writer.getReportText()));
+//								RootPanel.get("Details").add(new HTML(writer.getReportText()));
+								
 								//
 							}
 						}
@@ -159,8 +160,8 @@ public class ReportGen implements EntryPoint {
 				HTMLReportWriter writer = new HTMLReportWriter();
 				writer.process(report);
 				RootPanel.get("Details").clear();
-				HTML html = new HTML(writer.getReportText());
-				RootPanel.get("Details").add(html);
+//				HTML html = new HTML(writer.getReportText());
+//				RootPanel.get("Details").add(html);
 
 			}
 		}

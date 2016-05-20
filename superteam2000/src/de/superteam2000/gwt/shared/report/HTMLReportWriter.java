@@ -2,6 +2,9 @@ package de.superteam2000.gwt.shared.report;
 
 import java.util.Vector;
 
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 
@@ -20,6 +23,7 @@ public class HTMLReportWriter extends ReportWriter {
 	 * <code>process...</code>-Methoden) belegt. Format: HTML-Text
 	 */
 	private String reportText = "";
+	
 
 	/**
 	 * Zurücksetzen der Variable <code>reportText</code>.
@@ -232,6 +236,7 @@ public class HTMLReportWriter extends ReportWriter {
 	public String getReportText() {
 		return this.getHeader() + this.reportText + this.getTrailer();
 	}
+	
 
 	@Override
 	public void process(ProfilReport r) {
@@ -247,12 +252,13 @@ public class HTMLReportWriter extends ReportWriter {
 		 * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
 		 * ausgelesen und in HTML-Form übersetzt.
 		 */
-		result.append("<H1>" + r.getTitle() + "</H1>");
-		result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
+		result.append("<H1>" + r.getTitle() + "</H1>");	
+		result.append("<div id=\"test\"></div>");
+		result.append("<table><tr>");
 		result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getHeaderData()) + "</b></td>");
 		result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint()) + "</td>");
 		result.append("</tr><tr><td></td><td>" + r.getCreated().toString() + "</td></tr></table>");
-
+	
 		Vector<Row> rows = r.getRows();
 		if(rows != null){ClientsideSettings.getLogger().info("Vector an Rows im HTMLWriter ungleich null");}
 		result.append("<table style=\"width:400px\">");
@@ -287,6 +293,7 @@ public class HTMLReportWriter extends ReportWriter {
 		 * anschließend das Ergebnis mittels getReportText() auszulesen.
 		 */
 		this.reportText = result.toString();
+		
 
 
 
@@ -466,6 +473,12 @@ public class HTMLReportWriter extends ReportWriter {
 	     * Ergebnis mittels getReportText() auszulesen.
 	     */
 	    this.reportText = result.toString();
+		
+	}
+
+	@Override
+	public void process(AllProfilesReport2 r) {
+		// TODO Auto-generated method stub
 		
 	}
 
