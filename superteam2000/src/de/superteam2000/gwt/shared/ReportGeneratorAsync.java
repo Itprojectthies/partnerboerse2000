@@ -9,9 +9,9 @@ import de.superteam2000.gwt.shared.report.AllNewProfileReport;
 import de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport;
 import de.superteam2000.gwt.shared.report.AllProfileBySuche;
 import de.superteam2000.gwt.shared.report.AllProfilesReport;
+
 import de.superteam2000.gwt.shared.report.ProfilReport;
 import de.superteam2000.gwt.shared.report.WidgetReport;
-
 
 
 /**
@@ -41,7 +41,9 @@ public interface ReportGeneratorAsync {
 
 	void createSuchreport(ArrayList<Profil> p, AsyncCallback<AllProfileBySuche> callback);
 
+
 	void createProfilReport2(Profil p, AsyncCallback<WidgetReport> callback);
+
 
 
 

@@ -1,22 +1,20 @@
+
 package de.superteam2000.gwt.client;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Logger;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
+//import com.google.gwt.i18n.shared.DateTimeFormat;
+import de.superteam2000.gwt.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.Label;
@@ -25,9 +23,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.superteam2000.gwt.client.ClientsideSettings;
-import de.superteam2000.gwt.client.Home;
-import de.superteam2000.gwt.client.ShowProfil_old;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
@@ -50,12 +45,16 @@ public class ShowProfil extends BasicFrame {
 	TextBox lastNameTextBox = new TextBox();
 	Label idValueLabel = new Label();
 	TextBox emailTextBox = new TextBox();
-	TextBox gebDatumDateBox = new TextBox();
+	TextBox alterTextBox = new TextBox();
 	TextBox haarfarbeTextBox = new TextBox();
 	TextBox raucherTextBox = new TextBox();
 	TextBox religionTextBox = new TextBox();
 	TextBox geschlechtTextBox = new TextBox();
 	IntegerBox koerpergroesseIntegerBox = new IntegerBox();
+	ListBox gebDatumTagListBox = new ListBox();
+	ListBox gebDatumMonatListBox = new ListBox();
+	ListBox gebDatumJahrListBox = new ListBox();
+	
 
 	Button saveButton = new Button("Speichern");
 	DialogBox dialogBox = new DialogBox();
@@ -78,7 +77,7 @@ public class ShowProfil extends BasicFrame {
 	@Override
 	public void run() {
 		final PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
-		Grid customerGrid = new Grid(11, 2);
+		final Grid customerGrid = new Grid(11, 4);
 		this.add(customerGrid);
 
 		Label firstNameLabel = new Label("Vorname");
@@ -99,11 +98,13 @@ public class ShowProfil extends BasicFrame {
 		emailTextBox.setText(user.getEmail());
 		emailTextBox.setEnabled(false);
 
-		Label gebDatumLabel = new Label("Geburtstag");
-		customerGrid.setWidget(4, 0, gebDatumLabel);
-		customerGrid.setWidget(4, 1, gebDatumDateBox);
-		gebDatumDateBox.setText(user.getGeburtsdatum());
-		gebDatumDateBox.setEnabled(false);
+		Label alterLabel = new Label("Alter");
+		customerGrid.setWidget(4, 0, alterLabel);
+		customerGrid.setWidget(4, 1, alterTextBox);
+		alterTextBox.setText(String.valueOf(user.getAlter()));
+		alterTextBox.setEnabled(false);
+		
+
 
 		Label haarfarbeLabel = new Label("Haarfarbe");
 		customerGrid.setWidget(5, 0, haarfarbeLabel);
@@ -135,8 +136,8 @@ public class ShowProfil extends BasicFrame {
 		koerpergroesseIntegerBox.setValue(user.getGroesse());
 		koerpergroesseIntegerBox.setEnabled(false);
 
-		HorizontalPanel customerButtonsPanel = new HorizontalPanel();
-		this.add(customerButtonsPanel);
+		VerticalPanel customerButtonsPanel = new VerticalPanel();
+		RootPanel.get("Menu").add(customerButtonsPanel);
 
 		Button editButton = new Button("Bearbeiten");
 		editButton.addClickHandler(new ClickHandler() {
@@ -148,11 +149,36 @@ public class ShowProfil extends BasicFrame {
 				religionTextBox.setEnabled(true);
 				raucherTextBox.setEnabled(true);
 				haarfarbeTextBox.setEnabled(true);
-				gebDatumDateBox.setEnabled(true);
 				emailTextBox.setEnabled(false);
 				lastNameTextBox.setEnabled(true);
 				firstNameTextBox.setEnabled(true);
 				saveButton.setEnabled(true);
+				
+				Label gebDatumLabel = new Label("Geburtstag");
+				customerGrid.setWidget(10, 0, gebDatumLabel);
+				customerGrid.setWidget(10, 1, gebDatumTagListBox);
+				customerGrid.setWidget(10, 2, gebDatumMonatListBox);
+				customerGrid.setWidget(10, 3, gebDatumJahrListBox);
+				
+				for (int i = 1; i <= 31; i++) {
+					gebDatumTagListBox.addItem(String.valueOf(i));
+				}
+				for (int i = 1; i <= 12; i++) {
+					gebDatumMonatListBox.addItem(String.valueOf(i));
+				}
+				for (int i = 1900; i <= 2000 ; i++) {
+					gebDatumJahrListBox.addItem(String.valueOf(i));
+				}
+				
+				
+				String dateString = DateTimeFormat.getFormat("yyyy-MM-dd").format(user.getGeburtsdatum());
+				if (dateString != null) {
+					String[] gebDaten = dateString.split("-");
+					ClientsideSettings.getLogger().info("Gebdatum bekommen " + gebDaten[2]);
+					gebDatumTagListBox.setItemSelected(Integer.valueOf(gebDaten[2]) - 1, true);
+					gebDatumMonatListBox.setItemSelected(Integer.valueOf(gebDaten[1]) - 1, true);
+					gebDatumJahrListBox.setItemSelected(Integer.valueOf(gebDaten[0]) - 1900, true);
+				}
 			}
 		});
 		customerButtonsPanel.add(editButton);
@@ -164,15 +190,19 @@ public class ShowProfil extends BasicFrame {
 				Profil p = new Profil();
 				String vorname = firstNameTextBox.getText();
 				String nachname = lastNameTextBox.getText();
-				String geburtsdatum = gebDatumDateBox.getText();
 				String haarfarbe = haarfarbeTextBox.getText();
 				String raucher = raucherTextBox.getText();
 				String religion = religionTextBox.getText();
 				int groesse = koerpergroesseIntegerBox.getValue();
-
+				
+				int geburtsTag = Integer.valueOf(gebDatumTagListBox.getSelectedItemText());
+				int geburtsMonat = Integer.valueOf(gebDatumMonatListBox.getSelectedItemText());
+				int geburtsJahr = Integer.valueOf(gebDatumJahrListBox.getSelectedItemText());
+				Date gebTag2 = DateTimeFormat.getFormat("yyyy-MM-dd").parse(geburtsJahr +"-"+ geburtsMonat+"-"+geburtsTag);
+				java.sql.Date gebTag = new java.sql.Date(gebTag2.getTime());
 				p.setVorname(vorname);
 				p.setNachname(nachname);
-				p.setGeburtsdatum(geburtsdatum);
+				p.setGeburtsdatum(gebTag);
 				p.setHaarfarbe(haarfarbe);
 				p.setRaucher(raucher);
 				p.setReligion(religion);
@@ -192,6 +222,7 @@ public class ShowProfil extends BasicFrame {
 						VerticalPanel detailsPanel = new VerticalPanel();
 						detailsPanel.add(sep);
 						RootPanel.get("Details").clear();
+						RootPanel.get("Menu").clear();
 						RootPanel.get("Details").add(new Home());
 						RootPanel.get("Details").add(detailsPanel);
 					}
@@ -209,6 +240,7 @@ public class ShowProfil extends BasicFrame {
 		saveButton.setEnabled(false);
 
 		Button deleteBtn = new Button("Profil löschen");
+		customerButtonsPanel.add(deleteBtn);
 		deleteBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -235,7 +267,6 @@ public class ShowProfil extends BasicFrame {
 				}
 			}
 		});
-		customerButtonsPanel.add(deleteBtn);
 
 		pbVerwaltung.getInfoByProfile(user, new InfoCallback(this));
 
@@ -322,4 +353,5 @@ public class ShowProfil extends BasicFrame {
 
 	}
 }
+
 

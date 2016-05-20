@@ -1,6 +1,9 @@
 package de.superteam2000.gwt.server;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -23,7 +26,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	private AehnlichkeitsmassMapper aehnlichMapper = null;
 	private AuswahlMapper auswahlMapper = null;
 	private BeschreibungMapper beschrMapper = null;
-	private EigenschaftMapper eMapper = null;
 	private InfoMapper iMapper = null;
 	private KontaktsperreMapper kMapper = null;
 	private MerkzettelMapper mMapper = null;
@@ -33,21 +35,17 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	/**
 	 * Der momentane Benutzer
 	 */
-	private static Profil currentUser = null;
 
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void init() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 
 		this.aehnlichMapper = AehnlichkeitsmassMapper.aehnlichkeitsmassMapper();
 		// this.alternativeMapper alternativMapper = null;
 		this.auswahlMapper = AuswahlMapper.auswahlMapper();
 		this.beschrMapper = BeschreibungMapper.beschreibungMapper();
-		this.eMapper = EigenschaftMapper.eigenschaftMapper();
 		this.iMapper = InfoMapper.infoMapper();
 		this.kMapper = KontaktsperreMapper.kontaktsperreMapper();
 		this.mMapper = MerkzettelMapper.merkzettelMapper();
@@ -65,15 +63,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		if (user != null) {
 			Profil bestehendesProfil = this.pMapper.findByEmail(user.getEmail());
-			
+
 			if (bestehendesProfil != null) {
-				ClientsideSettings.getLogger().severe("Userobjekt email "+user.getEmail() + "bestehender user mail  "+ bestehendesProfil.getEmail() );
+				ClientsideSettings.getLogger().severe("Userobjekt email " + user.getEmail() + "bestehender user mail  "
+						+ bestehendesProfil.getEmail());
 				bestehendesProfil.setLoggedIn(true);
 				bestehendesProfil.setLogoutUrl(userService.createLogoutURL(requestUri));
-				
-				return bestehendesProfil;	
+
+				return bestehendesProfil;
 			}
-			
+
 			profil.setLoggedIn(true);
 			profil.setLogoutUrl(userService.createLogoutURL(requestUri));
 			profil.setEmail(user.getEmail());
@@ -87,27 +86,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return profil;
 
 	}
-	
-//	@Override
-//	public Profil getCurrentProfil() {
-//		UserService userService = UserServiceFactory.getUserService();
-//		User user = userService.getCurrentUser();
-//		String Uri = GWT.getHostPageBaseURL() + "Superteam2000.html";
-//
-//		Profil bestehendesProfil = this.pMapper.findByEmail(user.getEmail());
-//
-//		ClientsideSettings.getLogger().severe(
-//				"Userobjekt email " + user.getEmail() + "bestehender user mail  " + bestehendesProfil.getEmail());
-//		
-//		bestehendesProfil.setLoggedIn(true);
-//		bestehendesProfil.setLogoutUrl(userService.createLogoutURL(Uri));
-//
-//		return bestehendesProfil;
-//
-//	}
 
 	@Override
-	public Profil createProfil(String nachname, String vorname, String email, String geburtsdatum, String haarfarbe,
+	public Profil createProfil(String nachname, String vorname, String email, Date geburtsdatum, String haarfarbe,
 			String raucher, String religion, int groesse, String geschlecht) throws IllegalArgumentException {
 
 		Profil p = new Profil();
@@ -142,9 +123,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public void save(Profil profil) throws IllegalArgumentException {
 		this.pMapper.update(profil);
-		
-	}
 
+	}
+	
 	@Override
 	public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException {
 		return this.pMapper.findAll();
@@ -152,35 +133,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Profil getProfilById(int id) {
-		
-
 		return this.pMapper.findByKey(id);
 	}
-	
+
 	@Override
 	public Profil getProfilByMail(String email) {
-	
 		return this.pMapper.findByEmail(email);
-	}
-	
-
-
-	@Override
-	public Auswahl createAuswahl(String name, String beschreibungstext, ArrayList<String> alternativen)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void delete(Auswahl auswahl) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void save(Auswahl auswahl) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -191,31 +149,24 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Auswahl getAuswahlById(int id) throws IllegalArgumentException {
-		
 		return this.auswahlMapper.findByKey(id);
 	}
 
 	@Override
-	public void delete(Beschreibung beschreibung) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void save(Beschreibung beschreibung) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
-	}
-	
-	@Override
 	public Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException {
-
 		Info i = new Info();
 		i.setText(text);
 		i.setEigenschaftId(auswahl.getId());
 		i.setProfilId(profil.getId());
-		
 		return this.iMapper.insert(i);
+	}
+	
+	@Override
+	public void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException {
+		
+		for (Map.Entry<Integer, Info> entry: infos.entrySet()) {
+			this.iMapper.insert(entry.getValue());
+		}
 	}
 
 	@Override
@@ -224,9 +175,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		i.setText(text);
 		i.setEigenschaftId(beschreibung.getId());
 		i.setProfilId(profil.getId());
-		
+
 		return this.iMapper.insert(i);
 	}
+	
 
 	@Override
 	public void saveInfoForProfil(Profil profil, Info info) throws IllegalArgumentException {
@@ -257,15 +209,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public void setVisited(Profil a, Profil b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public void setVisited(Profil besucher, Profil besuchter) throws IllegalArgumentException {
+		this.pMapper.setVisited(besucher, besuchter);
 
 	}
 
 	@Override
 	public ArrayList<Profil> getVisitedProfiles(Profil profil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.pMapper.getVisitedProfiles(profil);
 	}
 
 	@Override
@@ -310,19 +261,70 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public Beschreibung createBeschreibung(String name, String beschreibungstext) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Beschreibung getBeschreibungById(int id) throws IllegalArgumentException {
 		return this.beschrMapper.findByKey(id);
 	}
 
 	@Override
+	public String getEigenschaftsNameById(int id) throws IllegalArgumentException {
+		if (this.beschrMapper.findByKey(id) != null) {
+			Beschreibung b = this.beschrMapper.findByKey(id);
+			String name = b.getBeschreibungstext();
+			return  name;
+		}
+		else if (this.auswahlMapper.findByKey(id) != null) {
+			Auswahl a = this.auswahlMapper.findByKey(id);
+			String name = a.getBeschreibungstext();
+			return name;
+		}
+		return "nichts gefunden!";
+	}
+
+	@Override
 	public ArrayList<Beschreibung> getAllBeschreibung() throws IllegalArgumentException {
 		return this.beschrMapper.findAll();
+	}
+
+
+	/*
+	 * Diese Methoden brauchen wir wohl nicht
+	 */
+	
+	@Override
+	public Auswahl createAuswahl(String name, String beschreibungstext, ArrayList<String> alternativen)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(Auswahl auswahl) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void save(Auswahl auswahl) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void delete(Beschreibung beschreibung) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void save(Beschreibung beschreibung) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Beschreibung createBeschreibung(String name, String beschreibungstext) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

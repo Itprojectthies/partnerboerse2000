@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.report.AllProfileBySuche;
+import de.superteam2000.gwt.shared.report.AllProfilesReport;
 import de.superteam2000.gwt.shared.report.HTMLReportWriter;
 import de.superteam2000.gwt.shared.report.ProfilReport;
 
@@ -33,6 +34,8 @@ public class Suche extends BasicFrame {
 	ArrayList<Profil> profile = null;
 
 	Button suchButton = new Button("Suche");
+	Button suchAllButton = new Button("Alle Profile anzeigen");
+
 
 
 
@@ -46,16 +49,18 @@ public class Suche extends BasicFrame {
 	@Override
 	public String getHeadlineText() {
 
-		return "Suche";
+		return "";
 	}
 
 	@Override
 	public void run() {
 
 		Grid customerGrid = new Grid(5, 2);
-		this.add(customerGrid);
+		RootPanel.get("Menu").add(customerGrid);
 
-		this.add(suchButton);
+		RootPanel.get("Menu").add(suchButton);
+		RootPanel.get("Menu").add(suchAllButton);
+		suchAllButton.addClickHandler(new suchAllClickHandler());
 		suchButton.addClickHandler(new SuchButtonClickHandler());
 
 		//Raucher
@@ -183,6 +188,36 @@ public class Suche extends BasicFrame {
 	}
 
 
+	private class suchAllClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+
+			ClientsideSettings.getReportGenerator().createAllProfilesReport(new AsyncCallback<AllProfilesReport>() {
+
+				@Override
+				public void onSuccess(AllProfilesReport result) {
+					if (result != null) {
+						RootPanel.get("Details").clear();
+						HTMLReportWriter writer = new HTMLReportWriter();
+						writer.process(result);
+						RootPanel.get("Details").add(new HTML(writer.getReportText()));
+						//
+					}
+				}
+
+				@Override
+				public void onFailure(Throwable caught) {
+					ClientsideSettings.getLogger().severe("createallprofiles funktioniert nicht");
+
+				}
+			});
+
+
+
+
+		}
+
+	}
+
 }
-
-

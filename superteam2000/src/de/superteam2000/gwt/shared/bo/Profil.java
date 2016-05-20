@@ -2,6 +2,9 @@ package de.superteam2000.gwt.shared.bo;
 
 import java.util.Date;
 
+import de.superteam2000.gwt.client.DateTimeFormat;
+
+
 public class Profil extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
@@ -10,7 +13,7 @@ public class Profil extends BusinessObject {
 	private String nachname = "";
 	private String vorname = "";
 	private String email = "";
-	private String geburtsdatum = "";
+	private Date geburtsdatum = null;
 	private Date erstelldatum = null;
 	private String haarfarbe  = "";
 	private String raucher = "";
@@ -22,6 +25,31 @@ public class Profil extends BusinessObject {
 	private String logoutUrl = "";
 	private boolean isCreated = false;
 	
+	@SuppressWarnings("deprecation")
+	public int getAlter() {
+		String dateString = DateTimeFormat.getFormat("yyyy-MM-dd").format(geburtsdatum);
+		String[] gebDaten = dateString.split("-");
+		Date now = new Date();
+	    int nowMonth = now.getMonth()+1;
+	    int nowYear = now.getYear()+1900;
+	    int year = Integer.valueOf(gebDaten[0]);
+	    int month = Integer.valueOf(gebDaten[1]);
+	    int day = Integer.valueOf(gebDaten[2]);
+	    
+	    int result = nowYear - year;
+
+	    if ( month > nowMonth) {
+	        result--;
+	    }
+	    else if (month == nowMonth) {
+	        int nowDay = now.getDate();
+
+	        if ( day > nowDay) {
+	            result--;
+	        }
+	    }
+	    return result;
+	}
 
 	public boolean isLoggedIn() {
 		return loggedIn;
@@ -79,11 +107,11 @@ public class Profil extends BusinessObject {
 		this.email = email;
 	}
 
-	public String getGeburtsdatum() {
+	public Date getGeburtsdatum() {
 		return geburtsdatum;
 	}
 
-	public void setGeburtsdatum(String geburtsdatum) {
+	public void setGeburtsdatum(Date geburtsdatum) {
 		this.geburtsdatum = geburtsdatum;
 	}
 

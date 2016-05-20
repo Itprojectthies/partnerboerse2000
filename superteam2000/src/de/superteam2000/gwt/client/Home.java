@@ -27,7 +27,7 @@ public class Home extends BasicFrame {
 	}
 
 
-	protected String getHeadlineTextStyle() {
+	public String getHeadlineTextStyle() {
 		return this.headlineTextStyle;
 	}
 

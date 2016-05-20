@@ -1,12 +1,18 @@
 package de.superteam2000.gwt.shared;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-import de.superteam2000.gwt.client.ClientsideSettings;
-//import de.superteam2000.gwt.client.LoginInfo;
-import de.superteam2000.gwt.shared.bo.*;
+import de.superteam2000.gwt.shared.bo.Auswahl;
+import de.superteam2000.gwt.shared.bo.Beschreibung;
+import de.superteam2000.gwt.shared.bo.Info;
+import de.superteam2000.gwt.shared.bo.Kontaktsperre;
+import de.superteam2000.gwt.shared.bo.Merkzettel;
+import de.superteam2000.gwt.shared.bo.Profil;
 
 @RemoteServiceRelativePath("pba")
 public interface PartnerboerseAdministration extends RemoteService {
@@ -14,11 +20,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void init() throws IllegalArgumentException;
 
 	public Profil login(String requestUri) throws IllegalArgumentException;
-	
 
-	// Profile
-	public Profil createProfil(String nachname, String vorname, String email, String geburtsdatum, String haarfarbe,
-			String raucher, String religion, int groesse, String geschlecht) throws IllegalArgumentException;
+	public Profil createProfil(String nachname, String vorname, String email, Date date, String haarfarbe,
+			String raucher, String religion, int groesse, String geschlecht);
 
 	public void delete(Profil profil) throws IllegalArgumentException;
 
@@ -55,7 +59,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	// Info
 
-
 	public void saveInfoForProfil(Profil profil, Info info) throws IllegalArgumentException;
 
 	public void deleteInfoForProfil(Profil profil, Info info) throws IllegalArgumentException;
@@ -90,10 +93,14 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text) throws IllegalArgumentException;
 
-	public Profil getProfilByMail(String email);
+	public Profil getProfilByMail(String email) throws IllegalArgumentException;
+
+	public String getEigenschaftsNameById(int id) throws IllegalArgumentException;
+
+	public void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException;
 
 
-//	Profil getCurrentProfil() throws IllegalArgumentException;
+
 
 	// Suchprofil
 
