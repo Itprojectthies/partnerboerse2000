@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.ibm.icu.util.Calendar;
 
@@ -16,9 +17,7 @@ import de.superteam2000.gwt.shared.report.*;
 
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private PartnerboerseAdministration administration = null;
 
@@ -36,6 +35,21 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		this.administration = a;
 	}
 
+	
+	@Override
+	public WidgetReport createProfilReport2(Profil p) throws IllegalArgumentException{
+		
+		WidgetReport report = new WidgetReport();
+		Button profilButton = new Button();
+		
+		report.setHeadlineText(p.getVorname() + p.getNachname());
+		//report.append(profilButton);
+		
+		
+		return report;
+		
+	}
+	
 	@Override
 	public ProfilReport createProfilReport(Profil p) throws IllegalArgumentException {
 		if (this.administration == null) {
@@ -44,6 +58,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		// zu bef�llenden Report erstellen
 		ProfilReport result = new ProfilReport();
+		result.setProfilId(p.getId());
 
 		// ab hier result mit Inhalten bef�llen
 		result.setTitle(p.getVorname()+" "+p.getNachname());

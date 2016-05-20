@@ -22,7 +22,7 @@ public class Home extends BasicFrame {
 
 	
 	@Override
-	protected String getHeadlineText() {
+	public String getHeadlineText() {
 		return this.headlineText;
 	}
 
@@ -33,7 +33,7 @@ public class Home extends BasicFrame {
 
 
 	@Override
-	protected void run() {
+	public void run() {
 		HTML welcomeText = new HTML("Das ist eine Partnerbörse");
 		this.add(welcomeText);
 		

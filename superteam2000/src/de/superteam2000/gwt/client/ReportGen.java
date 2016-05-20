@@ -1,34 +1,24 @@
 package de.superteam2000.gwt.client;
 
 
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gwt.core.client.EntryPoint;
-
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
-import de.superteam2000.gwt.shared.PartnerboerseAdministration;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.ReportGeneratorAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.report.AllProfilesReport;
 import de.superteam2000.gwt.shared.report.HTMLReportWriter;
 import de.superteam2000.gwt.shared.report.ProfilReport;
+import de.superteam2000.gwt.shared.report.WidgetReport;
 
 public class ReportGen implements EntryPoint {
 	
@@ -42,6 +32,8 @@ public class ReportGen implements EntryPoint {
 	ReportGeneratorAsync reportGenerator = null;
 	Logger logger = ClientsideSettings.getLogger();
 	PartnerboerseAdministrationAsync pb = ClientsideSettings.getPartnerboerseVerwaltung();
+	
+	
 	
 
 	@Override
@@ -101,10 +93,26 @@ public class ReportGen implements EntryPoint {
 					@Override
 					public void onSuccess(AllProfilesReport result) {
 						if (result != null) {
-						RootPanel.get("Details").clear();
-						HTMLReportWriter writer = new HTMLReportWriter();
-						writer.process(result);
-						RootPanel.get("Details").add(new HTML(writer.getReportText()));
+							for(int i = 0; i<result.getNumSubReports(); i++){
+								ProfilReport r = (ProfilReport) result.getSubReportAt(i);
+								
+								int profilId = r.getProfilId();
+								Button button = new Button("Profil:" +r.getProfilId());
+
+								HTMLReportWriter writer = new HTMLReportWriter();
+								writer.process(r);
+								RootPanel.get("Details").add(new HTML(writer.getReportText()));
+								RootPanel.get("Details").add(button);
+								
+
+								
+								
+								
+							}
+//						RootPanel.get("Details").clear();
+//						HTMLReportWriter writer = new HTMLReportWriter();
+//						writer.process(result);
+//						RootPanel.get("Details").add(new HTML(writer.getReportText()));
 						//
 						}
 					}
@@ -135,39 +143,67 @@ public class ReportGen implements EntryPoint {
 		// }
 		// });
 
+//		profilAnzeigenButton.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				reportGenerator.createProfilReport(p, new createProfilReportCallback());
+//
+//			}
+//		});
+		
+		
 		profilAnzeigenButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				reportGenerator.createProfilReport(p, new createProfilReportCallback());
+				reportGenerator.createProfilReport2(p, new AsyncCallback<WidgetReport>() {
+					
+					@Override
+					public void onSuccess(WidgetReport result) {
+						RootPanel.get("Details").add(result);
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
 
 			}
 		});
 
 	}
-
 }
 
-class createProfilReportCallback implements AsyncCallback<ProfilReport> {
-
-	@Override
-	public void onFailure(Throwable caught) {
-		// TODO Auto-generated method stub
 
 
-	}
-
-	@Override
-	public void onSuccess(ProfilReport report) {
-
-		if (report != null) {
-			HTMLReportWriter writer = new HTMLReportWriter();
-			writer.process(report);
-			RootPanel.get("Details").clear();
-			HTML html = new HTML(writer.getReportText());
-			RootPanel.get("Details").add(html);
-			
-		}
-	}
-
-}
+//class createProfilReportCallback implements AsyncCallback<ProfilReport> {
+//
+//
+//	@Override
+//	public void onFailure(Throwable caught) {
+//		// TODO Auto-generated method stub
+//
+//
+//	}
+//
+//	@Override
+//	public void onSuccess(ProfilReport report) {
+//
+//		if (report != null) {
+//
+//			HTMLReportWriter writer = new HTMLReportWriter();
+//			writer.process(report);
+//			RootPanel.get("Details").clear();
+//			HTML html = new HTML(writer.getReportText());
+//			RootPanel.get("Details").add(html);
+//			
+//
+//			
+//		}
+//	}
+//
+//}

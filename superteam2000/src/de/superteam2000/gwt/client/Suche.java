@@ -44,13 +44,13 @@ public class Suche extends BasicFrame {
 	TextBox tbGroesse = new TextBox();
 
 	@Override
-	protected String getHeadlineText() {
+	public String getHeadlineText() {
 
 		return "Suche";
 	}
 
 	@Override
-	protected void run() {
+	public void run() {
 
 		Grid customerGrid = new Grid(5, 2);
 		this.add(customerGrid);
