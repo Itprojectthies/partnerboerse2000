@@ -145,6 +145,22 @@ public class Navbar extends HorizontalPanel {
 			});
 			append(eigenschaftenBtn);
 			
+			Button dataGridBtn = new Button("DataGrid");
+			dataGridBtn.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+
+					DataGridTest dgt = new DataGridTest();
+					VerticalPanel detailsPanel = new VerticalPanel();
+					detailsPanel.add(dgt);
+					RootPanel.get("Details").clear();
+					RootPanel.get("Menu").clear();
+					RootPanel.get("Details").add(detailsPanel);
+				}
+			});
+			append(dataGridBtn);
+			
 			Button reportButton = new Button("Report");
 			// hp.add(logoutBtn);
 			reportButton.addClickHandler(new ClickHandler() {
