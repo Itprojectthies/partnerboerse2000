@@ -19,6 +19,8 @@ import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
+import de.superteam2000.gwt.shared.report.HTMLReportWriter;
+import de.superteam2000.gwt.shared.report.ProfilReport;
 
 public class DataGridTest extends BasicFrame {
 
@@ -67,6 +69,14 @@ public class DataGridTest extends BasicFrame {
 						}
 					};
 					table.addColumn(nachname, "Nachname");
+					
+					TextColumn<Profil> alter = new TextColumn<Profil>() {
+						@Override
+						public String getValue(Profil p) {
+							return String.valueOf(p.getAlter());
+						}
+					};
+					table.addColumn(alter, "Alter");
 
 					TextColumn<Profil> id = new TextColumn<Profil>() {
 						@Override
@@ -74,23 +84,8 @@ public class DataGridTest extends BasicFrame {
 							return String.valueOf(p.getId());
 						}
 					};
-					table.addColumn(id, "Id");
 
-					//		TextColumn<Address> postCode = new TextColumn<Address>() {
-					//			@Override
-					//			public String getValue(Address object) {
-					//				return object.postCode;
-					//			}
-					//		};
-					//		table.addColumn(postCode, "Post Code");
-					//
-					//		TextColumn<Address> country = new TextColumn<Address>() {
-					//			@Override
-					//			public String getValue(Address object) {
-					//				return object.country;
-					//			}
-					//		};
-					//		table.addColumn(country, "Country");
+
 
 					// Add a selection model to handle user selection.
 					final SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
@@ -101,14 +96,33 @@ public class DataGridTest extends BasicFrame {
 						public void onSelectionChange(SelectionChangeEvent event) {
 							Profil selected = selectionModel.getSelectedObject();
 							if (selected != null) {
-								Window.alert("You selected: " + selected.getNachname() + " " + selected.getVorname() + " "
-										+ selected.getAlter() + " " + selected.getEmail() + " " + selected.getHaarfarbe());
+//								Window.alert("You selected: " + selected.getNachname() + " " + selected.getVorname() + " "
+//										+ selected.getAlter() + " " + selected.getEmail() + " " + selected.getHaarfarbe());
+								ClientsideSettings.getReportGenerator().createProfilReport(selected, new AsyncCallback<ProfilReport>() {
+									
+									@Override
+									public void onSuccess(ProfilReport result) {
+										HTMLReportWriter writer = new HTMLReportWriter();
+										writer.process(result);
+										RootPanel.get("Details").clear();
+										HTML html = new HTML(writer.getReportText());
+										RootPanel.get("Details").add(html);
+										
+										
+									}
+									
+									@Override
+									public void onFailure(Throwable caught) {
+										// TODO Auto-generated method stub
+										
+									}
+								});
 							}				
 						}
 					});
 
 
-//					table.setRowCount(profile.size(), true);
+					table.setRowCount(profile.size(), true);
 					table.setRowData(0, profile);
 					table.setWidth("100%");
 					

@@ -4,14 +4,22 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
@@ -32,6 +40,7 @@ import de.superteam2000.gwt.shared.report.ProfilReport;
 public class Suche extends BasicFrame {
 
 	ArrayList<Profil> profile = null;
+	
 
 	Button suchButton = new Button("Suche");
 	Button suchAllButton = new Button("Alle Profile anzeigen");
@@ -128,6 +137,8 @@ public class Suche extends BasicFrame {
 
 		@Override
 		public void onClick(ClickEvent event) {
+			
+			RootPanel.get("Details").clear();
 
 			// "dummmy-Profil" erstellen
 			Profil p = new Profil();
@@ -148,30 +159,125 @@ public class Suche extends BasicFrame {
 				 */
 				@Override
 				public void onSuccess(ArrayList<Profil> result) {
-					ClientsideSettings.getReportGenerator().createSuchreport(result,
-							new AsyncCallback<AllProfileBySuche>() {
+					if(result != null){
+						profile = result;	
+						
+						
+						DataGrid<Profil> table = new DataGrid<Profil>();
+						table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
-
-						//onSuccess wird der Suchreport ausgegeben
-						@Override
-						public void onSuccess(AllProfileBySuche result) {
-							if (result != null) {
-
-								RootPanel.get("Details").clear();
-								HTMLReportWriter writer = new HTMLReportWriter();
-								writer.process(result);
-								RootPanel.get("Details").add(new HTML(writer.getReportText()));
+						TextColumn<Profil> vorname = new TextColumn<Profil>() {
+							@Override
+							public String getValue(Profil p) {
+								return p.getVorname();
 							}
+						};
+						table.addColumn(vorname, "Vorname");
+
+						TextColumn<Profil> nachname = new TextColumn<Profil>() {
+							@Override
+							public String getValue(Profil p) {
+								return p.getNachname();
+							}
+						};
+						table.addColumn(nachname, "Nachname");
+						
+						TextColumn<Profil> alter = new TextColumn<Profil>() {
+							@Override
+							public String getValue(Profil p) {
+								return String.valueOf(p.getAlter());
+							}
+						};
+						table.addColumn(alter, "Alter");
+
+						TextColumn<Profil> id = new TextColumn<Profil>() {
+							@Override
+							public String getValue(Profil p) {
+								return String.valueOf(p.getId());
+							}
+						};
 
 
-						}
 
-						@Override
-						public void onFailure(Throwable caught) {
-							ClientsideSettings.getLogger().severe("Fehler ReportGenerator createSuchreport");
+						// Add a selection model to handle user selection.
+						final SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
+						table.setSelectionModel(selectionModel);
+						selectionModel.addSelectionChangeHandler(new Handler() {
 
-						}
-					});
+							@Override
+							public void onSelectionChange(SelectionChangeEvent event) {
+								Profil selected = selectionModel.getSelectedObject();
+								if (selected != null) {
+
+									ClientsideSettings.getPartnerboerseVerwaltung().createMerken
+									(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
+										
+										@Override
+										public void onSuccess(Void result) {
+											Window.alert("Profil gemerkt.");
+											
+										}
+										
+										@Override
+										public void onFailure(Throwable caught) {
+											// TODO Auto-generated method stub
+											
+										}
+									});;
+									
+
+								}				
+							}
+						});
+
+
+						table.setRowCount(profile.size(), true);
+						table.setRowData(0, profile);
+						table.setWidth("100%");
+						
+						LayoutPanel panel = new LayoutPanel();
+						panel.setSize("30em", "10em");
+						panel.add(table);
+						RootPanel.get("Details").add(panel);
+						
+						
+//						SimpleLayoutPanel slp = new SimpleLayoutPanel();
+//						slp.add(table);
+//						HTML html = new HTML(""+profile.size());
+//						LayoutPanel lp = new LayoutPanel();
+//						lp.add(table);
+//						
+//						// Add it to the root panel.
+//						RootLayoutPanel.get().add(lp);
+//						RootPanel.get("Details").add(lp);
+//						RootPanel.get("Details").add(html);
+						
+						
+					}
+//					ClientsideSettings.getReportGenerator().createSuchreport(result,
+//							new AsyncCallback<AllProfileBySuche>() {
+//
+//
+//						//onSuccess wird der Suchreport ausgegeben
+//						@Override
+//						public void onSuccess(AllProfileBySuche result) {
+//							if (result != null) {
+//
+//								RootPanel.get("Details").clear();
+//								HTMLReportWriter writer = new HTMLReportWriter();
+//								writer.process(result);
+//								RootPanel.get("Details").add(new HTML(writer.getReportText()));
+//							}
+//
+//
+//						}
+//
+//						@Override
+//						public void onFailure(Throwable caught) {
+//							ClientsideSettings.getLogger().severe("Fehler ReportGenerator createSuchreport");
+//
+//						}
+//					});
 
 				}
 

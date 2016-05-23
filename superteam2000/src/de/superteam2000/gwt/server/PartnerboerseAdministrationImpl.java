@@ -221,7 +221,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void createMerken(Profil a, Profil b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		mMapper.insertMerkenForProfil(a, b);
 
 	}
 
@@ -232,9 +232,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<Merkzettel> getAllMerkenForProfil(Profil profil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException {
+		
+		Merkzettel m = mMapper.findAllForProfil(profil);
+		return m;
 	}
 
 	@Override

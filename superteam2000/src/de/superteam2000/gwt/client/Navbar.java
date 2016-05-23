@@ -93,15 +93,19 @@ public class Navbar extends HorizontalPanel {
 			
 			
 			Button merklisteBtn = new Button("Merkliste");
-			// hp.add(merklisteBtn);
 			merklisteBtn.addClickHandler(new ClickHandler() {
-
+				
 				@Override
 				public void onClick(ClickEvent event) {
-					Window.alert("Merkliste");
-
+					Merkliste m = new Merkliste();
+					RootPanel.get("Details").clear();
+					RootPanel.get("Menu").clear();
+					RootPanel.get("Details").add(m);
+					
+					
 				}
 			});
+
 			append(merklisteBtn);
 
 			Button sperrlisteBtn = new Button("Sperrliste");

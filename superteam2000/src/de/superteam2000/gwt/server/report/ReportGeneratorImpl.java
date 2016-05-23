@@ -190,4 +190,16 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
 }

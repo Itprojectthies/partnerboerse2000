@@ -6,6 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.apache.bcel.classfile.PMGClass;
+
+import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.bo.Merkzettel;
 import de.superteam2000.gwt.shared.bo.Profil;
 
@@ -116,34 +119,35 @@ public class MerkzettelMapper {
 	 * repräsentieren. Bei evtl. Exceptions wird ein partiell gef�llter
 	 * oder ggf. auch leerer Vetor zurückgeliefert.
 	 */
-	public ArrayList<Merkzettel> findAll() {
+	public Merkzettel findAllForProfil(Profil p) {
 		Connection con = DBConnection.connection();
 		// Ergebnisvektor vorbereiten
-		ArrayList<Merkzettel> result = new ArrayList<Merkzettel>();
+		Merkzettel result = new Merkzettel();
+		ArrayList<Profil> profile = new ArrayList<>();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, Gemerkter_id, Merker_id "
-					+ "FROM Merkzettel");
+			ResultSet rs = stmt.executeQuery("SELECT `Gemerkter_id` "
+					+ "FROM `merkzettel`" +" WHERE `Merker_id`=" + p.getId());
+			result.setMerkerId(p.getId());
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Merkzettel-Objekt
 			// erstellt.
 			while (rs.next()) {
-				Merkzettel m = new Merkzettel();
-				m.setId(rs.getInt("id"));
-				m.setMerkerId(rs.getInt("Merker_id"));
-				m.setGemerkterId(rs.getInt("Gemerkter_id"));
-
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
-				result.add(m);
+				Profil profil = ProfilMapper.profilMapper().findByKey(rs.getInt("Gemerkter_id"));
+				profile.add(profil);
+				
 			}
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		// Ergebnisvektor zurückgeben
+		
+		//Profilliste in Merkzettel schreiben
+		result.setGemerkteProfile(profile);
+		
+		// Ergebnis zurückgeben
 		return result;
 	}
 
@@ -155,18 +159,21 @@ public class MerkzettelMapper {
 	 * berichtigt.
 	 *
 	 * @param m das zu speichernde Objekt
-	 * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
-	 * <code>id</code>.
+	 * 
 	 */
 	public Merkzettel insertMerkenForProfil(Profil merker, Profil gemerkter) {
+		ClientsideSettings.getLogger().info("insertMerkenforProfil Methode aufgerufen");
+		if(merker != null){ClientsideSettings.getLogger().info("merker != null");}
+		if(gemerkter != null){ClientsideSettings.getLogger().info("gemerkter != null");}
 		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
 			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate("INSERT INTO Merkzettel ( Gemerkter_id, Merker_id) "
-					+ "VALUES (" + gemerkter.getId() + "," + merker.getId() + ")");
+
+			stmt.execute("INSERT INTO `merkzettel`( `Gemerkter_id`, `Merker_id`)" 
+			+ "VALUES ("+gemerkter.getId()+"," + merker.getId()+  ")");
 			Merkzettel m = new Merkzettel();
-			m.setGemerkterId(gemerkter.getId());
+
 			m.setMerkerId(merker.getId());
 			return m;
 		}
@@ -174,16 +181,7 @@ public class MerkzettelMapper {
 			e.printStackTrace();
 		}
 		return null;
-		/*
-		 * Rückgabe, des evtl. korrigierten Profils.
-		 *
-		 * HINWEIS: Da in Java nur Referenzen auf Objekte und keine physischen
-		 * Objekte übergeben werden, wäre die Anpassung des Merkzettel-Objekts
-	 	 * auch
-		 * ohne diese explizite Rückgabe außerhalb dieser Methode sichtbar. Die
-		 * explizite Rückgabe von m ist eher ein Stilmittel, um zu signalisieren,
-		 * dass sich das Objekt evtl. im Laufe der Methode verändert hat.
-		 */
+
 		
 	}
 
@@ -199,9 +197,9 @@ public class MerkzettelMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE Merkzettel " + "SET Gemerkter_id=\""
-					+ m.getGemerkterId() + "\", Merker_id=\"" + m.getMerkerId() + "\" "
-					+ "WHERE id=" + m.getId());
+//			stmt.executeUpdate("UPDATE Merkzettel " + "SET Gemerkter_id=\""
+//					+ m.getGemerkterId() + "\", Merker_id=\"" + m.getMerkerId() + "\" "
+//					+ "WHERE id=" + m.getId());
 
 		}
 		catch (SQLException e) {
