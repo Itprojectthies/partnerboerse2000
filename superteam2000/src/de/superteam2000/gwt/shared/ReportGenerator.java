@@ -8,7 +8,6 @@ import de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport;
 import de.superteam2000.gwt.shared.report.AllNewProfileReport;
 import de.superteam2000.gwt.shared.report.AllProfileBySuche;
 import de.superteam2000.gwt.shared.report.AllProfilesReport;
-import de.superteam2000.gwt.shared.report.AllProfilesReport2;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.google.gwt.user.client.ui.LayoutPanel;

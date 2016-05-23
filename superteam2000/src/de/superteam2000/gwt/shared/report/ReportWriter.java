@@ -41,6 +41,5 @@ public abstract class ReportWriter {
 	
 	public abstract void process(AllProfilesReport r);
 	
-	public abstract void process(AllProfilesReport2 r);
 
 }
