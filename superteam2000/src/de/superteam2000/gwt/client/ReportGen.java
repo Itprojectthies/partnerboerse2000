@@ -42,11 +42,11 @@ public class ReportGen implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		RootPanel.get("Details").add(profilAnzeigenButton);
-		RootPanel.get("Details").add(alleProfileAnzeigenButton);
-
-		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
-		pbVerwaltung.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback());
+//		RootPanel.get("Details").add(profilAnzeigenButton);
+//		RootPanel.get("Details").add(alleProfileAnzeigenButton);
+//
+//		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+//		pbVerwaltung.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback());
 
 
 

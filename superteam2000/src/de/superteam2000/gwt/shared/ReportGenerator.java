@@ -11,9 +11,11 @@ import de.superteam2000.gwt.shared.report.AllProfilesReport;
 import de.superteam2000.gwt.shared.report.AllProfilesReport2;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.google.gwt.user.client.ui.LayoutPanel;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.rpc.RemoteService;
 
 /**
@@ -111,9 +113,7 @@ public interface ReportGenerator extends RemoteService {
 
 	public abstract AllProfileBySuche createSuchreport(ArrayList<Profil> p);
 
-	public abstract AllProfilesReport2 createAllProfilesReport2() throws IllegalArgumentException;
-
-	public abstract WidgetReport createProfilReport2(Profil p) throws IllegalArgumentException;
+	public abstract LayoutShowcase createDataGridReport(ArrayList<Profil> result) throws IllegalArgumentException;
 
 
 }
