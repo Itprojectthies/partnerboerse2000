@@ -41,7 +41,7 @@ public class DBConnection {
 	 */
 	private static Connection con = null;
 
-	
+
 	/**
 	 * Die URL, mit deren Hilfe die Datenbank angesprochen wird. In einer
 	 * professionellen Applikation würde diese Zeichenkette aus einer
@@ -49,7 +49,7 @@ public class DBConnection {
 	 * mitgegeben, um bei einer Veränderung dieser URL nicht die gesamte
 	 * Software neu komilieren zu müssen.
 	 */
-	
+
 
 	private static String googleUrl = "jdbc:google:mysql://partnerboerse2000:partnerboerse2000-db/partnerboerse2000?user=root&password=test";
 	private static String localUrl = "jdbc:mysql://127.0.0.1:3306/partnerboerse2000?user=root&password=";
@@ -86,7 +86,7 @@ public class DBConnection {
 			String url = null;
 			try {
 				if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
-					
+
 					logger.info("Google Cloud MySQL-DB");
 					// Load the class that provides the new
 					// "jdbc:google:mysql://" prefix.
@@ -107,7 +107,7 @@ public class DBConnection {
 				 * abgespeichert und fortan verwendet.
 				 */
 				con = DriverManager.getConnection(url);
-				
+
 				logger.info("MySQL-Verbindung erfolgreich");
 			} catch (Exception e) {
 				con = null;

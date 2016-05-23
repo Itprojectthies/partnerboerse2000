@@ -20,7 +20,6 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
 
-import de.superteam2000.gwt.shared.LayoutShowcase;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 
@@ -223,21 +222,7 @@ public class Suche extends BasicFrame {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			ClientsideSettings.getReportGenerator().createDataGridReport(profile, new AsyncCallback<LayoutShowcase>() {
-				
-				@Override
-				public void onSuccess(LayoutShowcase result) {
-					
-					RootPanel.get("Details").add(result);
-					}
-				
-				@Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-
+			
 		}
 
 	}

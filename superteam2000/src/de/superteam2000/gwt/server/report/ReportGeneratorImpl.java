@@ -3,19 +3,10 @@ package de.superteam2000.gwt.server.report;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.google.gwt.user.cellview.client.DataGrid;
-import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
-import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SelectionChangeEvent.Handler;
-import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.server.PartnerboerseAdministrationImpl;
-import de.superteam2000.gwt.shared.LayoutShowcase;
 import de.superteam2000.gwt.shared.PartnerboerseAdministration;
 import de.superteam2000.gwt.shared.ReportGenerator;
 import de.superteam2000.gwt.shared.bo.Info;
@@ -111,72 +102,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return result;
 
 	}
-	@Override
-	public LayoutShowcase createDataGridReport(ArrayList<Profil> result) throws IllegalArgumentException {
-		if(result != null){
-			ClientsideSettings.getLogger().
-			info("AsyncCallback alle Profile hat funktioniert " + result.size());	
-			
-			DataGrid<Profil> table = new DataGrid<Profil>();
-			table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-
-			TextColumn<Profil> vorname = new TextColumn<Profil>() {
-				@Override
-				public String getValue(Profil p) {
-					return p.getVorname();
-				}
-			};
-			table.addColumn(vorname, "Vorname");
-
-			TextColumn<Profil> nachname = new TextColumn<Profil>() {
-				@Override
-				public String getValue(Profil p) {
-					return p.getNachname();
-				}
-			};
-			table.addColumn(nachname, "Nachname");
-
-			TextColumn<Profil> id = new TextColumn<Profil>() {
-				@Override
-				public String getValue(Profil p) {
-					return String.valueOf(p.getId());
-				}
-			};
-			table.addColumn(id, "Id");
-
-
-			// Add a selection model to handle user selection.
-			final SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
-			table.setSelectionModel(selectionModel);
-			selectionModel.addSelectionChangeHandler(new Handler() {
-
-				@Override
-				public void onSelectionChange(SelectionChangeEvent event) {
-					Profil selected = selectionModel.getSelectedObject();
-					if (selected != null) {
-						Window.alert("You selected: " + selected.getNachname() + " " + selected.getVorname() + " "
-								+ selected.getAlter() + " " + selected.getEmail() + " " + selected.getHaarfarbe());
-					}				
-				}
-			});
-
-
-			table.setRowCount(result.size(), true);
-			table.setRowData(0, result);
-			table.setWidth("100%");
-			
-			LayoutShowcase panel = new LayoutShowcase();
-			panel.setSize("30em", "10em");
-			panel.add(table);
-			
-			
-			return panel;
-		}
-		return null;
-		
-		
-		
-	}
+	
 
 	@Override
 	public AllProfileBySuche createSuchreport(ArrayList<Profil> p){

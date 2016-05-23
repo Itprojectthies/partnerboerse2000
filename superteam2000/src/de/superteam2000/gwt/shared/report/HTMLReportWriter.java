@@ -2,10 +2,6 @@ package de.superteam2000.gwt.shared.report;
 
 import java.util.Vector;
 
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
-
 import de.superteam2000.gwt.client.ClientsideSettings;
 
 /**

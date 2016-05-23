@@ -2,17 +2,13 @@ package de.superteam2000.gwt.shared;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.LayoutPanel;
-
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.report.AllNewProfileReport;
 import de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport;
 import de.superteam2000.gwt.shared.report.AllProfileBySuche;
 import de.superteam2000.gwt.shared.report.AllProfilesReport;
 import de.superteam2000.gwt.shared.report.ProfilReport;
-import de.superteam2000.gwt.shared.report.WidgetReport;
 
 /**
  * Das asynchrone Gegenstück des Interface {@link ReportGenerator}. Es wird
@@ -40,7 +36,5 @@ public interface ReportGeneratorAsync {
 	void  createAllProfilesReport( AsyncCallback<AllProfilesReport> callback);
 
 	void createSuchreport(ArrayList<Profil> p, AsyncCallback<AllProfileBySuche> callback);
-
-	void createDataGridReport(ArrayList<Profil> result, AsyncCallback<LayoutShowcase> callback);
 
 }
