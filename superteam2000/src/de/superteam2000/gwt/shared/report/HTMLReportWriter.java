@@ -2,7 +2,6 @@ package de.superteam2000.gwt.shared.report;
 
 import java.util.Vector;
 
-
 import de.superteam2000.gwt.client.ClientsideSettings;
 
 /**
@@ -20,6 +19,7 @@ public class HTMLReportWriter extends ReportWriter {
 	 * <code>process...</code>-Methoden) belegt. Format: HTML-Text
 	 */
 	private String reportText = "";
+	
 
 	/**
 	 * Zurücksetzen der Variable <code>reportText</code>.
@@ -232,6 +232,7 @@ public class HTMLReportWriter extends ReportWriter {
 	public String getReportText() {
 		return this.getHeader() + this.reportText + this.getTrailer();
 	}
+	
 
 	@Override
 	public void process(ProfilReport r) {
@@ -247,12 +248,13 @@ public class HTMLReportWriter extends ReportWriter {
 		 * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
 		 * ausgelesen und in HTML-Form übersetzt.
 		 */
-		result.append("<H1>" + r.getTitle() + "</H1>");
-		result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
+		result.append("<H1>" + r.getTitle() + "</H1>");	
+		result.append("<div id=\"test\"></div>");
+		result.append("<table><tr>");
 		result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getHeaderData()) + "</b></td>");
 		result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint()) + "</td>");
 		result.append("</tr><tr><td></td><td>" + r.getCreated().toString() + "</td></tr></table>");
-
+	
 		Vector<Row> rows = r.getRows();
 		if(rows != null){ClientsideSettings.getLogger().info("Vector an Rows im HTMLWriter ungleich null");}
 		result.append("<table style=\"width:400px\">");
@@ -287,6 +289,7 @@ public class HTMLReportWriter extends ReportWriter {
 		 * anschließend das Ergebnis mittels getReportText() auszulesen.
 		 */
 		this.reportText = result.toString();
+		
 
 
 
@@ -469,60 +472,5 @@ public class HTMLReportWriter extends ReportWriter {
 		
 	}
 
-//	public void process(AllProfilesReport r) {
-//		this.resetReportText();
-//
-//		/*
-//		 * In diesen Buffer schreiben wir während der Prozessierung sukzessive
-//		 * unsere Ergebnisse.
-//		 */
-//		StringBuffer result = new StringBuffer();
-//
-//		/*
-//		 * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
-//		 * ausgelesen und in HTML-Form übersetzt.
-//		 */
-//		result.append("<H1>" + r.getTitle() + "</H1>");
-//		result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
-//		result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getHeaderData()) + "</b></td>");
-//		result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint()) + "</td>");
-//		result.append("</tr><tr><td></td><td>" + r.getCreated().toString() + "</td></tr></table>");
-//
-//		Vector<Row> rows = r.getRows();
-//		result.append("<table style=\"width:400px\">");
-//
-//		for (int i = 0; i < rows.size(); i++) {
-//			Row row = rows.elementAt(i);
-//			result.append("<tr>");
-//			for (int k = 0; k < row.getNumColumns(); k++) {
-//				if (i == 0) {
-//					result.append("<td style=\"background:silver;font-weight:bold\">" +
-//							row.getColumnAt(k)
-//					+ "</td>");
-//				}
-//				else {
-//					if (i > 1) {
-//						result.append("<td style=\"border-top:1px solid silver\">"
-//								+ row.getColumnAt(k) + "</td>");
-//					}
-//					else {
-//						result.append("<td valign=\"top\">" + row.getColumnAt(k) + "</td>");
-//					}
-//				}
-//			}
-//			result.append("</tr>");
-//		}
-//
-//		result.append("</table>");
-//
-//		/*
-//		 * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und
-//		 * der reportText-Variable zugewiesen. Dadurch wird es möglich,
-//		 * anschließend das Ergebnis mittels getReportText() auszulesen.
-//		 */
-//		this.reportText = result.toString();
-//
-//
-//
-//	}
+	
 }

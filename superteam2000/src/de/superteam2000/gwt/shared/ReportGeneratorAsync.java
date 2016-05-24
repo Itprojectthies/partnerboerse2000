@@ -3,7 +3,6 @@ package de.superteam2000.gwt.shared;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.report.AllNewProfileReport;
 import de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport;

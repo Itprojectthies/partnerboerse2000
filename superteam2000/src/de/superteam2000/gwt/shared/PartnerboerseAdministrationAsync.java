@@ -2,6 +2,7 @@ package de.superteam2000.gwt.shared;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -99,6 +100,14 @@ public interface PartnerboerseAdministrationAsync {
 	void getProfilByMail(String email, AsyncCallback<Profil> callback);
 
 	void getProfilesBySuche(Profil p, AsyncCallback<ArrayList<Profil>> callback);
+
+	void getEigenschaftsNameById(int id, AsyncCallback<String> callback);
+
+	void createInfosFor(Map<Integer, Info> infos, AsyncCallback<Void> callback);
+
+
+	
+	
 
 //	void getCurrentProfil(AsyncCallback<Profil> callback);
 
