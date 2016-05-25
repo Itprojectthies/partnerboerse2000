@@ -221,14 +221,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void createMerken(Profil a, Profil b) throws IllegalArgumentException {
-		mMapper.insertMerkenForProfil(a, b);
+		Merkzettel m = mMapper.findAllForProfil(a);
+		ArrayList<Profil> profile = m.getGemerkteProfile();
+		if( !profile.contains(b)){
+		mMapper.insertMerkenForProfil(a, b);}
 
 	}
 
 	@Override
-	public void deleteMerken(Merkzettel merkzettel) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
+	public void deleteMerken(Profil entferner, Profil entfernter) throws IllegalArgumentException {
+		mMapper.deleteMerkenFor(entferner, entfernter);
 	}
 
 	@Override

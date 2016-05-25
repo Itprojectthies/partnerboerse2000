@@ -211,18 +211,21 @@ public class MerkzettelMapper {
 	}
 
 	/**
-	 * Löschen der Daten eines <code>Merkzettel</code>-Objekts aus der
+	 * Löschen der Daten eines Merkzettel-Eintrags aus der
 	 Datenbank.
 	 *
-	 * @param m das aus der DB zu löschende "Objekt"
+	 * @param zwei Profile, der zu löschende und der "löschende"
 	 */
-	public void delete(Merkzettel m) {
+	public void deleteMerkenFor(Profil entferner, Profil entfernter) {
 		Connection con = DBConnection.connection();
+		
+		
 
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM Merkzettel WHERE id=" + m.getId());
+			stmt.executeUpdate("DELETE FROM merkzettel WHERE Merker_id=" +
+			entferner.getId()+ " AND Gemerkter_id=" + entfernter.getId()  );
 		}
 		catch (SQLException e) {
 			e.printStackTrace();

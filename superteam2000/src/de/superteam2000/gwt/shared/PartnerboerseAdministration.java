@@ -78,7 +78,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	// Merkzettel
 	public void createMerken(Profil a, Profil b) throws IllegalArgumentException;
 
-	public void deleteMerken(Merkzettel merkzettel) throws IllegalArgumentException;
+	public void deleteMerken(Profil entferner, Profil entfernter) throws IllegalArgumentException;
 
 
 	// Kontaktsperre

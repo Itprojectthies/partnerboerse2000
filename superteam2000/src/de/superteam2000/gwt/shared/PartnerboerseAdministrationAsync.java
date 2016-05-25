@@ -79,7 +79,7 @@ public interface PartnerboerseAdministrationAsync {
 	// Merkzettel
 	void createMerken(Profil a, Profil b, AsyncCallback<Void> callback);
 
-	void deleteMerken(Merkzettel merkzettel, AsyncCallback<Void> callback);
+	void deleteMerken(Profil entferner, Profil entfernter, AsyncCallback<Void> callback);
 	
 	void getMerkzettelForProfil(Profil profil, AsyncCallback<Merkzettel> callback);
 
