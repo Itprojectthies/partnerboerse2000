@@ -40,13 +40,15 @@ public class Suche extends BasicFrame {
 	ListBox lbReligion = new ListBox();
 	ListBox lbGeschlecht = new ListBox();
 	ListBox lbHaarfarbe = new ListBox();
+	ListBox lbEigenschaften = new ListBox();
 	
 	TextBox tbSuchprofilName = new TextBox();
 	TextBox tbAlterVon = new TextBox();
 	TextBox tbAlterBis = new TextBox();
 	TextBox tbGroesseVon = new TextBox();
 	TextBox tbGroesseBis = new TextBox();
-// weitere Sucheigenschaften mussen noch ergänzt werden (siehe Mockup)
+
+	
 	
 	@Override
 	protected String getHeadlineText() {
@@ -109,7 +111,18 @@ public class Suche extends BasicFrame {
 		customerGrid.setWidget(3, 0, suchprofilLabel);
 		customerGrid.setWidget(3, 1, tbSuchprofilName);
 		
-		//
+		//weitere Eigenschaften auswählen
+		Label weitEigenschaft = new Label ("weitere Eigenschaften");
+		lbEigenschaften.addItem("Was ist dein Lieblingsessen?");
+		lbEigenschaften.addItem("Welche Sportart betreibst du?");
+		lbEigenschaften.addItem("Hast du Haustiere und wenn ja welche?");
+		lbEigenschaften.addItem("Was sind deine Lieblingsfilme?");
+		lbEigenschaften.addItem("Was sind deine Lieblingsserien?");
+		lbEigenschaften.addItem("Was ist deine Lieblingsfarbe?");
+		lbEigenschaften.addItem("Was ist deine Lieblingszahl?");
+		lbEigenschaften.addItem("Was sind deine Freizeitaktivitäten?");
+		lbEigenschaften.addItem("Was ist deine sonstigen Interessen?");
+		lbEigenschaften.addItem("Was du sonst noch über dich sagen willst");
 
 
 		//pb Verwaltung Ã¼ber ClientsideSettings holen
@@ -153,6 +166,9 @@ public class Suche extends BasicFrame {
 			p.setReligion(lbReligion.getSelectedValue());
 			p.setGeschlecht(lbGeschlecht.getSelectedValue());
 			p.setHaarfarbe(lbHaarfarbe.getSelectedValue());
+			p.setEigenschaften(lbEigenschaften.getSelectedValue());
+			
+			
 
 
 			// getProfilesBySuche wird mit dem "dummy-Profil" aufgerufen

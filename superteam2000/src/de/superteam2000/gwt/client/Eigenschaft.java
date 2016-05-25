@@ -20,7 +20,6 @@ public class Eigenschaft extends BasicFrame {
 
 	@Override
 	protected String getHeadlineText() {
-		// TODO Auto-generated method stub
 		return "Eigenschaften";
 	}
 
