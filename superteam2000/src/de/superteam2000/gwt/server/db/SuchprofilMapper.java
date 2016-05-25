@@ -36,31 +36,4 @@ public class SuchprofilMapper {
 				      e.printStackTrace();
 				    }
 	return null;
-}
-	  public void delete(Suchprofil sp) {
-		    Connection con = DBConnection.connection();
-		    try {
-		      Statement stmt = con.createStatement();
-		      String query ="";
-		      stmt.executeUpdate(query);
-		    }
-		    catch (SQLException m) {
-		      m.printStackTrace();
-		    }
-	  }
-	  public void insert (Suchprofil sp){
-		  Connection con = DBConnection.connection();
-		  try { Statement stmt= con.createStatement();
-		  String query ="";
-		  stmt.executeUpdate(query);
-		  }
-		  
-		 catch (SQLException e) {
-			 e.printStackTrace();}
-		 }
-	  
-	  public void update (Suchprofil sp){}
-		  
-	  }
-	  
-	  
+}}
