@@ -50,7 +50,7 @@ public abstract class BasicFrame extends VerticalPanel {
 	 *            der String, den wir als andernorts HTML setzen wollen.
 	 * @return GWT HTML Widget.
 	 */
-	public HTML createHeadline(String text) {
+	protected HTML createHeadline(String text) {
 		HTML content = new HTML(text);
 		//content.setStylePrimaryName("bankproject-headline");
 		return content;
@@ -66,7 +66,7 @@ public abstract class BasicFrame extends VerticalPanel {
 	 *            der String, den wir als HTML an die bisherige BasicFrame-Ausgabe
 	 *            anhängen wollen.
 	 */
-	public void append(String text) {
+	protected void append(String text) {
 		HTML content = new HTML(text);
 		//content.setStylePrimaryName("bankproject-simpletext");
 		this.add(content);
@@ -82,7 +82,7 @@ public abstract class BasicFrame extends VerticalPanel {
 	 *            der String, den wir als HTML an die bisherige BasicFrame-Ausgabe
 	 *            anhängen wollen.
 	 */
-	public void append(Widget wi) {
+	protected void append(Widget wi) {
 		this.add(wi);
 	}
 
@@ -91,10 +91,10 @@ public abstract class BasicFrame extends VerticalPanel {
 	 * 
 	 * @return der Text, den wir als Headline setzen wollen.
 	 */
-	public abstract String getHeadlineText();
+	protected abstract String getHeadlineText();
 
 	/**
 	 * Abstrakte Einschubmethode, die in den Subklassen zu realisieren ist.
 	 */
-	public abstract void run();
+	protected abstract void run();
 }

@@ -181,12 +181,11 @@ public class CustomerForm extends VerticalPanel {
 		public void onSuccess(Profil p) {
 
 			ClientsideSettings.setCurrentUser(p);
-			p.setLoggedIn(true);
-			ShowProfil sp = new ShowProfil();
+
+			ShowProfil fc = new ShowProfil();
 			Navbar nb = new Navbar();
 			VerticalPanel detailsPanel = new VerticalPanel();
-			detailsPanel.add(sp);
-			RootPanel.get("Navigator").clear();
+			detailsPanel.add(fc);
 			RootPanel.get("Navigator").add(nb);
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(new Home());

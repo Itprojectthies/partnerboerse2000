@@ -2,12 +2,12 @@ package de.superteam2000.gwt.server;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.labs.repackaged.com.google.common.base.Objects;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
@@ -158,14 +158,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		i.setProfilId(profil.getId());
 		return this.iMapper.insert(i);
 	}
-	
-	@Override
-	public void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException {
-		
-		for (Map.Entry<Integer, Info> entry: infos.entrySet()) {
-			this.iMapper.insert(entry.getValue());
-		}
-	}
 
 	@Override
 	public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text) throws IllegalArgumentException {
@@ -176,7 +168,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return this.iMapper.insert(i);
 	}
-	
 
 	@Override
 	public void saveInfoForProfil(Profil profil, Info info) throws IllegalArgumentException {
@@ -261,21 +252,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public Beschreibung getBeschreibungById(int id) throws IllegalArgumentException {
 		return this.beschrMapper.findByKey(id);
-	}
-
-	@Override
-	public String getEigenschaftsNameById(int id) throws IllegalArgumentException {
-		if (this.beschrMapper.findByKey(id) != null) {
-			Beschreibung b = this.beschrMapper.findByKey(id);
-			String name = b.getBeschreibungstext();
-			return  name;
-		}
-		else if (this.auswahlMapper.findByKey(id) != null) {
-			Auswahl a = this.auswahlMapper.findByKey(id);
-			String name = a.getBeschreibungstext();
-			return name;
-		}
-		return "nichts gefunden!";
 	}
 
 	@Override
