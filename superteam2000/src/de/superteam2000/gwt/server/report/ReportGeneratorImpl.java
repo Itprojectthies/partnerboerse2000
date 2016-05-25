@@ -71,7 +71,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		imprint.addSubParagraph(new SimpleParagraph("Email: " + p.getEmail()));
 		imprint.addSubParagraph(new SimpleParagraph("Geschlecht: " + p.getGeschlecht()));
 		imprint.addSubParagraph(new SimpleParagraph("Alter: " + p.getAlter()));
-		imprint.addSubParagraph(new SimpleParagraph(p.getRaucher()));
+		imprint.addSubParagraph(new SimpleParagraph("Raucher: " + p.getRaucher()));
 		imprint.addSubParagraph(new SimpleParagraph("Religion: "+p.getReligion()));
 		result.setImprint(imprint);
 		
