@@ -5,10 +5,11 @@ com.google.gwt.user.client.rpc.RpcTokenException, true, true, false, false, com.
 com.google.gwt.user.client.rpc.XsrfToken, false, false, true, true, com.google.gwt.user.client.rpc.XsrfToken/4254043109, 4254043109
 de.superteam2000.gwt.shared.ReportGenerator, false, false, false, false, _, 3443606980
 de.superteam2000.gwt.shared.bo.BusinessObject, false, false, true, false, de.superteam2000.gwt.shared.bo.BusinessObject/26608506, 26608506
-de.superteam2000.gwt.shared.bo.Profil, false, false, true, true, de.superteam2000.gwt.shared.bo.Profil/4246406362, 4246406362
+de.superteam2000.gwt.shared.bo.Profil, false, false, true, true, de.superteam2000.gwt.shared.bo.Profil/1997751918, 1997751918
 de.superteam2000.gwt.shared.report.AllNewProfileReport, true, true, false, false, de.superteam2000.gwt.shared.report.AllNewProfileReport/3417652265, 3417652265
 de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport, true, true, false, false, de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport/763721337, 763721337
 de.superteam2000.gwt.shared.report.AllProfileBySuche, true, true, false, false, de.superteam2000.gwt.shared.report.AllProfileBySuche/2390590507, 2390590507
+de.superteam2000.gwt.shared.report.AllProfilesReport, true, true, false, false, de.superteam2000.gwt.shared.report.AllProfilesReport/3813710179, 3813710179
 de.superteam2000.gwt.shared.report.Column, true, true, false, false, de.superteam2000.gwt.shared.report.Column/1642758972, 1642758972
 de.superteam2000.gwt.shared.report.CompositeParagraph, true, true, false, false, de.superteam2000.gwt.shared.report.CompositeParagraph/3708821236, 3708821236
 de.superteam2000.gwt.shared.report.CompositeReport, true, false, false, false, de.superteam2000.gwt.shared.report.CompositeReport/966275079, 966275079

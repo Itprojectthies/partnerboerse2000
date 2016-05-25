@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.7.12)
 # Database: partnerboerse2000
-# Generation Time: 2016-04-25 19:56:58 +0000
+# Generation Time: 2016-05-03 10:56:29 +0000
 # ************************************************************
 
 
@@ -162,15 +162,6 @@ CREATE TABLE `Merkzettel` (
   CONSTRAINT `FK_Profil2` FOREIGN KEY (`Merker_id`) REFERENCES `Profil` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `Merkzettel` WRITE;
-/*!40000 ALTER TABLE `Merkzettel` DISABLE KEYS */;
-
-INSERT INTO `Merkzettel` (`id`, `Germerkter_id`, `Merker_id`)
-VALUES
-	(1,1,2);
-
-/*!40000 ALTER TABLE `Merkzettel` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table Profil
@@ -179,15 +170,15 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `Profil`;
 
 CREATE TABLE `Profil` (
-  `Geburtsdatum` varchar(12) DEFAULT NULL,
-  `Vorname` varchar(20) DEFAULT NULL,
-  `Nachname` varchar(20) DEFAULT NULL,
-  `Erstelldatum` timestamp NULL DEFAULT NULL,
-  `Email` varchar(20) DEFAULT NULL,
-  `Haarfarbe` varchar(20) DEFAULT NULL,
+  `Geburtsdatum` varchar(50) DEFAULT NULL,
+  `Vorname` varchar(50) DEFAULT NULL,
+  `Nachname` varchar(50) DEFAULT NULL,
+  `Erstelldatum` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `Email` varchar(50) DEFAULT NULL,
+  `Haarfarbe` varchar(50) DEFAULT NULL,
   `Koerpergroesse` int(3) DEFAULT NULL,
   `Raucher` varchar(30) DEFAULT NULL,
-  `Religion` varchar(20) DEFAULT NULL,
+  `Religion` varchar(50) DEFAULT NULL,
   `Geschlecht` varchar(20) DEFAULT NULL,
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
@@ -198,10 +189,8 @@ LOCK TABLES `Profil` WRITE;
 
 INSERT INTO `Profil` (`Geburtsdatum`, `Vorname`, `Nachname`, `Erstelldatum`, `Email`, `Haarfarbe`, `Koerpergroesse`, `Raucher`, `Religion`, `Geschlecht`, `id`)
 VALUES
-	(NULL,'dani','volz',NULL,'volz@mail.de','braun',172,'1','keine','m',1),
-	(NULL,'hansi','mueller',NULL,'mueller@mail.de','blond',190,'0','rk','m',2),
-	('gebtag','vname','nname',NULL,'mail','haar',123,'raucher','reli','gesch',3),
-	('21.04.1992','Nargis','Vershinina',NULL,'nargi@mail.de','braun',160,'nein','russisch orthodox','w',4);
+	(NULL,'Daniel','Volz','2016-05-03 00:38:01','volz@mail.de','braun',175,'ja','keine','m',16),
+	('05.03.1234','Peter','Cool','2016-05-03 01:09:21','test@example.com','blau',189,'nein','rk','m',17);
 
 /*!40000 ALTER TABLE `Profil` ENABLE KEYS */;
 UNLOCK TABLES;

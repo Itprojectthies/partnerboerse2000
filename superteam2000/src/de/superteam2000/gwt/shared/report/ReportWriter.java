@@ -16,21 +16,30 @@ package de.superteam2000.gwt.shared.report;
  * @author Thies
  */
 public abstract class ReportWriter {
+	
+	public abstract void process(AllProfileBySuche r);
+	
+	public abstract void process(ProfilReport r);
 
-  /**
-   * Übersetzen eines <code>AllAccountsOfCustomerReport</code> in das
-   * Zielformat.
-   * 
-   * @param r der zu übersetzende Report
-   */
-  public abstract void process(AllNotVisitedProfileReport r);
+	/**
+	 * Übersetzen eines <code>AllAccountsOfCustomerReport</code> in das
+	 * Zielformat.
+	 * 
+	 * @param r
+	 *            der zu übersetzende Report
+	 */
+	public abstract void process(AllNotVisitedProfileReport r);
 
-  /**
-   * Übersetzen eines <code>AllAccountsOfAllCustomersReport</code> in das
-   * Zielformat.
-   * 
-   * @param r der zu übersetzende Report
-   */
-  public abstract void process(AllNewProfileReport r);
+	/**
+	 * Übersetzen eines <code>AllAccountsOfAllCustomersReport</code> in das
+	 * Zielformat.
+	 * 
+	 * @param r
+	 *            der zu übersetzende Report
+	 */
+	public abstract void process(AllNewProfileReport r);
+	
+	public abstract void process(AllProfilesReport r);
+	
 
 }

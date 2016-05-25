@@ -1,31 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
               http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5"
-         xmlns="http://java.sun.com/xml/ns/javaee">
+	version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
 
-  <!-- Default page to serve -->
-  <welcome-file-list>
-       <welcome-file>Superteam_start.html</welcome-file>
-    <welcome-file>Superteam2000.html</welcome-file>
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>Superteam2000.html</welcome-file>
+	</welcome-file-list>
 
-  </welcome-file-list>
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>partnerboerseAdministrationImpl</servlet-name>
+		<servlet-class>de.superteam2000.gwt.server.PartnerboerseAdministrationImpl
+		</servlet-class>
+	</servlet>
 
-  <!-- Servlets -->
-  <servlet>
-	<servlet-name>partnerboerseAdministrationImpl</servlet-name>
-	<servlet-class>de.superteam2000.gwt.server.PartnerboerseAdministrationImpl</servlet-class>
-  </servlet>
+	<servlet-mapping>
+		<servlet-name>partnerboerseAdministrationImpl</servlet-name>
+		<url-pattern>/superteam2000/pba</url-pattern>
+	</servlet-mapping>
 
-  <servlet-mapping>
-	<servlet-name>partnerboerseAdministrationImpl</servlet-name>
-	<url-pattern>/superteam2000/pba</url-pattern>
-	<url-pattern>/superteam_start/pba</url-pattern>
-  </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>partnerboerseAdministrationImpl</servlet-name>
+		<url-pattern>/reportgen/pba</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	
+	<servlet>
+		<servlet-name>ReportGeneratorImpl</servlet-name>
+		<servlet-class>de.superteam2000.gwt.server.report.ReportGeneratorImpl
+		</servlet-class>
+	</servlet>
 
- 
-  
+	<servlet-mapping>
+		<servlet-name>ReportGeneratorImpl</servlet-name>
+		<url-pattern>/superteam2000/rg</url-pattern>
+	</servlet-mapping>
 
+	<servlet-mapping>
+		<servlet-name>ReportGeneratorImpl</servlet-name>
+		<url-pattern>/reportgen/rg</url-pattern>
+	</servlet-mapping>
 
 </web-app>

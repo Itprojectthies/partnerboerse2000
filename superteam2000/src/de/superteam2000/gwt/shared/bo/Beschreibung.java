@@ -1,10 +1,10 @@
 package de.superteam2000.gwt.shared.bo;
 
-public class Beschreibung extends Eigenschaft{
-	
+public class Beschreibung extends Eigenschaft {
+
 	private static final long serialVersionUID = 1L;
-	
-	private String text;
+
+	private String text = "";
 
 	public String getText() {
 		return text;
@@ -13,6 +13,5 @@ public class Beschreibung extends Eigenschaft{
 	public void setText(String text) {
 		this.text = text;
 	}
-	
 
 }

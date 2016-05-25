@@ -11,7 +11,7 @@ de.superteam2000.gwt.shared.bo.Eigenschaft, true, false, true, false, de.superte
 de.superteam2000.gwt.shared.bo.Info, true, true, true, true, de.superteam2000.gwt.shared.bo.Info/4122995722, 4122995722
 de.superteam2000.gwt.shared.bo.Kontaktsperre, true, true, true, true, de.superteam2000.gwt.shared.bo.Kontaktsperre/5783685, 5783685
 de.superteam2000.gwt.shared.bo.Merkzettel, true, true, true, true, de.superteam2000.gwt.shared.bo.Merkzettel/3968491774, 3968491774
-de.superteam2000.gwt.shared.bo.Profil, true, true, true, true, de.superteam2000.gwt.shared.bo.Profil/4246406362, 4246406362
+de.superteam2000.gwt.shared.bo.Profil, true, true, true, true, de.superteam2000.gwt.shared.bo.Profil/1997751918, 1997751918
 java.lang.Exception, true, false, true, false, java.lang.Exception/1920171873, 1920171873
 java.lang.IllegalArgumentException, true, true, false, false, java.lang.IllegalArgumentException/1755012560, 1755012560
 java.lang.NumberFormatException, true, true, false, false, java.lang.NumberFormatException/3305228476, 3305228476
