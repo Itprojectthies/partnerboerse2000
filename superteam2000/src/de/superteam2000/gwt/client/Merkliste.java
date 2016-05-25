@@ -2,11 +2,14 @@ package de.superteam2000.gwt.client;
 
 import java.util.ArrayList;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -27,7 +30,7 @@ public class Merkliste extends BasicFrame {
 	@Override
 	public String getHeadlineText() {
 
-		return "Merkliste";
+		return "Von ihnen gemerkte Profile:";
 	}
 
 	ArrayList<Profil> profile = new ArrayList<>();
@@ -43,8 +46,10 @@ public class Merkliste extends BasicFrame {
 
 			@Override
 			public void onSuccess(Merkzettel result) {
-				ClientsideSettings.getLogger().info(String.valueOf(result.getMerkerId()));
+
 				profile = result.getGemerkteProfile();
+				final Button profilEntfernenButton = new Button("Profil entfernen");
+				RootPanel.get("Details").add(profilEntfernenButton);
 
 				DataGrid<Profil> table = new DataGrid<Profil>();
 				table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
@@ -80,26 +85,37 @@ public class Merkliste extends BasicFrame {
 
 					@Override
 					public void onSelectionChange(SelectionChangeEvent event) {
-						Profil selected = selectionModel.getSelectedObject();
-						if (selected != null) {
-							ClientsideSettings.getPartnerboerseVerwaltung().deleteMerken
-							(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
-								
-								@Override
-								public void onSuccess(Void result) {
-									
-									Window.alert("Profil wurde von der Merkliste entfernt!");
-									
-								}
-								
-								@Override
-								public void onFailure(Throwable caught) {
-									// TODO Auto-generated method stub
-									
-								}
-							});
+						final Profil selected = selectionModel.getSelectedObject();
+						profilEntfernenButton.addClickHandler(new ClickHandler() {
 							
-						}
+							@Override
+							public void onClick(ClickEvent event) {
+								if (selected != null) {
+									ClientsideSettings.getPartnerboerseVerwaltung().deleteMerken
+									(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
+										
+										@Override
+										public void onSuccess(Void result) {
+											RootPanel.get("Details").clear();
+											Merkliste m = new Merkliste();
+											RootPanel.get("Details").add(m);
+											
+											Window.alert("Profil wurde von der Merkliste entfernt!");
+											
+										}
+										
+										@Override
+										public void onFailure(Throwable caught) {
+											// TODO Auto-generated method stub
+											
+										}
+									});
+									
+								}
+								
+							}
+						});
+
 
 					}
 				});

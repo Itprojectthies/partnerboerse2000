@@ -218,6 +218,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public ArrayList<Profil> getVisitedProfiles(Profil profil) throws IllegalArgumentException {
 		return this.pMapper.getVisitedProfiles(profil);
 	}
+	
+	
 
 	@Override
 	public void createMerken(Profil a, Profil b) throws IllegalArgumentException {
@@ -225,6 +227,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		ArrayList<Profil> profile = m.getGemerkteProfile();
 		if( !profile.contains(b)){
 		mMapper.insertMerkenForProfil(a, b);}
+
+	}
+	
+	@Override
+	public void createSperre(Profil a, Profil b) throws IllegalArgumentException {
+		kMapper.insertKontaktsperreForProfil(a, b);
 
 	}
 
@@ -239,6 +247,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		Merkzettel m = mMapper.findAllForProfil(profil);
 		return m;
 	}
+	
+	@Override
+	public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException {
+		Kontaktsperre k = kMapper.findAllForProfil(profil);
+		return k;
+	}
 
 	@Override
 	public void createKontaktsperre(Profil sperrer, Profil gesperrter) throws IllegalArgumentException {
@@ -252,11 +266,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
-	@Override
-	public ArrayList<Kontaktsperre> getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	public void createSuchprofilForProfil(Profil profil) throws IllegalArgumentException {
 		// TODO Auto-generated method stub

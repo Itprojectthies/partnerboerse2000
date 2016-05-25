@@ -109,7 +109,10 @@ public class Navbar extends HorizontalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					Window.alert("SPerrliste");
+					Sperre s = new Sperre();
+					RootPanel.get("Details").clear();
+					RootPanel.get("Menu").clear();
+					RootPanel.get("Details").add(s);
 				}
 
 			});

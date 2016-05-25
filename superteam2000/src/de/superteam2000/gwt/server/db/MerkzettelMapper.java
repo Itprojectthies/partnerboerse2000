@@ -68,56 +68,12 @@ public class MerkzettelMapper {
 		return merkzettelMapper;
 	}
 
-	/**
-	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
-	 * ist, wird genau ein Objekt zur�ckgegeben.
-	 * 
-	 * @param id
-	 *            Primärschlüsselattribut (->DB)
-	 * @return Kunden-Objekt, das dem übergebenen Schlüssel entspricht, null bei
-	 *         nicht vorhandenem DB-Tupel.
-	 */
-//	public Merkzettel findByKey(int id) {
-//		// DB-Verbindung holen
-//		Connection con = DBConnection.connection();
-//
-//		try {
-//			// Leeres SQL-Statement (JDBC) anlegen
-//			Statement stmt = con.createStatement();
-//
-//			// Statement ausfüllen und als Query an die DB schicken
-//			ResultSet rs = stmt
-//					.executeQuery("SELECT id, firstName, lastName FROM Profils "
-//							+ "WHERE id=" + id + " ORDER BY lastName");
-//
-//			/*
-//			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-//			 * werden. Prüfe, ob ein Ergebnis vorliegt.
-//			 */
-//			if (rs.next()) {
-//				// Ergebnis-Tupel in Objekt umwandeln
-//				Merkzettel m = new Merkzettel();
-//				m.setId(rs.getInt("id"));
-//				m.setFirstName(rs.getString("firstName"));
-//				m.setLastName(rs.getString("lastName"));
-//
-//				return m;
-//			}
-//		}
-//		catch (SQLException e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//
-//		return null;
-//	}
+
 
 	/**
-	 * Auslesen aller Kunden.
+	 * Auslesen aller Merkzetteleinträge für ein Profil.
 	 *
-	 * @return Ein Vektor mit Merkzettel-Objekten, die sämtliche Kunden
-	 * repräsentieren. Bei evtl. Exceptions wird ein partiell gef�llter
-	 * oder ggf. auch leerer Vetor zurückgeliefert.
+	 * @return Merkzettel des Profils
 	 */
 	public Merkzettel findAllForProfil(Profil p) {
 		Connection con = DBConnection.connection();
@@ -185,30 +141,7 @@ public class MerkzettelMapper {
 		
 	}
 
-	/**
-	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
-	 *
-	 * @param m das Objekt, das in die DB geschrieben werden soll
-	 * @return das als Parameter übergebene Objekt
-	 */
-	public Merkzettel update(Merkzettel m) {
-		Connection con = DBConnection.connection();
 
-		try {
-			Statement stmt = con.createStatement();
-
-//			stmt.executeUpdate("UPDATE Merkzettel " + "SET Gemerkter_id=\""
-//					+ m.getGemerkterId() + "\", Merker_id=\"" + m.getMerkerId() + "\" "
-//					+ "WHERE id=" + m.getId());
-
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		// Um Analogie zu insert(Merkzettel m) zu wahren, geben wir m zurück
-		return m;
-	}
 
 	/**
 	 * Löschen der Daten eines Merkzettel-Eintrags aus der

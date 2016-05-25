@@ -40,6 +40,7 @@ import de.superteam2000.gwt.shared.report.ProfilReport;
 public class Suche extends BasicFrame {
 
 	ArrayList<Profil> profile = null;
+	Profil profil = null;
 	
 
 	Button suchButton = new Button("Suche");
@@ -138,6 +139,8 @@ public class Suche extends BasicFrame {
 		@Override
 		public void onClick(ClickEvent event) {
 			
+			final Button merkenButton = new Button("Profil merken");
+			final Button sperrenButton = new Button("Profil sperren");
 			RootPanel.get("Details").clear();
 
 			// "dummmy-Profil" erstellen
@@ -154,13 +157,15 @@ public class Suche extends BasicFrame {
 
 				/**
 				 * onSuccess wird mit der ArrayList an Profilen die der Suche
-				 *  entsprochen haben ein "Suchreport" erstellt
+				 *  entsprochen haben ein Datagrid erstellt welcher die Profile enthält
 				 *
 				 */
 				@Override
 				public void onSuccess(ArrayList<Profil> result) {
 					if(result != null){
 						profile = result;	
+						RootPanel.get("Details").add(merkenButton);
+						RootPanel.get("Details").add(sperrenButton);
 						
 						
 						DataGrid<Profil> table = new DataGrid<Profil>();
@@ -206,27 +211,59 @@ public class Suche extends BasicFrame {
 
 							@Override
 							public void onSelectionChange(SelectionChangeEvent event) {
-								Profil selected = selectionModel.getSelectedObject();
-								if (selected != null) {
-
-									ClientsideSettings.getPartnerboerseVerwaltung().createMerken
-									(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
-										
-										@Override
-										public void onSuccess(Void result) {
-											Window.alert("Profil gemerkt.");
-											
-										}
-										
-										@Override
-										public void onFailure(Throwable caught) {
-											// TODO Auto-generated method stub
-											
-										}
-									});;
+								final Profil selected = selectionModel.getSelectedObject();
+								sperrenButton.addClickHandler(new ClickHandler() {
 									
+									@Override
+									public void onClick(ClickEvent event) {
+										if(selected != null){
+											ClientsideSettings.getPartnerboerseVerwaltung().
+											createSperre(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
+												
+												@Override
+												public void onSuccess(Void result) {
+													Window.alert("Profil gesperrt!");													
+												}
+												
+												@Override
+												public void onFailure(Throwable caught) {
+													// TODO Auto-generated method stub
+													
+												}
+											});
+										}
+										
+									}
+								});
+								merkenButton.addClickHandler(new ClickHandler() {
+									
+									@Override
+									public void onClick(ClickEvent event) {
+										if (selected != null) {
 
-								}				
+											ClientsideSettings.getPartnerboerseVerwaltung().createMerken
+											(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
+												
+												@Override
+												public void onSuccess(Void result) {
+													Window.alert("Profil gemerkt.");
+													
+												}
+												
+												@Override
+												public void onFailure(Throwable caught) {
+													// TODO Auto-generated method stub
+													
+												}
+											});;
+											
+
+										}
+										
+										
+									}
+								});
+												
 							}
 						});
 

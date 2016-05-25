@@ -89,7 +89,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void deleteKontaktsperre(Kontaktsperre kontaktsperre, AsyncCallback<Void> callback);
 
-	void getKontaktsperreForProfil(Profil profil, AsyncCallback<ArrayList<Kontaktsperre>> callback);
+	void getKontaktsperreForProfil(Profil profil, AsyncCallback<Kontaktsperre> callback);
 
 
 
@@ -105,6 +105,8 @@ public interface PartnerboerseAdministrationAsync {
 	void getEigenschaftsNameById(int id, AsyncCallback<String> callback);
 
 	void createInfosFor(Map<Integer, Info> infos, AsyncCallback<Void> callback);
+
+	void createSperre(Profil a, Profil b, AsyncCallback<Void> callback);
 
 
 

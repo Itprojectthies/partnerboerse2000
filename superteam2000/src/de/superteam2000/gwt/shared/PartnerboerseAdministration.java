@@ -86,7 +86,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void deleteKontaktsperre(Kontaktsperre kontaktsperre) throws IllegalArgumentException;
 
-	public ArrayList<Kontaktsperre> getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException;
+	public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException;
 
 	public Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException;
 
@@ -99,6 +99,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException;
 
 	public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException;
+
+	void createSperre(Profil a, Profil b) throws IllegalArgumentException;
 
 
 
