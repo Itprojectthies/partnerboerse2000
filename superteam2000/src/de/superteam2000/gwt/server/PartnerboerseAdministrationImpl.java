@@ -203,12 +203,46 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil profil) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+		/* 	Einbeziehung der Auswahleigenschaften und Info-Objekte.
+		 * Mögliche Realisierung: 
+		 * 
+		 * Vergleich der String-Info-Objekte eines Profils mittels
+		 * equalsIgnoreCase() oder regionMatches()
+		 * 
+		 * Auch möglich: Algorithmus, der die Ähnlichkeit von Strings vergleicht, z.B. Jaro-Winkler von http://secondstring.sourceforge.net/,
+		 * der einen Wert zwischen 0 und 1 liefert.
+		 * Individuelle Gewichtung der Einflussfaktoren möglich
+		 *
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 */
+		
+		
+		
+		
+		
+		
+		
 		return null;
 	}
 
 	@Override
 	public void setVisited(Profil besucher, Profil besuchter) throws IllegalArgumentException {
 		this.pMapper.setVisited(besucher, besuchter);
+		
+		
+		
+		
 
 	}
 

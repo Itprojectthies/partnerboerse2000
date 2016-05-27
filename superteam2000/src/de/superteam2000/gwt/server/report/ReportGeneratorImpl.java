@@ -162,12 +162,32 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	@Override
 	public AllNewProfileReport createAllNewProfilesReport(Profil p) {
 		// TODO Auto-generated method stub
+		
+		/*Ausgabe der noch nicht besuchten Profile, sortiert nach Ähnlichkeitsmaß
+	
+	
+	
+		
+
+		
+		
+		
+		
+		
+		*/
 		return null;
 	}
 
 	@Override
 	public AllProfileBySuche createAllProfileBySucheReport(Profil p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+		
+		//Ergebnis der Suchprofil-Suche; Ausgabe sortiert nach Änlichkeitsmaß
+		
+		
+		
+		
+		
 		return null;
 	}
 }
