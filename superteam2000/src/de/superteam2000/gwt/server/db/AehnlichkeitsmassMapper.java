@@ -1,5 +1,13 @@
 package de.superteam2000.gwt.server.db;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import de.superteam2000.gwt.shared.bo.Info;
+import de.superteam2000.gwt.shared.bo.Profil;
+import de.superteam2000.gwt.shared.bo.Suchprofil;
 
 /**
  * Mapper-Klasse, die <code>Account</code>-Objekte auf eine relationale

@@ -212,28 +212,46 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		 * Auch möglich: Algorithmus, der die Ähnlichkeit von Strings vergleicht, z.B. Jaro-Winkler von http://secondstring.sourceforge.net/,
 		 * der einen Wert zwischen 0 und 1 liefert.
 		 * Individuelle Gewichtung der Einflussfaktoren möglich
-		 *
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
+	
 		 */
 		
+		/* speichert alle für das Ähnlichkeitsmaß relevanten Profileigenschaften aus der Datenbank in einer ArrayList */
+		ArrayList<Profil> ProfilEig = this.getAllProfils(); 
+		/* speichert alle textuellen Info-Objekte aus der Datenbank eines Profils in einer ArrayList*/
+		ArrayList<Info>	Info	=this.getallInfos();
+		
+		
+		/* für die Berechnung und Ausgabe des Ähnlichkeitsmaßes in einer ArrayList wird ein Referenzprofil
+		 * und ein weiteres Profil zum Vergleich benötigt. Solange noch weitere Profile vorhanden sind, werden diese auch mit
+		 * dem Refernzprofil verglichen
+		 */
+		while (p.next())
+		{
+			
+			
+			
+			
+			
+		}
+		
+		
+		 
+		
+		ArrayList<Profil> result = new ArrayList<>();
+		
+		
+		return result;
 		
 		
 		
 		
 		
 		
-		return null;
+		
+		
+		
+		
+		
 	}
 
 	@Override
