@@ -6,14 +6,13 @@ import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-//import de.superteam2000.gwt.client.LoginInfo;
 import de.superteam2000.gwt.shared.bo.*;
 
 /**
- * Das asynchrone Gegenstück des Interface {@link BankAdministration}. Es wird
+ * Das asynchrone Gegenstück des Interface {@link Administration}. Es wird
  * semiautomatisch durch das Google Plugin erstellt und gepflegt. Daher erfolgt
  * hier keine weitere Dokumentation. Für weitere Informationen siehe das
- * synchrone Interface {@link BankAdministration}.
+ * synchrone Interface {@link Administration}.
  * 
  * @author thies, volz, funke
  */
@@ -25,8 +24,8 @@ public interface PartnerboerseAdministrationAsync {
 	// Profile
 	void save(Profil profil, AsyncCallback<Void> callback);
 
-	void createProfil(String nachname, String vorname, String email, Date date, String haarfarbe,
-			String raucher, String religion, int groesse, String geschlecht, AsyncCallback<Profil> callback);
+	void createProfil(String nachname, String vorname, String email, Date date, String haarfarbe, String raucher,
+			String religion, int groesse, String geschlecht, AsyncCallback<Profil> callback);
 
 	void delete(Profil profil, AsyncCallback<Void> callback);
 
@@ -59,7 +58,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	// Info
 
-
 	void saveInfoForProfil(Profil profil, Info info, AsyncCallback<Void> callback);
 
 	void deleteInfoForProfil(Profil profil, Info info, AsyncCallback<Void> callback);
@@ -90,12 +88,9 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getKontaktsperreForProfil(Profil profil, AsyncCallback<ArrayList<Kontaktsperre>> callback);
 
-
-
 	void createInfoFor(Profil profil, Auswahl auswahl, String text, AsyncCallback<Info> callback);
 
 	void createInfoFor(Profil profil, Beschreibung beschreibung, String text, AsyncCallback<Info> callback);
-
 
 	void getProfilByMail(String email, AsyncCallback<Profil> callback);
 
@@ -105,12 +100,13 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createInfosFor(Map<Integer, Info> infos, AsyncCallback<Void> callback);
 
+	void getAuswahlProfilAttributByName(String name, AsyncCallback<Auswahl> callback);
 
-	
-	
+	void getBeschreibungProfilAttributByName(String name, AsyncCallback<Beschreibung> callback);
 
-//	void getCurrentProfil(AsyncCallback<Profil> callback);
+	void getAllAuswahlProfilAttribute(AsyncCallback<ArrayList<Auswahl>> callback);
 
+	void getSelectionForProfilAttributAuswahl(String name, Profil p, AsyncCallback<String> callback);
 
 	// Suchprofil
 

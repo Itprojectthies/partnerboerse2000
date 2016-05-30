@@ -6,12 +6,11 @@ import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-//import com.google.gwt.i18n.shared.DateTimeFormat;
-import de.superteam2000.gwt.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.IntegerBox;
@@ -21,6 +20,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.superteam2000.gwt.client.gui.CompositeProfilAttributeBox;
+import de.superteam2000.gwt.client.gui.DateTimeFormat;
+import de.superteam2000.gwt.client.gui.ProfilAttributBox;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
@@ -52,7 +54,6 @@ public class ShowProfil extends BasicFrame {
 	ListBox gebDatumTagListBox = new ListBox();
 	ListBox gebDatumMonatListBox = new ListBox();
 	ListBox gebDatumJahrListBox = new ListBox();
-	
 
 	Button saveButton = new Button("Speichern");
 	DialogBox dialogBox = new DialogBox();
@@ -72,9 +73,36 @@ public class ShowProfil extends BasicFrame {
 		return null;
 	}
 
+	private FlowPanel fPanel = new FlowPanel();
+
 	@Override
 	public void run() {
 		final PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+
+		final ProfilAttributBox palb = new ProfilAttributBox();
+		// palb.createListobxPanel("Haarfarbe", 12, user.getHaarfarbe());
+
+		// palb.createListobxPanel("Haarfarbe", 3, "rot");
+
+//		pbVerwaltung.getAuswahlProfilAttributByName("Haarfarbe", 
+//				new AuswahlCallback(user.getHaarfarbe(), 0));
+//		pbVerwaltung.getAuswahlProfilAttributByName("Religion",
+//				new AuswahlCallback(user.getReligion(), 1));
+//		pbVerwaltung.getAuswahlProfilAttributByName("Geschlecht", 
+//				new AuswahlCallback(user.getGeschlecht(), 2));
+//		pbVerwaltung.getAuswahlProfilAttributByName("Raucher", 
+//				new AuswahlCallback(user.getRaucher(), 3));
+//		pbVerwaltung.getAuswahlProfilAttributByName("Körpergröße", new groesseCallback(user.getGroesse()));
+//
+//		pbVerwaltung.getAuswahlProfilAttributByName("Geburtstag", 
+//				new gebtagAuswahlCallback(user.getGeburtsdatum()));
+		
+		pbVerwaltung.getAllAuswahlProfilAttribute(new AuswahlArrayCallback(user));
+		
+		
+		this.fPanel = palb.getfPanel();
+		RootPanel.get("Details").add(fPanel);
+
 		final Grid customerGrid = new Grid(11, 4);
 		this.add(customerGrid);
 
@@ -101,8 +129,6 @@ public class ShowProfil extends BasicFrame {
 		customerGrid.setWidget(4, 1, alterTextBox);
 		alterTextBox.setText(String.valueOf(user.getAlter()));
 		alterTextBox.setEnabled(false);
-		
-
 
 		Label haarfarbeLabel = new Label("Haarfarbe");
 		customerGrid.setWidget(5, 0, haarfarbeLabel);
@@ -151,28 +177,27 @@ public class ShowProfil extends BasicFrame {
 				lastNameTextBox.setEnabled(true);
 				firstNameTextBox.setEnabled(true);
 				saveButton.setEnabled(true);
-				
+
 				Label gebDatumLabel = new Label("Geburtstag");
 				customerGrid.setWidget(10, 0, gebDatumLabel);
 				customerGrid.setWidget(10, 1, gebDatumTagListBox);
 				customerGrid.setWidget(10, 2, gebDatumMonatListBox);
 				customerGrid.setWidget(10, 3, gebDatumJahrListBox);
-				
+
 				for (int i = 1; i <= 31; i++) {
 					gebDatumTagListBox.addItem(String.valueOf(i));
 				}
 				for (int i = 1; i <= 12; i++) {
 					gebDatumMonatListBox.addItem(String.valueOf(i));
 				}
-				for (int i = 1900; i <= 2000 ; i++) {
+				for (int i = 1900; i <= 2000; i++) {
 					gebDatumJahrListBox.addItem(String.valueOf(i));
 				}
-				
-				
+
 				String dateString = DateTimeFormat.getFormat("yyyy-MM-dd").format(user.getGeburtsdatum());
 				if (dateString != null) {
 					String[] gebDaten = dateString.split("-");
-					ClientsideSettings.getLogger().info("Gebdatum bekommen " + gebDaten[2]);
+					ClientsideSettings.getLogger().info("Gebdatum bekommen " + dateString);
 					gebDatumTagListBox.setItemSelected(Integer.valueOf(gebDaten[2]) - 1, true);
 					gebDatumMonatListBox.setItemSelected(Integer.valueOf(gebDaten[1]) - 1, true);
 					gebDatumJahrListBox.setItemSelected(Integer.valueOf(gebDaten[0]) - 1900, true);
@@ -192,11 +217,12 @@ public class ShowProfil extends BasicFrame {
 				String raucher = raucherTextBox.getText();
 				String religion = religionTextBox.getText();
 				int groesse = koerpergroesseIntegerBox.getValue();
-				
+
 				int geburtsTag = Integer.valueOf(gebDatumTagListBox.getSelectedItemText());
 				int geburtsMonat = Integer.valueOf(gebDatumMonatListBox.getSelectedItemText());
 				int geburtsJahr = Integer.valueOf(gebDatumJahrListBox.getSelectedItemText());
-				Date gebTag2 = DateTimeFormat.getFormat("yyyy-MM-dd").parse(geburtsJahr +"-"+ geburtsMonat+"-"+geburtsTag);
+				Date gebTag2 = DateTimeFormat.getFormat("yyyy-MM-dd")
+						.parse(geburtsJahr + "-" + geburtsMonat + "-" + geburtsTag);
 				java.sql.Date gebTag = new java.sql.Date(gebTag2.getTime());
 				p.setVorname(vorname);
 				p.setNachname(nachname);
@@ -270,6 +296,108 @@ public class ShowProfil extends BasicFrame {
 
 	}
 
+
+	class AuswahlCallback implements AsyncCallback<Auswahl> {
+		String text = "";
+		int i = 0;
+		Profil p = null;
+
+		public AuswahlCallback(String text, int i) {
+			this.text = text;
+			this.i = i;
+		}
+		
+		public AuswahlCallback(Profil p) {
+			this.p = p;
+		}
+		
+		public AuswahlCallback(int i) {
+			this.i = i;
+		}
+
+		@Override
+		public void onSuccess(Auswahl a) {
+			
+				CompositeProfilAttributeBox test = new CompositeProfilAttributeBox(a, text, true);
+				fPanel.insert(test, i);
+		}
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+
+		}
+	};
+	
+	class AuswahlArrayCallback implements AsyncCallback <ArrayList<Auswahl>> {
+		Profil p = null;
+		
+		public AuswahlArrayCallback(Profil p) {
+			this.p = p;
+		}
+		
+		@Override
+		public void onSuccess(ArrayList<Auswahl> a) {
+			for (Auswahl auswahl : a) {
+				
+				pbVerwaltung.getSelectionForProfilAttributAuswahl(auswahl.getName(), p, new ProfilAttributSelectedValueCallback(auswahl));
+			}
+				
+		}
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+
+		}
+	};
+
+	class groesseCallback implements AsyncCallback<Auswahl> {
+
+		int i = 0;
+		public groesseCallback(int i) {
+			this.i = i;
+		}
+
+		@Override
+		public void onSuccess(Auswahl a) {
+			CompositeProfilAttributeBox test = new CompositeProfilAttributeBox(a, true);
+			test.createGroesseListBox();
+			test.setGroesse(i);
+			fPanel.add(test);
+		}
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+
+		}
+	};
+	
+	class gebtagAuswahlCallback implements AsyncCallback<Auswahl> {
+
+		Date date = null;
+
+		public gebtagAuswahlCallback(Date date) {
+			this.date = date;
+		}
+		
+
+		@Override
+		public void onSuccess(Auswahl a) {
+			CompositeProfilAttributeBox box1 = new CompositeProfilAttributeBox(a, true);
+			box1.createGebtaListobx();
+			box1.setGebtag(date);
+			fPanel.add(box1);
+		}
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+
+		}
+	};
+	
 	class InfoCallback implements AsyncCallback<ArrayList<Info>> {
 
 		private BasicFrame b = null;
@@ -288,14 +416,16 @@ public class ShowProfil extends BasicFrame {
 			try {
 				for (Info i : result) {
 					if (result != null) {
-//						this.b.append("Info #" + i.getId() + ": " + i.getText());
+						// this.b.append("Info #" + i.getId() + ": " +
+						// i.getText());
+						this.b.append(i.getText());
 						pbVerwaltung.getAuswahlById(i.getEigenschaftId(), new GetAuswahlCallback(this.b, i));
 						pbVerwaltung.getBeschreibungById(i.getEigenschaftId(), new GetBeschreibungCallback(this.b, i));
 					} else {
 						this.b.append("Result ist leer");
 					}
 
-				} 
+				}
 			} catch (Exception e) {
 				ClientsideSettings.getLogger().severe("Fehler " + e.getMessage());
 			}
@@ -303,12 +433,31 @@ public class ShowProfil extends BasicFrame {
 
 	}
 
+	class ProfilAttributSelectedValueCallback implements AsyncCallback<String> {
 
+		Auswahl a = null;
+		public ProfilAttributSelectedValueCallback(Auswahl a) {
+			this.a = a;
+		}
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(String result) {
+			CompositeProfilAttributeBox test = new CompositeProfilAttributeBox(a, result, true);
+			fPanel.add(test);
+		}
+
+	}
+	
+	
 	class GetBeschreibungCallback implements AsyncCallback<Beschreibung> {
-
 
 		private BasicFrame b = null;
 		private Info i = null;
+		HTML html = new HTML();
 		public GetBeschreibungCallback(BasicFrame b, Info i) {
 			this.b = b;
 			this.i = i;
@@ -322,17 +471,19 @@ public class ShowProfil extends BasicFrame {
 
 		@Override
 		public void onSuccess(Beschreibung result) {
-			this.b.append("Frage: " +result.getBeschreibungstext() + " Antwort: " + i.getText());
+			
+//				this.b.append("Frage: " + result.getBeschreibungstext() + " Antwort: " + i.getText());
+				html.setText("Frage: " + result.getBeschreibungstext() + " Antwort: " + i.getText());
+				fPanel.add(html);
 		}
-
 
 	}
 
 	class GetAuswahlCallback implements AsyncCallback<Auswahl> {
 
-
 		private BasicFrame b = null;
 		private Info i = null;
+		HTML html = new HTML();
 		public GetAuswahlCallback(BasicFrame b, Info i) {
 			this.b = b;
 			this.i = i;
@@ -346,9 +497,10 @@ public class ShowProfil extends BasicFrame {
 
 		@Override
 		public void onSuccess(Auswahl result) {
-			this.b.append("Frage: " +result.getBeschreibungstext() + " Antwort: " + i.getText());
+//			this.b.append("Frage: " + result.getBeschreibungstext() + " Antwort: " + i.getText());
+			html.setText("Frage: " + result.getBeschreibungstext() + " Antwort: " + i.getText());
+			fPanel.add(html);
 		}
 
 	}
 }
-

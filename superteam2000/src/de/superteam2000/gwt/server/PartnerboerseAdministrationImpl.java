@@ -149,6 +149,17 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public Auswahl getAuswahlById(int id) throws IllegalArgumentException {
 		return this.auswahlMapper.findByKey(id);
 	}
+	
+	@Override
+	public Auswahl getAuswahlProfilAttributByName(String name) throws IllegalArgumentException {
+		return this.auswahlMapper.findByName(name);
+	}
+	
+	@Override
+	public Beschreibung getBeschreibungProfilAttributByName(String name) throws IllegalArgumentException {
+		return this.beschrMapper.findByName(name);
+	}
+	
 
 	@Override
 	public Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException {
@@ -283,6 +294,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.beschrMapper.findAll();
 	}
 
+	
 
 	/*
 	 * Diese Methoden brauchen wir wohl nicht
@@ -350,7 +362,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return result;
 	}
 
-
+	@Override
+	public ArrayList<Auswahl> getAllAuswahlProfilAttribute() {
+		return this.auswahlMapper.findAllProfilAtrribute();
+	}
+	
+	@Override
+	public String getSelectionForProfilAttributAuswahl(String name, Profil p) {
+		return this.pMapper.findSelectionByName(name, p.getId());
+	}
 
 
 }

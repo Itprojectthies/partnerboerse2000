@@ -63,6 +63,42 @@ public class BeschreibungMapper {
 		return BeschreibungMapper;
 	}
 
+	public Beschreibung findByName(String name) {
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
+
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+			
+			// Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs1 = stmt.executeQuery(
+					"SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE Name=\"" + name + "\" AND e_typ='p_b'");
+
+			
+			/*
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * werden. Prüfe, ob ein Ergebnis vorliegt.
+			 */
+			
+			if (rs1.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln
+				Beschreibung b = new Beschreibung();
+				b.setId(rs1.getInt("id"));
+				b.setName(rs1.getString("Name"));
+				b.setBeschreibungstext(rs1.getString("Beschreibungstext"));
+				
+				
+				return b;
+			}
+		} catch (SQLException a) {
+			a.printStackTrace();
+			return null;
+		}
+
+		return null;
+	}
+	
 	/**
 	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
 	 * ist, wird genau ein Objekt zur�ckgegeben.

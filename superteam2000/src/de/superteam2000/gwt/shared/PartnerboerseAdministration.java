@@ -99,6 +99,14 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException;
 
+	public Auswahl getAuswahlProfilAttributByName(String name) throws IllegalArgumentException;
+
+	public Beschreibung getBeschreibungProfilAttributByName(String name) throws IllegalArgumentException;
+
+	public ArrayList<Auswahl> getAllAuswahlProfilAttribute();
+
+	public String getSelectionForProfilAttributAuswahl(String name, Profil p);
+
 
 
 

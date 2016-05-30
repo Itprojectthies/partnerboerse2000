@@ -35,6 +35,7 @@ public class Home extends BasicFrame {
 	@Override
 	public void run() {
 		HTML welcomeText = new HTML("Das ist eine Partnerbörse");
+		welcomeText.setSize("100em", "4em");
 		this.add(welcomeText);
 		
 

@@ -1,6 +1,5 @@
 package de.superteam2000.gwt.server.db;
 
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -63,6 +62,47 @@ public class AuswahlMapper {
 		return AuswahlMapper;
 	}
 
+	public Auswahl findByName(String name) {
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
+
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+			Statement stmt2 = con.createStatement();
+
+			// Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs1 = stmt.executeQuery(
+					"SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE Name=\"" + name + "\" AND e_typ='p_a'");
+
+			/*
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * werden. Prüfe, ob ein Ergebnis vorliegt.
+			 */
+
+			if (rs1.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln
+				Auswahl a = new Auswahl();
+				a.setId(rs1.getInt("id"));
+				a.setName(rs1.getString("Name"));
+				a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
+				ResultSet rs2 = stmt2.executeQuery("SELECT Text FROM Alternative WHERE Auswahl_id=" + rs1.getInt("id"));
+				ArrayList<String> al = new ArrayList<>();
+				while (rs2.next()) {
+					al.add(rs2.getString("Text"));
+				}
+				a.setAlternativen(al);
+
+				return a;
+			}
+		} catch (SQLException a) {
+			a.printStackTrace();
+			return null;
+		}
+
+		return null;
+	}
+
 	/**
 	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
 	 * ist, wird genau ein Objekt zur�ckgegeben.
@@ -80,17 +120,16 @@ public class AuswahlMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 			Statement stmt2 = con.createStatement();
-			
+
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs1 = stmt.executeQuery(
 					"SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE id=" + id + " AND e_typ='a'");
 
-			
 			/*
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
 			 * werden. Prüfe, ob ein Ergebnis vorliegt.
 			 */
-			
+
 			if (rs1.next()) {
 				// Ergebnis-Tupel in Objekt umwandeln
 				Auswahl a = new Auswahl();
@@ -103,7 +142,7 @@ public class AuswahlMapper {
 					al.add(rs2.getString("Text"));
 				}
 				a.setAlternativen(al);
-				
+
 				return a;
 			}
 		} catch (SQLException a) {
@@ -129,17 +168,13 @@ public class AuswahlMapper {
 		try {
 			Statement stmt1 = con.createStatement();
 			ResultSet rs1 = stmt1.executeQuery("SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE e_typ='a'");
-			
+
 			Statement stmt2 = con.createStatement();
-			
-			
-			
-	
-			
+
 			// Für jeden Eintrag im Suchergebnis wird nun ein Auswahl-Objekt
 			// erstellt.
 			ClientsideSettings.getLogger().severe("Statement erfolgreich");
-			
+
 			while (rs1.next()) {
 				Auswahl a = new Auswahl();
 				a.setId(rs1.getInt("id"));
@@ -153,19 +188,67 @@ public class AuswahlMapper {
 				a.setAlternativen(al);
 				// Hinzufügen des neuen Objekts zum Ergebnisvektor
 				result.add(a);
-				
+
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
-					e.getMessage() + " " + e.getCause() + " ");
+			ClientsideSettings.getLogger()
+					.severe("Fehler beim schreiben in die DB" + e.getMessage() + " " + e.getCause() + " ");
 		}
 
 		// Ergebnisvektor zurückgeben
 		return result;
 	}
 
+	/**
+	 * Auslesen aller Kunden.
+	 *
+	 * @return Ein Vektor mit Auswahl-Objekten, die sämtliche Kunden
+	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gef�llter
+	 *         oder ggf. auch leerer Vetor zurückgeliefert.
+	 */
+	public ArrayList<Auswahl> findAllProfilAtrribute() {
+		Connection con = DBConnection.connection();
+		// Ergebnisvektor vorbereiten
+		ArrayList<Auswahl> result = new ArrayList<Auswahl>();
+
+		try {
+			Statement stmt1 = con.createStatement();
+			ResultSet rs1 = stmt1.executeQuery("SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE e_typ='p_a'");
+
+			Statement stmt2 = con.createStatement();
+
+			// Für jeden Eintrag im Suchergebnis wird nun ein Auswahl-Objekt
+			// erstellt.
+			ClientsideSettings.getLogger().severe("Statement erfolgreich");
+
+			while (rs1.next()) {
+				Auswahl a = new Auswahl();
+				a.setId(rs1.getInt("id"));
+				a.setName(rs1.getString("Name"));
+				a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
+				ResultSet rs2 = stmt2.executeQuery("SELECT Text FROM Alternative WHERE Auswahl_id=" + rs1.getInt("id"));
+				ArrayList<String> al = new ArrayList<>();
+				while (rs2.next()) {
+					al.add(rs2.getString("Text"));
+				}
+				a.setAlternativen(al);
+				// Hinzufügen des neuen Objekts zum Ergebnisvektor
+				result.add(a);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ClientsideSettings.getLogger()
+					.severe("Fehler beim schreiben in die DB" + e.getMessage() + " " + e.getCause() + " ");
+		}
+
+		// Ergebnisvektor zurückgeben
+		return result;
+	}
+	
 	/**
 	 * Einfügen eines <code>Auswahl</code>-Objekts in die Datenbank. Dabei wird
 	 * auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
@@ -199,8 +282,8 @@ public class AuswahlMapper {
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO Eigenschaft (id, Name, Beschreibungstext, e_typ) VALUES (" + a.getId() + ",'"
-						+ a.getName() + "','" + a.getBeschreibungstext() + "','a')");
+				stmt.executeUpdate("INSERT INTO Eigenschaft (id, Name, Beschreibungstext, e_typ) VALUES (" + a.getId()
+						+ ",'" + a.getName() + "','" + a.getBeschreibungstext() + "','a')");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

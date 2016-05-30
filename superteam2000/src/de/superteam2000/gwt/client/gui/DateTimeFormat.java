@@ -1,4 +1,4 @@
-package de.superteam2000.gwt.client;
+package de.superteam2000.gwt.client.gui;
 
 /*
  * Copyright 2008 Google Inc.

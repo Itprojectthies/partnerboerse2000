@@ -391,4 +391,37 @@ public class ProfilMapper {
 	 return result;
 	 }
 
+	 
+	 public String findSelectionByName(String name, int id) {
+			// DB-Verbindung holen
+			Connection con = DBConnection.connection();
+			String result = "";
+			try {
+				// Leeres SQL-Statement (JDBC) anlegen
+				Statement stmt = con.createStatement();
+
+				// Statement ausfüllen und als Query an die DB schicken
+				ResultSet rs = stmt.executeQuery(
+						"SELECT " + name + " FROM Profil "
+								+ "WHERE id=" + id);
+
+				/*
+				 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+				 * werden. Prüfe, ob ein Ergebnis vorliegt.
+				 */
+				if (rs.next()) {
+					// Ergebnis-Tupel in Objekt umwandeln
+					result = rs.getString(name);
+					
+
+					return result;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return null;
+			}
+
+			return null;
+		}
+	 
 }

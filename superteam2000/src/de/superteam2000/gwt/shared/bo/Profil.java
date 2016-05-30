@@ -2,7 +2,7 @@ package de.superteam2000.gwt.shared.bo;
 
 import java.util.Date;
 
-import de.superteam2000.gwt.client.DateTimeFormat;
+import de.superteam2000.gwt.client.gui.DateTimeFormat;
 
 
 public class Profil extends BusinessObject {
