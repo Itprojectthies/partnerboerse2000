@@ -108,6 +108,8 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createSperre(Profil a, Profil b, AsyncCallback<Void> callback);
 
+	void deleteSperre(Profil entferner, Profil entfernter, AsyncCallback<Void> callback);
+
 
 
 

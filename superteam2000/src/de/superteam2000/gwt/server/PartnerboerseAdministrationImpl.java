@@ -235,6 +235,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		kMapper.insertKontaktsperreForProfil(a, b);
 
 	}
+	
+	@Override
+	public void deleteSperre(Profil entferner, Profil entfernter){
+		kMapper.deleteSperreFor(entferner, entfernter);
+	}
 
 	@Override
 	public void deleteMerken(Profil entferner, Profil entfernter) throws IllegalArgumentException {

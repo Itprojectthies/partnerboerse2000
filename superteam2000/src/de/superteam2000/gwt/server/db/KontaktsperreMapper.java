@@ -173,6 +173,22 @@ public class KontaktsperreMapper {
 		
 	}
 	
+	public void deleteSperreFor(Profil entferner, Profil entfernter) {
+		Connection con = DBConnection.connection();
+		
+		
+
+		try {
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM kontaktsperre WHERE Sperrer_id=" +
+			entferner.getId()+ " AND Gesperrter_id=" + entfernter.getId()  );
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Auslesen aller Kontaktsperren eines Profils.
 	 *

@@ -100,7 +100,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException;
 
-	void createSperre(Profil a, Profil b) throws IllegalArgumentException;
+	public void createSperre(Profil a, Profil b) throws IllegalArgumentException;
+
+	public void deleteSperre(Profil entferner, Profil entfernter);
 
 
 
