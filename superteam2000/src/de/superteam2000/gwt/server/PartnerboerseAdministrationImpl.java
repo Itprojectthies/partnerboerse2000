@@ -1,6 +1,5 @@
 package de.superteam2000.gwt.server;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -14,6 +13,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.server.db.*;
+
 import de.superteam2000.gwt.shared.PartnerboerseAdministration;
 import de.superteam2000.gwt.shared.bo.*;
 
@@ -160,14 +160,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		i.setProfilId(profil.getId());
 		return this.iMapper.insert(i);
 	}
-	
-	@Override
-	public void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException {
-		
-		for (Map.Entry<Integer, Info> entry: infos.entrySet()) {
-			this.iMapper.insert(entry.getValue());
-		}
-	}
 
 	@Override
 	public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text) throws IllegalArgumentException {
@@ -178,7 +170,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return this.iMapper.insert(i);
 	}
-	
 
 	@Override
 	public void saveInfoForProfil(Profil profil, Info info) throws IllegalArgumentException {
@@ -284,21 +275,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public String getEigenschaftsNameById(int id) throws IllegalArgumentException {
-		if (this.beschrMapper.findByKey(id) != null) {
-			Beschreibung b = this.beschrMapper.findByKey(id);
-			String name = b.getBeschreibungstext();
-			return  name;
-		}
-		else if (this.auswahlMapper.findByKey(id) != null) {
-			Auswahl a = this.auswahlMapper.findByKey(id);
-			String name = a.getBeschreibungstext();
-			return name;
-		}
-		return "nichts gefunden!";
-	}
-
-	@Override
 	public ArrayList<Beschreibung> getAllBeschreibung() throws IllegalArgumentException {
 		return this.beschrMapper.findAll();
 	}
@@ -368,6 +344,20 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		
 		return result;
+	}
+
+	@Override
+	public String getEigenschaftsNameById(int id) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
 	}
 
 

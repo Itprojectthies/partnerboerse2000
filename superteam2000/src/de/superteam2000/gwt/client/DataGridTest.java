@@ -1,6 +1,5 @@
 package de.superteam2000.gwt.client;
 
-import java.awt.ScrollPane;
 import java.util.ArrayList;
 
 import com.google.gwt.user.cellview.client.DataGrid;
@@ -10,9 +9,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -84,7 +81,6 @@ public class DataGridTest extends BasicFrame {
 							return String.valueOf(p.getId());
 						}
 					};
-
 
 
 					// Add a selection model to handle user selection.

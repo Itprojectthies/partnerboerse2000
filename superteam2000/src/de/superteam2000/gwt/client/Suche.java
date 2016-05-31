@@ -24,7 +24,6 @@ import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.report.AllProfileBySuche;
-import de.superteam2000.gwt.shared.report.AllProfilesReport;
 import de.superteam2000.gwt.shared.report.HTMLReportWriter;
 import de.superteam2000.gwt.shared.report.ProfilReport;
 
@@ -44,8 +43,6 @@ public class Suche extends BasicFrame {
 	
 
 	Button suchButton = new Button("Suche");
-	Button suchAllButton = new Button("Alle Profile anzeigen");
-
 
 
 
@@ -53,30 +50,34 @@ public class Suche extends BasicFrame {
 	ListBox lbReligion = new ListBox();
 	ListBox lbGeschlecht = new ListBox();
 	ListBox lbHaarfarbe = new ListBox();
-
-	TextBox tbGroesse = new TextBox();
-
+	
+	TextBox tbSuchprofilName = new TextBox();
+	TextBox tbAlterVon = new TextBox();
+	TextBox tbAlterBis = new TextBox();
+	TextBox tbGroesseVon = new TextBox();
+	TextBox tbGroesseBis = new TextBox();
+// weitere Sucheigenschaften mussen noch erg�nzt werden (siehe Mockup)
+	
 	@Override
-	public String getHeadlineText() {
+	protected String getHeadlineText() {
 
-		return "";
+		return "Suche";
 	}
 
 	@Override
-	public void run() {
+	protected void run() {
 
 		Grid customerGrid = new Grid(5, 2);
-		RootPanel.get("Menu").add(customerGrid);
+		this.add(customerGrid);
 
-		RootPanel.get("Menu").add(suchButton);
-		RootPanel.get("Menu").add(suchAllButton);
-		suchAllButton.addClickHandler(new suchAllClickHandler());
+		this.add(suchButton);
 		suchButton.addClickHandler(new SuchButtonClickHandler());
 
 		//Raucher
 		Label raucherLabel = new Label("Raucher");
 		lbRaucher.addItem("Raucher");
 		lbRaucher.addItem("Nichtraucher");
+		lbRaucher.addItem("Gelegenheitsraucher");
 		customerGrid.setWidget(0, 0, raucherLabel);
 		customerGrid.setWidget(0, 1, lbRaucher);
 
@@ -85,6 +86,11 @@ public class Suche extends BasicFrame {
 		lbReligion.addItem("römisch-katholisch");
 		lbReligion.addItem("evangelisch");
 		lbReligion.addItem("jüdisch");
+		lbReligion.addItem("buddhistisch");
+		lbReligion.addItem("orthodox");
+		lbReligion.addItem("islamistisch");
+		lbReligion.addItem("atheistisch");
+		lbReligion.addItem("sonstige Zugeh�rigkeit");
 		customerGrid.setWidget(1, 0, reliLabel);
 		customerGrid.setWidget(1, 1, lbReligion);
 
@@ -92,6 +98,7 @@ public class Suche extends BasicFrame {
 		Label geschlechtLabel = new Label("Geschlecht");
 		lbGeschlecht.addItem("männlich");
 		lbGeschlecht.addItem("weiblich");
+		lbGeschlecht.addItem("beides");
 		customerGrid.setWidget(2, 0, geschlechtLabel);
 		customerGrid.setWidget(2, 1, lbGeschlecht);
 
@@ -100,8 +107,19 @@ public class Suche extends BasicFrame {
 		lbHaarfarbe.addItem("braun");
 		lbHaarfarbe.addItem("blond");
 		lbHaarfarbe.addItem("schwarz");
+		lbHaarfarbe.addItem("rot");
+		lbHaarfarbe.addItem("grau/wei�");
+		lbHaarfarbe.addItem("andere Haarfarbe");
 		customerGrid.setWidget(3, 0, haarLabel);
 		customerGrid.setWidget(3, 1, lbHaarfarbe);
+		
+		//Suchprofilname
+		Label suchprofilLabel = new Label ("Suchprofilname");
+		//tbSuchprofilName(style);
+		customerGrid.setWidget(3, 0, suchprofilLabel);
+		customerGrid.setWidget(3, 1, tbSuchprofilName);
+		
+		//
 
 
 		//pb Verwaltung über ClientsideSettings holen
@@ -331,36 +349,6 @@ public class Suche extends BasicFrame {
 	}
 
 
-	private class suchAllClickHandler implements ClickHandler {
-
-		@Override
-		public void onClick(ClickEvent event) {
-
-			ClientsideSettings.getReportGenerator().createAllProfilesReport(new AsyncCallback<AllProfilesReport>() {
-
-				@Override
-				public void onSuccess(AllProfilesReport result) {
-					if (result != null) {
-						RootPanel.get("Details").clear();
-						HTMLReportWriter writer = new HTMLReportWriter();
-						writer.process(result);
-						RootPanel.get("Details").add(new HTML(writer.getReportText()));
-						//
-					}
-				}
-
-				@Override
-				public void onFailure(Throwable caught) {
-					ClientsideSettings.getLogger().severe("createallprofiles funktioniert nicht");
-
-				}
-			});
-
-
-
-
-		}
-
-	}
-
 }
+
+

@@ -92,7 +92,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text) throws IllegalArgumentException;
 
-	public Profil getProfilByMail(String email) throws IllegalArgumentException;
+	public Profil getProfilByMail(String email);
+
 
 	public String getEigenschaftsNameById(int id) throws IllegalArgumentException;
 
@@ -103,7 +104,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void createSperre(Profil a, Profil b) throws IllegalArgumentException;
 
 	public void deleteSperre(Profil entferner, Profil entfernter);
-
 
 
 

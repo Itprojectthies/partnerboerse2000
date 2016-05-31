@@ -5,7 +5,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -52,7 +51,7 @@ public class Navbar extends HorizontalPanel {
 			});
 			append(logoutBtn);
 			
-			Button logBtn = new Button("Logger");
+			Button logBtn = new Button("Loger");
 			// hp.add(logoutBtn);
 			logBtn.addClickHandler(new ClickHandler() {
 
@@ -65,7 +64,7 @@ public class Navbar extends HorizontalPanel {
 			});
 			append(logBtn);
 
-			final PushButton profilBtn = new PushButton("Profil");
+			Button profilBtn = new Button("Profil");
 //			hp.add(profilBtn);
 			profilBtn.addClickHandler(new ClickHandler() {
 
@@ -79,9 +78,7 @@ public class Navbar extends HorizontalPanel {
 					ShowProfil sep = new ShowProfil();
 					VerticalPanel detailsPanel = new VerticalPanel();
 					detailsPanel.add(sep);
-					profilBtn.setEnabled(isVisible());
 					RootPanel.get("Details").clear();
-					RootPanel.get("Menu").clear();
 					RootPanel.get("Details").add(detailsPanel);				
 				}
 			});
@@ -126,7 +123,6 @@ public class Navbar extends HorizontalPanel {
 					Suche s = new Suche();
 					
 					RootPanel.get("Details").clear();
-					RootPanel.get("Menu").clear();
 					RootPanel.get("Details").add(s);
 				}
 			});
@@ -142,27 +138,10 @@ public class Navbar extends HorizontalPanel {
 					VerticalPanel detailsPanel = new VerticalPanel();
 					detailsPanel.add(e);
 					RootPanel.get("Details").clear();
-					RootPanel.get("Menu").clear();
 					 RootPanel.get("Details").add(detailsPanel);
 				}
 			});
 			append(eigenschaftenBtn);
-			
-			Button dataGridBtn = new Button("DataGrid");
-			dataGridBtn.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-
-					DataGridTest dgt = new DataGridTest();
-					VerticalPanel detailsPanel = new VerticalPanel();
-					detailsPanel.add(dgt);
-					RootPanel.get("Details").clear();
-					RootPanel.get("Menu").clear();
-					RootPanel.get("Details").add(detailsPanel);
-				}
-			});
-			append(dataGridBtn);
 			
 			Button reportButton = new Button("Report");
 			// hp.add(logoutBtn);

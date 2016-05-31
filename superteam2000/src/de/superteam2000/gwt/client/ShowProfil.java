@@ -53,7 +53,7 @@ public class ShowProfil extends BasicFrame {
 	IntegerBox koerpergroesseIntegerBox = new IntegerBox();
 	ListBox gebDatumTagListBox = new ListBox();
 	ListBox gebDatumMonatListBox = new ListBox();
-	ListBox gebDatumJahrListBox = new ListBox();
+	ListBox gebDatumJahrListBOx = new ListBox();
 	
 
 	Button saveButton = new Button("Speichern");
@@ -69,15 +69,15 @@ public class ShowProfil extends BasicFrame {
 	 */
 
 	@Override
-	public String getHeadlineText() {
+	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void run() {
+	protected void run() {
 		final PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
-		final Grid customerGrid = new Grid(11, 4);
+		Grid customerGrid = new Grid(11, 4);
 		this.add(customerGrid);
 
 		Label firstNameLabel = new Label("Vorname");
@@ -104,7 +104,21 @@ public class ShowProfil extends BasicFrame {
 		alterTextBox.setText(String.valueOf(user.getAlter()));
 		alterTextBox.setEnabled(false);
 		
-
+//		Label gebDatumLabel = new Label("Geburtstag");
+//		customerGrid.setWidget(5, 0, gebDatumLabel);
+//		customerGrid.setWidget(5, 1, gebDatumTagListBox);
+//		customerGrid.setWidget(5, 2, gebDatumMonatListBox);
+//		customerGrid.setWidget(5, 3, gebDatumJahrListBOx);
+//		
+//		for (int i = 1; i < 31; i++) {
+//			gebDatumTagListBox.addItem(String.valueOf(i));
+//		}
+//		for (int i = 1; i < 12; i++) {
+//			gebDatumMonatListBox.addItem(String.valueOf(i));
+//		}
+//		for (int i = 1900; i < 2000 ; i++) {
+//			gebDatumJahrListBOx.addItem(String.valueOf(i));
+//		}
 
 		Label haarfarbeLabel = new Label("Haarfarbe");
 		customerGrid.setWidget(5, 0, haarfarbeLabel);
@@ -136,8 +150,8 @@ public class ShowProfil extends BasicFrame {
 		koerpergroesseIntegerBox.setValue(user.getGroesse());
 		koerpergroesseIntegerBox.setEnabled(false);
 
-		VerticalPanel customerButtonsPanel = new VerticalPanel();
-		RootPanel.get("Menu").add(customerButtonsPanel);
+		HorizontalPanel customerButtonsPanel = new HorizontalPanel();
+		this.add(customerButtonsPanel);
 
 		Button editButton = new Button("Bearbeiten");
 		editButton.addClickHandler(new ClickHandler() {
@@ -153,32 +167,6 @@ public class ShowProfil extends BasicFrame {
 				lastNameTextBox.setEnabled(true);
 				firstNameTextBox.setEnabled(true);
 				saveButton.setEnabled(true);
-				
-				Label gebDatumLabel = new Label("Geburtstag");
-				customerGrid.setWidget(10, 0, gebDatumLabel);
-				customerGrid.setWidget(10, 1, gebDatumTagListBox);
-				customerGrid.setWidget(10, 2, gebDatumMonatListBox);
-				customerGrid.setWidget(10, 3, gebDatumJahrListBox);
-				
-				for (int i = 1; i <= 31; i++) {
-					gebDatumTagListBox.addItem(String.valueOf(i));
-				}
-				for (int i = 1; i <= 12; i++) {
-					gebDatumMonatListBox.addItem(String.valueOf(i));
-				}
-				for (int i = 1900; i <= 2000 ; i++) {
-					gebDatumJahrListBox.addItem(String.valueOf(i));
-				}
-				
-				
-				String dateString = DateTimeFormat.getFormat("yyyy-MM-dd").format(user.getGeburtsdatum());
-				if (dateString != null) {
-					String[] gebDaten = dateString.split("-");
-					ClientsideSettings.getLogger().info("Gebdatum bekommen " + gebDaten[2]);
-					gebDatumTagListBox.setItemSelected(Integer.valueOf(gebDaten[2]) - 1, true);
-					gebDatumMonatListBox.setItemSelected(Integer.valueOf(gebDaten[1]) - 1, true);
-					gebDatumJahrListBox.setItemSelected(Integer.valueOf(gebDaten[0]) - 1900, true);
-				}
 			}
 		});
 		customerButtonsPanel.add(editButton);
@@ -197,7 +185,7 @@ public class ShowProfil extends BasicFrame {
 				
 				int geburtsTag = Integer.valueOf(gebDatumTagListBox.getSelectedItemText());
 				int geburtsMonat = Integer.valueOf(gebDatumMonatListBox.getSelectedItemText());
-				int geburtsJahr = Integer.valueOf(gebDatumJahrListBox.getSelectedItemText());
+				int geburtsJahr = Integer.valueOf(gebDatumJahrListBOx.getSelectedItemText());
 				Date gebTag2 = DateTimeFormat.getFormat("yyyy-MM-dd").parse(geburtsJahr +"-"+ geburtsMonat+"-"+geburtsTag);
 				java.sql.Date gebTag = new java.sql.Date(gebTag2.getTime());
 				p.setVorname(vorname);
@@ -222,7 +210,6 @@ public class ShowProfil extends BasicFrame {
 						VerticalPanel detailsPanel = new VerticalPanel();
 						detailsPanel.add(sep);
 						RootPanel.get("Details").clear();
-						RootPanel.get("Menu").clear();
 						RootPanel.get("Details").add(new Home());
 						RootPanel.get("Details").add(detailsPanel);
 					}
@@ -240,7 +227,6 @@ public class ShowProfil extends BasicFrame {
 		saveButton.setEnabled(false);
 
 		Button deleteBtn = new Button("Profil löschen");
-		customerButtonsPanel.add(deleteBtn);
 		deleteBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -267,6 +253,7 @@ public class ShowProfil extends BasicFrame {
 				}
 			}
 		});
+		customerButtonsPanel.add(deleteBtn);
 
 		pbVerwaltung.getInfoByProfile(user, new InfoCallback(this));
 
@@ -353,5 +340,4 @@ public class ShowProfil extends BasicFrame {
 
 	}
 }
-
 
