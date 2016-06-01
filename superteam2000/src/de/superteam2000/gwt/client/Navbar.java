@@ -55,7 +55,6 @@ public class Navbar extends HorizontalPanel {
 			append(logoutBtn);
 			
 			Button logBtn = new Button("Logger");
-			// hp.add(logoutBtn);
 			logBtn.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -67,8 +66,7 @@ public class Navbar extends HorizontalPanel {
 			});
 			append(logBtn);
 
-			final PushButton profilBtn = new PushButton("Profil");
-//			hp.add(profilBtn);
+			final Button profilBtn = new Button("Profil");
 			profilBtn.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -77,14 +75,10 @@ public class Navbar extends HorizontalPanel {
 					
 					
 
-					//ShowProfil fc = new ShowProfil();
-					ShowProfil sep = new ShowProfil();
-					VerticalPanel detailsPanel = new VerticalPanel();
-					detailsPanel.add(sep);
-					profilBtn.setEnabled(isVisible());
+					ShowProfil sp = new ShowProfil();
 					RootPanel.get("Details").clear();
 					RootPanel.get("Menu").clear();
-					RootPanel.get("Details").add(detailsPanel);				
+					RootPanel.get("Details").add(sp);				
 				}
 			});
 			append(profilBtn);

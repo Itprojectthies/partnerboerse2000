@@ -368,6 +368,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 	
 	@Override
+	public ArrayList<Beschreibung> getAllBeschreibungProfilAttribute() {
+		return this.beschrMapper.findAllProfilAttribute();
+	}
+	
+	@Override
 	public String getSelectionForProfilAttributAuswahl(String name, Profil p) {
 		return this.pMapper.findSelectionByName(name, p.getId());
 	}

@@ -108,6 +108,8 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getSelectionForProfilAttributAuswahl(String name, Profil p, AsyncCallback<String> callback);
 
+	void getAllBeschreibungProfilAttribute(AsyncCallback<ArrayList<Beschreibung>> callback);
+
 	// Suchprofil
 
 }

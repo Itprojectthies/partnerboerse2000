@@ -85,7 +85,7 @@ public class InfoMapper {
 			
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs1 = stmt.executeQuery(
-					"SELECT id, Text, Profil_id, Eigenschaft_id FROM Info WHERE Profil_id=" + id);
+					"SELECT id, Text, Profil_id, Eigenschaft_id FROM Info WHERE Profil_id=" + id +" ORDER BY id");
 
 			
 			/*
@@ -182,7 +182,7 @@ public class InfoMapper {
 						
 						// Statement ausfüllen und als Query an die DB schicken
 						ResultSet rs1 = stmt.executeQuery(
-								"SELECT id, Text, Profil_id, Eigenschaft_id FROM Info");
+								"SELECT id, Text, Profil_id, Eigenschaft_id FROM Info ORDER BY id DESC");
 
 						
 						/*

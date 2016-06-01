@@ -183,6 +183,46 @@ public class BeschreibungMapper {
 		// Ergebnisvektor zurückgeben
 		return result;
 	}
+	
+	/**
+	 * Auslesen aller Kunden.
+	 *
+	 * @return Ein Vektor mit Auswahl-Objekten, die sämtliche Kunden
+	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gef�llter
+	 *         oder ggf. auch leerer Vetor zurückgeliefert.
+	 */
+	public ArrayList<Beschreibung> findAllProfilAttribute() {
+		Connection con = DBConnection.connection();
+		// Ergebnisvektor vorbereiten
+		ArrayList<Beschreibung> result = new ArrayList<Beschreibung>();
+		
+		try {
+			Statement stmt1 = con.createStatement();
+			ResultSet rs1 = stmt1.executeQuery("SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE e_typ='p_b'");
+			
+			
+			// Für jeden Eintrag im Suchergebnis wird nun ein Auswahl-Objekt
+			// erstellt.
+			ClientsideSettings.getLogger().severe("Statement erfolgreich");
+			
+			while (rs1.next()) {
+				Beschreibung b = new Beschreibung();
+				b.setId(rs1.getInt("id"));
+				b.setName(rs1.getString("Name"));
+				b.setBeschreibungstext(rs1.getString("Beschreibungstext"));
+				result.add(b);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+					e.getMessage() + " " + e.getCause() + " ");
+		}
+		
+		// Ergebnisvektor zurückgeben
+		return result;
+	}
 
 	/**
 	 * Einfügen eines <code>Auswahl</code>-Objekts in die Datenbank. Dabei wird

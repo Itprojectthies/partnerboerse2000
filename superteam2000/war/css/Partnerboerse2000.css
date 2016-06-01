@@ -19,6 +19,11 @@ h1 {
 	border-bottom: dashed 1px #e1e1e1;
 }
 
+div.CompositeProfilAttributeBox {
+	text-align: left;
+	margin-bottom: 1em;
+}
+
 
 .bankproject-headline {
 	font-size: 12pt;

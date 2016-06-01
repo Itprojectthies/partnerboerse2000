@@ -107,6 +107,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public String getSelectionForProfilAttributAuswahl(String name, Profil p);
 
+	public ArrayList<Beschreibung> getAllBeschreibungProfilAttribute();
+
 
 
 
