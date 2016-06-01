@@ -72,7 +72,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		imprint.addSubParagraph(new SimpleParagraph("Raucher: " + p.getRaucher()));
 		imprint.addSubParagraph(new SimpleParagraph("Religion: "+p.getReligion()));
 
-		result.setImprint(imprint);
 
 		// Eigenschaften anhängen als Tabelle mit zwei Spalten
 		// TODO ggf Info anpassen für besseres auslesen

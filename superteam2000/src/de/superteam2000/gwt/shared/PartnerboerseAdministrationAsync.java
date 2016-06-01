@@ -101,9 +101,9 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getProfilesBySuche(Profil p, AsyncCallback<ArrayList<Profil>> callback);
 
-	void getEigenschaftsNameById(int id, AsyncCallback<String> callback);
+	//void getEigenschaftsNameById(int id, AsyncCallback<String> callback);
 
-	void createInfosFor(Map<Integer, Info> infos, AsyncCallback<Void> callback);
+	//void createInfosFor(Map<Integer, Info> infos, AsyncCallback<Void> callback);
 
 
 	

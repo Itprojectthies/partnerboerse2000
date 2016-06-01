@@ -24,6 +24,7 @@ public class Column implements Serializable {
 	 */
 	private String value = "";
 
+
 	/**
 	 * <p>
 	 * Serialisierbare Klassen, die mittels GWT-RPC transportiert werden sollen,
@@ -74,7 +75,7 @@ public class Column implements Serializable {
 	public void setValue(String value) {
 		this.value = value;
 	}
-
+	
 	/**
 	 * Umwandeln des <code>Column</code>-Objekts in einen String.
 	 * 

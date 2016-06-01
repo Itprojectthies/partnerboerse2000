@@ -30,7 +30,7 @@ public abstract class Report implements Serializable {
 	 * Unternehmen einige Daten wie Firmenname, Adresse, Logo, etc. auf
 	 * Geschäftsdokumenten ab. Dies gilt auch für die hier realisierten Reports.
 	 */
-	private Paragraph imprint = null;
+
 
 	/**
 	 * Kopfdaten des Berichts.
@@ -43,28 +43,10 @@ public abstract class Report implements Serializable {
 	private String title = "Report";
 
 	/**
-	 * Datum der Erstellung des Berichts.
-	 */
-	private Date created = new Date();
+	 * Datum der Erstellung des Berichts.*/
+	 
+	 private Date created = new Date();
 
-	/**
-	 * Auslesen des Impressums.
-	 * 
-	 * @return Text des Impressums
-	 */
-	public Paragraph getImprint() {
-		return this.imprint;
-	}
-
-	/**
-	 * Setzen des Impressums.
-	 * 
-	 * @param imprint
-	 *            Text des Impressums
-	 */
-	public void setImprint(Paragraph imprint) {
-		this.imprint = imprint;
-	}
 
 	/**
 	 * Auslesen der Kopfdaten.
@@ -107,8 +89,8 @@ public abstract class Report implements Serializable {
 	/**
 	 * Auslesen des Erstellungsdatums.
 	 * 
-	 * @return Datum der Erstellung des Berichts
-	 */
+	 * @return Datum der Erstellung des Berichts*/
+	 
 	public Date getCreated() {
 		return this.created;
 	}
@@ -121,8 +103,7 @@ public abstract class Report implements Serializable {
 	 * @param created
 	 *            Zeitpunkt der Erstellung
 	 */
-	public void setCreated(Date created) {
+public void setCreated(Date created) {
 		this.created = created;
 	}
-
 }
