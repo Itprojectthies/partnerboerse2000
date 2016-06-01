@@ -4,10 +4,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.bo.Info;
 import de.superteam2000.gwt.shared.bo.Profil;
-import de.superteam2000.gwt.shared.bo.Suchprofil;
 
 /**
  * Mapper-Klasse, die <code>Account</code>-Objekte auf eine relationale
@@ -61,10 +62,71 @@ public class AehnlichkeitsmassMapper {
 
 		return aehnlichkeitsmassMapper;
 	}
+	
+	/*holt Profilinformationen aus der Datenbank und materialisiert Profil-Objekte, die in ArrayList gespeichert werden */
+	
+	 public ArrayList<Profil> getProfilesForAehnlichkeitsmass(Profil ap){
+		 Connection con = DBConnection.connection();
+			ArrayList<Profil> result = new ArrayList<>();
 
-	// public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil p){
-	// //soll ganz of die Methode von Aehnlichkeitsmass aufrufen
-	// return allProfilesSortedByAehnlichkeitsmass ArrayList<Profil> ;
-	// }
 
+			try {
+				//Statement anlegen
+				Statement stmt = con.createStatement();
+				
+				// Statement ausfullen und als Query an die DB schicken
+				ResultSet rs = stmt.executeQuery("SELECT Geburtsdatum, id, Geschlecht, Haarfarbe, Koerpergroesse,Raucher, Religion, Vorname, Nachname FROM Profil ");
+
+						while (rs.next()){
+								ap = new Profil();
+								ap.setId(rs.getInt("id"));
+								ap.setVorname(rs.getString("Vorname"));
+								ap.setNachname(rs.getString("Nachname"));
+								ap.setHaarfarbe(rs.getString("Haarfarbe"));
+								ap.setGeburtsdatum(rs.getDate("Geburtsdatum"));
+								ap.setGroesse(rs.getInt("Koerpergroesse"));
+								ap.setRaucher(rs.getString("Raucher"));
+								ap.setReligion(rs.getString("Religion"));
+								ap.setGeschlecht(rs.getString("Geschlecht"));
+								ap.setGeburtsdatum(rs.getDate("Geburtsdatum"));
+						result.add(ap);
+								return result;
+						}}
+						catch (SQLException e) {
+							e.printStackTrace();
+							ClientsideSettings.getLogger().severe("Fehler" + 
+									e.getMessage() + " " + e.getCause() + " ");
+						}
+			return result;}
+			
+				
+public ArrayList <Info> getInfoForAehnlichkeitsmass (Info ip){
+	Connection con = DBConnection.connection();
+	ArrayList <Info> result = new ArrayList<>();
+
+	
+	try{
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery(("SELECT * FROM Info"));
+	
+			while (rs.next()){
+			ip= new Info();
+			ip.setId(rs.getInt("id"));
+			ip.setEigenschaftId(rs.getInt("Eigenschaft_id"));
+			ip.setProfilId(rs.getInt("Profil_id"));
+			ip.setText(rs.getString("Text"));
+			result.add(ip);
+
+		}}
+	
+	
+		catch (SQLException e) {
+			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler" + 
+			e.getMessage() + " " + e.getCause() + " ");
+}
+	return result;}
+
+
+	
 }
