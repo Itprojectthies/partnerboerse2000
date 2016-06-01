@@ -65,7 +65,7 @@ public class AehnlichkeitsmassMapper {
 	
 	/*holt Profilinformationen aus der Datenbank und materialisiert Profil-Objekte, die in ArrayList gespeichert werden */
 	
-	 public ArrayList<Profil> getProfilesForAehnlichkeitsmass(Profil ap){
+	 public ArrayList<Profil> getProfilesForAehnlichkeitsmass(){
 		 Connection con = DBConnection.connection();
 			ArrayList<Profil> result = new ArrayList<>();
 
@@ -78,7 +78,7 @@ public class AehnlichkeitsmassMapper {
 				ResultSet rs = stmt.executeQuery("SELECT Geburtsdatum, id, Geschlecht, Haarfarbe, Koerpergroesse,Raucher, Religion, Vorname, Nachname FROM Profil ");
 
 						while (rs.next()){
-								ap = new Profil();
+								Profil ap = new Profil();
 								ap.setId(rs.getInt("id"));
 								ap.setVorname(rs.getString("Vorname"));
 								ap.setNachname(rs.getString("Nachname"));
@@ -97,10 +97,11 @@ public class AehnlichkeitsmassMapper {
 							ClientsideSettings.getLogger().severe("Fehler" + 
 									e.getMessage() + " " + e.getCause() + " ");
 						}
-			return result;}
+			return result;
+	 }
 			
 				
-public ArrayList <Info> getInfoForAehnlichkeitsmass (Info ip){
+public ArrayList <Info> getInfoForAehnlichkeitsmass (){
 	Connection con = DBConnection.connection();
 	ArrayList <Info> result = new ArrayList<>();
 
@@ -110,7 +111,7 @@ public ArrayList <Info> getInfoForAehnlichkeitsmass (Info ip){
 		ResultSet rs = stmt.executeQuery(("SELECT * FROM Info"));
 	
 			while (rs.next()){
-			ip= new Info();
+			Info ip= new Info();
 			ip.setId(rs.getInt("id"));
 			ip.setEigenschaftId(rs.getInt("Eigenschaft_id"));
 			ip.setProfilId(rs.getInt("Profil_id"));

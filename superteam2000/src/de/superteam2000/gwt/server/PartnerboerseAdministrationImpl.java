@@ -200,8 +200,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.iMapper.findByKey(id);
 	}
 
-	@Override
-	public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil profil) throws IllegalArgumentException {
+	
+	public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil referenzProfil, Profil weiteresProfil) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		/* 	Einbeziehung der Auswahleigenschaften und Info-Objekte.
 		 * Mögliche Realisierung: 
@@ -215,32 +215,17 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	
 		 */
 		
-		/* speichert alle für das Ähnlichkeitsmaß relevanten Profileigenschaften aus der Datenbank in einer ArrayList */
-		ArrayList<Profil> ProfilEig = this.getAllProfils(); 
-		/* speichert alle textuellen Info-Objekte aus der Datenbank eines Profils in einer ArrayList*/
-		ArrayList<Info>	Info	=this.getallInfos();
 		
 		
 		/* für die Berechnung und Ausgabe des Ähnlichkeitsmaßes in einer ArrayList wird ein Referenzprofil
 		 * und ein weiteres Profil zum Vergleich benötigt. Solange noch weitere Profile vorhanden sind, werden diese auch mit
 		 * dem Refernzprofil verglichen
 		 */
-		while (p.next())
-		{
-			
-			
-			
-			
-			
-		}
 		
 		
-		 
-		
-		ArrayList<Profil> result = new ArrayList<>();
-		
-		
-		return result;
+		ArrayList<Profil> Profile = this.aehnlichMapper.getProfilesForAehnlichkeitsmass();
+
+		 ArrayList <Info> Infos	= this.aehnlichMapper.getInfoForAehnlichkeitsmass();
 		
 		
 		
@@ -400,6 +385,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		
 		return result;
+	}
+
+	@Override
+	public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil profil) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
