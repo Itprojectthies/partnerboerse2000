@@ -77,16 +77,17 @@ public interface PartnerboerseAdministrationAsync {
 	// Merkzettel
 	void createMerken(Profil a, Profil b, AsyncCallback<Void> callback);
 
-	void deleteMerken(Merkzettel merkzettel, AsyncCallback<Void> callback);
+	void deleteMerken(Profil entferner, Profil entfernter, AsyncCallback<Void> callback);
+	
+	void getMerkzettelForProfil(Profil profil, AsyncCallback<Merkzettel> callback);
 
-	void getAllMerkenForProfil(Profil profil, AsyncCallback<ArrayList<Merkzettel>> callback);
 
 	// Kontaktsperre
 	void createKontaktsperre(Profil sperrer, Profil gesperrter, AsyncCallback<Void> callback);
 
 	void deleteKontaktsperre(Kontaktsperre kontaktsperre, AsyncCallback<Void> callback);
 
-	void getKontaktsperreForProfil(Profil profil, AsyncCallback<ArrayList<Kontaktsperre>> callback);
+	void getKontaktsperreForProfil(Profil profil, AsyncCallback<Kontaktsperre> callback);
 
 	void createInfoFor(Profil profil, Auswahl auswahl, String text, AsyncCallback<Info> callback);
 
@@ -103,6 +104,13 @@ public interface PartnerboerseAdministrationAsync {
 	void getAuswahlProfilAttributByName(String name, AsyncCallback<Auswahl> callback);
 
 	void getBeschreibungProfilAttributByName(String name, AsyncCallback<Beschreibung> callback);
+	
+	void createSperre(Profil a, Profil b, AsyncCallback<Void> callback);
+
+	void deleteSperre(Profil entferner, Profil entfernter, AsyncCallback<Void> callback);
+
+
+
 
 	void getAllAuswahlProfilAttribute(AsyncCallback<ArrayList<Auswahl>> callback);
 

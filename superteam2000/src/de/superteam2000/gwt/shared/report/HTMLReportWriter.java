@@ -253,8 +253,10 @@ public class HTMLReportWriter extends ReportWriter {
 		result.append("<table><tr>");
 		result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getHeaderData()) + "</b></td>");
 		result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint()) + "</td>");
+
 		result.append("</tr><tr><td></td><td>" + r.getCreated().toString() + "</td></tr></table>");
 	
+
 		Vector<Row> rows = r.getRows();
 		if(rows != null){ClientsideSettings.getLogger().info("Vector an Rows im HTMLWriter ungleich null");}
 		result.append("<table style=\"width:400px\">");
@@ -472,5 +474,5 @@ public class HTMLReportWriter extends ReportWriter {
 		
 	}
 
-	
+
 }

@@ -8,10 +8,12 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.labs.repackaged.com.google.common.base.Objects;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.server.db.*;
+
 import de.superteam2000.gwt.shared.PartnerboerseAdministration;
 import de.superteam2000.gwt.shared.bo.*;
 
@@ -230,20 +232,40 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void createMerken(Profil a, Profil b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		Merkzettel m = mMapper.findAllForProfil(a);
+		ArrayList<Profil> profile = m.getGemerkteProfile();
+		if( !profile.contains(b)){
+		mMapper.insertMerkenForProfil(a, b);}
 
+	}
+	
+	@Override
+	public void createSperre(Profil a, Profil b) throws IllegalArgumentException {
+		kMapper.insertKontaktsperreForProfil(a, b);
+
+	}
+	
+	@Override
+	public void deleteSperre(Profil entferner, Profil entfernter){
+		kMapper.deleteSperreFor(entferner, entfernter);
 	}
 
 	@Override
-	public void deleteMerken(Merkzettel merkzettel) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
+	public void deleteMerken(Profil entferner, Profil entfernter) throws IllegalArgumentException {
+		mMapper.deleteMerkenFor(entferner, entfernter);
 	}
 
 	@Override
-	public ArrayList<Merkzettel> getAllMerkenForProfil(Profil profil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException {
+		
+		Merkzettel m = mMapper.findAllForProfil(profil);
+		return m;
+	}
+	
+	@Override
+	public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException {
+		Kontaktsperre k = kMapper.findAllForProfil(profil);
+		return k;
 	}
 
 	@Override
@@ -258,11 +280,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
-	@Override
-	public ArrayList<Kontaktsperre> getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	public void createSuchprofilForProfil(Profil profil) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
@@ -300,12 +318,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	 * Diese Methoden brauchen wir wohl nicht
 	 */
 	
-	@Override
-	public Auswahl createAuswahl(String name, String beschreibungstext, ArrayList<String> alternativen)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public void delete(Auswahl auswahl) throws IllegalArgumentException {
@@ -375,6 +388,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public String getSelectionForProfilAttributAuswahl(String name, Profil p) {
 		return this.pMapper.findSelectionByName(name, p.getId());
+	}
+
+	@Override
+	public Auswahl createAuswahl(String name, String beschreibungstext, ArrayList<String> alternativen)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

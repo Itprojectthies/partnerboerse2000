@@ -78,16 +78,15 @@ public interface PartnerboerseAdministration extends RemoteService {
 	// Merkzettel
 	public void createMerken(Profil a, Profil b) throws IllegalArgumentException;
 
-	public void deleteMerken(Merkzettel merkzettel) throws IllegalArgumentException;
+	public void deleteMerken(Profil entferner, Profil entfernter) throws IllegalArgumentException;
 
-	public ArrayList<Merkzettel> getAllMerkenForProfil(Profil profil) throws IllegalArgumentException;
 
 	// Kontaktsperre
 	public void createKontaktsperre(Profil sperrer, Profil gesperrter) throws IllegalArgumentException;
 
 	public void deleteKontaktsperre(Kontaktsperre kontaktsperre) throws IllegalArgumentException;
 
-	public ArrayList<Kontaktsperre> getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException;
+	public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException;
 
 	public Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException;
 
@@ -109,6 +108,11 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public ArrayList<Beschreibung> getAllBeschreibungProfilAttribute();
 
+	public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException;
+
+	public void createSperre(Profil a, Profil b) throws IllegalArgumentException;
+
+	public void deleteSperre(Profil entferner, Profil entfernter);
 
 
 

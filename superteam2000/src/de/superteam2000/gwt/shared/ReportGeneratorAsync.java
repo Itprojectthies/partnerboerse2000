@@ -10,6 +10,7 @@ import de.superteam2000.gwt.shared.report.AllProfileBySuche;
 import de.superteam2000.gwt.shared.report.AllProfilesReport;
 import de.superteam2000.gwt.shared.report.ProfilReport;
 
+
 /**
  * Das asynchrone Gegenstück des Interface {@link ReportGenerator}. Es wird
  * semiautomatisch durch das Google Plugin erstellt und gepflegt. Daher erfolgt
@@ -36,5 +37,10 @@ public interface ReportGeneratorAsync {
 	void  createAllProfilesReport( AsyncCallback<AllProfilesReport> callback);
 
 	void createSuchreport(ArrayList<Profil> p, AsyncCallback<AllProfileBySuche> callback);
+
+
+
+
+
 
 }

@@ -6,6 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.apache.bcel.classfile.PMGClass;
+
+import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.bo.Merkzettel;
 import de.superteam2000.gwt.shared.bo.Profil;
 
@@ -65,85 +68,42 @@ public class MerkzettelMapper {
 		return merkzettelMapper;
 	}
 
-	/**
-	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
-	 * ist, wird genau ein Objekt zur�ckgegeben.
-	 * 
-	 * @param id
-	 *            Primärschlüsselattribut (->DB)
-	 * @return Kunden-Objekt, das dem übergebenen Schlüssel entspricht, null bei
-	 *         nicht vorhandenem DB-Tupel.
-	 */
-//	public Merkzettel findByKey(int id) {
-//		// DB-Verbindung holen
-//		Connection con = DBConnection.connection();
-//
-//		try {
-//			// Leeres SQL-Statement (JDBC) anlegen
-//			Statement stmt = con.createStatement();
-//
-//			// Statement ausfüllen und als Query an die DB schicken
-//			ResultSet rs = stmt
-//					.executeQuery("SELECT id, firstName, lastName FROM Profils "
-//							+ "WHERE id=" + id + " ORDER BY lastName");
-//
-//			/*
-//			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-//			 * werden. Prüfe, ob ein Ergebnis vorliegt.
-//			 */
-//			if (rs.next()) {
-//				// Ergebnis-Tupel in Objekt umwandeln
-//				Merkzettel m = new Merkzettel();
-//				m.setId(rs.getInt("id"));
-//				m.setFirstName(rs.getString("firstName"));
-//				m.setLastName(rs.getString("lastName"));
-//
-//				return m;
-//			}
-//		}
-//		catch (SQLException e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//
-//		return null;
-//	}
+
 
 	/**
-	 * Auslesen aller Kunden.
+	 * Auslesen aller Merkzetteleinträge für ein Profil.
 	 *
-	 * @return Ein Vektor mit Merkzettel-Objekten, die sämtliche Kunden
-	 * repräsentieren. Bei evtl. Exceptions wird ein partiell gef�llter
-	 * oder ggf. auch leerer Vetor zurückgeliefert.
+	 * @return Merkzettel des Profils
 	 */
-	public ArrayList<Merkzettel> findAll() {
+	public Merkzettel findAllForProfil(Profil p) {
 		Connection con = DBConnection.connection();
 		// Ergebnisvektor vorbereiten
-		ArrayList<Merkzettel> result = new ArrayList<Merkzettel>();
+		Merkzettel result = new Merkzettel();
+		ArrayList<Profil> profile = new ArrayList<>();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, Gemerkter_id, Merker_id "
-					+ "FROM Merkzettel");
+			ResultSet rs = stmt.executeQuery("SELECT `Gemerkter_id` "
+					+ "FROM `merkzettel`" +" WHERE `Merker_id`=" + p.getId());
+			result.setMerkerId(p.getId());
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Merkzettel-Objekt
 			// erstellt.
 			while (rs.next()) {
-				Merkzettel m = new Merkzettel();
-				m.setId(rs.getInt("id"));
-				m.setMerkerId(rs.getInt("Merker_id"));
-				m.setGemerkterId(rs.getInt("Gemerkter_id"));
-
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
-				result.add(m);
+				Profil profil = ProfilMapper.profilMapper().findByKey(rs.getInt("Gemerkter_id"));
+				profile.add(profil);
+				
 			}
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		// Ergebnisvektor zurückgeben
+		
+		//Profilliste in Merkzettel schreiben
+		result.setGemerkteProfile(profile);
+		
+		// Ergebnis zurückgeben
 		return result;
 	}
 
@@ -155,18 +115,21 @@ public class MerkzettelMapper {
 	 * berichtigt.
 	 *
 	 * @param m das zu speichernde Objekt
-	 * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
-	 * <code>id</code>.
+	 * 
 	 */
 	public Merkzettel insertMerkenForProfil(Profil merker, Profil gemerkter) {
+		ClientsideSettings.getLogger().info("insertMerkenforProfil Methode aufgerufen");
+		if(merker != null){ClientsideSettings.getLogger().info("merker != null");}
+		if(gemerkter != null){ClientsideSettings.getLogger().info("gemerkter != null");}
 		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
 			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-			stmt.executeUpdate("INSERT INTO Merkzettel ( Gemerkter_id, Merker_id) "
-					+ "VALUES (" + gemerkter.getId() + "," + merker.getId() + ")");
+
+			stmt.execute("INSERT INTO `merkzettel`( `Gemerkter_id`, `Merker_id`)" 
+			+ "VALUES ("+gemerkter.getId()+"," + merker.getId()+  ")");
 			Merkzettel m = new Merkzettel();
-			m.setGemerkterId(gemerkter.getId());
+
 			m.setMerkerId(merker.getId());
 			return m;
 		}
@@ -174,57 +137,28 @@ public class MerkzettelMapper {
 			e.printStackTrace();
 		}
 		return null;
-		/*
-		 * Rückgabe, des evtl. korrigierten Profils.
-		 *
-		 * HINWEIS: Da in Java nur Referenzen auf Objekte und keine physischen
-		 * Objekte übergeben werden, wäre die Anpassung des Merkzettel-Objekts
-	 	 * auch
-		 * ohne diese explizite Rückgabe außerhalb dieser Methode sichtbar. Die
-		 * explizite Rückgabe von m ist eher ein Stilmittel, um zu signalisieren,
-		 * dass sich das Objekt evtl. im Laufe der Methode verändert hat.
-		 */
+
 		
 	}
 
-	/**
-	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
-	 *
-	 * @param m das Objekt, das in die DB geschrieben werden soll
-	 * @return das als Parameter übergebene Objekt
-	 */
-	public Merkzettel update(Merkzettel m) {
-		Connection con = DBConnection.connection();
 
-		try {
-			Statement stmt = con.createStatement();
-
-			stmt.executeUpdate("UPDATE Merkzettel " + "SET Gemerkter_id=\""
-					+ m.getGemerkterId() + "\", Merker_id=\"" + m.getMerkerId() + "\" "
-					+ "WHERE id=" + m.getId());
-
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		// Um Analogie zu insert(Merkzettel m) zu wahren, geben wir m zurück
-		return m;
-	}
 
 	/**
-	 * Löschen der Daten eines <code>Merkzettel</code>-Objekts aus der
+	 * Löschen der Daten eines Merkzettel-Eintrags aus der
 	 Datenbank.
 	 *
-	 * @param m das aus der DB zu löschende "Objekt"
+	 * @param zwei Profile, der zu löschende und der "löschende"
 	 */
-	public void delete(Merkzettel m) {
+	public void deleteMerkenFor(Profil entferner, Profil entfernter) {
 		Connection con = DBConnection.connection();
+		
+		
 
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM Merkzettel WHERE id=" + m.getId());
+			stmt.executeUpdate("DELETE FROM merkzettel WHERE Merker_id=" +
+			entferner.getId()+ " AND Gemerkter_id=" + entfernter.getId()  );
 		}
 		catch (SQLException e) {
 			e.printStackTrace();

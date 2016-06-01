@@ -1,5 +1,16 @@
 package de.superteam2000.gwt.server.db;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import de.superteam2000.gwt.client.ClientsideSettings;
+import de.superteam2000.gwt.shared.bo.Kontaktsperre;
+import de.superteam2000.gwt.shared.bo.Merkzettel;
+import de.superteam2000.gwt.shared.bo.Profil;
+
 /**
  * Mapper-Klasse, die <code>Kontaktsperre</code>-Objekte auf eine relationale
  * Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
@@ -139,86 +150,83 @@ public class KontaktsperreMapper {
 	// }
 	//
 	//
-	// /**
-	// * Einfügen eines <code>Kontaktsperre</code>-Objekts in die Datenbank.
-	// Dabei wird
-	// * auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
-	// * berichtigt.
-	// *
-	// * @param k das zu speichernde Objekt
-	// * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
-	// * <code>id</code>.
-	// */
-	// public Kontaktsperre insert(Kontaktsperre k) {
-	// Connection con = DBConnection.connection();
-	//
-	// try {
-	// Statement stmt = con.createStatement();
-	//
-	// /*
-	// * Zunächst schauen wir nach, welches der momentan höchste
-	// * Primärschlüsselwert ist.
-	// */
-	// ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-	// + "FROM Profils ");
-	//
-	// // Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
-	// if (rs.next()) {
-	// /*
-	// * k erhält den bisher maximalen, nun um 1 inkrementierten
-	// * Primärschlüssel.
-	// */
-	// k.setId(rs.getInt("maxid") + 1);
-	//
-	// stmt = con.createStatement();
-	//
-	// // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-	// stmt.executeUpdate("INSERT INTO Profils (id, firstName, lastName) "
-	// + "VALUES (" + k.getId() + ",'" + k.getFirstName() + "','"
-	// + k.getLastName() + "')");
-	// }
-	// }
-	// catch (SQLException k) {
-	// k.printStackTrace();
-	// }
-	//
-	// /*
-	// * Rückgabe, des evtl. korrigierten Profils.
-	// *
-	// * HINWEIS: Da in Java nur Referenzen auf Objekte und keine physischen
-	// * Objekte übergeben werden, wäre die Anpassung des Kontaktsperre-Objekts
-	// auch
-	// * ohne diese explizite Rückgabe außerhalb dieser Methode sichtbar. Die
-	// * explizite Rückgabe von k ist eher ein Stilmittel, um zu signalisieren,
-	// * dass sich das Objekt evtl. im Laufe der Methode verändert hat.
-	// */
-	// return k;
-	// }
-	//
-	// /**
-	// * Wiederholtes Schreiben eines Objekts in die Datenbank.
-	// *
-	// * @param k das Objekt, das in die DB geschrieben werden soll
-	// * @return das als Parameter übergebene Objekt
-	// */
-	// public Kontaktsperre update(Kontaktsperre k) {
-	// Connection con = DBConnection.connection();
-	//
-	// try {
-	// Statement stmt = con.createStatement();
-	//
-	// stmt.executeUpdate("UPDATE Profils " + "SET firstName=\""
-	// + k.getFirstName() + "\", " + "lastName=\"" + k.getLastName() + "\" "
-	// + "WHERE id=" + k.getId());
-	//
-	// }
-	// catch (SQLException k) {
-	// k.printStackTrace();
-	// }
-	//
-	// // Um Analogie zu insert(Kontaktsperre k) zu wahren, geben wir k zurück
-	// return k;
-	// }
+	public Kontaktsperre insertKontaktsperreForProfil(Profil sperrer, Profil gesperrter) {
+		ClientsideSettings.getLogger().info("insertMerkenforProfil Methode aufgerufen");
+
+		Connection con = DBConnection.connection();
+		try {
+			Statement stmt = con.createStatement();
+			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
+
+			stmt.execute("INSERT INTO `kontaktsperre`( `Sperrer_id`, `Gesperrter_id`)" 
+			+ "VALUES ("+sperrer.getId()+"," + gesperrter.getId()+  ")");
+			Kontaktsperre k = new Kontaktsperre();
+
+			k.setSperrerId(sperrer.getId());
+			return k;
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+
+		
+	}
+	
+	public void deleteSperreFor(Profil entferner, Profil entfernter) {
+		Connection con = DBConnection.connection();
+		
+		
+
+		try {
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM kontaktsperre WHERE Sperrer_id=" +
+			entferner.getId()+ " AND Gesperrter_id=" + entfernter.getId()  );
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Auslesen aller Kontaktsperren eines Profils.
+	 *
+	 * @return Kontaktsperr(liste) des Profils
+	 */
+	public Kontaktsperre findAllForProfil(Profil p) {
+		Connection con = DBConnection.connection();
+		
+		// Ergebnis vorbereiten
+		Kontaktsperre result = new Kontaktsperre();
+		ArrayList<Profil> profile = new ArrayList<>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT `Gesperrter_id` "
+					+ "FROM `kontaktsperre`" +" WHERE `Sperrer_id`=" + p.getId());
+			result.setSperrerId(p.getId());
+
+			// Für jeden Eintrag im Suchergebnis wird nun ein Merkzettel-Objekt
+			// erstellt.
+			while (rs.next()) {
+				Profil profil = ProfilMapper.profilMapper().findByKey(rs.getInt("Gesperrter_id"));
+				profile.add(profil);
+				
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		//Profilliste in Merkzettel schreiben
+		result.setGesperrteProfile(profile);
+		
+		// Ergebnis zurückgeben
+		return result;
+	}
+
 	//
 	// /**
 	// * Löschen der Daten eines <code>Kontaktsperre</code>-Objekts aus der
