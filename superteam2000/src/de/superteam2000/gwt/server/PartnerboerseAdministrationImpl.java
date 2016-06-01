@@ -125,7 +125,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.pMapper.update(profil);
 
 	}
-	
+
 	@Override
 	public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException {
 		return this.pMapper.findAll();
@@ -151,17 +151,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public Auswahl getAuswahlById(int id) throws IllegalArgumentException {
 		return this.auswahlMapper.findByKey(id);
 	}
-	
+
 	@Override
 	public Auswahl getAuswahlProfilAttributByName(String name) throws IllegalArgumentException {
 		return this.auswahlMapper.findByName(name);
 	}
-	
+
 	@Override
 	public Beschreibung getBeschreibungProfilAttributByName(String name) throws IllegalArgumentException {
 		return this.beschrMapper.findByName(name);
 	}
-	
 
 	@Override
 	public Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException {
@@ -171,11 +170,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		i.setProfilId(profil.getId());
 		return this.iMapper.insert(i);
 	}
-	
+
 	@Override
 	public void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException {
-		
-		for (Map.Entry<Integer, Info> entry: infos.entrySet()) {
+
+		for (Map.Entry<Integer, Info> entry : infos.entrySet()) {
 			this.iMapper.insert(entry.getValue());
 		}
 	}
@@ -189,7 +188,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return this.iMapper.insert(i);
 	}
-	
 
 	@Override
 	public void saveInfoForProfil(Profil profil, Info info) throws IllegalArgumentException {
@@ -234,19 +232,20 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public void createMerken(Profil a, Profil b) throws IllegalArgumentException {
 		Merkzettel m = mMapper.findAllForProfil(a);
 		ArrayList<Profil> profile = m.getGemerkteProfile();
-		if( !profile.contains(b)){
-		mMapper.insertMerkenForProfil(a, b);}
+		if (!profile.contains(b)) {
+			mMapper.insertMerkenForProfil(a, b);
+		}
 
 	}
-	
+
 	@Override
 	public void createSperre(Profil a, Profil b) throws IllegalArgumentException {
 		kMapper.insertKontaktsperreForProfil(a, b);
 
 	}
-	
+
 	@Override
-	public void deleteSperre(Profil entferner, Profil entfernter){
+	public void deleteSperre(Profil entferner, Profil entfernter) {
 		kMapper.deleteSperreFor(entferner, entfernter);
 	}
 
@@ -257,11 +256,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException {
-		
+
 		Merkzettel m = mMapper.findAllForProfil(profil);
 		return m;
 	}
-	
+
 	@Override
 	public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException {
 		Kontaktsperre k = kMapper.findAllForProfil(profil);
@@ -280,8 +279,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
-
-
 	public void createSuchprofilForProfil(Profil profil) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 
@@ -297,9 +294,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		if (this.beschrMapper.findByKey(id) != null) {
 			Beschreibung b = this.beschrMapper.findByKey(id);
 			String name = b.getBeschreibungstext();
-			return  name;
-		}
-		else if (this.auswahlMapper.findByKey(id) != null) {
+			return name;
+		} else if (this.auswahlMapper.findByKey(id) != null) {
 			Auswahl a = this.auswahlMapper.findByKey(id);
 			String name = a.getBeschreibungstext();
 			return name;
@@ -312,13 +308,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.beschrMapper.findAll();
 	}
 
-	
-
 	/*
 	 * Diese Methoden brauchen wir wohl nicht
 	 */
-	
-
 
 	@Override
 	public void delete(Auswahl auswahl) throws IllegalArgumentException {
@@ -352,26 +344,26 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<Profil> getProfilesBySuche(Profil p) throws IllegalArgumentException {
-		
-		if(p != null){ClientsideSettings.getLogger().info("getProfilesBySuche Methode in pbImpl aufgerufen");}
-		
+
+		if (p != null) {
+			ClientsideSettings.getLogger().info("getProfilesBySuche Methode in pbImpl aufgerufen");
+		}
+
 		ArrayList<Profil> profile = this.pMapper.findAll();
 		ArrayList<Profil> result = new ArrayList<>();
-		
-		for(Profil profil: profile){
-			if(Objects.equal(profil.getGeschlecht(), p.getGeschlecht()) &&
-					Objects.equal(profil.getRaucher(), p.getRaucher()) &&
-					Objects.equal(profil.getReligion(), p.getReligion()) &&  
-					Objects.equal(profil.getHaarfarbe(), p.getHaarfarbe()) ) {
-				
+
+		for (Profil profil : profile) {
+			if (Objects.equal(profil.getGeschlecht(), p.getGeschlecht())
+					&& Objects.equal(profil.getRaucher(), p.getRaucher())
+					&& Objects.equal(profil.getReligion(), p.getReligion())
+					&& Objects.equal(profil.getHaarfarbe(), p.getHaarfarbe())) {
+
 				ClientsideSettings.getLogger().info("passendes Profil hinzugefügt");
 				result.add(profil);
-				
+
 			}
 		}
-		
-		
-		
+
 		return result;
 	}
 
@@ -379,12 +371,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public ArrayList<Auswahl> getAllAuswahlProfilAttribute() {
 		return this.auswahlMapper.findAllProfilAtrribute();
 	}
-	
+
 	@Override
 	public ArrayList<Beschreibung> getAllBeschreibungProfilAttribute() {
 		return this.beschrMapper.findAllProfilAttribute();
 	}
-	
+
 	@Override
 	public String getSelectionForProfilAttributAuswahl(String name, Profil p) {
 		return this.pMapper.findSelectionByName(name, p.getId());
@@ -396,6 +388,5 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }
