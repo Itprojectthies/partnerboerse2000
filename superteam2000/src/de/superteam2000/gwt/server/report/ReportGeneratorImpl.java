@@ -73,10 +73,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		// TODO restliche benötigten Attribute hinzufügen
 		CompositeParagraph imprint = new CompositeParagraph();
 		imprint.addSubParagraph(new SimpleParagraph("Email: " + p.getEmail()));
-		imprint.addSubParagraph(new SimpleParagraph("Geschlecht: " + p.getGeschlecht()));
-		imprint.addSubParagraph(new SimpleParagraph("Alter: " + p.getAlter()));
-		imprint.addSubParagraph(new SimpleParagraph("Raucher: " + p.getRaucher()));
-		imprint.addSubParagraph(new SimpleParagraph("Religion: "+p.getReligion()));
+//		imprint.addSubParagraph(new SimpleParagraph("Geschlecht: " + p.getGeschlecht()));
+//		imprint.addSubParagraph(new SimpleParagraph("Alter: " + p.getAlter()));
+//		imprint.addSubParagraph(new SimpleParagraph("Raucher: " + p.getRaucher()));
+//		imprint.addSubParagraph(new SimpleParagraph("Religion: "+p.getReligion()));
 
 		result.setImprint(imprint);
 
@@ -90,16 +90,16 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		headline.addColumn(new Column("Eigenschaften:"));
 		result.addRow(headline);
 
-		if(infos != null){
-		
-			for(Info i: infos){
-				Row infoRow = new Row();
-
-				infoRow.addColumn(new Column(i.getText()));
-				
-				result.addRow(infoRow);
-
-			}}
+//		if(infos != null){
+//		
+//			for(Info i: infos){
+//				Row infoRow = new Row();
+//
+//				infoRow.addColumn(new Column(i.getText()));
+//				
+//				result.addRow(infoRow);
+//
+//			}}
 			
 		
 		

@@ -61,7 +61,17 @@ public class ReportGen implements EntryPoint {
 		public void onFailure(Throwable caught) {
 
 			ClientsideSettings.getLogger().severe("Login fehlgeschlagen!");
-		
+	}
+
+		@Override
+		public void onSuccess(Profil result) {
+			
+			p = result;
+			
+			if(reportGenerator == null){
+				reportGenerator = ClientsideSettings.getReportGenerator();
+			}
+			
 
 		pb.getAllProfiles(new AsyncCallback<ArrayList<Profil>>() {
 
@@ -69,7 +79,7 @@ public class ReportGen implements EntryPoint {
 			public void onSuccess(ArrayList<Profil> result) {
 				if (result != null) {
 					profile = result;
-					ClientsideSettings.getLogger().severe("async callback get all profiles");
+					ClientsideSettings.getLogger().info("async callback get all profiles");
 				}
 			}
 
@@ -89,6 +99,7 @@ public class ReportGen implements EntryPoint {
 
 				@Override
 				public void onClick(ClickEvent event) {
+					ClientsideSettings.getLogger().info("onClick Methode aufgerufen");
 
 					reportGenerator.createAllProfilesReport(new AsyncCallback<AllProfilesReport>() {
 
@@ -97,6 +108,7 @@ public class ReportGen implements EntryPoint {
 							
 					@Override
 					public void onSuccess(AllProfilesReport result) {
+						ClientsideSettings.getLogger().info("onSuccess AllprofilesReport");
 						if (result != null) {
 						RootPanel.get("Details").clear();
 						HTMLReportWriter writer = new HTMLReportWriter();
@@ -140,16 +152,11 @@ public class ReportGen implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				ClientsideSettings.getLogger().info("onClick profilAnzeigenButton");
 				reportGenerator.createProfilReport(p, new createProfilReportCallback());
 
 			}
 		});
-
-	}
-
-		@Override
-		public void onSuccess(Profil result) {
-			// TODO Auto-generated method stub
 			
 		}
 
@@ -159,7 +166,7 @@ class createProfilReportCallback implements AsyncCallback<ProfilReport> {
 
 	@Override
 	public void onFailure(Throwable caught) {
-		// TODO Auto-generated method stub
+		ClientsideSettings.getLogger().info(caught.toString());
 
 
 	}
@@ -167,6 +174,7 @@ class createProfilReportCallback implements AsyncCallback<ProfilReport> {
 		
 	@Override
 	public void onSuccess(ProfilReport report) {
+	if(report != null){	ClientsideSettings.getLogger().info("report != null" );}
 
 		if (report != null) {
 			HTMLReportWriter writer = new HTMLReportWriter();
