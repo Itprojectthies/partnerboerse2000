@@ -137,56 +137,60 @@ public class CreateProfil extends BasicFrame {
 			// Schleifen zum Auslesen der Listboxen, welche in 2 Panels
 			// verschachtelt sind
 
-			for (Widget widget2 : fPanel) {
-				FlowPanel vp1 = (FlowPanel) widget2;
-				for (Widget widget3 : vp1) {
-					if (widget3 instanceof ProfilAttributeListBox) {
-						ProfilAttributeListBox lb = (ProfilAttributeListBox) widget3;
-						logger.severe("test " + lb.getName());
+			for (Widget child : fPanel) {
+				
+				if (child instanceof FlowPanel) {
+					
+					FlowPanel vp1 = (FlowPanel) child;
+					for (Widget widget3 : vp1) {
+						if (widget3 instanceof ProfilAttributeListBox) {
+							ProfilAttributeListBox lb = (ProfilAttributeListBox) widget3;
+							logger.severe("test " + lb.getName());
 
-						switch (lb.getName()) {
+							switch (lb.getName()) {
 
-						case "Raucher":
-							raucher = lb.getSelectedItemText();
-							break;
-						case "Haarfarbe":
-							haarfarbe = lb.getSelectedItemText();
-							break;
-						case "Religion":
-							religion = lb.getSelectedItemText();
-							break;
-						case "Geschlecht":
-							geschlecht = lb.getSelectedItemText();
-							break;
-						case "Körpergröße":
-							groesse = Integer.valueOf(lb.getSelectedItemText());
-							break;
-						case "GeburtstagTag":
-							geburtsTag = Integer.valueOf(lb.getSelectedItemText());
-							break;
-						case "GeburtstagMonat":
-							geburtsMonat = Integer.valueOf(lb.getSelectedItemText());
-							break;
-						case "GeburtstagJahr":
-							geburtsJahr = Integer.valueOf(lb.getSelectedItemText());
-							break;
+							case "Raucher":
+								raucher = lb.getSelectedItemText();
+								break;
+							case "Haarfarbe":
+								haarfarbe = lb.getSelectedItemText();
+								break;
+							case "Religion":
+								religion = lb.getSelectedItemText();
+								break;
+							case "Geschlecht":
+								geschlecht = lb.getSelectedItemText();
+								break;
+							case "Körpergröße":
+								groesse = Integer.valueOf(lb.getSelectedItemText());
+								break;
+							case "GeburtstagTag":
+								geburtsTag = Integer.valueOf(lb.getSelectedItemText());
+								break;
+							case "GeburtstagMonat":
+								geburtsMonat = Integer.valueOf(lb.getSelectedItemText());
+								break;
+							case "GeburtstagJahr":
+								geburtsJahr = Integer.valueOf(lb.getSelectedItemText());
+								break;
 
+							}
+
+						} else if (widget3 instanceof TextBox) {
+							TextBox tb = (TextBox) widget3;
+							logger.severe("test " + tb.getName());
+							switch (tb.getName()) {
+							case "Vorname":
+								firstName = tb.getText();
+								break;
+							case "Nachname":
+								lastName = tb.getText();
+								break;
+
+							}
 						}
 
-					} else if (widget3 instanceof TextBox) {
-						TextBox tb = (TextBox) widget3;
-						logger.severe("test " + tb.getName());
-						switch (tb.getName()) {
-						case "Vorname":
-							firstName = tb.getText();
-							break;
-						case "Nachname":
-							lastName = tb.getText();
-							break;
-
-						}
-					}
-
+					} 
 				}
 
 			}
