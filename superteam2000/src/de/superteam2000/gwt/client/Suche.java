@@ -124,6 +124,27 @@ public class Suche extends BasicFrame {
 		// pb Verwaltung über ClientsideSettings holen
 		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
+		
+		pbVerwaltung.getAllAuswahl(new AsyncCallback<ArrayList<Auswahl>>() {
+			
+			@Override
+			public void onSuccess(ArrayList<Auswahl> result) {
+				for (Auswahl a : result) {
+					ProfilAttributeBoxPanel clb = new ProfilAttributeBoxPanel(a, true);
+					clb.addKeineAngabenItem();
+					fPanel.add(clb);
+
+				}
+				
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
 
 		suchButton.addClickHandler(new SuchButtonClickHandler());
@@ -154,18 +175,32 @@ public class Suche extends BasicFrame {
 		public void onSuccess(ArrayList<Auswahl> result) {
 			for (Auswahl a : result) {
 				ProfilAttributeBoxPanel clb = new ProfilAttributeBoxPanel(a, true);
+				clb.addKeineAngabenItem();
 				fPanel.add(clb);
+
 			}
+
+			ProfilAttributeBoxPanel groesseMin = new ProfilAttributeBoxPanel("Minimale Größe");
+			groesseMin.createGroesseListBox();
+			groesseMin.setName("Körpergröße_min");
+			groesseMin.addKeineAngabenItem();
+			ProfilAttributeBoxPanel groesseMax = new ProfilAttributeBoxPanel("Maximale Größe");
+			groesseMax.createGroesseListBox();
+			groesseMax.addKeineAngabenItem();
+			groesseMax.setName("Körpergröße_max");
 
 			// Körpergröße und Geburtstags Listboxen werden nach den
 			// AuswahlProfilAttributen zum Panel hinzugefügt
+
+			fPanel.add(groesseMin);
+			fPanel.add(groesseMax);
 			fPanel.add(suchButton);
+
 		}
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-
+			logger.severe("Fehler beim GetAllAuswahlProfilAttributeCallback");
 		}
 	}
 

@@ -96,11 +96,11 @@ public class ProfilAttributeBoxPanel extends FlowPanel {
 
 	public void createGroesseListBox() {
 		for (int i = 140; i < 210; i++) {
-			koerpergroesseListBox.addItem(String.valueOf(i));
+			profilAttributListBox.addItem(String.valueOf(i));
 		}
 		
-		this.koerpergroesseListBox.setName("Körpergröße");
-		this.add(this.koerpergroesseListBox);
+		this.profilAttributListBox.setName("Körpergröße");
+		this.add(this.profilAttributListBox);
 		setStyleName("CompositeProfilAttributeBox");
 	}
 
@@ -137,7 +137,7 @@ public class ProfilAttributeBoxPanel extends FlowPanel {
 	}
 
 	public void setGroesse(int groesse) {
-		this.koerpergroesseListBox.setItemSelected(groesse - 140, true);
+		this.profilAttributListBox.setItemSelected(groesse - 140, true);
 	}
 
 	public void setEnable(boolean isEnabled) {
@@ -147,6 +147,15 @@ public class ProfilAttributeBoxPanel extends FlowPanel {
 		this.gebDatumTagListBox.setEnabled(isEnabled);
 		this.gebDatumMonatListBox.setEnabled(isEnabled);
 		this.gebDatumJahrListBox.setEnabled(isEnabled);
+	}
+	
+	public void addKeineAngabenItem () {
+		this.profilAttributListBox.insertItem("Keine Angabe", 0);
+		this.profilAttributListBox.setSelectedIndex(0);
+	}
+	
+	public void setName (String name) {
+		this.profilAttributListBox.setName(name);
 	}
 
 }
