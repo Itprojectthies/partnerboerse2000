@@ -74,6 +74,7 @@ public class CreateProfil extends BasicFrame {
 		confirmBtn.addClickHandler(new ConfirmClickHandler());
 
 		RootPanel.get("Details").add(fPanel);
+		
 	}
 
 	private class GetAllBeschreibungProfilAttributeCallBack implements AsyncCallback<ArrayList<Beschreibung>> {

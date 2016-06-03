@@ -43,14 +43,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public void init() throws IllegalArgumentException {
 
 		this.aehnlichMapper = AehnlichkeitsmassMapper.aehnlichkeitsmassMapper();
-		// this.alternativeMapper alternativMapper = null;
 		this.auswahlMapper = AuswahlMapper.auswahlMapper();
 		this.beschrMapper = BeschreibungMapper.beschreibungMapper();
 		this.iMapper = InfoMapper.infoMapper();
 		this.kMapper = KontaktsperreMapper.kontaktsperreMapper();
 		this.mMapper = MerkzettelMapper.merkzettelMapper();
 		this.pMapper = ProfilMapper.profilMapper();
-		// private SuchprofilMapper sMapper = null;
+		this.sMapper = SuchprofilMapper.suchprofilMapper();
 
 	}
 
@@ -125,6 +124,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.pMapper.update(profil);
 
 	}
+	
+	@Override
+	public void save(Suchprofil sp) throws IllegalArgumentException {
+		this.sMapper.update(sp);
+
+	}
 
 	@Override
 	public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException {
@@ -142,6 +147,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	@Override
+	public ArrayList<Suchprofil> getAllSuchprofileForProfil(Profil p) throws IllegalArgumentException {
+		return this.sMapper.findAllForProfil(p);
+	}
+	
+	@Override
+	public Suchprofil getSuchprofileForProfilByName(Profil p, String name) throws IllegalArgumentException {
+		return this.sMapper.findSuchprofilForProfilByName(p, name);
+	}
+	
 	@Override
 	public ArrayList<Auswahl> getAllAuswahl() throws IllegalArgumentException {
 		return this.auswahlMapper.findAll();
@@ -250,6 +265,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
+	public void deleteSuchprofil(Suchprofil sp) {
+		this.sMapper.delete(sp);
+	}
+	
+	@Override
 	public void deleteMerken(Profil entferner, Profil entfernter) throws IllegalArgumentException {
 		mMapper.deleteMerkenFor(entferner, entfernter);
 	}
@@ -279,9 +299,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
-	public void createSuchprofilForProfil(Profil profil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
+	@Override
+	public void createSuchprofil(Suchprofil sp) throws IllegalArgumentException {
+			this.sMapper.insert(sp);
 	}
 
 	@Override

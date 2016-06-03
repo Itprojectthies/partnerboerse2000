@@ -289,16 +289,6 @@ public class AuswahlMapper {
 			e.printStackTrace();
 		}
 
-		/*
-		 * Rückgabe, des evtl. korrigierten Profils.
-		 *
-		 * HINWEIS: Da in Java nur Referenzen auf Objekte und keine physischen
-		 * Objekte übergeben werden, wäre die Anpassung des Auswahl-Objekts auch
-		 * ohne diese explizite Rückgabe außerhalb dieser Methode sichtbar. Die
-		 * explizite Rückgabe von a ist eher ein Stilmittel, um zu
-		 * signalisieren, dass sich das Objekt evtl. im Laufe der Methode
-		 * verändert hat.
-		 */
 		return a;
 	}
 

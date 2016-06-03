@@ -1,6 +1,6 @@
 package de.superteam2000.gwt.shared.bo;
 
-import java.util.Date;
+import java.util.HashMap;
 
 public class Suchprofil extends BusinessObject {
 
@@ -8,54 +8,49 @@ public class Suchprofil extends BusinessObject {
 
 	private String name  = "";
 	private String text = "";
-	private String nachname = "";
-	private String vorname = "";
-	private String email = "";
-	private Date geburtsdatum = null;
-	private Date erstelldatum = null;
 	private String haarfarbe = "";
 	private String raucher = "";
 	private String religion = "";
-	private int groesse = 0;
+	private String geschlecht = "";
 
-	public String getNachname() {
-		return nachname;
+	private int profilId = 0;
+	private int groesse_min = 0;
+	private int groesse_max = 0;
+	private int alter_min = 0;
+	private int alter_max = 0;
+
+	private HashMap<Integer, String> auswahlListe = new HashMap<>();
+
+	public int getGroesse_min() {
+		return groesse_min;
 	}
 
-	public void setNachname(String nachname) {
-		this.nachname = nachname;
+	public void setGroesse_min(int groesse_min) {
+		this.groesse_min = groesse_min;
 	}
 
-	public String getVorname() {
-		return vorname;
+	public int getGroesse_max() {
+		return groesse_max;
 	}
 
-	public void setVorname(String vorname) {
-		this.vorname = vorname;
+	public void setGroesse_max(int groesse_max) {
+		this.groesse_max = groesse_max;
 	}
 
-	public String getEmail() {
-		return email;
+	public int getAlter_min() {
+		return alter_min;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setAlter_min(int alter_min) {
+		this.alter_min = alter_min;
 	}
 
-	public Date getGeburtsdatum() {
-		return geburtsdatum;
+	public int getAlter_max() {
+		return alter_max;
 	}
 
-	public void setGeburtsdatum(Date geburtsdatum) {
-		this.geburtsdatum = geburtsdatum;
-	}
-
-	public Date getErstelldatum() {
-		return erstelldatum;
-	}
-
-	public void setErstelldatum(Date erstelldatum) {
-		this.erstelldatum = erstelldatum;
+	public void setAlter_max(int alter_max) {
+		this.alter_max = alter_max;
 	}
 
 	public String getHaarfarbe() {
@@ -82,13 +77,6 @@ public class Suchprofil extends BusinessObject {
 		this.religion = religion;
 	}
 
-	public int getGroesse() {
-		return groesse;
-	}
-
-	public void setGroesse(int groesse) {
-		this.groesse = groesse;
-	}
 
 	public String getName() {
 		return name;
@@ -104,6 +92,56 @@ public class Suchprofil extends BusinessObject {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public int getProfilId() {
+		return profilId;
+	}
+
+	public void setProfilId(int profilId) {
+		this.profilId = profilId;
+	}
+
+	public String getGeschlecht() {
+		return geschlecht;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + profilId;
+		return result;
+	}
+
+	@Override
+	public boolean equals (Object object) {
+		boolean result = false;
+		if (object == null || object.getClass() != getClass()) {
+			result = false;
+		} else {
+			Suchprofil sp = (Suchprofil) object;
+			if (this.getName() == sp.getName() && this.getProfilId() == sp.getProfilId())  {
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	public void setGeschlecht(String geschlecht) {
+		this.geschlecht = geschlecht;
+	}
+
+	public HashMap<Integer, String> getAuswahlListe() {
+		return auswahlListe;
+	}
+
+	public void setAuswahlListe(HashMap<Integer, String> auswahlListe) {
+		this.auswahlListe = auswahlListe;
 	}
 
 }

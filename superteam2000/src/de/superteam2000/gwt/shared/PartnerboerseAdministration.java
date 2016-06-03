@@ -13,6 +13,7 @@ import de.superteam2000.gwt.shared.bo.Info;
 import de.superteam2000.gwt.shared.bo.Kontaktsperre;
 import de.superteam2000.gwt.shared.bo.Merkzettel;
 import de.superteam2000.gwt.shared.bo.Profil;
+import de.superteam2000.gwt.shared.bo.Suchprofil;
 
 @RemoteServiceRelativePath("pba")
 public interface PartnerboerseAdministration extends RemoteService {
@@ -113,6 +114,16 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void createSperre(Profil a, Profil b) throws IllegalArgumentException;
 
 	public void deleteSperre(Profil entferner, Profil entfernter);
+
+	public void createSuchprofil(Suchprofil sp) throws IllegalArgumentException;
+
+	public ArrayList<Suchprofil> getAllSuchprofileForProfil(Profil p) throws IllegalArgumentException;
+
+	public Suchprofil getSuchprofileForProfilByName(Profil p, String name) throws IllegalArgumentException;
+
+	public void deleteSuchprofil(Suchprofil sp);
+
+	public void save(Suchprofil sp) throws IllegalArgumentException;
 
 
 

@@ -109,14 +109,21 @@ public interface PartnerboerseAdministrationAsync {
 
 	void deleteSperre(Profil entferner, Profil entfernter, AsyncCallback<Void> callback);
 
-
-
-
 	void getAllAuswahlProfilAttribute(AsyncCallback<ArrayList<Auswahl>> callback);
 
 	void getSelectionForProfilAttributAuswahl(String name, Profil p, AsyncCallback<String> callback);
 
 	void getAllBeschreibungProfilAttribute(AsyncCallback<ArrayList<Beschreibung>> callback);
+
+	void createSuchprofil(Suchprofil sp, AsyncCallback<Void> callback);
+
+	void getAllSuchprofileForProfil(Profil p, AsyncCallback<ArrayList<Suchprofil>> callback);
+
+	void getSuchprofileForProfilByName(Profil p, String name, AsyncCallback<Suchprofil> callback);
+
+	void deleteSuchprofil(Suchprofil sp, AsyncCallback<Void> callback);
+
+	void save(Suchprofil sp, AsyncCallback<Void> callback);
 
 	// Suchprofil
 

@@ -328,7 +328,7 @@ public class ShowProfil extends BasicFrame {
 						// this.b.append("Info #" + i.getId() + ": " +
 						// i.getText());
 						// this.b.append(i.getText());
-						ClientsideSettings.getLogger().info("das ist result reihenfolge: " + i.getText());
+//						ClientsideSettings.getLogger().info("das ist result reihenfolge: " + i.getText());
 						pbVerwaltung.getAuswahlById(i.getEigenschaftId(), new GetAuswahlCallback(this.b, i));
 						// pbVerwaltung.getBeschreibungById(i.getEigenschaftId(),
 						// new GetBeschreibungCallback(this.b, i));
@@ -393,7 +393,7 @@ public class ShowProfil extends BasicFrame {
 		public void onSuccess(Auswahl result) {
 			// this.b.append("Frage: " + result.getBeschreibungstext() + "
 			// Antwort: " + i.getText());
-			ClientsideSettings.getLogger().info("das ist callback reihenfolge: " + i.getText());
+//			ClientsideSettings.getLogger().info("das ist callback reihenfolge: " + i.getText());
 			html.setText("Frage: " + result.getBeschreibungstext() + " Antwort: " + i.getText());
 			fPanelEigenschaften.add(html);
 		}

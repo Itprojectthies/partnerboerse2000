@@ -248,7 +248,7 @@ public class ProfilMapper {
 				 * Primärschlüssel.
 				 */
 				p.setId(rs.getInt("maxid") + 1);
-
+				
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
