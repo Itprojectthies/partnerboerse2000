@@ -346,8 +346,9 @@ public class ProfilMapper {
 			Statement stmt = con.createStatement();
 
 			
-			stmt.executeUpdate("REPLACE INTO Profilbesuch (Besucher_id, Besuchter_id) VALUES ("
-					+ besucher.getId() + "," + besuchter.getId() + ")");
+		stmt.execute("INSERT IGNORE INTO Profilbesuch SET Besucher_id = "+besucher.getId()+ " , Besuchter_id = "+ besuchter.getId());
+	//		stmt.executeUpdate("REPLACE INTO Profilbesuch (Besucher_id, Besuchter_id) VALUES ("
+		//			+ besucher.getId() + "," + besuchter.getId() + ")");
 
 
 		} catch (SQLException e) {
