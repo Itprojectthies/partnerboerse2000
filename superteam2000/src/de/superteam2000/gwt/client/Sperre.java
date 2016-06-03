@@ -29,11 +29,12 @@ public class Sperre extends BasicFrame {
 	}
 
 	ArrayList<Profil> profile = new ArrayList<>();
+
+	//pbVerwaltung über ClientsideSettings holen
+	PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	
 	@Override
 	public void run() {
-		//pbVerwaltung über ClientsideSettings holen
-		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 		
 		pbVerwaltung.getKontaktsperreForProfil(ClientsideSettings.getCurrentUser(), new AsyncCallback<Kontaktsperre>() {
 			

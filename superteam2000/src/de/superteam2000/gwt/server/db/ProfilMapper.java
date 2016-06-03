@@ -336,15 +336,17 @@ public class ProfilMapper {
 	}
 
 	// soll in Besuchertabelle schreiben wann wer wen besucht hat. und eine
-	// Variable "visited" true setzen
+	// die beiden Id's setzen(vom Besucher und  vom Besuchten)
 	public void setVisited(Profil besucher, Profil besuchter) {
+		
+
 		Connection con = DBConnection.connection();
-		ClientsideSettings.getLogger().info("Profil " + besucher.getEmail() + " besucht " + besuchter.getEmail());
+
 		try {
 			Statement stmt = con.createStatement();
 
 			
-			stmt.executeQuery("INSERT INTO Profilbesuch (Besucher_id, Besuchter_id) VALUES ("
+			stmt.executeUpdate("REPLACE INTO Profilbesuch (Besucher_id, Besuchter_id) VALUES ("
 					+ besucher.getId() + "," + besuchter.getId() + ")");
 
 

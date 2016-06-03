@@ -13,6 +13,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ListBox;
@@ -28,6 +29,8 @@ import de.superteam2000.gwt.client.gui.ProfilAttributeListBox;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Profil;
+import de.superteam2000.gwt.shared.report.HTMLReportWriter;
+import de.superteam2000.gwt.shared.report.ProfilReport;
 
 /**
  * Die Klasse Suche ist für die Darstellung von Möglichen Auswahlen und eine
@@ -37,6 +40,11 @@ import de.superteam2000.gwt.shared.bo.Profil;
  *
  */
 public class Suche extends BasicFrame {
+	
+	// pb Verwaltung über ClientsideSettings holen
+	PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+	
+	private Profil selected = null;
 
 	ArrayList<Profil> profile = null;
 	Profil profil = null;
@@ -121,8 +129,7 @@ public class Suche extends BasicFrame {
 
 		//
 
-		// pb Verwaltung über ClientsideSettings holen
-		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+
 
 		
 		pbVerwaltung.getAllAuswahl(new AsyncCallback<ArrayList<Auswahl>>() {
@@ -216,6 +223,8 @@ public class Suche extends BasicFrame {
 
 			final Button merkenButton = new Button("Profil merken");
 			final Button sperrenButton = new Button("Profil sperren");
+			final Button profilAnzeigenButton = new Button("Profil anzeigen");
+			
 			RootPanel.get("Details").clear();
 
 			// "dummmy-Profil" erstellen
@@ -275,6 +284,7 @@ public class Suche extends BasicFrame {
 								profile = result;
 								RootPanel.get("Details").add(merkenButton);
 								RootPanel.get("Details").add(sperrenButton);
+								RootPanel.get("Details").add(profilAnzeigenButton);
 
 								DataGrid<Profil> table = new DataGrid<Profil>();
 								table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
@@ -318,65 +328,15 @@ public class Suche extends BasicFrame {
 
 									@Override
 									public void onSelectionChange(SelectionChangeEvent event) {
-										final Profil selected = selectionModel.getSelectedObject();
-										sperrenButton.addClickHandler(new ClickHandler() {
-
-											@Override
-											public void onClick(ClickEvent event) {
-												if (selected != null) {
-													ClientsideSettings.getPartnerboerseVerwaltung().createSperre(
-															ClientsideSettings.getCurrentUser(), selected,
-															new AsyncCallback<Void>() {
-
-																@Override
-																public void onSuccess(Void result) {
-																	Window.alert("Profil gesperrt!");
-																}
-
-																@Override
-																public void onFailure(Throwable caught) {
-																	// TODO
-																	// Auto-generated
-																	// method
-																	// stub
-
-																}
-															});
-												}
-
-											}
-										});
-										merkenButton.addClickHandler(new ClickHandler() {
-
-											@Override
-											public void onClick(ClickEvent event) {
-												if (selected != null) {
-
-													ClientsideSettings.getPartnerboerseVerwaltung().createMerken(
-															ClientsideSettings.getCurrentUser(), selected,
-															new AsyncCallback<Void>() {
-
-																@Override
-																public void onSuccess(Void result) {
-																	Window.alert("Profil gemerkt.");
-
-																}
-
-																@Override
-																public void onFailure(Throwable caught) {
-																	// TODO
-																	// Auto-generated
-																	// method
-																	// stub
-
-																}
-															});
-													;
-
-												}
-
-											}
-										});
+										selected = selectionModel.getSelectedObject();
+										
+										sperrenButton.addClickHandler(new SperrenButtonClickhandler());
+										
+										merkenButton.addClickHandler(new MerkenButtonClickhandler());
+										
+										profilAnzeigenButton.addClickHandler(new ProfilAnzeigenButtonClickhandler());
+										
+										
 
 									}
 								});
@@ -386,7 +346,7 @@ public class Suche extends BasicFrame {
 								table.setWidth("100%");
 
 								LayoutPanel panel = new LayoutPanel();
-								panel.setSize("30em", "10em");
+								panel.setSize("60em", "30em");
 								panel.add(table);
 								RootPanel.get("Details").add(panel);
 
@@ -443,4 +403,105 @@ public class Suche extends BasicFrame {
 
 	}
 
+	public class SperrenButtonClickhandler implements ClickHandler {
+		@Override
+		public void onClick(ClickEvent event) {
+			if (selected != null) {
+				ClientsideSettings.getPartnerboerseVerwaltung().createSperre(
+						ClientsideSettings.getCurrentUser(), selected,
+						new AsyncCallback<Void>() {
+
+							@Override
+							public void onSuccess(Void result) {
+								Window.alert("Profil gesperrt!");
+							}
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO
+								// Auto-generated
+								// method
+								// stub
+
+							}
+						});
+			}
+
+		}
+	}
+	public class MerkenButtonClickhandler implements ClickHandler {
+		@Override
+		public void onClick(ClickEvent event) {
+			if (selected != null) {
+
+				ClientsideSettings.getPartnerboerseVerwaltung().createMerken(
+						ClientsideSettings.getCurrentUser(), selected,
+						new AsyncCallback<Void>() {
+
+							@Override
+							public void onSuccess(Void result) {
+								Window.alert("Profil gemerkt.");
+
+							}
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO
+								// Auto-generated
+								// method
+								// stub
+
+							}
+						});
+				;
+
+			}
+
+		}
+	}
+	public class ProfilAnzeigenButtonClickhandler implements ClickHandler {
+		@Override
+		public void onClick(ClickEvent event) {
+		if (selected != null) {
+
+			ClientsideSettings.getReportGenerator().createProfilReport(selected, new AsyncCallback<ProfilReport>() {
+				
+				@Override
+				public void onSuccess(ProfilReport result) {
+					
+					//Profil als besucht setzen
+					pbVerwaltung.setVisited(user, selected, new AsyncCallback<Void>() {
+						
+						@Override
+						public void onSuccess(Void result) {
+							ClientsideSettings.getLogger().info("User wurde als besucht markiert!");
+							
+						}
+						
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+					
+					//Hier wird der Report prozessiert und ausgegeben
+					HTMLReportWriter writer = new HTMLReportWriter();
+					writer.process(result);
+					RootPanel.get("Details").clear();
+					HTML html = new HTML(writer.getReportText());
+					RootPanel.get("Details").add(html);
+					
+					
+				}
+				
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		}
+	}
+	}
 }
