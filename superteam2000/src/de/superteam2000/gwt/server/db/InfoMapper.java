@@ -233,22 +233,22 @@ public class InfoMapper {
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM Info ");
+//			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM Info ");
 
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
-			if (rs.next()) {
-				/*
-				 * a erhält den bisher maximalen, nun um 1 inkrementierten
-				 * Primärschlüssel.
-				 */
-				i.setId(rs.getInt("maxid") + 1);
+//			if (rs.next()) {
+//				/*
+//				 * a erhält den bisher maximalen, nun um 1 inkrementierten
+//				 * Primärschlüssel.
+//				 */
+//				i.setId(rs.getInt("maxid") + 1);
 
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO Info (id, Text, Profil_id, Eigenschaft_id) VALUES (" + i.getId() + ",'"
+				stmt.executeUpdate("INSERT INTO Info (Text, Profil_id, Eigenschaft_id) VALUES ('"
 						+ i.getText() + "'," + i.getProfilId() + "," + i.getEigenschaftId() + ")");
-			}
+//			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
@@ -265,21 +265,22 @@ public class InfoMapper {
 	 *            das Objekt, das in die DB geschrieben werden soll
 	 * @return das als Parameter übergebene Objekt
 	 */
-	public Auswahl update(Auswahl a) {
+	public Info update(Info i) {
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE Eigenschaft SET Name=\"" + a.getName() + "\", Beschreibungstext=\""
-					+ a.getBeschreibungstext() + "\", e_typ=\"a\" WHERE id=" + a.getId());
+			stmt.executeUpdate("UPDATE Info SET Text='"+i.getText()+
+					 "' WHERE Profil_id=" + i.getProfilId() + 
+					 " AND Eigenschaft_id=" + i.getEigenschaftId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		// Um Analogie zu insert(Auswahl a) zu wahren, geben wir a zurück
-		return a;
+		return i;
 	}
 
 	/**
@@ -294,7 +295,7 @@ public class InfoMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM Info " + "WHERE id=" + i.getId());
+			stmt.executeUpdate("DELETE FROM Info WHERE id=" + i.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

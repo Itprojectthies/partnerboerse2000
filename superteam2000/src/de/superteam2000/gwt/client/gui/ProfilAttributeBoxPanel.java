@@ -22,6 +22,19 @@ public class ProfilAttributeBoxPanel extends FlowPanel {
 	ProfilAttributeListBox profilAttributListBox = new ProfilAttributeListBox();
 	ProfilAttributeTextBox profilAttributTextBox = new ProfilAttributeTextBox();
 
+	public ProfilAttributeBoxPanel(Auswahl a) {
+		this.auswahl = a;
+		this.profilAttributListBox = new ProfilAttributeListBox(a);
+		this.add(profilAttributListBox);
+
+		// set style name for entire widget
+		setStyleName("CompositeProfilAttributeBox");
+
+		// set style name for text box
+		profilAttributListBox.setStyleName("prof-attrib-listbox");
+
+	}
+	
 	// Konstruktor für ein Auswahlobjekt mit vorselektiertem Item in der Listbox
 	public ProfilAttributeBoxPanel(Auswahl a, String selectedItem, boolean isNameListbox) {
 		this.auswahl = a;

@@ -5,19 +5,30 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.gargoylesoftware.htmlunit.WebConsole.Logger;
+import org.mortbay.log.Log;
+
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.appengine.labs.repackaged.com.google.common.base.Objects;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
-import de.superteam2000.gwt.server.db.*;
-
+import de.superteam2000.gwt.server.db.AehnlichkeitsmassMapper;
+import de.superteam2000.gwt.server.db.AuswahlMapper;
+import de.superteam2000.gwt.server.db.BeschreibungMapper;
+import de.superteam2000.gwt.server.db.InfoMapper;
+import de.superteam2000.gwt.server.db.KontaktsperreMapper;
+import de.superteam2000.gwt.server.db.MerkzettelMapper;
+import de.superteam2000.gwt.server.db.ProfilMapper;
+import de.superteam2000.gwt.server.db.SuchprofilMapper;
 import de.superteam2000.gwt.shared.PartnerboerseAdministration;
-import de.superteam2000.gwt.shared.bo.*;
+import de.superteam2000.gwt.shared.bo.Auswahl;
+import de.superteam2000.gwt.shared.bo.Beschreibung;
+import de.superteam2000.gwt.shared.bo.Info;
+import de.superteam2000.gwt.shared.bo.Kontaktsperre;
+import de.superteam2000.gwt.shared.bo.Merkzettel;
+import de.superteam2000.gwt.shared.bo.Profil;
+import de.superteam2000.gwt.shared.bo.Suchprofil;
 
 public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implements PartnerboerseAdministration {
 
@@ -25,7 +36,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private AehnlichkeitsmassMapper aehnlichMapper = null;
 	private AuswahlMapper auswahlMapper = null;
 	private BeschreibungMapper beschrMapper = null;
 	private InfoMapper iMapper = null;
@@ -44,7 +54,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public void init() throws IllegalArgumentException {
 
-		this.aehnlichMapper = AehnlichkeitsmassMapper.aehnlichkeitsmassMapper();
 		this.auswahlMapper = AuswahlMapper.auswahlMapper();
 		this.beschrMapper = BeschreibungMapper.beschreibungMapper();
 		this.iMapper = InfoMapper.infoMapper();
@@ -181,11 +190,43 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException {
-		Info i = new Info();
-		i.setText(text);
-		i.setEigenschaftId(auswahl.getId());
-		i.setProfilId(profil.getId());
-		return this.iMapper.insert(i);
+			
+			
+			Info i = new Info();
+			i.setText(text);
+			i.setEigenschaftId(auswahl.getId());
+			i.setProfilId(profil.getId());
+			
+			ArrayList<Info> infoListe = this.iMapper.findAllByProfilId(profil.getId());
+//			for (Info info : infoListe) {
+//			if (info.getEigenschaftId() == i.getEigenschaftId() && 
+//					info.getProfilId() == i.getProfilId() && 
+//					!info.getText().equals(i.getText())) {
+//				log("Info upgedatet");
+//				return this.iMapper.update(i);
+//			} else {
+//				log("Info neuangelegt");
+//				return this.iMapper.insert(i);
+//			}
+//			}
+			
+	
+			for (Info info : infoListe) {
+				if (info.getEigenschaftId() == i.getEigenschaftId() && 
+						info.getProfilId() == i.getProfilId() && 
+						!info.getText().equals(i.getText()) ) {
+					
+					log("Info upgedatet");
+					return this.iMapper.update(i);
+				}else if (info.getEigenschaftId() == i.getEigenschaftId() && 
+						info.getProfilId() == i.getProfilId() && 
+						info.getText().equals(i.getText())) {
+					return null;
+				}
+			}
+			log("Info neuangelegt");
+			return this.iMapper.insert(i);
+		
 	}
 
 	@Override
@@ -207,15 +248,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public void saveInfoForProfil(Profil profil, Info info) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
+	public void save(Info info) throws IllegalArgumentException {
+		this.iMapper.update(info);
 	}
 
 	@Override
-	public void deleteInfoForProfil(Profil profil, Info info) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
+	public void delete(Info info) throws IllegalArgumentException {
+		if (info != null) {
+			this.iMapper.delete(info);
+		}
 	}
 
 	@Override
@@ -364,31 +405,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return null;
 	}
 
-	@Override
-	public ArrayList<Profil> getProfilesBySuche(Profil p) throws IllegalArgumentException {
-
-		if (p != null) {
-			ClientsideSettings.getLogger().info("getProfilesBySuche Methode in pbImpl aufgerufen");
-		}
-
-		ArrayList<Profil> profile = this.pMapper.findAll();
-		ArrayList<Profil> result = new ArrayList<>();
-
-		for (Profil profil : profile) {
-			if (Objects.equal(profil.getGeschlecht(), p.getGeschlecht())
-					&& Objects.equal(profil.getRaucher(), p.getRaucher())
-					&& Objects.equal(profil.getReligion(), p.getReligion())
-					&& Objects.equal(profil.getHaarfarbe(), p.getHaarfarbe())) {
-
-				ClientsideSettings.getLogger().info("passendes Profil hinzugefügt");
-				result.add(profil);
-
-			}
-		}
-
-		return result;
-	}
-	// Gibt true zurück, wenn die Elemente des SuchprofilListe 
+	// Gibt true zurück, wenn die Elemente des SuchprofilListe
 	// auch in einer Profilliste vorkommen
 	public boolean compare(ArrayList<Info> suchprofilListe, ArrayList<Info> profilListe) {
 		int i = suchprofilListe.size();
@@ -411,31 +428,33 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		ArrayList<Profil> profile = this.pMapper.findAll();
 		ArrayList<Profil> result = new ArrayList<>();
-		
+
 		ArrayList<Info> suchprofilInfoListe = new ArrayList<>();
 		HashMap<Integer, String> auswahlListe = sp.getAuswahlListe();
 
-		//Erstelle aus den infomationen der Hashmap des Suchprofils, Info-
-		//Objekte  um sie mit den Info-Objekten eines Profils zu vergelichen
-		
+		// Erstelle aus den infomationen der Hashmap des Suchprofils, Info-
+		// Objekte um sie mit den Info-Objekten eines Profils zu vergelichen
+
 		for (Map.Entry<Integer, String> entry : auswahlListe.entrySet()) {
 			Info i = new Info();
 			i.setEigenschaftId(entry.getKey());
 			i.setText(entry.getValue());
 			suchprofilInfoListe.add(i);
-//			ClientsideSettings.getLogger().info("infos für passendes suchprofil: Id=" + i.getProfilId() + " text= "
-//					+ i.getText() + " E-Id=" + i.getEigenschaftId());
+			// ClientsideSettings.getLogger().info("infos für passendes
+			// suchprofil: Id=" + i.getProfilId() + " text= "
+			// + i.getText() + " E-Id=" + i.getEigenschaftId());
 		}
 
-
 		for (Profil p : profile) {
-			// Liste (profilInfoListe) mit Info-Objekten, die mit der Liste (suchprofilInfoListe) des 
+			// Liste (profilInfoListe) mit Info-Objekten, die mit der Liste
+			// (suchprofilInfoListe) des
 			// Suchprofils vergleichen wird
-			
+
 			ArrayList<Info> profilInfoListe = getInfoByProfile(p);
-//			for (Info i : profilInfoListe) {
-//				ClientsideSettings.getLogger().info("infos für jedes profil: " + i.getProfilId() + " " + i.getText());
-//			}
+			// for (Info i : profilInfoListe) {
+			// ClientsideSettings.getLogger().info("infos für jedes profil: " +
+			// i.getProfilId() + " " + i.getText());
+			// }
 			// Abfragen nach welchen Prfoilattributen gesucht wird
 			if ((sp.getHaarfarbe().equals("Keine Angabe") || p.getHaarfarbe().equals(sp.getHaarfarbe()))
 					&& (sp.getRaucher().equals("Keine Angabe") || p.getRaucher().equals(sp.getRaucher()))
@@ -443,10 +462,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 					&& (sp.getGeschlecht().equals("Keine Angabe") || p.getGeschlecht().equals(sp.getGeschlecht()))
 					&& (suchprofilInfoListe.size() == 0 || compare(suchprofilInfoListe, profilInfoListe))) {
 
-//				for (Info i : profilInfoListe) {
-//					ClientsideSettings.getLogger().info("infos für passendes profil: Id=" + i.getProfilId() + " text= "
-//							+ i.getText() + " E-Id=" + i.getEigenschaftId());
-//				}
+				// for (Info i : profilInfoListe) {
+				// ClientsideSettings.getLogger().info("infos für passendes
+				// profil: Id=" + i.getProfilId() + " text= "
+				// + i.getText() + " E-Id=" + i.getEigenschaftId());
+				// }
 				// abfragen on nach Größe oder Alter gesucht wird
 				if ((sp.getGroesse_min() != 0 && sp.getGroesse_max() != 0)
 						|| (sp.getAlter_min() != 0 && sp.getAlter_max() != 0)) {

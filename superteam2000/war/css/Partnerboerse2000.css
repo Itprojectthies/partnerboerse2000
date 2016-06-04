@@ -16,6 +16,28 @@ h1 {
   
 }
 
+select.profil-attribute-listbox {
+    width: 120px;
+}
+.gwt-ListBox {
+	width: 120px;
+}
+
+
+.flexTable td {
+   /* border: 1px solid #BBBBBB; */
+   padding: 3px;
+}
+
+.flexTable-buttonPanel td {
+   border: 0px;
+}
+
+.fixedWidthButton {
+   width: 150px;
+}
+
+
 #logDialogBox td {
 	border-bottom: dashed 1px #e1e1e1;
 }

@@ -58,9 +58,9 @@ public interface PartnerboerseAdministrationAsync {
 
 	// Info
 
-	void saveInfoForProfil(Profil profil, Info info, AsyncCallback<Void> callback);
+	void save(Info info, AsyncCallback<Void> callback);
 
-	void deleteInfoForProfil(Profil profil, Info info, AsyncCallback<Void> callback);
+	void delete(Info info, AsyncCallback<Void> callback);
 
 	void getInfoByProfile(Profil profil, AsyncCallback<ArrayList<Info>> callback);
 
@@ -94,8 +94,6 @@ public interface PartnerboerseAdministrationAsync {
 	void createInfoFor(Profil profil, Beschreibung beschreibung, String text, AsyncCallback<Info> callback);
 
 	void getProfilByMail(String email, AsyncCallback<Profil> callback);
-
-	void getProfilesBySuche(Profil p, AsyncCallback<ArrayList<Profil>> callback);
 
 	void getEigenschaftsNameById(int id, AsyncCallback<String> callback);
 
