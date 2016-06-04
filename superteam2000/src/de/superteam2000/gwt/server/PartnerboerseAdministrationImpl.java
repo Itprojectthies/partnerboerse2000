@@ -5,21 +5,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
-import java.util.NavigableMap;
-import java.util.TreeMap;
-import java.util.HashMap;
-
-
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.labs.repackaged.com.google.common.base.Objects;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.server.db.*;
-
 import de.superteam2000.gwt.shared.PartnerboerseAdministration;
 import de.superteam2000.gwt.shared.bo.*;
 
@@ -250,7 +242,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		ArrayList<Profil> alleProfile = pMapper.findAll();
 		Kontaktsperre kontaktsperreforProfil = kMapper.findAllForProfil(profil);
 		ArrayList<Profil> gesperrteProfile = kontaktsperreforProfil.getGesperrteProfile();
-		ArrayList<Profil> result = new ArrayList<>();
+
 		
 		for(Profil p: gesperrteProfile){
 			if(alleProfile.contains(p)){

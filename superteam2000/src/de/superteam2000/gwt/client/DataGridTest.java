@@ -1,36 +1,32 @@
 package de.superteam2000.gwt.client;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
-
-
-import de.superteam2000.gwt.client.Suche.MerkenButtonClickhandler;
-import de.superteam2000.gwt.client.Suche.ProfilAnzeigenButtonClickhandler;
-import de.superteam2000.gwt.client.Suche.SperrenButtonClickhandler;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
-import de.superteam2000.gwt.shared.bo.Kontaktsperre;
-import de.superteam2000.gwt.shared.bo.Merkzettel;
 import de.superteam2000.gwt.shared.bo.Profil;
-import de.superteam2000.gwt.shared.report.HTMLReportWriter;
 import de.superteam2000.gwt.shared.report.ProfilReport;
 
 public class DataGridTest extends BasicFrame {
+	
+	private ArrayList<Profil> profilListe = new ArrayList<>();
+	
+	public DataGridTest(ArrayList<Profil> list){
+		this.profilListe = list;
+	}
+	
 	
 	private Profil selected = null;
 
@@ -41,7 +37,13 @@ public class DataGridTest extends BasicFrame {
 		return null;
 	}
 	
-	ArrayList<Profil> profile = new ArrayList<>();
+	public ArrayList<Profil> getProfilListe() {
+		return profilListe;
+	}
+	public void setProfilListe(ArrayList<Profil> profilListe) {
+		this.profilListe = profilListe;
+	}
+
 	//pb Verwaltung über ClientsideSettings holen
 	PartnerboerseAdministrationAsync pbVerwaltung = 
 			ClientsideSettings.getPartnerboerseVerwaltung();
@@ -49,17 +51,9 @@ public class DataGridTest extends BasicFrame {
 	@Override
 	public void run() {
 
-		
 
-		//Alle Profile aus der db holen
-		pbVerwaltung.getProfilesByAehnlichkeitsmass(ClientsideSettings.getCurrentUser(), new AsyncCallback<ArrayList<Profil>>() {
-			
-			@Override
-			public void onSuccess(ArrayList<Profil> result) {
-				if(result ==null){
-					ClientsideSettings.getLogger().info("result  null");}
-				if(result !=null){
-				ClientsideSettings.getLogger().info("result unlgleich null");}
+
+
 				final Button merkenButton = new Button("Profil merken");
 				final Button sperrenButton = new Button("Profil sperren");
 				final Button profilAnzeigenButton = new Button("Profil anzeigen");
@@ -67,7 +61,7 @@ public class DataGridTest extends BasicFrame {
 				RootPanel.get("Details").add(sperrenButton);
 				RootPanel.get("Details").add(profilAnzeigenButton);
 				
-					profile = result;
+
 					
 					//eigenes Profil aus der Liste entfernen
 //					if(profile.contains(ClientsideSettings.getCurrentUser())){
@@ -101,12 +95,6 @@ public class DataGridTest extends BasicFrame {
 					};
 					table.addColumn(alter, "Alter");
 
-					TextColumn<Profil> id = new TextColumn<Profil>() {
-						@Override
-						public String getValue(Profil p) {
-							return String.valueOf(p.getId());
-						}
-					};
 					
 					TextColumn<Profil> aehnlichkeit = new TextColumn<Profil>() {
 						@Override
@@ -143,8 +131,8 @@ public class DataGridTest extends BasicFrame {
 					});
 
 
-					table.setRowCount(profile.size(), true);
-					table.setRowData(0, profile);
+					table.setRowCount(profilListe.size(), true);
+					table.setRowData(0, profilListe);
 					table.setWidth("100%");
 					
 					LayoutPanel panel = new LayoutPanel();
@@ -152,19 +140,16 @@ public class DataGridTest extends BasicFrame {
 					panel.add(table);
 					RootPanel.get("Details").add(panel);
 				
-			}
 			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+			
+
 		
 		
 
 	}
 	
+
+
 	public class SperrenButtonClickhandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
@@ -176,7 +161,7 @@ public class DataGridTest extends BasicFrame {
 							@Override
 							public void onSuccess(Void result) {
 								RootPanel.get("Details").clear();
-								DataGridTest d = new DataGridTest();
+								DataGridTest d = new DataGridTest(profilListe);
 								RootPanel.get("Details").add(d);
 								Window.alert("Profil gesperrt!");
 							}
@@ -206,7 +191,7 @@ public class DataGridTest extends BasicFrame {
 							@Override
 							public void onSuccess(Void result) {
 								RootPanel.get("Details").clear();
-								DataGridTest d = new DataGridTest();
+								DataGridTest d = new DataGridTest(profilListe);
 								RootPanel.get("Details").add(d);
 								Window.alert("Profil gemerkt.");
 								

@@ -1,11 +1,13 @@
 package de.superteam2000.gwt.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -149,13 +151,27 @@ public class Navbar extends HorizontalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
+					ClientsideSettings.getPartnerboerseVerwaltung().getProfilesByAehnlichkeitsmass(user, new AsyncCallback<ArrayList<Profil>>() {
+						
+						@Override
+						public void onSuccess(ArrayList<Profil> result) {
+							DataGridTest dgt = new DataGridTest(result);
+							VerticalPanel detailsPanel = new VerticalPanel();
+							detailsPanel.add(dgt);
+							RootPanel.get("Details").clear();
+							RootPanel.get("Menu").clear();
+							RootPanel.get("Details").add(detailsPanel);
+							
+						}
+						
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+							
+						}
+					} );
 
-					DataGridTest dgt = new DataGridTest();
-					VerticalPanel detailsPanel = new VerticalPanel();
-					detailsPanel.add(dgt);
-					RootPanel.get("Details").clear();
-					RootPanel.get("Menu").clear();
-					RootPanel.get("Details").add(detailsPanel);
+
 				}
 			});
 			append(dataGridBtn);
