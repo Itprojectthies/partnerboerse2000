@@ -125,6 +125,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void save(Suchprofil sp) throws IllegalArgumentException;
 
+	public ArrayList<Profil> getProfilesBySuchprofil(Suchprofil sp) throws IllegalArgumentException;
+
 
 
 	// Suchprofil

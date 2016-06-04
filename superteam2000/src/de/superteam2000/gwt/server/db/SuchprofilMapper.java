@@ -182,7 +182,6 @@ public class SuchprofilMapper {
 				
 				int i = 1;
 				for (Map.Entry<Integer, String> entry : auswahlListe.entrySet()) {
-					ClientsideSettings.getLogger().info("Test " + entry.getKey() + " " +entry.getValue());
 				    stmt2.executeUpdate("UPDATE Suchprofil SET "
 				    		+ "Auswahl_text_"+i+"='"+entry.getValue()+"', "
 				    				+ "Auswahl_id_"+i+"="+entry.getKey()+" WHERE id=" + sp.getId() );
@@ -233,7 +232,6 @@ public class SuchprofilMapper {
 	 */
 	public Suchprofil update(Suchprofil sp) {
 		Connection con = DBConnection.connection();
-		ClientsideSettings.getLogger().info("Versuche Änderungen in DB geschrieben");
 		// Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		try {
 			Statement stmt = con.createStatement();
@@ -246,14 +244,11 @@ public class SuchprofilMapper {
 					+ sp.getGroesse_max() + ", Alter_min=" + sp.getAlter_min() + ", Alter_max="
 					+ sp.getAlter_max() + " WHERE id=" + sp.getId());
 			
-			ClientsideSettings.getLogger().info(sp.getName() + " " + sp.getId());
-			
 			
 			HashMap<Integer, String> auswahlListe = sp.getAuswahlListe();
 			
 			int i = 1;
 			for (Map.Entry<Integer, String> entry : auswahlListe.entrySet()) {
-				ClientsideSettings.getLogger().info("Test " + entry.getKey() + " " +entry.getValue());
 			    stmt2.executeUpdate("UPDATE Suchprofil SET "
 			    		+ "Auswahl_text_"+i+"='"+entry.getValue()+"', "
 			    				+ "Auswahl_id_"+i+"="+entry.getKey()+" WHERE id=" + sp.getId() );

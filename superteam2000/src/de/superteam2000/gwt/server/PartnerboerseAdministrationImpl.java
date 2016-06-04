@@ -2,8 +2,10 @@ package de.superteam2000.gwt.server;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
+import com.gargoylesoftware.htmlunit.WebConsole.Logger;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -124,7 +126,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.pMapper.update(profil);
 
 	}
-	
+
 	@Override
 	public void save(Suchprofil sp) throws IllegalArgumentException {
 		this.sMapper.update(sp);
@@ -151,12 +153,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public ArrayList<Suchprofil> getAllSuchprofileForProfil(Profil p) throws IllegalArgumentException {
 		return this.sMapper.findAllForProfil(p);
 	}
-	
+
 	@Override
 	public Suchprofil getSuchprofileForProfilByName(Profil p, String name) throws IllegalArgumentException {
 		return this.sMapper.findSuchprofilForProfilByName(p, name);
 	}
-	
+
 	@Override
 	public ArrayList<Auswahl> getAllAuswahl() throws IllegalArgumentException {
 		return this.auswahlMapper.findAll();
@@ -268,7 +270,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public void deleteSuchprofil(Suchprofil sp) {
 		this.sMapper.delete(sp);
 	}
-	
+
 	@Override
 	public void deleteMerken(Profil entferner, Profil entfernter) throws IllegalArgumentException {
 		mMapper.deleteMerkenFor(entferner, entfernter);
@@ -301,7 +303,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void createSuchprofil(Suchprofil sp) throws IllegalArgumentException {
-			this.sMapper.insert(sp);
+		this.sMapper.insert(sp);
 	}
 
 	@Override
@@ -382,6 +384,122 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				result.add(profil);
 
 			}
+		}
+
+		return result;
+	}
+	// Gibt true zurück, wenn die Elemente des SuchprofilListe 
+	// auch in einer Profilliste vorkommen
+	public boolean compare(ArrayList<Info> suchprofilListe, ArrayList<Info> profilListe) {
+		int i = suchprofilListe.size();
+		int j = 0;
+		for (Info spInfo : suchprofilListe) {
+			for (Info pInfo : profilListe) {
+				if (spInfo.equals(pInfo)) {
+					j++;
+				}
+			}
+		}
+		if (i == j) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public ArrayList<Profil> getProfilesBySuchprofil(Suchprofil sp) throws IllegalArgumentException {
+
+		ArrayList<Profil> profile = this.pMapper.findAll();
+		ArrayList<Profil> result = new ArrayList<>();
+		
+		ArrayList<Info> suchprofilInfoListe = new ArrayList<>();
+		HashMap<Integer, String> auswahlListe = sp.getAuswahlListe();
+
+		//Erstelle aus den infomationen der Hashmap des Suchprofils, Info-
+		//Objekte  um sie mit den Info-Objekten eines Profils zu vergelichen
+		
+		for (Map.Entry<Integer, String> entry : auswahlListe.entrySet()) {
+			Info i = new Info();
+			i.setEigenschaftId(entry.getKey());
+			i.setText(entry.getValue());
+			suchprofilInfoListe.add(i);
+//			ClientsideSettings.getLogger().info("infos für passendes suchprofil: Id=" + i.getProfilId() + " text= "
+//					+ i.getText() + " E-Id=" + i.getEigenschaftId());
+		}
+
+
+		for (Profil p : profile) {
+			// Liste (profilInfoListe) mit Info-Objekten, die mit der Liste (suchprofilInfoListe) des 
+			// Suchprofils vergleichen wird
+			
+			ArrayList<Info> profilInfoListe = getInfoByProfile(p);
+//			for (Info i : profilInfoListe) {
+//				ClientsideSettings.getLogger().info("infos für jedes profil: " + i.getProfilId() + " " + i.getText());
+//			}
+			// Abfragen nach welchen Prfoilattributen gesucht wird
+			if ((sp.getHaarfarbe().equals("Keine Angabe") || p.getHaarfarbe().equals(sp.getHaarfarbe()))
+					&& (sp.getRaucher().equals("Keine Angabe") || p.getRaucher().equals(sp.getRaucher()))
+					&& (sp.getReligion().equals("Keine Angabe") || p.getReligion().equals(sp.getReligion()))
+					&& (sp.getGeschlecht().equals("Keine Angabe") || p.getGeschlecht().equals(sp.getGeschlecht()))
+					&& (suchprofilInfoListe.size() == 0 || compare(suchprofilInfoListe, profilInfoListe))) {
+
+//				for (Info i : profilInfoListe) {
+//					ClientsideSettings.getLogger().info("infos für passendes profil: Id=" + i.getProfilId() + " text= "
+//							+ i.getText() + " E-Id=" + i.getEigenschaftId());
+//				}
+				// abfragen on nach Größe oder Alter gesucht wird
+				if ((sp.getGroesse_min() != 0 && sp.getGroesse_max() != 0)
+						|| (sp.getAlter_min() != 0 && sp.getAlter_max() != 0)) {
+
+					// abfragen on nach Größe und Alter gesucht wird
+					if ((sp.getGroesse_min() != 0 && sp.getGroesse_max() != 0)
+							&& (sp.getAlter_min() != 0 && sp.getAlter_max() != 0)) {
+
+						// gehe den angegeben Größebereich durch und adde das
+						// Profil, wenn es im Bereich liegt
+						for (int i = sp.getGroesse_min(); i <= sp.getGroesse_max(); i++) {
+							if (p.getGroesse() == i) {
+								for (int j = sp.getAlter_min(); j <= sp.getAlter_max(); j++) {
+									if (p.getAlter() == j) {
+										result.add(p);
+									}
+								}
+							}
+
+						}
+					}
+					// Abfragen on nur nach Größe gesucht wird
+					if ((sp.getGroesse_min() != 0 && sp.getGroesse_max() != 0)
+							&& (sp.getAlter_min() == 0 && sp.getAlter_max() == 0)) {
+						// gehe den angegeben Größebereich durch und adde das
+						// Profil, wenn es im Bereich liegt
+						for (int i = sp.getGroesse_min(); i <= sp.getGroesse_max(); i++) {
+							if (p.getGroesse() == i) {
+								result.add(p);
+							}
+
+						}
+					}
+					// Abfragen on nur nach Alter gesucht wird
+					if ((sp.getAlter_min() != 0 && sp.getAlter_max() != 0)
+							&& (sp.getGroesse_min() == 0 && sp.getGroesse_max() == 0)) {
+
+						// gehe den angegeben Alters durch und adde das Profil,
+						// wenn es im Bereich liegt
+						for (int j = sp.getAlter_min(); j <= sp.getAlter_max(); j++) {
+							if (p.getAlter() == j) {
+								result.add(p);
+							}
+
+						}
+					}
+
+				} else {
+
+					result.add(p);
+				}
+			}
+
 		}
 
 		return result;

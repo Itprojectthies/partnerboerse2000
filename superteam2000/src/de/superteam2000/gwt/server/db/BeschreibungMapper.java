@@ -73,7 +73,7 @@ public class BeschreibungMapper {
 			
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs1 = stmt.executeQuery(
-					"SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE Name=\"" + name + "\" AND e_typ='p_b'");
+					"SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE Name='" + name + "' AND e_typ='p_b'");
 
 			
 			/*

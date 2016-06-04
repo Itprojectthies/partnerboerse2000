@@ -128,17 +128,6 @@ public class DataGridTest extends BasicFrame {
 					RootPanel.get("Details").add(panel);
 					
 					
-//					SimpleLayoutPanel slp = new SimpleLayoutPanel();
-//					slp.add(table);
-//					HTML html = new HTML(""+profile.size());
-//					LayoutPanel lp = new LayoutPanel();
-//					lp.add(table);
-//					
-//					// Add it to the root panel.
-//					RootLayoutPanel.get().add(lp);
-//					RootPanel.get("Details").add(lp);
-//					RootPanel.get("Details").add(html);
-					
 					
 				}
 
