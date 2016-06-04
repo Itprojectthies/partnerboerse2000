@@ -26,7 +26,7 @@ import de.superteam2000.gwt.shared.bo.Info;
 import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
- * Formular für die Darstellung des selektierten Kunden
+ * Formular für die Darstellung des selektierten Profils
  * 
  * @author Rathke, Volz
  */

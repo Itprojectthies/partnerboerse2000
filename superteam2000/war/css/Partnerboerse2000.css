@@ -15,7 +15,13 @@ h1 {
     margin-bottom: 0px;
   
 }
+table.fremdProfilAnzeigen td{
+	
+    border-bottom: 1px ridge lightgreen;
+    text-align: left;
 
+    width: 80%;
+}
 #logDialogBox td {
 	border-bottom: dashed 1px #e1e1e1;
 }
@@ -87,8 +93,8 @@ div#Navigator {
 	text-align: left;
 	padding: 1em 1em;
 	/* background: #FFFF99; */
-	border-top: 1px dashed #235AFF;
-	border-bottom: 1px dashed #235AFF;
+	/*border-top: 1px dashed #235AFF; */
+	border-bottom: 2px ridge lightgreen;
 	
 	
 }
@@ -121,11 +127,11 @@ div#Trailer {
 	padding: 10px 0;
 	/* margin: 0 auto; */      /* standardkonforme horizontale Zentrierung */
 	/* border-top: 1px dashed silver; */
-	font-size: 80%;
+	font-size: 100%;
 	text-align: center;
 	/* background: #FFCCCC; */
-	border-top: 1px dashed #235AFF;
-	border-bottom: 1px dashed #235AFF;
+	border-top: 2px ridge lightgreen;
+	/*border-bottom: 1px dashed #235AFF;*/
 }
 
 /**

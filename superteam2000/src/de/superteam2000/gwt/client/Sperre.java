@@ -124,7 +124,7 @@ public class Sperre extends BasicFrame {
 				table.setWidth("100%");
 
 				LayoutPanel panel = new LayoutPanel();
-				panel.setSize("30em", "10em");
+				panel.setSize("80em", "50em");
 				panel.add(table);
 				RootPanel.get("Details").add(panel);
 				

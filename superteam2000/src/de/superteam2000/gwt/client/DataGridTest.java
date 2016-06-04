@@ -1,9 +1,11 @@
 package de.superteam2000.gwt.client;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -16,6 +18,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
+
 
 import de.superteam2000.gwt.client.Suche.MerkenButtonClickhandler;
 import de.superteam2000.gwt.client.Suche.ProfilAnzeigenButtonClickhandler;
@@ -49,11 +52,14 @@ public class DataGridTest extends BasicFrame {
 		
 
 		//Alle Profile aus der db holen
-		pbVerwaltung.getAllProfiles(new AsyncCallback<ArrayList<Profil>>() {
-
+		pbVerwaltung.getProfilesByAehnlichkeitsmass(ClientsideSettings.getCurrentUser(), new AsyncCallback<ArrayList<Profil>>() {
+			
 			@Override
-			public void onSuccess(ArrayList<Profil> allProfilesResult) {
-				
+			public void onSuccess(ArrayList<Profil> result) {
+				if(result ==null){
+					ClientsideSettings.getLogger().info("result  null");}
+				if(result !=null){
+				ClientsideSettings.getLogger().info("result unlgleich null");}
 				final Button merkenButton = new Button("Profil merken");
 				final Button sperrenButton = new Button("Profil sperren");
 				final Button profilAnzeigenButton = new Button("Profil anzeigen");
@@ -61,148 +67,97 @@ public class DataGridTest extends BasicFrame {
 				RootPanel.get("Details").add(sperrenButton);
 				RootPanel.get("Details").add(profilAnzeigenButton);
 				
-					profile = allProfilesResult;
+					profile = result;
 					
 					//eigenes Profil aus der Liste entfernen
-					if(profile.contains(ClientsideSettings.getCurrentUser())){
-						profile.remove(ClientsideSettings.getCurrentUser());
-					}
+//					if(profile.contains(ClientsideSettings.getCurrentUser())){
+//						profile.remove(ClientsideSettings.getCurrentUser());
+//					}
 					
-					pbVerwaltung.getMerkzettelForProfil(ClientsideSettings.getCurrentUser(), new AsyncCallback<Merkzettel>() {
-						
+					DataGrid<Profil> table = new DataGrid<Profil>();
+					table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+
+					TextColumn<Profil> vorname = new TextColumn<Profil>() {
 						@Override
-						public void onSuccess(Merkzettel merkzettelResult) {
-							ArrayList<Profil> gemerkteProfile = merkzettelResult.getGemerkteProfile();
-							
-							for(Profil p: gemerkteProfile){
-								if(profile.contains(p)){
-									profile.remove(p);
-								}
-							}
-							//alle gesperrten Profile holen
-							pbVerwaltung.getKontaktsperreForProfil(ClientsideSettings.getCurrentUser(),
-									new AsyncCallback<Kontaktsperre>() {
-								
-								@Override
-								public void onSuccess(Kontaktsperre kontaktsperreResult) {
-									ArrayList<Profil> gesperrteProfile = kontaktsperreResult.getGesperrteProfile();
-									
-									//alle gesperrten Profile aus der Liste entfernen
-									for(Profil p: gesperrteProfile){
-										if(profile.contains(p)){
-											profile.remove(p);
-										}
-									}
-									
-									DataGrid<Profil> table = new DataGrid<Profil>();
-									table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-
-									TextColumn<Profil> vorname = new TextColumn<Profil>() {
-										@Override
-										public String getValue(Profil p) {
-											return p.getVorname();
-										}
-									};
-									table.addColumn(vorname, "Vorname");
-
-									TextColumn<Profil> nachname = new TextColumn<Profil>() {
-										@Override
-										public String getValue(Profil p) {
-											return p.getNachname();
-										}
-									};
-									table.addColumn(nachname, "Nachname");
-									
-									TextColumn<Profil> alter = new TextColumn<Profil>() {
-										@Override
-										public String getValue(Profil p) {
-											return String.valueOf(p.getAlter());
-										}
-									};
-									table.addColumn(alter, "Alter");
-
-									TextColumn<Profil> id = new TextColumn<Profil>() {
-										@Override
-										public String getValue(Profil p) {
-											return String.valueOf(p.getId());
-										}
-									};
-
-
-									// Add a selection model to handle user selection.
-									final SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
-									table.setSelectionModel(selectionModel);
-									selectionModel.addSelectionChangeHandler(new Handler() {
-
-										@Override
-										public void onSelectionChange(SelectionChangeEvent event) {
-											 selected = selectionModel.getSelectedObject();										
-												
-												sperrenButton.addClickHandler(new SperrenButtonClickhandler());
-												
-												merkenButton.addClickHandler(new MerkenButtonClickhandler());
-												
-												profilAnzeigenButton.addClickHandler(new ProfilAnzeigenButtonClickhandler());
-											
-								
-										}
-									});
-
-
-									table.setRowCount(profile.size(), true);
-									table.setRowData(0, profile);
-									table.setWidth("100%");
-									
-									LayoutPanel panel = new LayoutPanel();
-									panel.setSize("80em", "50em");
-									panel.add(table);
-									RootPanel.get("Details").add(panel);
-									
-									
-									
-									
-									
-									
-								}
-								
-								@Override
-								public void onFailure(Throwable caught) {
-									// TODO Auto-generated method stub
-									
-								}
-							});	
-							
-							
+						public String getValue(Profil p) {
+							return p.getVorname();
 						}
-						
-						
-						
-						
-						
-						
+					};
+					table.addColumn(vorname, "Vorname");
+
+					TextColumn<Profil> nachname = new TextColumn<Profil>() {
 						@Override
-						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
+						public String getValue(Profil p) {
+							return p.getNachname();
+						}
+					};
+					table.addColumn(nachname, "Nachname");
+					
+					TextColumn<Profil> alter = new TextColumn<Profil>() {
+						@Override
+						public String getValue(Profil p) {
+							return String.valueOf(p.getAlter());
+						}
+					};
+					table.addColumn(alter, "Alter");
+
+					TextColumn<Profil> id = new TextColumn<Profil>() {
+						@Override
+						public String getValue(Profil p) {
+							return String.valueOf(p.getId());
+						}
+					};
+					
+					TextColumn<Profil> aehnlichkeit = new TextColumn<Profil>() {
+						@Override
+						public String getValue(Profil p) {
+							 ;
 							
+							return String.valueOf(p.getAehnlichkeit())+"%";
+						}
+					};
+					table.addColumn(aehnlichkeit, "Ähnlichkeit");
+					
+
+					
+					
+
+
+					// Add a selection model to handle user selection.
+					final SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
+					table.setSelectionModel(selectionModel);
+					selectionModel.addSelectionChangeHandler(new Handler() {
+
+						@Override
+						public void onSelectionChange(SelectionChangeEvent event) {
+							 selected = selectionModel.getSelectedObject();										
+								
+								sperrenButton.addClickHandler(new SperrenButtonClickhandler());
+								
+								merkenButton.addClickHandler(new MerkenButtonClickhandler());
+								
+								profilAnzeigenButton.addClickHandler(new ProfilAnzeigenButtonClickhandler());
+							
+				
 						}
 					});
-					
 
-					
-					
 
+					table.setRowCount(profile.size(), true);
+					table.setRowData(0, profile);
+					table.setWidth("100%");
 					
-
-					
-					
-
+					LayoutPanel panel = new LayoutPanel();
+					panel.setSize("80em", "50em");
+					panel.add(table);
+					RootPanel.get("Details").add(panel);
+				
 			}
-
+			
 			@Override
 			public void onFailure(Throwable caught) {
-				ClientsideSettings.getLogger().
-				info("Fehler AsyncCallback alle Profile");
-
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		
@@ -254,6 +209,7 @@ public class DataGridTest extends BasicFrame {
 								DataGridTest d = new DataGridTest();
 								RootPanel.get("Details").add(d);
 								Window.alert("Profil gemerkt.");
+								
 
 							}
 
@@ -276,7 +232,10 @@ public class DataGridTest extends BasicFrame {
 		@Override
 		public void onClick(ClickEvent event) {
 		if (selected != null) {
-
+			FremdProfil fp = new FremdProfil(selected);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(fp);
+			
 			ClientsideSettings.getReportGenerator().createProfilReport(selected, new AsyncCallback<ProfilReport>() {
 				
 				@Override
@@ -299,11 +258,11 @@ public class DataGridTest extends BasicFrame {
 					});
 					
 					//Hier wird der Report prozessiert und ausgegeben
-					HTMLReportWriter writer = new HTMLReportWriter();
-					writer.process(result);
-					RootPanel.get("Details").clear();
-					HTML html = new HTML(writer.getReportText());
-					RootPanel.get("Details").add(html);
+//					HTMLReportWriter writer = new HTMLReportWriter();
+//					writer.process(result);
+//					RootPanel.get("Details").clear();
+//					HTML html = new HTML(writer.getReportText());
+//					RootPanel.get("Details").add(html);
 					
 					
 				}

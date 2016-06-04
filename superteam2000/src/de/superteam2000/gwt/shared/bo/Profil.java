@@ -24,6 +24,7 @@ public class Profil extends BusinessObject {
 	private String loginUrl = "";
 	private String logoutUrl = "";
 	private boolean isCreated = false;
+	private int aehnlichkeit = 0;
 	
 	@SuppressWarnings("deprecation")
 	public int getAlter() {
@@ -169,6 +170,14 @@ public class Profil extends BusinessObject {
 
 	public void setCreated(boolean isCreated) {
 		this.isCreated = isCreated;
+	}
+
+	public int getAehnlichkeit() {
+		return aehnlichkeit;
+	}
+
+	public void setAehnlichkeit(int aehnlichkeit) {
+		this.aehnlichkeit = aehnlichkeit;
 	}
 
 }

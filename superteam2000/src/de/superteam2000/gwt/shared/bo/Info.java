@@ -17,6 +17,32 @@ public class Info extends BusinessObject {
 		this.text = text;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + eigenschaftId;
+		result = prime * result + ((text == null) ? 0 : text.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		boolean result = false;
+		if (object == null || object.getClass() != getClass()) {
+			result = false;
+		} else {
+			Info i = (Info) object;
+			if (this.getText().equals(i.getText()) && this.getEigenschaftId() == i.getEigenschaftId())  {
+				result = true;
+			}
+		}
+		return result;
+	}
+
 	public int getEigenschaftId() {
 		return eigenschaftId;
 	}
