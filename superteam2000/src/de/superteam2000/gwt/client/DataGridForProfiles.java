@@ -19,11 +19,11 @@ import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.report.ProfilReport;
 
-public class DataGridTest extends BasicFrame {
+public class DataGridForProfiles extends BasicFrame {
 	
 	private ArrayList<Profil> profilListe = new ArrayList<>();
 	
-	public DataGridTest(ArrayList<Profil> list){
+	public DataGridForProfiles(ArrayList<Profil> list){
 		this.profilListe = list;
 	}
 	
@@ -161,7 +161,7 @@ public class DataGridTest extends BasicFrame {
 							@Override
 							public void onSuccess(Void result) {
 								RootPanel.get("Details").clear();
-								DataGridTest d = new DataGridTest(profilListe);
+								DataGridForProfiles d = new DataGridForProfiles(profilListe);
 								RootPanel.get("Details").add(d);
 								Window.alert("Profil gesperrt!");
 							}
@@ -191,7 +191,7 @@ public class DataGridTest extends BasicFrame {
 							@Override
 							public void onSuccess(Void result) {
 								RootPanel.get("Details").clear();
-								DataGridTest d = new DataGridTest(profilListe);
+								DataGridForProfiles d = new DataGridForProfiles(profilListe);
 								RootPanel.get("Details").add(d);
 								Window.alert("Profil gemerkt.");
 								

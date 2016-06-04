@@ -155,7 +155,7 @@ public class Navbar extends HorizontalPanel {
 						
 						@Override
 						public void onSuccess(ArrayList<Profil> result) {
-							DataGridTest dgt = new DataGridTest(result);
+							DataGridForProfiles dgt = new DataGridForProfiles(result);
 							VerticalPanel detailsPanel = new VerticalPanel();
 							detailsPanel.add(dgt);
 							RootPanel.get("Details").clear();
