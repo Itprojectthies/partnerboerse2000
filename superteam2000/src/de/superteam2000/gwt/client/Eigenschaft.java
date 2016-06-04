@@ -4,14 +4,10 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -54,9 +50,6 @@ public class Eigenschaft extends BasicFrame {
 			}
 		});
 		
-		
-		
-		// Create a Flex Table
 		// Create a Flex Table
 		flexTable = new FlexTable();
 //		FlexCellFormatter cellFormatter = flexTable.getFlexCellFormatter();
@@ -64,7 +57,6 @@ public class Eigenschaft extends BasicFrame {
 		flexTable.setWidth("32em");
 		flexTable.setCellSpacing(5);
 		flexTable.setCellPadding(3);
-		
 		
 		// Add some text
 //		cellFormatter.setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_LEFT);
@@ -160,34 +152,7 @@ public class Eigenschaft extends BasicFrame {
 					
 					
 					
-					//users is the flextable object.
-					ClickHandler userCheck = new ClickHandler() {
-					        public void onClick(ClickEvent event) {
-//					        	 Window.alert("CheckBox is " +  
-//				 							((ProfilAttributeBoxPanel)flexTable.getWidget(0, 2)).getSelectedItem()+ 
-//				 							" checked");
-					            CheckBox src = (CheckBox) event.getSource();
-					            for (int i = 0, n = flexTable.getRowCount(); i < n; i++) {
-					                CheckBox box = (CheckBox) flexTable.getWidget(i, 0);
-
-					                if (box.equals(src)) {
-//					                	 Window.alert("CheckBox is " +  
-//					 							((ProfilAttributeBoxPanel)flexTable.getWidget(i, 2)).getSelectedItem()+ 
-//					 							" checked");
-					                	 
-//					                	 if (box.getValue()) {
-//					                		 box.setValue(false, false);
-//					                	 } else {
-//					                		 
-//					                		 box.setValue(true, false);
-//					                	 }
-					                }
-					            }
-
-					        }
-					    };
 					    
-					    checkBox1.addClickHandler(userCheck);
 					    for (int i = 0, n = flexTable.getRowCount(); i < n; i++) {
 				            CheckBox box = (CheckBox) flexTable.getWidget(i, 0);
 				            Auswahl a1 = ((ProfilAttributeBoxPanel)flexTable.getWidget(i, 2)).getAuswahl();
