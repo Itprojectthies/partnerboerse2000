@@ -1,17 +1,19 @@
 package de.superteam2000.gwt.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.mortbay.log.Log;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import com.google.appengine.labs.repackaged.com.google.common.base.Objects;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.server.db.AehnlichkeitsmassMapper;
 import de.superteam2000.gwt.server.db.AuswahlMapper;
@@ -21,6 +23,7 @@ import de.superteam2000.gwt.server.db.KontaktsperreMapper;
 import de.superteam2000.gwt.server.db.MerkzettelMapper;
 import de.superteam2000.gwt.server.db.ProfilMapper;
 import de.superteam2000.gwt.server.db.SuchprofilMapper;
+import de.superteam2000.gwt.server.db.*;
 import de.superteam2000.gwt.shared.PartnerboerseAdministration;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
@@ -269,10 +272,67 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.iMapper.findByKey(id);
 	}
 
+	public int berechneAehnlichkeit(Profil p1, Profil p2){
+		// 6 Profilattribute: Geb, Geschlecht, Groesse, Haarfarbe, Raucher, Religion
+		float i = 6;
+		float aehnlichkeit = 0;
+		
+		if (p1.getAlter() == p2.getAlter()){aehnlichkeit++;}
+		if (p1.getGeschlecht().equals( p2.getGeschlecht())){aehnlichkeit++;}
+		if (p1.getGroesse() == p2.getGroesse()){aehnlichkeit++;}
+		if (p1.getHaarfarbe().equals( p2.getHaarfarbe())){aehnlichkeit++;}
+		if (p1.getRaucher().equals( p2.getRaucher())){aehnlichkeit++;}
+		if (p1.getReligion().equals( p2.getReligion())){aehnlichkeit++;}
+		
+		ArrayList<Info> infoP1 = iMapper.findAllByProfilId(p1.getId());
+		ArrayList<Info> infoP2 = iMapper.findAllByProfilId(p2.getId());
+		
+		for (Info meineInfo: infoP1){
+			for(Info referenzInfo: infoP2){
+				if(meineInfo.equals(referenzInfo)){
+					aehnlichkeit++;
+					i++;
+				}
+			}
+		}
+
+		int result = Math.round(aehnlichkeit * (100f/i));
+		
+		return result;
+	}
 	@Override
 	public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil profil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Profil> alleProfile = pMapper.findAll();
+		Kontaktsperre kontaktsperreforProfil = kMapper.findAllForProfil(profil);
+		ArrayList<Profil> gesperrteProfile = kontaktsperreforProfil.getGesperrteProfile();
+
+		
+		for(Profil p: gesperrteProfile){
+			if(alleProfile.contains(p)){
+				alleProfile.remove(p);
+			}
+		}
+		
+
+		for(Profil aktProfil: alleProfile){
+			int f = this.berechneAehnlichkeit(profil, aktProfil);
+			aktProfil.setAehnlichkeit(f);
+		
+		}
+        Collections.sort(alleProfile, new Comparator<Profil>() {
+
+			@Override
+			public int compare(Profil o1, Profil o2) {
+				
+				return o2.getAehnlichkeit() - o1.getAehnlichkeit();
+			}
+        	
+		}); 
+        
+
+		
+		
+		return alleProfile;
 	}
 
 	@Override
@@ -356,7 +416,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public String getEigenschaftsNameById(int id) throws IllegalArgumentException {
 		if (this.beschrMapper.findByKey(id) != null) {
 			Beschreibung b = this.beschrMapper.findByKey(id);
-			String name = b.getBeschreibungstext();
+			String name = b.getName();
 			return name;
 		} else if (this.auswahlMapper.findByKey(id) != null) {
 			Auswahl a = this.auswahlMapper.findByKey(id);

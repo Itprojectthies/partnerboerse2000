@@ -118,9 +118,7 @@ public class MerkzettelMapper {
 	 * 
 	 */
 	public Merkzettel insertMerkenForProfil(Profil merker, Profil gemerkter) {
-		ClientsideSettings.getLogger().info("insertMerkenforProfil Methode aufgerufen");
-		if(merker != null){ClientsideSettings.getLogger().info("merker != null");}
-		if(gemerkter != null){ClientsideSettings.getLogger().info("gemerkter != null");}
+
 		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();

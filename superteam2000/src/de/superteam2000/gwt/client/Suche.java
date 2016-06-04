@@ -12,6 +12,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -27,6 +30,8 @@ import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.bo.Suchprofil;
+import de.superteam2000.gwt.shared.report.HTMLReportWriter;
+import de.superteam2000.gwt.shared.report.ProfilReport;
 
 /**
  * Die Klasse Suche ist für die Darstellung von Möglichen Auswahlen und eine

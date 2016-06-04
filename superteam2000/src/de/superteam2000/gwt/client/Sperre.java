@@ -29,11 +29,12 @@ public class Sperre extends BasicFrame {
 	}
 
 	ArrayList<Profil> profile = new ArrayList<>();
+
+	//pbVerwaltung über ClientsideSettings holen
+	PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	
 	@Override
 	public void run() {
-		//pbVerwaltung über ClientsideSettings holen
-		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 		
 		pbVerwaltung.getKontaktsperreForProfil(ClientsideSettings.getCurrentUser(), new AsyncCallback<Kontaktsperre>() {
 			
@@ -123,7 +124,7 @@ public class Sperre extends BasicFrame {
 				table.setWidth("100%");
 
 				LayoutPanel panel = new LayoutPanel();
-				panel.setSize("30em", "10em");
+				panel.setSize("80em", "50em");
 				panel.add(table);
 				RootPanel.get("Details").add(panel);
 				

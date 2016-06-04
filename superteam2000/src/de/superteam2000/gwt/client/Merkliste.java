@@ -10,6 +10,7 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -18,6 +19,8 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Merkzettel;
 import de.superteam2000.gwt.shared.bo.Profil;
+import de.superteam2000.gwt.shared.report.HTMLReportWriter;
+import de.superteam2000.gwt.shared.report.ProfilReport;
 
 /**
  * Diese Klasse ist zum Anzeigen sämtlicher vom Benutzer gemerkten Profile.
@@ -27,19 +30,23 @@ import de.superteam2000.gwt.shared.bo.Profil;
  */
 public class Merkliste extends BasicFrame {
 
+	// pb Verwaltung über ClientsideSettings holen
+	PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+
 	@Override
 	public String getHeadlineText() {
 
 		return "Von ihnen gemerkte Profile:";
 	}
+	
+	//Das ausgewählte Profil
+	private Profil selected = null;
 
 	ArrayList<Profil> profile = new ArrayList<>();
 
 	@Override
 	public void run() {
 
-		// pb Verwaltung über ClientsideSettings holen
-		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
 		// Merkliste abfragen und anzeigen
 		pbVerwaltung.getMerkzettelForProfil(ClientsideSettings.getCurrentUser(), new AsyncCallback<Merkzettel>() {
@@ -48,9 +55,16 @@ public class Merkliste extends BasicFrame {
 			public void onSuccess(Merkzettel result) {
 
 				profile = result.getGemerkteProfile();
+				
+				//Buttons erzeugen
 				final Button profilEntfernenButton = new Button("Profil entfernen");
+				final Button profilAnzeigenButton = new Button("Profil anzeigen");
+				
+				//Button hinzufügen
 				RootPanel.get("Details").add(profilEntfernenButton);
-
+				RootPanel.get("Details").add(profilAnzeigenButton);
+				
+				//DataGrid Mit den gemerkten Profilen erstellen
 				DataGrid<Profil> table = new DataGrid<Profil>();
 				table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
@@ -85,36 +99,11 @@ public class Merkliste extends BasicFrame {
 
 					@Override
 					public void onSelectionChange(SelectionChangeEvent event) {
-						final Profil selected = selectionModel.getSelectedObject();
-						profilEntfernenButton.addClickHandler(new ClickHandler() {
-							
-							@Override
-							public void onClick(ClickEvent event) {
-								if (selected != null) {
-									ClientsideSettings.getPartnerboerseVerwaltung().deleteMerken
-									(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
-										
-										@Override
-										public void onSuccess(Void result) {
-											RootPanel.get("Details").clear();
-											Merkliste m = new Merkliste();
-											RootPanel.get("Details").add(m);
-											
-											Window.alert("Profil wurde von der Merkliste entfernt!");
-											
-										}
-										
-										@Override
-										public void onFailure(Throwable caught) {
-											// TODO Auto-generated method stub
-											
-										}
-									});
-									
-								}
-								
-							}
-						});
+						//ausgewähltes Profil setzen
+						selected = selectionModel.getSelectedObject();
+						
+						profilEntfernenButton.addClickHandler(new EntfernenButtonClickhandler());
+						profilAnzeigenButton.addClickHandler(new ProfilAnzeigenButtonClickhandler());
 
 
 					}
@@ -124,7 +113,7 @@ public class Merkliste extends BasicFrame {
 				table.setWidth("100%");
 
 				LayoutPanel panel = new LayoutPanel();
-				panel.setSize("30em", "10em");
+				panel.setSize("80em", "50em");
 				panel.add(table);
 				RootPanel.get("Details").add(panel);
 
@@ -138,6 +127,91 @@ public class Merkliste extends BasicFrame {
 			}
 		});
 
+	}
+	/**
+	 * Clickhandler für den entfernenButton
+	 * ausgewähltes Element wird von der Liste entfernt (auch aus db)
+	 * @author Christopher
+	 *
+	 */
+	public class EntfernenButtonClickhandler implements ClickHandler {
+		@Override
+		public void onClick(ClickEvent event) {
+			if (selected != null) {
+				ClientsideSettings.getPartnerboerseVerwaltung().deleteMerken
+				(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
+					
+					@Override
+					public void onSuccess(Void result) {
+						RootPanel.get("Details").clear();
+						Merkliste m = new Merkliste();
+						RootPanel.get("Details").add(m);
+						
+						Window.alert("Profil wurde von der Merkliste entfernt!");
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+				
+			}
+			
+		}
+	}
+	/**
+	 * Clickhandler der das ausgewählte Profil anzeigt,
+	 *  bzw einen Report des Profils anzeigt und es als besucht markiert
+	 * @author Christopher
+	 *
+	 */
+	public class ProfilAnzeigenButtonClickhandler implements ClickHandler {
+		@Override
+		public void onClick(ClickEvent event) {
+		if (selected != null) {
+
+			ClientsideSettings.getReportGenerator().createProfilReport(selected, new AsyncCallback<ProfilReport>() {
+				
+				@Override
+				public void onSuccess(ProfilReport result) {
+					
+					//Profil als besucht setzen
+					pbVerwaltung.setVisited(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
+						
+						@Override
+						public void onSuccess(Void result) {
+							ClientsideSettings.getLogger().info("User wurde als besucht markiert!");
+							
+						}
+						
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+					
+					//Hier wird der Report prozessiert und ausgegeben
+					HTMLReportWriter writer = new HTMLReportWriter();
+					writer.process(result);
+					RootPanel.get("Details").clear();
+					HTML html = new HTML(writer.getReportText());
+					RootPanel.get("Details").add(html);
+					
+					
+				}
+				
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		}
+	}
 	}
 
 }
