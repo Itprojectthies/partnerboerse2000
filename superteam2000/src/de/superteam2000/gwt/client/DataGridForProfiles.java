@@ -9,8 +9,11 @@ import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSe
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -51,16 +54,111 @@ public class DataGridForProfiles extends BasicFrame {
 	// pb Verwaltung über ClientsideSettings holen
 	PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
+	Profil profil = ClientsideSettings.getCurrentUser();
+	
 	@Override
 	public void run() {
 
 		final Button merkenButton = new Button("Profil merken");
 		final Button sperrenButton = new Button("Profil sperren");
 		final Button profilAnzeigenButton = new Button("Profil anzeigen");
+		final Button neueProfilAnzeigenButton = new Button("Neue Profile anzeigen");
+		final Button nichtBesuchteProfilAnzeigenButton = new Button("Nicht besuchte Profile anzeigen");
+		final Button profileAnzeigenButton = new Button("Alle Profile anzeigen");
+		
+		VerticalPanel hPanel = new VerticalPanel();
+		
+		hPanel.add(profileAnzeigenButton);
+		hPanel.add(neueProfilAnzeigenButton);
+		hPanel.add(nichtBesuchteProfilAnzeigenButton);
+		
 		RootPanel.get("rechts").add(merkenButton);
 		RootPanel.get("rechts").add(sperrenButton);
 		RootPanel.get("rechts").add(profilAnzeigenButton);
+		RootPanel.get("rechts").add(neueProfilAnzeigenButton);
+		RootPanel.get("rechts").add(nichtBesuchteProfilAnzeigenButton);
+		
+		neueProfilAnzeigenButton.addClickHandler(new ClickHandler() {
 
+			@Override
+			public void onClick(ClickEvent event) {
+				pbVerwaltung.getAllNewProfilesByAehnlichkeitsmass(profil, new AsyncCallback<ArrayList<Profil>>() {
+					
+					@Override
+					public void onSuccess(ArrayList<Profil> result) {
+						DataGridForProfiles dgt = new DataGridForProfiles(result);
+						RootPanel.get("Details").clear();
+						RootPanel.get("Menu").clear();
+						RootPanel.get("rechts").clear();
+						RootPanel.get("Details").add(dgt);
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				} );
+
+
+			}
+		});
+		
+		nichtBesuchteProfilAnzeigenButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				pbVerwaltung.getAllNotVisitedProfilesByAehnlichkeitsmass(profil, new AsyncCallback<ArrayList<Profil>>() {
+					
+					@Override
+					public void onSuccess(ArrayList<Profil> result) {
+						DataGridForProfiles dgt = new DataGridForProfiles(result);
+						RootPanel.get("Details").clear();
+						RootPanel.get("rechts").clear();
+						RootPanel.get("Menu").clear();
+						RootPanel.get("Details").add(dgt);
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				} );
+
+
+			}
+		});
+		
+		profileAnzeigenButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				pbVerwaltung.getProfilesByAehnlichkeitsmass(profil, new AsyncCallback<ArrayList<Profil>>() {
+					
+					@Override
+					public void onSuccess(ArrayList<Profil> result) {
+						DataGridForProfiles dgt = new DataGridForProfiles(result);
+						RootPanel.get("Details").clear();
+						RootPanel.get("rechts").clear();
+						RootPanel.get("Menu").clear();
+						RootPanel.get("Details").add(dgt);
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				} );
+
+
+			}
+		});
+		
 		// eigenes Profil aus der Liste entfernen
 		// if(profile.contains(ClientsideSettings.getCurrentUser())){
 		// profile.remove(ClientsideSettings.getCurrentUser());
@@ -122,12 +220,16 @@ public class DataGridForProfiles extends BasicFrame {
 
 		table.setRowCount(profilListe.size(), true);
 		table.setRowData(0, profilListe);
-		table.setWidth("100%");
+		table.setWidth("80%");
 
 		LayoutPanel panel = new LayoutPanel();
 		panel.setSize("40em", "50em");
 		panel.add(table);
+		FlowPanel fPanel = new FlowPanel();
+		fPanel.add(panel);
 		RootPanel.get("rechts").add(panel);
+		RootPanel.get("Details").add(hPanel);
+		
 
 	}
 
@@ -220,5 +322,6 @@ public class DataGridForProfiles extends BasicFrame {
 			}
 		}
 	}
+	
 
 }

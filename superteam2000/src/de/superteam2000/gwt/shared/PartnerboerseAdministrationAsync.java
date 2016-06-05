@@ -103,8 +103,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getEigenschaftsNameById(int id, AsyncCallback<String> callback);
 
-	void createInfosFor(Map<Integer, Info> infos, AsyncCallback<Void> callback);
-
 	void getAuswahlProfilAttributByName(String name, AsyncCallback<Auswahl> callback);
 
 	void getBeschreibungProfilAttributByName(String name, AsyncCallback<Beschreibung> callback);
@@ -128,6 +126,11 @@ public interface PartnerboerseAdministrationAsync {
 	void save(Suchprofil sp, AsyncCallback<Void> callback);
 
 	void getProfilesBySuchprofil(Suchprofil sp, AsyncCallback<ArrayList<Profil>> callback);
+
+	void getAllNotVisitedProfilesByAehnlichkeitsmass(Profil p,
+			AsyncCallback<ArrayList<Profil>> callback);
+
+	void getAllNewProfilesByAehnlichkeitsmass(Profil p, AsyncCallback<ArrayList<Profil>> callback);
 
 	// Suchprofil
 

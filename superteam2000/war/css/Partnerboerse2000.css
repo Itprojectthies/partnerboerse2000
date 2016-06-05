@@ -23,6 +23,7 @@ table.fremdProfilAnzeigen td{
 select.profil-attribute-listbox {
     width: 120px;
 }
+
 .gwt-ListBox {
 	width: 120px;
 }
@@ -128,7 +129,7 @@ div#wrapper {
 
 div#Menu {
 	/* background-color: yellow; */
-	width: 115px;
+	width: 140px;
 	float:left;
 	padding-top: 20px;
 }
@@ -145,7 +146,7 @@ div#Details {
 	font-family: Helvetica;
 	font-size: smaller;
 	/* background-color: green; */
-	margin-left: 120px;
+	margin-left: 150px;
 	width: 500px;
 }
 

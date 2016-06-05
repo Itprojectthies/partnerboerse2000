@@ -132,7 +132,7 @@ public class Eigenschaft extends BasicFrame {
 
 					}
 				}
-				
+
 				for (int i = 0, n = flexTableBeschreibung.getRowCount(); i < n; i++) {
 					CheckBox box = (CheckBox) flexTableBeschreibung.getWidget(i, 0);
 					if (box.getValue()) {
@@ -154,7 +154,7 @@ public class Eigenschaft extends BasicFrame {
 						ClientsideSettings.getLogger().info("CheckBox is " +  
 								((ProfilAttributeBoxPanel)flexTableBeschreibung.getWidget(i, 2)).getText()+ 
 								" checked");
-						
+
 					} else {
 						Beschreibung b = ((ProfilAttributeBoxPanel)flexTableBeschreibung.getWidget(i, 2)).getBeschreibung();
 						pbVerwaltung.getInfoByEigenschaftsId(b.getId(), new AsyncCallback<Info>() {
@@ -184,7 +184,7 @@ public class Eigenschaft extends BasicFrame {
 
 					}
 				}
-				
+
 			}
 		});
 
@@ -193,7 +193,7 @@ public class Eigenschaft extends BasicFrame {
 		RootPanel.get("Details").add(addInfo);
 
 		pbVerwaltung.getAllAuswahl(new AuswahlCallback());
-		
+
 
 	}
 	class AuswahlCallback implements AsyncCallback<ArrayList<Auswahl>> {

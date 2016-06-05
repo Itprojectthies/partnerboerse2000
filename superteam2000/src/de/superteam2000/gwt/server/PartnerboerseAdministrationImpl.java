@@ -242,14 +242,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException {
-
-		for (Map.Entry<Integer, Info> entry : infos.entrySet()) {
-			this.iMapper.insert(entry.getValue());
-		}
-	}
-
-	@Override
 	public void save(Info info) throws IllegalArgumentException {
 		this.iMapper.update(info);
 	}
@@ -299,38 +291,112 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		return result;
 	}
+	
+	@Override
+	public ArrayList<Profil> getAllNewProfilesByAehnlichkeitsmass(Profil p) {
+		ArrayList<Profil> alleProfile = pMapper.findAll();
+		ArrayList<Profil> neueProfile = new ArrayList<>();
+		Kontaktsperre kontaktsperreforProfil = kMapper.findAllForProfil(p);
+		ArrayList<Profil> gesperrteProfile = kontaktsperreforProfil.getGesperrteProfile();
+
+		for(Profil profil: gesperrteProfile){
+			if(alleProfile.contains(profil)){
+				alleProfile.remove(profil);
+			}
+		}
+		for (Profil profil : alleProfile) {
+			if(p.getErstelldatum().before(profil.getErstelldatum())) {
+				neueProfile.add(profil);
+			}			
+		}
+		
+		for(Profil aktProfil: alleProfile){
+			int f = this.berechneAehnlichkeit(p, aktProfil);
+			aktProfil.setAehnlichkeit(f);
+		
+		}
+		
+        Collections.sort(alleProfile, new Comparator<Profil>() {
+
+			@Override
+			public int compare(Profil p1, Profil p2) {
+				
+				return p2.getAehnlichkeit() - p1.getAehnlichkeit();
+			}
+        	
+		}); 
+		
+		return neueProfile;
+	}
+	
+	@Override
+	public ArrayList<Profil> getAllNotVisitedProfilesByAehnlichkeitsmass(Profil p) {
+		
+		ArrayList<Profil> alleBesuchtenProfile = getVisitedProfiles(p);
+		ArrayList<Profil> alleProfile = pMapper.findAll();
+		
+		Kontaktsperre kontaktsperreforProfil = kMapper.findAllForProfil(p);
+		ArrayList<Profil> gesperrteProfile = kontaktsperreforProfil.getGesperrteProfile();
+
+		for(Profil profil: gesperrteProfile){
+			if(alleProfile.contains(profil)){
+				alleProfile.remove(profil);
+			}
+		}
+		
+		for (Profil profil : alleBesuchtenProfile) {
+			if(alleProfile.contains(profil)) {
+				alleProfile.remove(profil);
+			}			
+		}
+		
+		for(Profil aktProfil: alleProfile){
+			int f = this.berechneAehnlichkeit(p, aktProfil);
+			aktProfil.setAehnlichkeit(f);
+		
+		}
+		
+        Collections.sort(alleProfile, new Comparator<Profil>() {
+
+			@Override
+			public int compare(Profil p1, Profil p2) {
+				
+				return p2.getAehnlichkeit() - p1.getAehnlichkeit();
+			}
+        	
+		}); 
+		
+		return alleProfile;
+	}
+	
 	@Override
 	public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil profil) throws IllegalArgumentException {
 		ArrayList<Profil> alleProfile = pMapper.findAll();
 		Kontaktsperre kontaktsperreforProfil = kMapper.findAllForProfil(profil);
 		ArrayList<Profil> gesperrteProfile = kontaktsperreforProfil.getGesperrteProfile();
 
-		
 		for(Profil p: gesperrteProfile){
 			if(alleProfile.contains(p)){
 				alleProfile.remove(p);
 			}
 		}
 		
-
 		for(Profil aktProfil: alleProfile){
 			int f = this.berechneAehnlichkeit(profil, aktProfil);
 			aktProfil.setAehnlichkeit(f);
 		
 		}
+		
         Collections.sort(alleProfile, new Comparator<Profil>() {
 
 			@Override
-			public int compare(Profil o1, Profil o2) {
+			public int compare(Profil p1, Profil p2) {
 				
-				return o2.getAehnlichkeit() - o1.getAehnlichkeit();
+				return p2.getAehnlichkeit() - p1.getAehnlichkeit();
 			}
         	
 		}); 
         
-
-		
-		
 		return alleProfile;
 	}
 
