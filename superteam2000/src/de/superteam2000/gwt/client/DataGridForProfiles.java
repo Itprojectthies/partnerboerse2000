@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -15,6 +14,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
+
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.report.ProfilReport;
@@ -57,9 +57,9 @@ public class DataGridForProfiles extends BasicFrame {
 		final Button merkenButton = new Button("Profil merken");
 		final Button sperrenButton = new Button("Profil sperren");
 		final Button profilAnzeigenButton = new Button("Profil anzeigen");
-		RootPanel.get("Details").add(merkenButton);
-		RootPanel.get("Details").add(sperrenButton);
-		RootPanel.get("Details").add(profilAnzeigenButton);
+		RootPanel.get("rechts").add(merkenButton);
+		RootPanel.get("rechts").add(sperrenButton);
+		RootPanel.get("rechts").add(profilAnzeigenButton);
 
 		// eigenes Profil aus der Liste entfernen
 		// if(profile.contains(ClientsideSettings.getCurrentUser())){
@@ -125,9 +125,9 @@ public class DataGridForProfiles extends BasicFrame {
 		table.setWidth("100%");
 
 		LayoutPanel panel = new LayoutPanel();
-		panel.setSize("80em", "50em");
+		panel.setSize("40em", "50em");
 		panel.add(table);
-		RootPanel.get("Details").add(panel);
+		RootPanel.get("rechts").add(panel);
 
 	}
 
@@ -140,9 +140,9 @@ public class DataGridForProfiles extends BasicFrame {
 
 					@Override
 					public void onSuccess(Void result) {
-						RootPanel.get("Details").clear();
+						RootPanel.get("rechts").clear();
 						DataGridForProfiles d = new DataGridForProfiles(profilListe);
-						RootPanel.get("Details").add(d);
+						RootPanel.get("rechts").add(d);
 						// Window.alert("Profil gesperrt!");
 					}
 
@@ -165,9 +165,9 @@ public class DataGridForProfiles extends BasicFrame {
 
 					@Override
 					public void onSuccess(Void result) {
-						RootPanel.get("Details").clear();
+						RootPanel.get("rechts").clear();
 						DataGridForProfiles d = new DataGridForProfiles(profilListe);
-						RootPanel.get("Details").add(d);
+						RootPanel.get("rechts").add(d);
 						// Window.alert("Profil gemerkt.");
 
 					}
@@ -186,8 +186,8 @@ public class DataGridForProfiles extends BasicFrame {
 		public void onClick(ClickEvent event) {
 			if (selected != null) {
 				FremdProfil fp = new FremdProfil(selected);
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(fp);
+				RootPanel.get("rechts").clear();
+				RootPanel.get("rechts").add(fp);
 
 				ClientsideSettings.getReportGenerator().createProfilReport(selected, new AsyncCallback<ProfilReport>() {
 

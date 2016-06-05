@@ -128,13 +128,13 @@ div#wrapper {
 
 div#Menu {
 	/* background-color: yellow; */
-	width: 210px;
+	width: 115px;
 	float:left;
-	padding-top: 100px;
+	padding-top: 20px;
 }
 
 div#rechts {
-	float: right;
+	/*float: right;*/
 }
 
 
@@ -145,7 +145,7 @@ div#Details {
 	font-family: Helvetica;
 	font-size: smaller;
 	/* background-color: green; */
-	margin-left: 200px;
+	margin-left: 120px;
 	width: 500px;
 }
 

@@ -6,23 +6,13 @@ import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.cellview.client.DataGrid;
-import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SelectionChangeEvent.Handler;
-import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.superteam2000.gwt.client.gui.ProfilAttributeBoxPanel;
 import de.superteam2000.gwt.client.gui.ProfilAttributeTextBox;
@@ -30,8 +20,6 @@ import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.bo.Suchprofil;
-import de.superteam2000.gwt.shared.report.HTMLReportWriter;
-import de.superteam2000.gwt.shared.report.ProfilReport;
 
 /**
  * Die Klasse Suche ist für die Darstellung von Möglichen Auswahlen und eine
@@ -207,8 +195,9 @@ public class Suche extends BasicFrame {
 					public void onSuccess(ArrayList<Profil> result) {
 						if (result != null) {
 							profile = result;
+							
 							DataGridForProfiles dgp = new DataGridForProfiles(profile, true);
-							RootPanel.get("Details").add(dgp);
+							RootPanel.get("rechts").add(dgp);
 						}
 
 					}
@@ -377,6 +366,8 @@ public class Suche extends BasicFrame {
 
 			sp = createSP();
 			RootPanel.get("Menu").clear();
+			RootPanel.get("rechts").clear();
+			
 			RootPanel.get("Menu").add(suchProfilListBox);
 			RootPanel.get("Menu").add(suchprofilSpeichernButton);
 			RootPanel.get("Menu").add(suchprofilLöschenButton);

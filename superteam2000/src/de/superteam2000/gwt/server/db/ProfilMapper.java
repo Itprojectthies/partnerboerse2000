@@ -1,10 +1,13 @@
 package de.superteam2000.gwt.server.db;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
-import de.superteam2000.gwt.shared.bo.*;
+import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
  * Mapper-Klasse, die <code>Profil</code>-Objekte auf eine relationale Datenbank
@@ -151,7 +154,6 @@ public class ProfilMapper {
 				p.setGeschlecht(rs.getString("Geschlecht"));
 				p.setCreated(true);
 
-				ClientsideSettings.getLogger().severe("User byEmail zurückgegeben");
 				return p;
 			}
 		} catch (SQLException e) {
@@ -167,7 +169,7 @@ public class ProfilMapper {
 	 * Auslesen aller Kunden.
 	 * 
 	 * @return Ein Vektor mit Profil-Objekten, die sämtliche Kunden
-	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gef�llter
+	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gefüllter
 	 *         oder ggf. auch leerer Vetor zurückgeliefert.
 	 */
 	public ArrayList<Profil> findAll() {
@@ -225,7 +227,6 @@ public class ProfilMapper {
 	 */
 	public Profil insert(Profil p) {
 		Connection con = DBConnection.connection();
-		ClientsideSettings.getLogger().info("Profil " + p.getEmail() + " in DB schreiben");
 		try {
 			Statement stmt = con.createStatement();
 
@@ -254,8 +255,7 @@ public class ProfilMapper {
 						+ p.getRaucher() + "','" + p.getReligion()
 						+ "','" + p.getGeschlecht() + "','" + p.getGeburtsdatum() + "')");
 
-				ClientsideSettings.getLogger().info("Profil " + p.getEmail() + " in DB geschrieben");
-
+				ClientsideSettings.getLogger().info("Profil " + p.getNachname() + "  in DB geschrieben");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -269,13 +269,11 @@ public class ProfilMapper {
 	/**
 	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
 	 * 
-	 * @param p
-	 *            das Objekt, das in die DB geschrieben werden soll
+	 * @param p das Objekt, das in die DB geschrieben werden soll
 	 * @return das als Parameter übergebene Objekt
 	 */
 	public Profil update(Profil p) {
 		Connection con = DBConnection.connection();
-		ClientsideSettings.getLogger().info("Versuche Änderungen in DB geschrieben");
 		// Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		try {
 			Statement stmt = con.createStatement();
@@ -287,7 +285,7 @@ public class ProfilMapper {
 					+ p.getReligion() + "', Geburtsdatum='" + p.getGeburtsdatum()
 					+ "' WHERE id=" + p.getId());
 
-			ClientsideSettings.getLogger().info("Profil " + p.getEmail() + " Änderungen in DB geschrieben");
+			ClientsideSettings.getLogger().info("Profiländerungen " + p.getNachname() + " in DB geschrieben");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -314,6 +312,7 @@ public class ProfilMapper {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate("DELETE FROM Info WHERE Profil_id=" + p.getId());
 			stmt.executeUpdate("DELETE FROM Profil WHERE id=" + p.getId());
+			ClientsideSettings.getLogger().info("Profil " + p.getNachname() + "  aus DB gelöscht");
 
 		} catch (SQLException e) {
 			e.printStackTrace();

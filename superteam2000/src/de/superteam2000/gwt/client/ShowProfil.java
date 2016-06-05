@@ -16,13 +16,12 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.superteam2000.gwt.client.gui.ProfilAttributeBoxPanel;
 import de.superteam2000.gwt.client.gui.DateTimeFormat;
+import de.superteam2000.gwt.client.gui.ProfilAttributeBoxPanel;
 import de.superteam2000.gwt.client.gui.ProfilAttributeListBox;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
-import de.superteam2000.gwt.shared.bo.Info;
 import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
@@ -46,7 +45,7 @@ public class ShowProfil extends BasicFrame {
 
 	ProfilAttributeBoxPanel clb = null;
 
-	Profil user = ClientsideSettings.getCurrentUser();
+	Profil currentProfil = ClientsideSettings.getCurrentUser();
 	Logger logger = ClientsideSettings.getLogger();
 
 	@Override
@@ -67,12 +66,12 @@ public class ShowProfil extends BasicFrame {
 
 		gebTag = new ProfilAttributeBoxPanel("Geburtstag");
 		gebTag.createGebtaListobx();
-		gebTag.setGebtag(user.getGeburtsdatum());
+		gebTag.setGebtag(currentProfil.getGeburtsdatum());
 		gebTag.setEnable(false);
 
 		groesse = new ProfilAttributeBoxPanel("Körpergröße");
 		groesse.createGroesseListBox();
-		groesse.setGroesse(user.getGroesse());
+		groesse.setGroesse(currentProfil.getGroesse());
 		groesse.setEnable(false);
 
 		// Profilbeschreibungsattribute (Vorname, Nachname) werden vom Server
@@ -149,43 +148,46 @@ public class ShowProfil extends BasicFrame {
 
 						switch (lb.getName()) {
 
-						case "Raucher":
-							p.setRaucher(lb.getSelectedItemText());
-
-							break;
-						case "Haarfarbe":
-							p.setHaarfarbe(lb.getSelectedItemText());
-							break;
-						case "Religion":
-							p.setReligion(lb.getSelectedItemText());
-							break;
-						case "Geschlecht":
-							p.setGeschlecht(lb.getSelectedItemText());
-							break;
-						case "Körpergröße":
-							p.setGroesse(Integer.valueOf(lb.getSelectedItemText()));
-							break;
-						case "GeburtstagTag":
-							geburtsTag = Integer.valueOf(lb.getSelectedItemText());
-							break;
-						case "GeburtstagMonat":
-							geburtsMonat = Integer.valueOf(lb.getSelectedItemText());
-							break;
-						case "GeburtstagJahr":
-							geburtsJahr = Integer.valueOf(lb.getSelectedItemText());
-							break;
+							case "Raucher" :
+								p.setRaucher(lb.getSelectedItemText());
+								break;
+							case "Haarfarbe" :
+								p.setHaarfarbe(lb.getSelectedItemText());
+								break;
+							case "Religion" :
+								p.setReligion(lb.getSelectedItemText());
+								break;
+							case "Geschlecht" :
+								p.setGeschlecht(lb.getSelectedItemText());
+								break;
+							case "Körpergröße" :
+								p.setGroesse(Integer
+										.valueOf(lb.getSelectedItemText()));
+								break;
+							case "GeburtstagTag" :
+								geburtsTag = Integer
+										.valueOf(lb.getSelectedItemText());
+								break;
+							case "GeburtstagMonat" :
+								geburtsMonat = Integer
+										.valueOf(lb.getSelectedItemText());
+								break;
+							case "GeburtstagJahr" :
+								geburtsJahr = Integer
+										.valueOf(lb.getSelectedItemText());
+								break;
 
 						}
 
 					} else if (box instanceof TextBox) {
 						TextBox tb = (TextBox) box;
 						switch (tb.getName()) {
-						case "Vorname":
-							p.setVorname(tb.getText());
-							break;
-						case "Nachname":
-							p.setNachname(tb.getText());
-							break;
+							case "Vorname" :
+								p.setVorname(tb.getText());
+								break;
+							case "Nachname" :
+								p.setNachname(tb.getText());
+								break;
 
 						}
 					}
@@ -200,12 +202,13 @@ public class ShowProfil extends BasicFrame {
 
 			Date gebTagDate = DateTimeFormat.getFormat("yyyy-MM-dd")
 					.parse(geburtsJahr + "-" + geburtsMonat + "-" + geburtsTag);
-			
-			java.sql.Date gebTagMySqlDate = new java.sql.Date(gebTagDate.getTime());
+
+			java.sql.Date gebTagMySqlDate = new java.sql.Date(
+					gebTagDate.getTime());
 
 			p.setGeburtsdatum(gebTagMySqlDate);
-			p.setEmail(user.getEmail());
-			p.setId(user.getId());
+			p.setEmail(currentProfil.getEmail());
+			p.setId(currentProfil.getId());
 
 			ClientsideSettings.setCurrentUser(p);
 
@@ -221,7 +224,7 @@ public class ShowProfil extends BasicFrame {
 		public void onClick(ClickEvent event) {
 
 			if (Window.confirm("Möchtest du dein Profil wirklich löschen?")) {
-				pbVerwaltung.delete(user, new AsyncCallback<Void>() {
+				pbVerwaltung.delete(currentProfil, new AsyncCallback<Void>() {
 
 					@Override
 					public void onSuccess(Void result) {
@@ -269,22 +272,22 @@ public class ShowProfil extends BasicFrame {
 			for (Auswahl a : result) {
 				switch (a.getName()) {
 				case "Religion":
-					clb = new ProfilAttributeBoxPanel(a, user.getReligion(), true);
+					clb = new ProfilAttributeBoxPanel(a, currentProfil.getReligion(), true);
 					clb.setEnable(false);
 					fPanel.add(clb);
 					break;
 				case "Haarfarbe":
-					clb = new ProfilAttributeBoxPanel(a, user.getHaarfarbe(), true);
+					clb = new ProfilAttributeBoxPanel(a, currentProfil.getHaarfarbe(), true);
 					clb.setEnable(false);
 					fPanel.add(clb);
 					break;
 				case "Geschlecht":
-					clb = new ProfilAttributeBoxPanel(a, user.getGeschlecht(), true);
+					clb = new ProfilAttributeBoxPanel(a, currentProfil.getGeschlecht(), true);
 					clb.setEnable(false);
 					fPanel.add(clb);
 					break;
 				case "Raucher":
-					clb = new ProfilAttributeBoxPanel(a, user.getRaucher(), true);
+					clb = new ProfilAttributeBoxPanel(a, currentProfil.getRaucher(), true);
 					clb.setEnable(false);
 					fPanel.add(clb);
 					break;
@@ -307,99 +310,6 @@ public class ShowProfil extends BasicFrame {
 		}
 	}
 
-//	private class InfoCallback implements AsyncCallback<ArrayList<Info>> {
-//
-//		private BasicFrame b = null;
-//
-//		public InfoCallback(BasicFrame b) {
-//			this.b = b;
-//		}
-//
-//		@Override
-//		public void onFailure(Throwable caught) {
-//			this.b.append("Fehler bei der Abfrage " + caught.getMessage());
-//		}
-//
-//		@Override
-//		public void onSuccess(ArrayList<Info> result) {
-//			try {
-//				for (Info i : result) {
-//					if (i != null) {
-//						// this.b.append("Info #" + i.getId() + ": " +
-//						// i.getText());
-//						// this.b.append(i.getText());
-////						ClientsideSettings.getLogger().info("das ist result reihenfolge: " + i.getText());
-//						pbVerwaltung.getAuswahlById(i.getEigenschaftId(), new GetAuswahlCallback(this.b, i));
-//						// pbVerwaltung.getBeschreibungById(i.getEigenschaftId(),
-//						// new GetBeschreibungCallback(this.b, i));
-//					} else {
-//						this.b.append("Result ist leer");
-//					}
-//
-//				}
-//			} catch (Exception e) {
-//				ClientsideSettings.getLogger().severe("Fehler " + e.getMessage());
-//			}
-//		}
-//
-//	}
-
-//	private class GetBeschreibungCallback implements AsyncCallback<Beschreibung> {
-//
-//		private BasicFrame b = null;
-//		private Info i = null;
-//		HTML html = new HTML();
-//
-//		public GetBeschreibungCallback(BasicFrame b, Info i) {
-//			this.b = b;
-//			this.i = i;
-//		}
-//
-//		@Override
-//		public void onFailure(Throwable caught) {
-//			this.b.append("Fehler bei der Abfrage " + caught.getMessage());
-//
-//		}
-//
-//		@Override
-//		public void onSuccess(Beschreibung result) {
-//
-//			// this.b.append("Frage: " + result.getBeschreibungstext() + "
-//			// Antwort: " + i.getText());
-//			html.setText("Frage: " + result.getBeschreibungstext() + " Antwort: " + i.getText());
-//			fPanelEigenschaften.add(html);
-//		}
-//
-//	}
-
-//	private class GetAuswahlCallback implements AsyncCallback<Auswahl> {
-//
-//		private BasicFrame b = null;
-//		private Info i = null;
-//		HTML html = new HTML();
-//
-//		public GetAuswahlCallback(BasicFrame b, Info i) {
-//			this.b = b;
-//			this.i = i;
-//		}
-//
-//		@Override
-//		public void onFailure(Throwable caught) {
-//			this.b.append("Fehler bei der Abfrage " + caught.getMessage());
-//
-//		}
-//
-//		@Override
-//		public void onSuccess(Auswahl result) {
-//			// this.b.append("Frage: " + result.getBeschreibungstext() + "
-//			// Antwort: " + i.getText());
-////			ClientsideSettings.getLogger().info("das ist callback reihenfolge: " + i.getText());
-//			html.setText("Frage: " + result.getBeschreibungstext() + " Antwort: " + i.getText());
-//			fPanelEigenschaften.add(html);
-//		}
-//
-//	}
-
 	private class GetAllBeschreibungProfilAttributeCallback implements AsyncCallback<ArrayList<Beschreibung>> {
 
 		@Override
@@ -410,12 +320,12 @@ public class ShowProfil extends BasicFrame {
 				// befüllt
 				switch (b.getName()) {
 				case "Vorname":
-					clb = new ProfilAttributeBoxPanel(b, user.getVorname(), true);
+					clb = new ProfilAttributeBoxPanel(b, currentProfil.getVorname(), true);
 					clb.setEnable(false);
 					fPanel.add(clb);
 					break;
 				case "Nachname":
-					clb = new ProfilAttributeBoxPanel(b, user.getNachname(), true);
+					clb = new ProfilAttributeBoxPanel(b, currentProfil.getNachname(), true);
 					clb.setEnable(false);
 					fPanel.add(clb);
 					break;

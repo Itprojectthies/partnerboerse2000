@@ -1,6 +1,9 @@
 package de.superteam2000.gwt.server.db;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -143,7 +146,7 @@ public class SuchprofilMapper {
 	 * auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
 	 * berichtigt.
 	 * 
-	 * @param p das zu speichernde Objekt
+	 * @param currentProfil das zu speichernde Objekt
 	 * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
 	 *         <code>id</code>.
 	 */
@@ -206,7 +209,7 @@ public class SuchprofilMapper {
 	/**
 	 * Löschen der Daten eines <code>Profil</code>-Objekts aus der Datenbank.
 	 * 
-	 * @param p das aus der DB zu löschende "Objekt"
+	 * @param currentProfil das aus der DB zu löschende "Objekt"
 	 */
 	public void delete(Suchprofil sp) {
 		//TODO: alle FK beziehnungen löschen bevor profil löschen

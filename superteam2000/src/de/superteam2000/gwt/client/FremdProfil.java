@@ -8,7 +8,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -74,10 +73,10 @@ public class FremdProfil extends BasicFrame {
 		table.setText(7, 0, "Religion");
 		table.setText(7, 1, profil.getReligion());
 
-		RootPanel.get("Details").add(merkenButton);
-		RootPanel.get("Details").add(sperrenButton);
+		RootPanel.get("rechts").add(merkenButton);
+		RootPanel.get("rechts").add(sperrenButton);
 		table.setStyleName("fremdProfilAnzeigen");
-		RootPanel.get("Details").add(table);
+		RootPanel.get("rechts").add(table);
 		rowCounter++;
 
 	}

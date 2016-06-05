@@ -7,15 +7,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-
-import com.google.appengine.labs.repackaged.com.google.common.base.Objects;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import de.superteam2000.gwt.client.ClientsideSettings;
-import de.superteam2000.gwt.server.db.AehnlichkeitsmassMapper;
 import de.superteam2000.gwt.server.db.AuswahlMapper;
 import de.superteam2000.gwt.server.db.BeschreibungMapper;
 import de.superteam2000.gwt.server.db.InfoMapper;
@@ -23,7 +20,6 @@ import de.superteam2000.gwt.server.db.KontaktsperreMapper;
 import de.superteam2000.gwt.server.db.MerkzettelMapper;
 import de.superteam2000.gwt.server.db.ProfilMapper;
 import de.superteam2000.gwt.server.db.SuchprofilMapper;
-import de.superteam2000.gwt.server.db.*;
 import de.superteam2000.gwt.shared.PartnerboerseAdministration;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
@@ -78,8 +74,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			Profil bestehendesProfil = this.pMapper.findByEmail(user.getEmail());
 
 			if (bestehendesProfil != null) {
-				ClientsideSettings.getLogger().severe("Userobjekt email " + user.getEmail() + "bestehender user mail  "
-						+ bestehendesProfil.getEmail());
+				ClientsideSettings.getLogger().severe("Userobjekt E-Mail =" + user.getEmail() 
+					+ ". Bestehender User E-Mail  ="	+ bestehendesProfil.getEmail());
 				bestehendesProfil.setLoggedIn(true);
 				bestehendesProfil.setLogoutUrl(userService.createLogoutURL(requestUri));
 
@@ -89,7 +85,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			profil.setLoggedIn(true);
 			profil.setLogoutUrl(userService.createLogoutURL(requestUri));
 			profil.setEmail(user.getEmail());
-			ClientsideSettings.getLogger().severe(" email user " + user.getEmail());
 
 		} else {
 			profil.setLoggedIn(false);
@@ -201,19 +196,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			i.setProfilId(profil.getId());
 			
 			ArrayList<Info> infoListe = this.iMapper.findAllByProfilId(profil.getId());
-//			for (Info info : infoListe) {
-//			if (info.getEigenschaftId() == i.getEigenschaftId() && 
-//					info.getProfilId() == i.getProfilId() && 
-//					!info.getText().equals(i.getText())) {
-//				log("Info upgedatet");
-//				return this.iMapper.update(i);
-//			} else {
-//				log("Info neuangelegt");
-//				return this.iMapper.insert(i);
-//			}
-//			}
 			
-	
 			for (Info info : infoListe) {
 				if (info.getEigenschaftId() == i.getEigenschaftId() && 
 						info.getProfilId() == i.getProfilId() && 
@@ -231,15 +214,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			return this.iMapper.insert(i);
 		
 	}
-
-	@Override
-	public void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException {
-
-		for (Map.Entry<Integer, Info> entry : infos.entrySet()) {
-			this.iMapper.insert(entry.getValue());
-		}
-	}
-
+	
 	@Override
 	public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text) throws IllegalArgumentException {
 		Info i = new Info();
@@ -247,7 +222,31 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		i.setEigenschaftId(beschreibung.getId());
 		i.setProfilId(profil.getId());
 
+		ArrayList<Info> infoListe = this.iMapper.findAllByProfilId(profil.getId());
+		
+		for (Info info : infoListe) {
+			if (info.getEigenschaftId() == i.getEigenschaftId() && 
+					info.getProfilId() == i.getProfilId() && 
+					!info.getText().equals(i.getText()) ) {
+				
+				log("Info upgedatet");
+				return this.iMapper.update(i);
+			}else if (info.getEigenschaftId() == i.getEigenschaftId() && 
+					info.getProfilId() == i.getProfilId() && 
+					info.getText().equals(i.getText())) {
+				return null;
+			}
+		}
+		log("Info neuangelegt");
 		return this.iMapper.insert(i);
+	}
+
+	@Override
+	public void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException {
+
+		for (Map.Entry<Integer, Info> entry : infos.entrySet()) {
+			this.iMapper.insert(entry.getValue());
+		}
 	}
 
 	@Override
@@ -358,7 +357,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void createSperre(Profil a, Profil b) throws IllegalArgumentException {
-		kMapper.insertKontaktsperreForProfil(a, b);
+		kMapper.insertForProfil(a, b);
 
 	}
 

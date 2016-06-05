@@ -35,6 +35,19 @@ public class ProfilAttributeBoxPanel extends FlowPanel {
 
 	}
 	
+	public ProfilAttributeBoxPanel(Beschreibung b) {
+		this.beschreibung = b;
+		this.profilAttributTextBox = new ProfilAttributeTextBox(b);
+		this.add(profilAttributTextBox);
+
+		// set style name for entire widget
+		setStyleName("CompositeProfilAttributeBox");
+
+		// set style name for text box
+		profilAttributTextBox.setStyleName("prof-attrib-textbox");
+
+	}
+	
 	// Konstruktor für ein Auswahlobjekt mit vorselektiertem Item in der Listbox
 	public ProfilAttributeBoxPanel(Auswahl a, String selectedItem, boolean isNameListbox) {
 		this.auswahl = a;
@@ -205,6 +218,18 @@ public class ProfilAttributeBoxPanel extends FlowPanel {
 
 	public Auswahl getAuswahl() {
 		return this.auswahl;
+	}
+
+	public void setText(String text) {
+		this.profilAttributTextBox.setText(text);
+	}
+	
+	public String getText() {
+		return this.profilAttributTextBox.getText();
+	}
+	
+	public Beschreibung getBeschreibung() {
+		return this.beschreibung;
 	}
 
 	public String getSelectedItem() {

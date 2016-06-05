@@ -1,6 +1,8 @@
 package de.superteam2000.gwt.client;
 
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Diese Klasse ist die Basisklasse aller BasicFrames. Jeder BasicFrame ist ein

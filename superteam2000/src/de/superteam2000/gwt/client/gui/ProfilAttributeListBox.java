@@ -1,9 +1,7 @@
 package de.superteam2000.gwt.client.gui;
 
 import java.util.ArrayList;
-import java.util.Date;
 
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 
 import de.superteam2000.gwt.shared.bo.Auswahl;
