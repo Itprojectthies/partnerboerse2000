@@ -3,12 +3,14 @@ package de.superteam2000.gwt.shared;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.report.AllNewProfileReport;
 import de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport;
 import de.superteam2000.gwt.shared.report.AllProfileBySuche;
 import de.superteam2000.gwt.shared.report.AllProfilesReport;
 import de.superteam2000.gwt.shared.report.ProfilReport;
+
 
 /**
  * Das asynchrone Gegenstück des Interface {@link ReportGenerator}. Es wird
@@ -36,5 +38,10 @@ public interface ReportGeneratorAsync {
 	void  createAllProfilesReport( AsyncCallback<AllProfilesReport> callback);
 
 	void createSuchreport(ArrayList<Profil> p, AsyncCallback<AllProfileBySuche> callback);
+
+
+
+
+
 
 }

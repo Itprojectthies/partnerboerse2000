@@ -3,6 +3,8 @@ package de.superteam2000.gwt.shared.report;
 import java.io.Serializable;
 import java.util.Date;
 
+import de.superteam2000.gwt.shared.bo.Profil;
+
 /**
  * <p>
  * Basisklasse aller Reports. Reports sind als <code>Serializable</code>
@@ -24,6 +26,9 @@ public abstract class Report implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	
+	private Profil profil = null;
 
 	/**
 	 * Ein kleines Impressum, das eine Art Briefkopf darstellt. Jedes
@@ -123,6 +128,14 @@ public abstract class Report implements Serializable {
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
+	}
+
+	public Profil getProfil() {
+		return profil;
+	}
+
+	public void setProfil(Profil profil) {
+		this.profil = profil;
 	}
 
 }

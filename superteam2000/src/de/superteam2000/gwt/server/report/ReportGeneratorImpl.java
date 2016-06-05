@@ -23,9 +23,7 @@ import de.superteam2000.gwt.shared.report.SimpleParagraph;
 
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private PartnerboerseAdministration administration = null;
 
@@ -43,6 +41,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		this.administration = a;
 	}
 
+	
+	
 	@Override
 	public ProfilReport createProfilReport(Profil p) throws IllegalArgumentException {
 		if (this.administration == null) {
@@ -51,6 +51,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		// zu befüllenden Report erstellen
 		ProfilReport result = new ProfilReport();
+		result.setProfilId(p.getId());
 
 		// ab hier result mit Inhalten befüllen
 		result.setTitle(p.getVorname()+" "+p.getNachname());
@@ -101,6 +102,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return result;
 
 	}
+
 
 	@Override
 	public AllProfileBySuche createSuchreport(ArrayList<Profil> p){
@@ -162,22 +164,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		}
 
-		////		 alle Profile in Tabelle befüllen
-		//		 for (Profil profil : p) {
-		//		 // Eine leere Zeile anlegen.
-		//		 Row profilRow = new Row();
-		//		
-		//		 //erste Spalte: Vorname hinzuf�gen
-		//		 profilRow.addColumn(new Column(profil.getVorname()));
-		//		 //zweite Spalte: Nachname hinzuf�gen
-		//		 profilRow.addColumn(new Column(profil.getNachname()));
-		//		
-		//		 // und schlie�lich die Zeile dem Report hinzuf�gen.
-		//		 result.addRow(profilRow);
-		//		 }
 
 		return result;
 	}
+
+
 
 	@Override
 	public AllNotVisitedProfileReport createAllNotVisitedProfileReport(Profil p) throws IllegalArgumentException {
@@ -196,4 +187,16 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
 }

@@ -1,19 +1,33 @@
 package de.superteam2000.gwt.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.appengine.labs.repackaged.com.google.common.base.Objects;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
-import de.superteam2000.gwt.server.db.*;
+import de.superteam2000.gwt.server.db.AuswahlMapper;
+import de.superteam2000.gwt.server.db.BeschreibungMapper;
+import de.superteam2000.gwt.server.db.InfoMapper;
+import de.superteam2000.gwt.server.db.KontaktsperreMapper;
+import de.superteam2000.gwt.server.db.MerkzettelMapper;
+import de.superteam2000.gwt.server.db.ProfilMapper;
+import de.superteam2000.gwt.server.db.SuchprofilMapper;
 import de.superteam2000.gwt.shared.PartnerboerseAdministration;
-import de.superteam2000.gwt.shared.bo.*;
+import de.superteam2000.gwt.shared.bo.Auswahl;
+import de.superteam2000.gwt.shared.bo.Beschreibung;
+import de.superteam2000.gwt.shared.bo.Info;
+import de.superteam2000.gwt.shared.bo.Kontaktsperre;
+import de.superteam2000.gwt.shared.bo.Merkzettel;
+import de.superteam2000.gwt.shared.bo.Profil;
+import de.superteam2000.gwt.shared.bo.Suchprofil;
 
 public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implements PartnerboerseAdministration {
 
@@ -21,7 +35,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private AehnlichkeitsmassMapper aehnlichMapper = null;
 	private AuswahlMapper auswahlMapper = null;
 	private BeschreibungMapper beschrMapper = null;
 	private InfoMapper iMapper = null;
@@ -40,15 +53,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public void init() throws IllegalArgumentException {
 
-		this.aehnlichMapper = AehnlichkeitsmassMapper.aehnlichkeitsmassMapper();
-		// this.alternativeMapper alternativMapper = null;
 		this.auswahlMapper = AuswahlMapper.auswahlMapper();
 		this.beschrMapper = BeschreibungMapper.beschreibungMapper();
 		this.iMapper = InfoMapper.infoMapper();
 		this.kMapper = KontaktsperreMapper.kontaktsperreMapper();
 		this.mMapper = MerkzettelMapper.merkzettelMapper();
 		this.pMapper = ProfilMapper.profilMapper();
-		// private SuchprofilMapper sMapper = null;
+		this.sMapper = SuchprofilMapper.suchprofilMapper();
 
 	}
 
@@ -63,8 +74,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			Profil bestehendesProfil = this.pMapper.findByEmail(user.getEmail());
 
 			if (bestehendesProfil != null) {
-				ClientsideSettings.getLogger().severe("Userobjekt email " + user.getEmail() + "bestehender user mail  "
-						+ bestehendesProfil.getEmail());
+				ClientsideSettings.getLogger().severe("Userobjekt E-Mail =" + user.getEmail() 
+					+ ". Bestehender User E-Mail  ="	+ bestehendesProfil.getEmail());
 				bestehendesProfil.setLoggedIn(true);
 				bestehendesProfil.setLogoutUrl(userService.createLogoutURL(requestUri));
 
@@ -74,7 +85,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			profil.setLoggedIn(true);
 			profil.setLogoutUrl(userService.createLogoutURL(requestUri));
 			profil.setEmail(user.getEmail());
-			ClientsideSettings.getLogger().severe(" email user " + user.getEmail());
 
 		} else {
 			profil.setLoggedIn(false);
@@ -123,7 +133,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.pMapper.update(profil);
 
 	}
-	
+
+	@Override
+	public void save(Suchprofil sp) throws IllegalArgumentException {
+		this.sMapper.update(sp);
+
+	}
+
 	@Override
 	public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException {
 		return this.pMapper.findAll();
@@ -141,6 +157,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
+	public ArrayList<Suchprofil> getAllSuchprofileForProfil(Profil p) throws IllegalArgumentException {
+		return this.sMapper.findAllForProfil(p);
+	}
+
+	@Override
+	public Suchprofil getSuchprofileForProfilByName(Profil p, String name) throws IllegalArgumentException {
+		return this.sMapper.findSuchprofilForProfilByName(p, name);
+	}
+
+	@Override
 	public ArrayList<Auswahl> getAllAuswahl() throws IllegalArgumentException {
 		return this.auswahlMapper.findAll();
 	}
@@ -151,14 +177,44 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException {
-		Info i = new Info();
-		i.setText(text);
-		i.setEigenschaftId(auswahl.getId());
-		i.setProfilId(profil.getId());
-		return this.iMapper.insert(i);
+	public Auswahl getAuswahlProfilAttributByName(String name) throws IllegalArgumentException {
+		return this.auswahlMapper.findByName(name);
 	}
 
+	@Override
+	public Beschreibung getBeschreibungProfilAttributByName(String name) throws IllegalArgumentException {
+		return this.beschrMapper.findByName(name);
+	}
+
+	@Override
+	public Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException {
+			
+			
+			Info i = new Info();
+			i.setText(text);
+			i.setEigenschaftId(auswahl.getId());
+			i.setProfilId(profil.getId());
+			
+			ArrayList<Info> infoListe = this.iMapper.findAllByProfilId(profil.getId());
+			
+			for (Info info : infoListe) {
+				if (info.getEigenschaftId() == i.getEigenschaftId() && 
+						info.getProfilId() == i.getProfilId() && 
+						!info.getText().equals(i.getText()) ) {
+					
+					log("Info upgedatet");
+					return this.iMapper.update(i);
+				}else if (info.getEigenschaftId() == i.getEigenschaftId() && 
+						info.getProfilId() == i.getProfilId() && 
+						info.getText().equals(i.getText())) {
+					return null;
+				}
+			}
+			log("Info neuangelegt");
+			return this.iMapper.insert(i);
+		
+	}
+	
 	@Override
 	public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text) throws IllegalArgumentException {
 		Info i = new Info();
@@ -166,19 +222,43 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		i.setEigenschaftId(beschreibung.getId());
 		i.setProfilId(profil.getId());
 
+		ArrayList<Info> infoListe = this.iMapper.findAllByProfilId(profil.getId());
+		
+		for (Info info : infoListe) {
+			if (info.getEigenschaftId() == i.getEigenschaftId() && 
+					info.getProfilId() == i.getProfilId() && 
+					!info.getText().equals(i.getText()) ) {
+				
+				log("Info upgedatet");
+				return this.iMapper.update(i);
+			}else if (info.getEigenschaftId() == i.getEigenschaftId() && 
+					info.getProfilId() == i.getProfilId() && 
+					info.getText().equals(i.getText())) {
+				return null;
+			}
+		}
+		log("Info neuangelegt");
 		return this.iMapper.insert(i);
 	}
 
 	@Override
-	public void saveInfoForProfil(Profil profil, Info info) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException {
 
+		for (Map.Entry<Integer, Info> entry : infos.entrySet()) {
+			this.iMapper.insert(entry.getValue());
+		}
 	}
 
 	@Override
-	public void deleteInfoForProfil(Profil profil, Info info) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public void save(Info info) throws IllegalArgumentException {
+		this.iMapper.update(info);
+	}
 
+	@Override
+	public void delete(Info info) throws IllegalArgumentException {
+		if (info != null) {
+			this.iMapper.delete(info);
+		}
 	}
 
 	@Override
@@ -191,10 +271,67 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.iMapper.findByKey(id);
 	}
 
+	public int berechneAehnlichkeit(Profil p1, Profil p2){
+		// 6 Profilattribute: Geb, Geschlecht, Groesse, Haarfarbe, Raucher, Religion
+		float i = 6;
+		float aehnlichkeit = 0;
+		
+		if (p1.getAlter() == p2.getAlter()){aehnlichkeit++;}
+		if (p1.getGeschlecht().equals( p2.getGeschlecht())){aehnlichkeit++;}
+		if (p1.getGroesse() == p2.getGroesse()){aehnlichkeit++;}
+		if (p1.getHaarfarbe().equals( p2.getHaarfarbe())){aehnlichkeit++;}
+		if (p1.getRaucher().equals( p2.getRaucher())){aehnlichkeit++;}
+		if (p1.getReligion().equals( p2.getReligion())){aehnlichkeit++;}
+		
+		ArrayList<Info> infoP1 = iMapper.findAllByProfilId(p1.getId());
+		ArrayList<Info> infoP2 = iMapper.findAllByProfilId(p2.getId());
+		
+		for (Info meineInfo: infoP1){
+			for(Info referenzInfo: infoP2){
+				if(meineInfo.equals(referenzInfo)){
+					aehnlichkeit++;
+					i++;
+				}
+			}
+		}
+
+		int result = Math.round(aehnlichkeit * (100f/i));
+		
+		return result;
+	}
 	@Override
 	public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil profil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Profil> alleProfile = pMapper.findAll();
+		Kontaktsperre kontaktsperreforProfil = kMapper.findAllForProfil(profil);
+		ArrayList<Profil> gesperrteProfile = kontaktsperreforProfil.getGesperrteProfile();
+
+		
+		for(Profil p: gesperrteProfile){
+			if(alleProfile.contains(p)){
+				alleProfile.remove(p);
+			}
+		}
+		
+
+		for(Profil aktProfil: alleProfile){
+			int f = this.berechneAehnlichkeit(profil, aktProfil);
+			aktProfil.setAehnlichkeit(f);
+		
+		}
+        Collections.sort(alleProfile, new Comparator<Profil>() {
+
+			@Override
+			public int compare(Profil o1, Profil o2) {
+				
+				return o2.getAehnlichkeit() - o1.getAehnlichkeit();
+			}
+        	
+		}); 
+        
+
+		
+		
+		return alleProfile;
 	}
 
 	@Override
@@ -210,20 +347,46 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void createMerken(Profil a, Profil b) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		Merkzettel m = mMapper.findAllForProfil(a);
+		ArrayList<Profil> profile = m.getGemerkteProfile();
+		if (!profile.contains(b)) {
+			mMapper.insertMerkenForProfil(a, b);
+		}
 
 	}
 
 	@Override
-	public void deleteMerken(Merkzettel merkzettel) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public void createSperre(Profil a, Profil b) throws IllegalArgumentException {
+		kMapper.insertForProfil(a, b);
 
 	}
 
 	@Override
-	public ArrayList<Merkzettel> getAllMerkenForProfil(Profil profil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteSperre(Profil entferner, Profil entfernter) {
+		kMapper.deleteSperreFor(entferner, entfernter);
+	}
+
+	@Override
+	public void deleteSuchprofil(Suchprofil sp) {
+		this.sMapper.delete(sp);
+	}
+
+	@Override
+	public void deleteMerken(Profil entferner, Profil entfernter) throws IllegalArgumentException {
+		mMapper.deleteMerkenFor(entferner, entfernter);
+	}
+
+	@Override
+	public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException {
+
+		Merkzettel m = mMapper.findAllForProfil(profil);
+		return m;
+	}
+
+	@Override
+	public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException {
+		Kontaktsperre k = kMapper.findAllForProfil(profil);
+		return k;
 	}
 
 	@Override
@@ -239,14 +402,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<Kontaktsperre> getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void createSuchprofilForProfil(Profil profil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
+	public void createSuchprofil(Suchprofil sp) throws IllegalArgumentException {
+		this.sMapper.insert(sp);
 	}
 
 	@Override
@@ -255,21 +412,27 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
+	public String getEigenschaftsNameById(int id) throws IllegalArgumentException {
+		if (this.beschrMapper.findByKey(id) != null) {
+			Beschreibung b = this.beschrMapper.findByKey(id);
+			String name = b.getName();
+			return name;
+		} else if (this.auswahlMapper.findByKey(id) != null) {
+			Auswahl a = this.auswahlMapper.findByKey(id);
+			String name = a.getBeschreibungstext();
+			return name;
+		}
+		return "nichts gefunden!";
+	}
+
+	@Override
 	public ArrayList<Beschreibung> getAllBeschreibung() throws IllegalArgumentException {
 		return this.beschrMapper.findAll();
 	}
 
-
 	/*
 	 * Diese Methoden brauchen wir wohl nicht
 	 */
-	
-	@Override
-	public Auswahl createAuswahl(String name, String beschreibungstext, ArrayList<String> alternativen)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void delete(Auswahl auswahl) throws IllegalArgumentException {
@@ -301,32 +464,141 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return null;
 	}
 
-	@Override
-	public ArrayList<Profil> getProfilesBySuche(Profil p) throws IllegalArgumentException {
-		
-		if(p != null){ClientsideSettings.getLogger().info("getProfilesBySuche Methode in pbImpl aufgerufen");}
-		
-		ArrayList<Profil> profile = this.pMapper.findAll();
-		ArrayList<Profil> result = new ArrayList<>();
-		
-		for(Profil profil: profile){
-			if(Objects.equal(profil.getGeschlecht(), p.getGeschlecht()) &&
-					Objects.equal(profil.getRaucher(), p.getRaucher()) &&
-					Objects.equal(profil.getReligion(), p.getReligion()) &&  
-					Objects.equal(profil.getHaarfarbe(), p.getHaarfarbe()) ) {
-				
-				ClientsideSettings.getLogger().info("passendes Profil hinzugefügt");
-				result.add(profil);
-				
+	// Gibt true zurück, wenn die Elemente des SuchprofilListe
+	// auch in einer Profilliste vorkommen
+	public boolean compare(ArrayList<Info> suchprofilListe, ArrayList<Info> profilListe) {
+		int i = suchprofilListe.size();
+		int j = 0;
+		for (Info spInfo : suchprofilListe) {
+			for (Info pInfo : profilListe) {
+				if (spInfo.equals(pInfo)) {
+					j++;
+				}
 			}
 		}
-		
-		
-		
+		if (i == j) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public ArrayList<Profil> getProfilesBySuchprofil(Suchprofil sp) throws IllegalArgumentException {
+
+		ArrayList<Profil> profile = this.pMapper.findAll();
+		ArrayList<Profil> result = new ArrayList<>();
+
+		ArrayList<Info> suchprofilInfoListe = new ArrayList<>();
+		HashMap<Integer, String> auswahlListe = sp.getAuswahlListe();
+
+		// Erstelle aus den infomationen der Hashmap des Suchprofils, Info-
+		// Objekte um sie mit den Info-Objekten eines Profils zu vergelichen
+
+		for (Map.Entry<Integer, String> entry : auswahlListe.entrySet()) {
+			Info i = new Info();
+			i.setEigenschaftId(entry.getKey());
+			i.setText(entry.getValue());
+			suchprofilInfoListe.add(i);
+			// ClientsideSettings.getLogger().info("infos für passendes
+			// suchprofil: Id=" + i.getProfilId() + " text= "
+			// + i.getText() + " E-Id=" + i.getEigenschaftId());
+		}
+
+		for (Profil p : profile) {
+			// Liste (profilInfoListe) mit Info-Objekten, die mit der Liste
+			// (suchprofilInfoListe) des
+			// Suchprofils vergleichen wird
+
+			ArrayList<Info> profilInfoListe = getInfoByProfile(p);
+			// for (Info i : profilInfoListe) {
+			// ClientsideSettings.getLogger().info("infos für jedes profil: " +
+			// i.getProfilId() + " " + i.getText());
+			// }
+			// Abfragen nach welchen Prfoilattributen gesucht wird
+			if ((sp.getHaarfarbe().equals("Keine Angabe") || p.getHaarfarbe().equals(sp.getHaarfarbe()))
+					&& (sp.getRaucher().equals("Keine Angabe") || p.getRaucher().equals(sp.getRaucher()))
+					&& (sp.getReligion().equals("Keine Angabe") || p.getReligion().equals(sp.getReligion()))
+					&& (sp.getGeschlecht().equals("Keine Angabe") || p.getGeschlecht().equals(sp.getGeschlecht()))
+					&& (suchprofilInfoListe.size() == 0 || compare(suchprofilInfoListe, profilInfoListe))) {
+
+				// for (Info i : profilInfoListe) {
+				// ClientsideSettings.getLogger().info("infos für passendes
+				// profil: Id=" + i.getProfilId() + " text= "
+				// + i.getText() + " E-Id=" + i.getEigenschaftId());
+				// }
+				// abfragen on nach Größe oder Alter gesucht wird
+				if ((sp.getGroesse_min() != 0 && sp.getGroesse_max() != 0)
+						|| (sp.getAlter_min() != 0 && sp.getAlter_max() != 0)) {
+
+					// abfragen on nach Größe und Alter gesucht wird
+					if ((sp.getGroesse_min() != 0 && sp.getGroesse_max() != 0)
+							&& (sp.getAlter_min() != 0 && sp.getAlter_max() != 0)) {
+
+						// gehe den angegeben Größebereich durch und adde das
+						// Profil, wenn es im Bereich liegt
+						for (int i = sp.getGroesse_min(); i <= sp.getGroesse_max(); i++) {
+							if (p.getGroesse() == i) {
+								for (int j = sp.getAlter_min(); j <= sp.getAlter_max(); j++) {
+									if (p.getAlter() == j) {
+										result.add(p);
+									}
+								}
+							}
+
+						}
+					}
+					// Abfragen on nur nach Größe gesucht wird
+					if ((sp.getGroesse_min() != 0 && sp.getGroesse_max() != 0)
+							&& (sp.getAlter_min() == 0 && sp.getAlter_max() == 0)) {
+						// gehe den angegeben Größebereich durch und adde das
+						// Profil, wenn es im Bereich liegt
+						for (int i = sp.getGroesse_min(); i <= sp.getGroesse_max(); i++) {
+							if (p.getGroesse() == i) {
+								result.add(p);
+							}
+
+						}
+					}
+					// Abfragen on nur nach Alter gesucht wird
+					if ((sp.getAlter_min() != 0 && sp.getAlter_max() != 0)
+							&& (sp.getGroesse_min() == 0 && sp.getGroesse_max() == 0)) {
+
+						// gehe den angegeben Alters durch und adde das Profil,
+						// wenn es im Bereich liegt
+						for (int j = sp.getAlter_min(); j <= sp.getAlter_max(); j++) {
+							if (p.getAlter() == j) {
+								result.add(p);
+							}
+
+						}
+					}
+
+				} else {
+
+					result.add(p);
+				}
+			}
+
+		}
+
 		return result;
 	}
 
+	@Override
+	public ArrayList<Auswahl> getAllAuswahlProfilAttribute() {
+		return this.auswahlMapper.findAllProfilAtrribute();
+	}
 
+	@Override
+	public ArrayList<Beschreibung> getAllBeschreibungProfilAttribute() {
+		return this.beschrMapper.findAllProfilAttribute();
+	}
 
+	@Override
+	public Auswahl createAuswahl(String name, String beschreibungstext, ArrayList<String> alternativen)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

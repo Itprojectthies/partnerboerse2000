@@ -1,7 +1,7 @@
 package de.superteam2000.gwt.shared.report;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Vector;
 
 /**
  * Ein zusammengesetzter Report. Dieser Report kann aus einer Menge von

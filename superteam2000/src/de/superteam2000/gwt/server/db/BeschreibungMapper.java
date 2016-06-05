@@ -1,11 +1,13 @@
 package de.superteam2000.gwt.server.db;
 
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
-import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
 
 /**
@@ -64,9 +66,46 @@ public class BeschreibungMapper {
 		return BeschreibungMapper;
 	}
 
+	public Beschreibung findByName(String name) {
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
+
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+			
+			// Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs1 = stmt.executeQuery(
+					"SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE Name='" 
+					+ name + "' AND e_typ='p_b'");
+
+			
+			/*
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * werden. Prüfe, ob ein Ergebnis vorliegt.
+			 */
+			
+			if (rs1.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln
+				Beschreibung b = new Beschreibung();
+				b.setId(rs1.getInt("id"));
+				b.setName(rs1.getString("Name"));
+				b.setBeschreibungstext(rs1.getString("Beschreibungstext"));
+				
+				
+				return b;
+			}
+		} catch (SQLException a) {
+			a.printStackTrace();
+			return null;
+		}
+
+		return null;
+	}
+	
 	/**
 	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
-	 * ist, wird genau ein Objekt zur�ckgegeben.
+	 * ist, wird genau ein Objekt zurückgegeben.
 	 * 
 	 * @param id
 	 *            Primärschlüsselattribut (->DB)
@@ -128,7 +167,6 @@ public class BeschreibungMapper {
 			
 			// Für jeden Eintrag im Suchergebnis wird nun ein Auswahl-Objekt
 			// erstellt.
-			ClientsideSettings.getLogger().severe("Statement erfolgreich");
 			
 			while (rs1.next()) {
 				Beschreibung b = new Beschreibung();
@@ -145,6 +183,45 @@ public class BeschreibungMapper {
 					e.getMessage() + " " + e.getCause() + " ");
 		}
 
+		// Ergebnisvektor zurückgeben
+		return result;
+	}
+	
+	/**
+	 * Auslesen aller Kunden.
+	 *
+	 * @return Ein Vektor mit Auswahl-Objekten, die sämtliche Kunden
+	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gef�llter
+	 *         oder ggf. auch leerer Vetor zurückgeliefert.
+	 */
+	public ArrayList<Beschreibung> findAllProfilAttribute() {
+		Connection con = DBConnection.connection();
+		// Ergebnisvektor vorbereiten
+		ArrayList<Beschreibung> result = new ArrayList<Beschreibung>();
+		
+		try {
+			Statement stmt1 = con.createStatement();
+			ResultSet rs1 = stmt1.executeQuery("SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE e_typ='p_b'");
+			
+			
+			// Für jeden Eintrag im Suchergebnis wird nun ein Auswahl-Objekt
+			// erstellt.
+			
+			while (rs1.next()) {
+				Beschreibung b = new Beschreibung();
+				b.setId(rs1.getInt("id"));
+				b.setName(rs1.getString("Name"));
+				b.setBeschreibungstext(rs1.getString("Beschreibungstext"));
+				result.add(b);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
+					e.getMessage() + " " + e.getCause() + " ");
+		}
+		
 		// Ergebnisvektor zurückgeben
 		return result;
 	}
@@ -215,8 +292,8 @@ public class BeschreibungMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE Eigenschaft SET Name=\"" + b.getName() + "\", Beschreibungstext=\""
-					+ b.getBeschreibungstext() + "\", e_typ=\"a\" WHERE id=" + b.getId());
+			stmt.executeUpdate("UPDATE Eigenschaft SET Name='" + b.getName() + "', Beschreibungstext='"
+					+ b.getBeschreibungstext() + "', e_typ='a' WHERE id=" + b.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -238,7 +315,7 @@ public class BeschreibungMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM Eigenschaft " + "WHERE id=" + b.getId());
+			stmt.executeUpdate("DELETE FROM Eigenschaft WHERE id=" + b.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
