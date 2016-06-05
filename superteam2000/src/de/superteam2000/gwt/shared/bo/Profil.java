@@ -175,6 +175,7 @@ public class Profil extends BusinessObject {
 
 	public void setEigenschaften(String selectedValue) {
 		eigenschaft = selectedValue;
+	}
 		
 	public int getAehnlichkeit() {
 		return aehnlichkeit;

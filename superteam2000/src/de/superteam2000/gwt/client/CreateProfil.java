@@ -22,18 +22,28 @@ import de.superteam2000.gwt.shared.bo.Beschreibung;
 import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
- * Formular fÃ¼r die Darstellung des selektierten Kunden
+ * Formular fÃ¼r die Darstellung des selektierten Users
  * 
- * @author Christian Rathke
+ * @param user momentaner Benutzer
+ * @param logger momentaner Logger
+ * @param fPanel
+ * @param fPanel2
+ * @param gebTag Hier kann der Geburtstag eingegeben werden
+ * @param groesse Hier kann die Körpergrösse angegeben werden
+ * 
+ * 
+ * @author Christian Rathke, Volz, Funke
  */
 public class CreateProfil extends BasicFrame {
 
+	/*
+	 * Hier wird die Verbindung zum Datenbankmapper und somit zur Datenbank und zur Partnerboerse gemacht
+	 */
 	PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
 	/*
-	 * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
+	 * Widgets, deren Inhalte variabel sind, werden als Attribute angelegt.
 	 */
-
 	Profil user = ClientsideSettings.getCurrentUser();
 	Logger logger = ClientsideSettings.getLogger();
 
@@ -54,6 +64,17 @@ public class CreateProfil extends BasicFrame {
 	 * Widgets bestimmt.
 	 */
 
+	/**
+	 * Wenn ein neuer User sich registrieren/anmelden will, werden die Grunddaten, welche nicht
+	 * gelöscht werden können angelegt. Diese Methode bietet die Möglichkeit, die Werte/Daten
+	 * einzugeben und mit der Registrierung fortzufahren. Die beiden Attribute Körpergröße und
+	 * Geburtstag sind Drop-down-Listen.
+	 * 
+	 * @param gebTag Der Beschreibungstext des Panels wird gespeichert, es ist eine Drop-down-Liste.
+	 * @param groesse Der Beschreibungstext des Panels wird gespeichert, es ist eine Drop-down-Liste.
+	 * @param pbVerwaltung Die eingegebenen Werte werden gespeichert.
+	 * @param confirmBtn Ein neuer Button namens "Weiter" wird erstellt.
+	 */
 	@Override
 	public void run() {
 		gebTag = new ProfilAttributeBoxPanel("Was ist dein Geburtstag?");
@@ -73,6 +94,12 @@ public class CreateProfil extends BasicFrame {
 		
 	}
 
+	/**
+	 * Für den neuen User wird ein leeres Formular angelegt.
+	 * 
+	 * @param clb Befüllte Formularergebnisse werden übertragen.
+	 *
+	 */
 	private class GetAllBeschreibungProfilAttributeCallBack implements AsyncCallback<ArrayList<Beschreibung>> {
 		@Override
 		public void onSuccess(ArrayList<Beschreibung> result) {
@@ -84,6 +111,7 @@ public class CreateProfil extends BasicFrame {
 
 		}
 
+		
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
@@ -91,6 +119,11 @@ public class CreateProfil extends BasicFrame {
 		}
 	}
 
+	/**
+	 * Die beiden Attribute Größe und Geburtstag werden dem Panel hinzugefügt.
+	 * 
+	 * @param clb Die ausgewählten Elemente werden abgespeichert.
+	 */
 	private class GetAllAuswahlProfilAttributeCallBack implements AsyncCallback<ArrayList<Auswahl>> {
 		@Override
 		public void onSuccess(ArrayList<Auswahl> result) {
@@ -111,8 +144,24 @@ public class CreateProfil extends BasicFrame {
 		}
 	}
 
+	/**
+	 * ClickHandler einbinden.
+	 *
+	 */
 	private class ConfirmClickHandler implements ClickHandler {
 
+		/**
+		 * @param firstName Hier wird der Vorname gespeichert.
+		 * @param lastName Hier wird der Nachname gespeichert.
+		 * @param haarfarbe Hier wird die Haarfarbe gespeichert.
+		 * @param raucher Hier wird die Auswahl bei Raucher gespeichert.
+		 * @param religion Hier wird die Auswahl bei Religion gespeichert.
+		 * @geschlecht Hier wird das Geschlecht gespeichert.
+		 * @email Hier wird die Email Adresse gespeichert.
+		 * @param geburtsTag Dies ist eine Hilfsvariable, um das Alter zu bestimmen.
+		 * @param geburtsMonat Dies ist eine Hilfsvariable, um das Alter zu errechnen.
+		 * @param geburtsJahr Dies ist eine Hilfsvariable um das Alter zu errechnen.
+		 */
 		@Override
 		public void onClick(ClickEvent event) {
 
@@ -131,9 +180,12 @@ public class CreateProfil extends BasicFrame {
 			int geburtsMonat = 1;
 			int geburtsJahr = 1900;
 
-			// Schleifen zum Auslesen der Listboxen, welche in 2 Panels
-			// verschachtelt sind
-
+			/*
+			 * Verschachtelte Schleifen, damit die Listboxen der beiden ineinander
+			 * verschachtelten Panels, ausgelesen werden können.
+			 * Im Folgenden werden die einzelnen eingegebenen Werte für Attribute
+			 * des Users eingelesen und in den jeweiligen Variablen gespeichert.
+			 */
 			for (Widget child : fPanel) {
 				
 				if (child instanceof FlowPanel) {
@@ -192,28 +244,46 @@ public class CreateProfil extends BasicFrame {
 
 			}
 
-			// Date-Objekt aus den 3 Geburtstagswerten Tag, Monat und Jahr
-			// konstruieren und in
-			// ein SQL-Date-Objekt umwandeln
-
+			
+			/**
+			 * Um das Alter abspeichern zu können, wird das Geburtsdatum eingelesen und
+			 * in der richtigen Reihenfolge abgespeichert.
+			 * Danach wird das korrekte Geburtsdatum in ein SQL-Date-Objekt umgewandelt um
+			 * dort richtig gespeichert zu werden.
+			 */
 			Date gebTag2 = DateTimeFormat.getFormat("yyyy-MM-dd")
 					.parse(geburtsJahr + "-" + geburtsMonat + "-" + geburtsTag);
 			java.sql.Date gebTag = new java.sql.Date(gebTag2.getTime());
 
+			/*
+			 * Das Profil wird angelegt und in die Datenbank geschrieben mit allen eingegebenen Werten
+			 * und Attributen.
+			 */
 			pbVerwaltung.createProfil(lastName, firstName, email, gebTag, haarfarbe, raucher, religion, groesse,
 					geschlecht, new CreateCustomerCallback());
 
 		}
 	}
 
+	/**
+	 * In dieser Klasse sind alle Methoden enthalten, womit das erstellte Profil eines User angezeigt werden kann.
+	 */
 	class CreateCustomerCallback implements AsyncCallback<Profil> {
 
+		/**
+		 * @throws exception Wenn User nicht angemeldet werden konnte wird Fehlermeldung ausgegeben.
+		 */
 		@Override
 		public void onFailure(Throwable caught) {
-			logger.severe("Erstellen des useres hat nicht funktioniert");
+			logger.severe("Erstellen des Users hat nicht funktioniert");
 
 		}
 
+		/**
+		 * Wenn das Profil erfolgreich erstellt und gespeichert werden konnte.
+		 * Danach wird das gespeicherte Profil angezeigt.
+		 * Dazu wird die Navigationsbar und die Details ausgegeben.
+		 */
 		@Override
 		public void onSuccess(Profil p) {
 

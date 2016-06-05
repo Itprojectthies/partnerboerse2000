@@ -389,7 +389,7 @@ public class Suche extends BasicFrame {
 //
 //			}
 //		});
-	}
+	
 
 	private class GetAllAuswahlProfilAttributeCallback implements AsyncCallback<ArrayList<Auswahl>> {
 		@Override
