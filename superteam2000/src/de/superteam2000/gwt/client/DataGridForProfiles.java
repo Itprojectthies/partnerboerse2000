@@ -20,246 +20,205 @@ import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.report.ProfilReport;
 
 public class DataGridForProfiles extends BasicFrame {
-	
+
 	private ArrayList<Profil> profilListe = new ArrayList<>();
-	
-	public DataGridForProfiles(ArrayList<Profil> list){
-		this.profilListe = list;
+
+	public DataGridForProfiles(ArrayList<Profil> list, boolean isForSuchprofil) {
+		this(list);
+		this.isForSuchprofil = isForSuchprofil;
 	}
 	
-	
-	private Profil selected = null;
+	public DataGridForProfiles(ArrayList<Profil> list) {
+		this.profilListe = list;
+	}
 
+	private Profil selected = null;
+	private boolean isForSuchprofil = false;
 	
 	@Override
 	public String getHeadlineText() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	public ArrayList<Profil> getProfilListe() {
 		return profilListe;
 	}
+
 	public void setProfilListe(ArrayList<Profil> profilListe) {
 		this.profilListe = profilListe;
 	}
 
-	//pb Verwaltung über ClientsideSettings holen
-	PartnerboerseAdministrationAsync pbVerwaltung = 
-			ClientsideSettings.getPartnerboerseVerwaltung();
+	// pb Verwaltung über ClientsideSettings holen
+	PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
 	@Override
 	public void run() {
 
+		final Button merkenButton = new Button("Profil merken");
+		final Button sperrenButton = new Button("Profil sperren");
+		final Button profilAnzeigenButton = new Button("Profil anzeigen");
+		RootPanel.get("Details").add(merkenButton);
+		RootPanel.get("Details").add(sperrenButton);
+		RootPanel.get("Details").add(profilAnzeigenButton);
 
+		// eigenes Profil aus der Liste entfernen
+		// if(profile.contains(ClientsideSettings.getCurrentUser())){
+		// profile.remove(ClientsideSettings.getCurrentUser());
+		// }
 
+		DataGrid<Profil> table = new DataGrid<Profil>();
+		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
-				final Button merkenButton = new Button("Profil merken");
-				final Button sperrenButton = new Button("Profil sperren");
-				final Button profilAnzeigenButton = new Button("Profil anzeigen");
-				RootPanel.get("Details").add(merkenButton);
-				RootPanel.get("Details").add(sperrenButton);
-				RootPanel.get("Details").add(profilAnzeigenButton);
-				
+		TextColumn<Profil> vorname = new TextColumn<Profil>() {
+			@Override
+			public String getValue(Profil p) {
+				return p.getVorname();
+			}
+		};
+		table.addColumn(vorname, "Vorname");
 
-					
-					//eigenes Profil aus der Liste entfernen
-//					if(profile.contains(ClientsideSettings.getCurrentUser())){
-//						profile.remove(ClientsideSettings.getCurrentUser());
-//					}
-					
-					DataGrid<Profil> table = new DataGrid<Profil>();
-					table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		TextColumn<Profil> nachname = new TextColumn<Profil>() {
+			@Override
+			public String getValue(Profil p) {
+				return p.getNachname();
+			}
+		};
+		table.addColumn(nachname, "Nachname");
 
-					TextColumn<Profil> vorname = new TextColumn<Profil>() {
-						@Override
-						public String getValue(Profil p) {
-							return p.getVorname();
-						}
-					};
-					table.addColumn(vorname, "Vorname");
+		TextColumn<Profil> alter = new TextColumn<Profil>() {
+			@Override
+			public String getValue(Profil p) {
+				return String.valueOf(p.getAlter());
+			}
+		};
+		table.addColumn(alter, "Alter");
 
-					TextColumn<Profil> nachname = new TextColumn<Profil>() {
-						@Override
-						public String getValue(Profil p) {
-							return p.getNachname();
-						}
-					};
-					table.addColumn(nachname, "Nachname");
-					
-					TextColumn<Profil> alter = new TextColumn<Profil>() {
-						@Override
-						public String getValue(Profil p) {
-							return String.valueOf(p.getAlter());
-						}
-					};
-					table.addColumn(alter, "Alter");
+		TextColumn<Profil> aehnlichkeit = new TextColumn<Profil>() {
+			@Override
+			public String getValue(Profil p) {
+				;
 
-					
-					TextColumn<Profil> aehnlichkeit = new TextColumn<Profil>() {
-						@Override
-						public String getValue(Profil p) {
-							 ;
-							
-							return String.valueOf(p.getAehnlichkeit())+"%";
-						}
-					};
-					table.addColumn(aehnlichkeit, "Ähnlichkeit");
-					
-
-					
-					
-
-
-					// Add a selection model to handle user selection.
-					final SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
-					table.setSelectionModel(selectionModel);
-					selectionModel.addSelectionChangeHandler(new Handler() {
-
-						@Override
-						public void onSelectionChange(SelectionChangeEvent event) {
-							 selected = selectionModel.getSelectedObject();										
-								
-								sperrenButton.addClickHandler(new SperrenButtonClickhandler());
-								
-								merkenButton.addClickHandler(new MerkenButtonClickhandler());
-								
-								profilAnzeigenButton.addClickHandler(new ProfilAnzeigenButtonClickhandler());
-							
-				
-						}
-					});
-
-
-					table.setRowCount(profilListe.size(), true);
-					table.setRowData(0, profilListe);
-					table.setWidth("100%");
-					
-					LayoutPanel panel = new LayoutPanel();
-					panel.setSize("80em", "50em");
-					panel.add(table);
-					RootPanel.get("Details").add(panel);
-				
-			
-			
-
+				return String.valueOf(p.getAehnlichkeit()) + "%";
+			}
+		};
 		
-		
+		if (!isForSuchprofil) {
+			table.addColumn(aehnlichkeit, "Ähnlichkeit");
+		}
+		// Add a selection model to handle user selection.
+		final SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
+		table.setSelectionModel(selectionModel);
+		selectionModel.addSelectionChangeHandler(new Handler() {
+
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				selected = selectionModel.getSelectedObject();
+
+				sperrenButton.addClickHandler(new SperrenButtonClickhandler());
+				merkenButton.addClickHandler(new MerkenButtonClickhandler());
+				profilAnzeigenButton.addClickHandler(new ProfilAnzeigenButtonClickhandler());
+			}
+		});
+
+		table.setRowCount(profilListe.size(), true);
+		table.setRowData(0, profilListe);
+		table.setWidth("100%");
+
+		LayoutPanel panel = new LayoutPanel();
+		panel.setSize("80em", "50em");
+		panel.add(table);
+		RootPanel.get("Details").add(panel);
 
 	}
-	
-
 
 	public class SperrenButtonClickhandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
 			if (selected != null) {
-				ClientsideSettings.getPartnerboerseVerwaltung().createSperre(
-						ClientsideSettings.getCurrentUser(), selected,
-						new AsyncCallback<Void>() {
+				ClientsideSettings.getPartnerboerseVerwaltung().createSperre(ClientsideSettings.getCurrentUser(),
+						selected, new AsyncCallback<Void>() {
 
-							@Override
-							public void onSuccess(Void result) {
-								RootPanel.get("Details").clear();
-								DataGridForProfiles d = new DataGridForProfiles(profilListe);
-								RootPanel.get("Details").add(d);
-								Window.alert("Profil gesperrt!");
-							}
+					@Override
+					public void onSuccess(Void result) {
+						RootPanel.get("Details").clear();
+						DataGridForProfiles d = new DataGridForProfiles(profilListe);
+						RootPanel.get("Details").add(d);
+						// Window.alert("Profil gesperrt!");
+					}
 
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO
-								// Auto-generated
-								// method
-								// stub
+					@Override
+					public void onFailure(Throwable caught) {
 
-							}
-						});
+					}
+				});
 			}
-
 		}
 	}
+
 	public class MerkenButtonClickhandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
 			if (selected != null) {
 
-				ClientsideSettings.getPartnerboerseVerwaltung().createMerken(
-						ClientsideSettings.getCurrentUser(), selected,
-						new AsyncCallback<Void>() {
+				ClientsideSettings.getPartnerboerseVerwaltung().createMerken(ClientsideSettings.getCurrentUser(),
+						selected, new AsyncCallback<Void>() {
+
+					@Override
+					public void onSuccess(Void result) {
+						RootPanel.get("Details").clear();
+						DataGridForProfiles d = new DataGridForProfiles(profilListe);
+						RootPanel.get("Details").add(d);
+						// Window.alert("Profil gemerkt.");
+
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+
+					}
+				});
+			}
+		}
+	}
+
+	public class ProfilAnzeigenButtonClickhandler implements ClickHandler {
+		@Override
+		public void onClick(ClickEvent event) {
+			if (selected != null) {
+				FremdProfil fp = new FremdProfil(selected);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(fp);
+
+				ClientsideSettings.getReportGenerator().createProfilReport(selected, new AsyncCallback<ProfilReport>() {
+
+					@Override
+					public void onSuccess(ProfilReport result) {
+
+						// Profil als besucht setzen
+						pbVerwaltung.setVisited(ClientsideSettings.getCurrentUser(), selected,
+								new AsyncCallback<Void>() {
 
 							@Override
 							public void onSuccess(Void result) {
-								RootPanel.get("Details").clear();
-								DataGridForProfiles d = new DataGridForProfiles(profilListe);
-								RootPanel.get("Details").add(d);
-								Window.alert("Profil gemerkt.");
-								
+								ClientsideSettings.getLogger().info("User wurde als besucht markiert!");
 
 							}
 
 							@Override
 							public void onFailure(Throwable caught) {
-								// TODO
-								// Auto-generated
-								// method
-								// stub
 
 							}
 						});
-				;
 
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+
+					}
+				});
 			}
-
 		}
-	}
-	public class ProfilAnzeigenButtonClickhandler implements ClickHandler {
-		@Override
-		public void onClick(ClickEvent event) {
-		if (selected != null) {
-			FremdProfil fp = new FremdProfil(selected);
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(fp);
-			
-			ClientsideSettings.getReportGenerator().createProfilReport(selected, new AsyncCallback<ProfilReport>() {
-				
-				@Override
-				public void onSuccess(ProfilReport result) {
-					
-					//Profil als besucht setzen
-					pbVerwaltung.setVisited(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
-						
-						@Override
-						public void onSuccess(Void result) {
-							ClientsideSettings.getLogger().info("User wurde als besucht markiert!");
-							
-						}
-						
-						@Override
-						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
-							
-						}
-					});
-					
-					//Hier wird der Report prozessiert und ausgegeben
-//					HTMLReportWriter writer = new HTMLReportWriter();
-//					writer.process(result);
-//					RootPanel.get("Details").clear();
-//					HTML html = new HTML(writer.getReportText());
-//					RootPanel.get("Details").add(html);
-					
-					
-				}
-				
-				@Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-		}
-	}
 	}
 
 }

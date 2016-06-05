@@ -56,17 +56,17 @@ public class Navbar extends HorizontalPanel {
 			});
 			append(logoutBtn);
 			
-			Button logBtn = new Button("Logger");
-			logBtn.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					
-					LogConsole.getDialogBox().show();
-					
-				}
-			});
-			append(logBtn);
+//			Button logBtn = new Button("Logger");
+//			logBtn.addClickHandler(new ClickHandler() {
+//
+//				@Override
+//				public void onClick(ClickEvent event) {
+//					
+//					LogConsole.getDialogBox().show();
+//					
+//				}
+//			});
+//			append(logBtn);
 
 			final Button profilBtn = new Button("Profil");
 			profilBtn.addClickHandler(new ClickHandler() {
@@ -80,6 +80,8 @@ public class Navbar extends HorizontalPanel {
 					ShowProfil sp = new ShowProfil();
 					RootPanel.get("Details").clear();
 					RootPanel.get("Menu").clear();
+					RootPanel.get("rechts").clear();
+					
 					RootPanel.get("Details").add(sp);				
 				}
 			});
@@ -94,6 +96,7 @@ public class Navbar extends HorizontalPanel {
 				public void onClick(ClickEvent event) {
 					Merkliste m = new Merkliste();
 					RootPanel.get("Details").clear();
+					RootPanel.get("rechts").clear();
 					RootPanel.get("Menu").clear();
 					RootPanel.get("Details").add(m);
 					
@@ -109,6 +112,7 @@ public class Navbar extends HorizontalPanel {
 				public void onClick(ClickEvent event) {
 					Sperre s = new Sperre();
 					RootPanel.get("Details").clear();
+					RootPanel.get("rechts").clear();
 					RootPanel.get("Menu").clear();
 					RootPanel.get("Details").add(s);
 				}
@@ -124,6 +128,7 @@ public class Navbar extends HorizontalPanel {
 					Suche s = new Suche();
 					
 					RootPanel.get("Details").clear();
+					RootPanel.get("rechts").clear();
 					RootPanel.get("Menu").clear();
 					RootPanel.get("Details").add(s);
 				}
@@ -140,13 +145,14 @@ public class Navbar extends HorizontalPanel {
 					VerticalPanel detailsPanel = new VerticalPanel();
 					detailsPanel.add(e);
 					RootPanel.get("Details").clear();
+					RootPanel.get("rechts").clear();
 					RootPanel.get("Menu").clear();
 					 RootPanel.get("Details").add(detailsPanel);
 				}
 			});
 			append(eigenschaftenBtn);
 			
-			Button dataGridBtn = new Button("DataGrid");
+			Button dataGridBtn = new Button("Alle Profile");
 			dataGridBtn.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -159,6 +165,7 @@ public class Navbar extends HorizontalPanel {
 							VerticalPanel detailsPanel = new VerticalPanel();
 							detailsPanel.add(dgt);
 							RootPanel.get("Details").clear();
+							RootPanel.get("rechts").clear();
 							RootPanel.get("Menu").clear();
 							RootPanel.get("Details").add(detailsPanel);
 							

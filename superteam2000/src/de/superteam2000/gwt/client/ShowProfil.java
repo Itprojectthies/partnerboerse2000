@@ -59,7 +59,7 @@ public class ShowProfil extends BasicFrame {
 
 		final PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 		
-		pbVerwaltung.getInfoByProfile(user, new InfoCallback(this));
+//		pbVerwaltung.getInfoByProfile(user, new InfoCallback(this));
 
 		// Geburtstags- und KörpergrößeListbox müssen seperat erstellt werden,
 		// weil sie Speziallfälle
@@ -307,98 +307,98 @@ public class ShowProfil extends BasicFrame {
 		}
 	}
 
-	private class InfoCallback implements AsyncCallback<ArrayList<Info>> {
+//	private class InfoCallback implements AsyncCallback<ArrayList<Info>> {
+//
+//		private BasicFrame b = null;
+//
+//		public InfoCallback(BasicFrame b) {
+//			this.b = b;
+//		}
+//
+//		@Override
+//		public void onFailure(Throwable caught) {
+//			this.b.append("Fehler bei der Abfrage " + caught.getMessage());
+//		}
+//
+//		@Override
+//		public void onSuccess(ArrayList<Info> result) {
+//			try {
+//				for (Info i : result) {
+//					if (i != null) {
+//						// this.b.append("Info #" + i.getId() + ": " +
+//						// i.getText());
+//						// this.b.append(i.getText());
+////						ClientsideSettings.getLogger().info("das ist result reihenfolge: " + i.getText());
+//						pbVerwaltung.getAuswahlById(i.getEigenschaftId(), new GetAuswahlCallback(this.b, i));
+//						// pbVerwaltung.getBeschreibungById(i.getEigenschaftId(),
+//						// new GetBeschreibungCallback(this.b, i));
+//					} else {
+//						this.b.append("Result ist leer");
+//					}
+//
+//				}
+//			} catch (Exception e) {
+//				ClientsideSettings.getLogger().severe("Fehler " + e.getMessage());
+//			}
+//		}
+//
+//	}
 
-		private BasicFrame b = null;
+//	private class GetBeschreibungCallback implements AsyncCallback<Beschreibung> {
+//
+//		private BasicFrame b = null;
+//		private Info i = null;
+//		HTML html = new HTML();
+//
+//		public GetBeschreibungCallback(BasicFrame b, Info i) {
+//			this.b = b;
+//			this.i = i;
+//		}
+//
+//		@Override
+//		public void onFailure(Throwable caught) {
+//			this.b.append("Fehler bei der Abfrage " + caught.getMessage());
+//
+//		}
+//
+//		@Override
+//		public void onSuccess(Beschreibung result) {
+//
+//			// this.b.append("Frage: " + result.getBeschreibungstext() + "
+//			// Antwort: " + i.getText());
+//			html.setText("Frage: " + result.getBeschreibungstext() + " Antwort: " + i.getText());
+//			fPanelEigenschaften.add(html);
+//		}
+//
+//	}
 
-		public InfoCallback(BasicFrame b) {
-			this.b = b;
-		}
-
-		@Override
-		public void onFailure(Throwable caught) {
-			this.b.append("Fehler bei der Abfrage " + caught.getMessage());
-		}
-
-		@Override
-		public void onSuccess(ArrayList<Info> result) {
-			try {
-				for (Info i : result) {
-					if (i != null) {
-						// this.b.append("Info #" + i.getId() + ": " +
-						// i.getText());
-						// this.b.append(i.getText());
-//						ClientsideSettings.getLogger().info("das ist result reihenfolge: " + i.getText());
-						pbVerwaltung.getAuswahlById(i.getEigenschaftId(), new GetAuswahlCallback(this.b, i));
-						// pbVerwaltung.getBeschreibungById(i.getEigenschaftId(),
-						// new GetBeschreibungCallback(this.b, i));
-					} else {
-						this.b.append("Result ist leer");
-					}
-
-				}
-			} catch (Exception e) {
-				ClientsideSettings.getLogger().severe("Fehler " + e.getMessage());
-			}
-		}
-
-	}
-
-	private class GetBeschreibungCallback implements AsyncCallback<Beschreibung> {
-
-		private BasicFrame b = null;
-		private Info i = null;
-		HTML html = new HTML();
-
-		public GetBeschreibungCallback(BasicFrame b, Info i) {
-			this.b = b;
-			this.i = i;
-		}
-
-		@Override
-		public void onFailure(Throwable caught) {
-			this.b.append("Fehler bei der Abfrage " + caught.getMessage());
-
-		}
-
-		@Override
-		public void onSuccess(Beschreibung result) {
-
-			// this.b.append("Frage: " + result.getBeschreibungstext() + "
-			// Antwort: " + i.getText());
-			html.setText("Frage: " + result.getBeschreibungstext() + " Antwort: " + i.getText());
-			fPanelEigenschaften.add(html);
-		}
-
-	}
-
-	private class GetAuswahlCallback implements AsyncCallback<Auswahl> {
-
-		private BasicFrame b = null;
-		private Info i = null;
-		HTML html = new HTML();
-
-		public GetAuswahlCallback(BasicFrame b, Info i) {
-			this.b = b;
-			this.i = i;
-		}
-
-		@Override
-		public void onFailure(Throwable caught) {
-			this.b.append("Fehler bei der Abfrage " + caught.getMessage());
-
-		}
-
-		@Override
-		public void onSuccess(Auswahl result) {
-			// this.b.append("Frage: " + result.getBeschreibungstext() + "
-			// Antwort: " + i.getText());
-//			ClientsideSettings.getLogger().info("das ist callback reihenfolge: " + i.getText());
-			html.setText("Frage: " + result.getBeschreibungstext() + " Antwort: " + i.getText());
-			fPanelEigenschaften.add(html);
-		}
-
-	}
+//	private class GetAuswahlCallback implements AsyncCallback<Auswahl> {
+//
+//		private BasicFrame b = null;
+//		private Info i = null;
+//		HTML html = new HTML();
+//
+//		public GetAuswahlCallback(BasicFrame b, Info i) {
+//			this.b = b;
+//			this.i = i;
+//		}
+//
+//		@Override
+//		public void onFailure(Throwable caught) {
+//			this.b.append("Fehler bei der Abfrage " + caught.getMessage());
+//
+//		}
+//
+//		@Override
+//		public void onSuccess(Auswahl result) {
+//			// this.b.append("Frage: " + result.getBeschreibungstext() + "
+//			// Antwort: " + i.getText());
+////			ClientsideSettings.getLogger().info("das ist callback reihenfolge: " + i.getText());
+//			html.setText("Frage: " + result.getBeschreibungstext() + " Antwort: " + i.getText());
+//			fPanelEigenschaften.add(html);
+//		}
+//
+//	}
 
 	private class GetAllBeschreibungProfilAttributeCallback implements AsyncCallback<ArrayList<Beschreibung>> {
 

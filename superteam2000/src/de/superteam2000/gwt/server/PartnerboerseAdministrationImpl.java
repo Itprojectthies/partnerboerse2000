@@ -596,11 +596,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public String getSelectionForProfilAttributAuswahl(String name, Profil p) {
-		return this.pMapper.findSelectionByName(name, p.getId());
-	}
-
-	@Override
 	public Auswahl createAuswahl(String name, String beschreibungstext, ArrayList<String> alternativen)
 			throws IllegalArgumentException {
 		// TODO Auto-generated method stub

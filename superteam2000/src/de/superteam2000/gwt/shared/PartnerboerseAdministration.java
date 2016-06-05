@@ -103,8 +103,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public ArrayList<Auswahl> getAllAuswahlProfilAttribute();
 
-	public String getSelectionForProfilAttributAuswahl(String name, Profil p);
-
 	public ArrayList<Beschreibung> getAllBeschreibungProfilAttribute();
 
 	public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException;

@@ -109,8 +109,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getAllAuswahlProfilAttribute(AsyncCallback<ArrayList<Auswahl>> callback);
 
-	void getSelectionForProfilAttributAuswahl(String name, Profil p, AsyncCallback<String> callback);
-
 	void getAllBeschreibungProfilAttribute(AsyncCallback<ArrayList<Beschreibung>> callback);
 
 	void createSuchprofil(Suchprofil sp, AsyncCallback<Void> callback);

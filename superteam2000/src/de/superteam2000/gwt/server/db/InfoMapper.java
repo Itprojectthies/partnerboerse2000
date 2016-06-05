@@ -233,22 +233,22 @@ public class InfoMapper {
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
-//			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM Info ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM Info ");
 
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
-//			if (rs.next()) {
-//				/*
-//				 * a erhält den bisher maximalen, nun um 1 inkrementierten
-//				 * Primärschlüssel.
-//				 */
-//				i.setId(rs.getInt("maxid") + 1);
+			if (rs.next()) {
+				/*
+				 * a erhält den bisher maximalen, nun um 1 inkrementierten
+				 * Primärschlüssel.
+				 */
+				i.setId(rs.getInt("maxid") + 1);
 
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
 				stmt.executeUpdate("INSERT INTO Info (Text, Profil_id, Eigenschaft_id) VALUES ('"
 						+ i.getText() + "'," + i.getProfilId() + "," + i.getEigenschaftId() + ")");
-//			}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
