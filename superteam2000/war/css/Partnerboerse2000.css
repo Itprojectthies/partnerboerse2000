@@ -1,16 +1,16 @@
 
 
 body {
-    /* text-align: center; */  /* Zentrierung im Internet Explorer */
+	
   }
 
 h1 {
-  /* font-size: 2em; */
-  /* font-weight: bold; */
-  /* color: #777777; */
-  /* margin: 40px 0px 20px; */
-  /* text-align: center; */
-  
+  	font: 3em Vivaldi;
+	letter-spacing: 2px;
+	font-weight: lighter;
+	text-align: center;
+	color: #A4A4A0;
+  	padding: 5px;
     margin-top: 0px;
     margin-bottom: 0px;
   
@@ -72,37 +72,33 @@ div.CompositeProfilAttributeBox {
 div#TopLevelFrame {
 	/* max-width: 600px; */
 	/* min-width: 300px; */
-	/* background: #FFFF99; */
+	background: #FCF6DB;
 	}
  
 
 div#Header {
-	/* margin: 5px; */
-	/* background: #EAEAEC; */
+	background:#FCF6DB;
+	background-size: 100%;
+
 }
 
 div#Navigator {
-	/* max-height: 300px; */
-	/* overflow:scroll; */
 	text-align: left;
-	padding: 1em 1em;
-	/* background: #FFFF99; */
-	border-top: 1px dashed #235AFF;
-	border-bottom: 1px dashed #235AFF;
-	
+	padding: 1em 1em;	
 	
 }
 
 div#wrapper {
-	/* background-color: lightblue; */
-	width: 711px;
+	width: 900px;
+	height: 540px;
 }
 
 div#Menu {
-	/* background-color: yellow; */
 	width: 210px;
-	float:left;
-	padding-top: 100px;
+	height: 540px;
+	float: left;
+	padding-left:10px;
+	margin-left: 5px;
 }
 
 div#Details {
@@ -112,7 +108,7 @@ div#Details {
 	font-family: Helvetica;
 	font-size: smaller;
 	/* background-color: green; */
-	margin-left: 200px;
+	margin-left: 240px;
 	width: 500px;
 }
 
@@ -123,10 +119,44 @@ div#Trailer {
 	/* border-top: 1px dashed silver; */
 	font-size: 80%;
 	text-align: center;
-	/* background: #FFCCCC; */
-	border-top: 1px dashed #235AFF;
-	border-bottom: 1px dashed #235AFF;
+	background-color: white;
+	background-size: 100%;
+  	font-weight: bold;
 }
+
+button.gwt-Button {
+  width: 110px;
+  height: 60px;
+  float: left;
+  padding: 10px 7px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  color: #FEFCDE;
+  text-decoration: none;
+  cursor: pointer;
+  font-size:small;
+  border:none;
+  border-radius: 5px;
+}
+
+select.prof-attrib-listbox {
+	width: 150px;
+	height: 25px;
+	
+}
+.gwt-HTML {
+    color: gray;
+    font-weight: normal;
+ 
+}
+/* Einstellung für die Überschrift, kann hier nicht eingefügt werden!
+ * element.style {
+    vertical-align: top;
+    font-size: large;
+    font-weight: bold;
+    font-family: Vivaldi;
+}
+*/
 
 /**
 	Ab hier: Alte Deklarationen. Kï¿½nnen ggf. gelï¿½scht werden.
