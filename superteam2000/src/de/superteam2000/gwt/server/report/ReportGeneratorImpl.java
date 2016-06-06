@@ -134,24 +134,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		// zu befüllenden Report erstellen
 		AllProfilesReport result = new AllProfilesReport();
 
-
-		//
-		//		// mit Inhalt befüllen
+		// mit Inhalt befüllen
 		result.setTitle("Alle Profile anzeigen Report");
 		result.setCreated(new Date());
-		//
-		//		CompositeParagraph header = new CompositeParagraph();
-		//		CompositeParagraph imprint = new CompositeParagraph();
-		//		header.addSubParagraph(new SimpleParagraph("Test"));
-		//		header.addSubParagraph(new SimpleParagraph("Test"));
-		//		imprint.addSubParagraph(new SimpleParagraph("Test2"));
-		//		imprint.addSubParagraph(new SimpleParagraph("Test2"));
-		//
-		//		// Kopfzeile der Tabelle erstellen
-		//		Row headline = new Row();
-		//
-		//		headline.addColumn(new Column("Vorname"));
-		//		headline.addColumn(new Column("Nachname"));
 
 		// Hinzufügen der Kopfzeile
 		// result.addRow(headline);
@@ -172,14 +157,56 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	@Override
 	public AllNotVisitedProfileReport createAllNotVisitedProfileReport(Profil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		if (this.administration == null) {
+			return null;
+		}
+
+		// zu befüllenden Report erstellen
+		AllNotVisitedProfileReport result = new AllNotVisitedProfileReport();
+
+		//		// mit Inhalt befüllen
+		result.setTitle("Alle Profile anzeigen Report");
+		result.setCreated(new Date());
+		
+		// Hinzufügen der Kopfzeile
+		// result.addRow(headline);
+
+		// alle Profile abfragen
+		ArrayList<Profil> profile = this.administration.getAllNotVisitedProfilesByAehnlichkeitsmass(p);
+
+		for (Profil profil : profile) {
+			result.addSubReport(this.createProfilReport(profil));
+
+		}
+
+		return result;
 	}
 
 	@Override
 	public AllNewProfileReport createAllNewProfilesReport(Profil p) {
-		// TODO Auto-generated method stub
-		return null;
+		if (this.administration == null) {
+			return null;
+		}
+
+		// zu befüllenden Report erstellen
+		AllNewProfileReport result = new AllNewProfileReport();
+
+		//		// mit Inhalt befüllen
+		result.setTitle("Alle Profile anzeigen Report");
+		result.setCreated(new Date());
+		
+		// Hinzufügen der Kopfzeile
+		// result.addRow(headline);
+
+		// alle Profile abfragen
+		ArrayList<Profil> profile = this.administration.getAllNewProfilesByAehnlichkeitsmass(p);
+		
+		for (Profil profil : profile) {
+			result.addSubReport(this.createProfilReport(profil));
+
+		}
+
+		return result;
 	}
 
 	@Override
