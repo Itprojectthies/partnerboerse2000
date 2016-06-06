@@ -103,11 +103,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	//void getEigenschaftsNameById(int id, AsyncCallback<String> callback);
 
-<<<<<<< HEAD
-	//void createInfosFor(Map<Integer, Info> infos, AsyncCallback<Void> callback);
-
-=======
->>>>>>> refs/heads/master
 	void getAuswahlProfilAttributByName(String name, AsyncCallback<Auswahl> callback);
 
 	void getBeschreibungProfilAttributByName(String name, AsyncCallback<Beschreibung> callback);

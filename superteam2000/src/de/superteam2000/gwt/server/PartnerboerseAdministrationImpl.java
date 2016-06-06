@@ -310,13 +310,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			}			
 		}
 		
-		for(Profil aktProfil: alleProfile){
+		for(Profil aktProfil: neueProfile){
 			int f = this.berechneAehnlichkeit(p, aktProfil);
 			aktProfil.setAehnlichkeit(f);
 		
 		}
 		
-        Collections.sort(alleProfile, new Comparator<Profil>() {
+        Collections.sort(neueProfile, new Comparator<Profil>() {
 
 			@Override
 			public int compare(Profil p1, Profil p2) {
@@ -446,6 +446,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException {
 
 		Merkzettel m = mMapper.findAllForProfil(profil);
+		Kontaktsperre k = kMapper.findAllForProfil(profil);
+		ArrayList<Profil> mListe = m.getGemerkteProfile();
+		ArrayList<Profil> kListe = k.getGesperrteProfile();
+		
+		for(Profil p: kListe){
+			if(mListe.contains(p)){
+				mListe.remove(p);
+			}
+		}
+		
 		return m;
 	}
 
@@ -477,7 +487,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.beschrMapper.findByKey(id);
 	}
 
-	@Override
 	public String getEigenschaftsNameById(int id) throws IllegalArgumentException {
 		if (this.beschrMapper.findByKey(id) != null) {
 			Beschreibung b = this.beschrMapper.findByKey(id);

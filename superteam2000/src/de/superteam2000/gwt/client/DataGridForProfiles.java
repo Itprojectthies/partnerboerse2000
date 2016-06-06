@@ -240,13 +240,14 @@ public class DataGridForProfiles extends BasicFrame {
 				ClientsideSettings.getPartnerboerseVerwaltung().createSperre(ClientsideSettings.getCurrentUser(),
 						selected, new AsyncCallback<Void>() {
 
-					@Override
-					public void onSuccess(Void result) {
-						RootPanel.get("rechts").clear();
-						DataGridForProfiles d = new DataGridForProfiles(profilListe);
-						RootPanel.get("rechts").add(d);
-						// Window.alert("Profil gesperrt!");
-					}
+							@Override
+							public void onSuccess(Void result) {
+								RootPanel.get("rechts").clear();
+								profilListe.remove(selected);
+								DataGridForProfiles d = new DataGridForProfiles(profilListe);
+								RootPanel.get("rechts").add(d);
+								// Window.alert("Profil gesperrt!");
+							}
 
 					@Override
 					public void onFailure(Throwable caught) {

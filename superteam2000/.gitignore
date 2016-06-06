@@ -41,6 +41,8 @@ proguard/
 # gwt caches and compiled units #
 war/gwt_bree/
 gwt-unitCache/
+war/superteam2000/
+war/reportgen/
 
 # boilerplate generated classes #
 .apt_generated/

@@ -124,6 +124,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public ArrayList<Profil> getAllNewProfilesByAehnlichkeitsmass(Profil p);
 
+	//public String getEigenschaftsNameById(int id) throws IllegalArgumentException;
+
 
 
 	// Suchprofil
