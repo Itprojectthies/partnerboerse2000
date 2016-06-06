@@ -4,11 +4,11 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.superteam2000.gwt.client.gui.CustomerForm;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 
@@ -19,8 +19,7 @@ public class Superteam2000 implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		
-	
+
 		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 		pbVerwaltung.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback());
 
@@ -43,10 +42,7 @@ public class Superteam2000 implements EntryPoint {
 
 		@Override
 		public void onSuccess(Profil result) {
-			// alternativ kann auch result.getReligion().equals("") verwendet
-			// werden
-			// um zu schauen, ob das
-			// zurückgegeben profil objekt in der datenbank existiert oder nicht
+			
 
 			// User eingeloggt und nicht in der db vorhanden?
 			if (result.isLoggedIn() && !result.isCreated()) {
@@ -71,6 +67,7 @@ public class Superteam2000 implements EntryPoint {
 				signInLink.setHref(result.getLoginUrl());
 				loginPanel.add(loginLabel);
 				loginPanel.add(signInLink);
+				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(loginPanel);
 
 			}
@@ -78,32 +75,31 @@ public class Superteam2000 implements EntryPoint {
 
 		private void profilErstellen() {
 
-			// NavigationBar.load();
+			Navbar nb = new Navbar();
+			RootPanel.get("Navigator").clear();
+			RootPanel.get("Navigator").add(nb);
+			
 			RootPanel.get("Details").add(new Home());
 
-			CustomerForm cf = new CustomerForm();
-			VerticalPanel detailsPanel = new VerticalPanel();
-			detailsPanel.add(cf);
-
-			 RootPanel.get("Details").add(detailsPanel);
+			CreateProfil cf = new CreateProfil();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(cf);
 
 		}
 
 		private void loadProfil() {
 
-//			NavigationBar nb = new NavigationBar();
-//			RootPanel.get("Navigator").add(nb);
 			Navbar nb = new Navbar();
-			RootPanel.get("Navigator").add(nb);
 			
+			RootPanel.get("Navigator").clear();
+			RootPanel.get("Navigator").add(nb);
+			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(new Home());
-
-			//ShowProfil fc = new ShowProfil();
-			ShowProfil sep = new ShowProfil();
-			VerticalPanel detailsPanel = new VerticalPanel();
-			detailsPanel.add(sep);
-
-			RootPanel.get("Details").add(detailsPanel);
+			
+			ShowProfil sp = new ShowProfil();
+			FlowPanel fp = new FlowPanel();
+			fp.add(sp);
+			RootPanel.get("Details").add(fp);
 
 		}
 	}

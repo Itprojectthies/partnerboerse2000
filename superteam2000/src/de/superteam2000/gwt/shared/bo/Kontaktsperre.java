@@ -1,8 +1,12 @@
 package de.superteam2000.gwt.shared.bo;
 
+import java.util.ArrayList;
+
 public class Kontaktsperre extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
+	
+	private ArrayList<Profil> gesperrteProfile = new ArrayList<>();
 
 	private int gesperrterId = 0;
 	private int sperrerId = 0;
@@ -21,6 +25,18 @@ public class Kontaktsperre extends BusinessObject {
 
 	public void setSperrerId(int sperrerId) {
 		this.sperrerId = sperrerId;
+	}
+
+	public ArrayList<Profil> getGesperrteProfile() {
+		return gesperrteProfile;
+	}
+
+	public void setGesperrteProfile(ArrayList<Profil> gesperrteProfile) {
+		this.gesperrteProfile = gesperrteProfile;
+	}
+	
+	public void addGesperrtesProfil(Profil p){
+		this.gesperrteProfile.add(p);
 	}
 
 }

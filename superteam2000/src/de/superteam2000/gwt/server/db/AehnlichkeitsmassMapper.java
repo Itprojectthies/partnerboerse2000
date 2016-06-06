@@ -54,9 +54,5 @@ public class AehnlichkeitsmassMapper {
 		return aehnlichkeitsmassMapper;
 	}
 
-	// public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil p){
-	// //soll ganz of die Methode von Aehnlichkeitsmass aufrufen
-	// return allProfilesSortedByAehnlichkeitsmass ArrayList<Profil> ;
-	// }
 
 }

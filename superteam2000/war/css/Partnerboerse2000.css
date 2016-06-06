@@ -21,9 +21,42 @@ h1 {
     margin-bottom: 0px;+*/
   
 }
+table.fremdProfilAnzeigen td{
+	
+    border-bottom: 1px ridge lightgreen;
+    text-align: left;
 
+select.profil-attribute-listbox {
+    width: 120px;
+}
+.gwt-ListBox {
+	width: 120px;
+}
+
+
+.flexTable td {
+   /* border: 1px solid #BBBBBB; */
+   padding: 3px;
+}
+
+.flexTable-buttonPanel td {
+   border: 0px;
+}
+
+.fixedWidthButton {
+   width: 150px;
+}
+
+
+    width: 80%;
+}
 #logDialogBox td {
 	border-bottom: dashed 1px #e1e1e1;
+}
+
+div.CompositeProfilAttributeBox {
+	text-align: left;
+	margin-bottom: 1em;
 }
 
 
@@ -100,8 +133,8 @@ div#Navigator {
 	text-align: left;
 	padding: 1em 1em;
 	/* background: #FFFF99; */
-	border-top: 1px dashed #235AFF;
-	border-bottom: 1px dashed #235AFF;
+	/*border-top: 1px dashed #235AFF; */
+	border-bottom: 2px ridge lightgreen;
 	
 	
 }
@@ -113,17 +146,33 @@ div#wrapper {
 
 div#Menu {
 	/* background-color: yellow; */
+<<<<<<< HEAD
 	width: 960px;
 	height: 55px;
 	margin: 0 auto;
+=======
+	width: 115px;
+	float:left;
+	padding-top: 20px;
+>>>>>>> refs/remotes/origin/master
 }
+
+div#rechts {
+	/*float: right;*/
+}
+
 
 div#Details {
 	padding: 1em 1em;
 	text-align: center;
 	font-family: Helvetica;
 	font-size: smaller;
+<<<<<<< HEAD
 	margin-left: 200px;
+=======
+	/* background-color: green; */
+	margin-left: 120px;
+>>>>>>> refs/remotes/origin/master
 	width: 500px;
 }
 
@@ -132,11 +181,24 @@ div#Trailer {
 	padding: 15px 0 0 0;
 	color: #fff;
 	clear: both;
+<<<<<<< HEAD
 	margin: 0 auto;
 	font-size: 80%;
+=======
+	padding: 10px 0;
+	/* margin: 0 auto; */      /* standardkonforme horizontale Zentrierung */
+	/* border-top: 1px dashed silver; */
+	font-size: 100%;
+>>>>>>> refs/remotes/origin/master
 	text-align: center;
+<<<<<<< HEAD
 	border-top: 1px dashed #235AFF;
 	border-bottom: 1px dashed #235AFF;
+=======
+	/* background: #FFCCCC; */
+	border-top: 2px ridge lightgreen;
+	/*border-bottom: 1px dashed #235AFF;*/
+>>>>>>> refs/remotes/origin/master
 }
 
 /**

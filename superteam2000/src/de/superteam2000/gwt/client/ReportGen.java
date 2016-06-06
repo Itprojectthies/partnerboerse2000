@@ -1,17 +1,16 @@
 package de.superteam2000.gwt.client;
 
-
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.i18n.shared.DateTimeFormat;
 
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.ReportGeneratorAsync;
@@ -39,27 +38,39 @@ public class ReportGen implements EntryPoint {
 
 		RootPanel.get("Details").add(profilAnzeigenButton);
 		RootPanel.get("Details").add(alleProfileAnzeigenButton);
-		
-		
-		
-		
-		pb.getProfilById(23, new AsyncCallback<Profil>() {
+
+		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+		pbVerwaltung.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback());
+
+	}
+
+
+
+
+	/**
+	 * Asynchrone Anmelde-Klasse. Showcase in dem die Antwort des Callbacks
+	 * eingefügt wird.
+	 * 
+	 * @author Volz, Funke
+	 *
+	 */
+	class LoginCallback implements AsyncCallback<Profil> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+
+			ClientsideSettings.getLogger().severe("Login fehlgeschlagen!");
+	}
+
+		@Override
+		public void onSuccess(Profil result) {
 			
-			@Override
-			public void onSuccess(Profil result) {
-				p = result;
-				
+			p = result;
+			
+			if(reportGenerator == null){
+				reportGenerator = ClientsideSettings.getReportGenerator();
 			}
 			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		if (reportGenerator == null) {
-			reportGenerator = ClientsideSettings.getReportGenerator();
-		}
 
 		pb.getAllProfiles(new AsyncCallback<ArrayList<Profil>>() {
 
@@ -67,7 +78,7 @@ public class ReportGen implements EntryPoint {
 			public void onSuccess(ArrayList<Profil> result) {
 				if (result != null) {
 					profile = result;
-					ClientsideSettings.getLogger().severe("async callback get all profiles");
+					ClientsideSettings.getLogger().info("async callback get all profiles");
 				}
 			}
 
@@ -78,24 +89,32 @@ public class ReportGen implements EntryPoint {
 			}
 		});
 
-		/**
-		 * ClickHandler der onClick alle Profile der Partnerbörse ausgibt
-		 */
-		alleProfileAnzeigenButton.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
 
-				reportGenerator.createAllProfilesReport(new AsyncCallback<AllProfilesReport>() {
+			/**
+			 * ClickHandler der onClick alle Profile der Partnerbörse ausgibt
+			 */
+			alleProfileAnzeigenButton.addClickHandler(new ClickHandler() {
 
+				@Override
+				public void onClick(ClickEvent event) {
+					ClientsideSettings.getLogger().info("onClick Methode aufgerufen");
+
+					reportGenerator.createAllProfilesReport(new AsyncCallback<AllProfilesReport>() {
+
+								
+								
+							
 					@Override
 					public void onSuccess(AllProfilesReport result) {
+						ClientsideSettings.getLogger().info("onSuccess AllprofilesReport");
 						if (result != null) {
 						RootPanel.get("Details").clear();
 						HTMLReportWriter writer = new HTMLReportWriter();
 						writer.process(result);
 						RootPanel.get("Details").add(new HTML(writer.getReportText()));
 						//
+
 						}
 					}
 
@@ -105,6 +124,7 @@ public class ReportGen implements EntryPoint {
 
 					}
 				});
+
 
 			}
 		});
@@ -125,16 +145,19 @@ public class ReportGen implements EntryPoint {
 		// }
 		// });
 
+
+
 		profilAnzeigenButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				ClientsideSettings.getLogger().info("onClick profilAnzeigenButton");
 				reportGenerator.createProfilReport(p, new createProfilReportCallback());
 
 			}
 		});
-
-	}
+			
+		}
 
 }
 
@@ -142,13 +165,15 @@ class createProfilReportCallback implements AsyncCallback<ProfilReport> {
 
 	@Override
 	public void onFailure(Throwable caught) {
-		// TODO Auto-generated method stub
+		ClientsideSettings.getLogger().info(caught.toString());
 
 
 	}
 
+		
 	@Override
 	public void onSuccess(ProfilReport report) {
+	if(report != null){	ClientsideSettings.getLogger().info("report != null" );}
 
 		if (report != null) {
 			HTMLReportWriter writer = new HTMLReportWriter();
@@ -160,4 +185,4 @@ class createProfilReportCallback implements AsyncCallback<ProfilReport> {
 		}
 	}
 
-}
+} }

@@ -40,6 +40,6 @@ public abstract class ReportWriter {
 	public abstract void process(AllNewProfileReport r);
 	
 	public abstract void process(AllProfilesReport r);
-	
+
 
 }

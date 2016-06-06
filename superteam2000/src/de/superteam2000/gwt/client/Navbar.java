@@ -1,20 +1,22 @@
 package de.superteam2000.gwt.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.superteam2000.gwt.client.gui.CustomerForm;
 import de.superteam2000.gwt.shared.bo.Profil;
 
 public class Navbar extends HorizontalPanel {
 	
+	@Override
 	public void onLoad() {
 		/*
 		 * Bevor wir unsere eigene Formatierung veranslassen, überlassen wir es
@@ -54,21 +56,19 @@ public class Navbar extends HorizontalPanel {
 			});
 			append(logoutBtn);
 			
-			Button logBtn = new Button("Loger");
-			// hp.add(logoutBtn);
-			logBtn.addClickHandler(new ClickHandler() {
+//			Button logBtn = new Button("Logger");
+//			logBtn.addClickHandler(new ClickHandler() {
+//
+//				@Override
+//				public void onClick(ClickEvent event) {
+//					
+//					LogConsole.getDialogBox().show();
+//					
+//				}
+//			});
+//			append(logBtn);
 
-				@Override
-				public void onClick(ClickEvent event) {
-					
-					LogConsole.getDialogBox().show();
-					
-				}
-			});
-			append(logBtn);
-
-			Button profilBtn = new Button("Profil");
-//			hp.add(profilBtn);
+			final Button profilBtn = new Button("Profil");
 			profilBtn.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -77,12 +77,12 @@ public class Navbar extends HorizontalPanel {
 					
 					
 
-					//ShowProfil fc = new ShowProfil();
-					ShowProfil sep = new ShowProfil();
-					VerticalPanel detailsPanel = new VerticalPanel();
-					detailsPanel.add(sep);
+					ShowProfil sp = new ShowProfil();
 					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(detailsPanel);				
+					RootPanel.get("Menu").clear();
+					RootPanel.get("rechts").clear();
+					
+					RootPanel.get("Details").add(sp);				
 				}
 			});
 			append(profilBtn);
@@ -94,8 +94,13 @@ public class Navbar extends HorizontalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					Window.alert("Merkliste");
-
+					Merkliste m = new Merkliste();
+					RootPanel.get("Details").clear();
+					RootPanel.get("rechts").clear();
+					RootPanel.get("Menu").clear();
+					RootPanel.get("Details").add(m);
+					
+					
 				}
 			});
 			append(merklisteBtn);
@@ -105,7 +110,11 @@ public class Navbar extends HorizontalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					Window.alert("SPerrliste");
+					Sperre s = new Sperre();
+					RootPanel.get("Details").clear();
+					RootPanel.get("rechts").clear();
+					RootPanel.get("Menu").clear();
+					RootPanel.get("Details").add(s);
 				}
 
 			});
@@ -119,6 +128,8 @@ public class Navbar extends HorizontalPanel {
 					Suche s = new Suche();
 					
 					RootPanel.get("Details").clear();
+					RootPanel.get("rechts").clear();
+					RootPanel.get("Menu").clear();
 					RootPanel.get("Details").add(s);
 				}
 			});
@@ -134,10 +145,43 @@ public class Navbar extends HorizontalPanel {
 					VerticalPanel detailsPanel = new VerticalPanel();
 					detailsPanel.add(e);
 					RootPanel.get("Details").clear();
+					RootPanel.get("rechts").clear();
+					RootPanel.get("Menu").clear();
 					 RootPanel.get("Details").add(detailsPanel);
 				}
 			});
 			append(eigenschaftenBtn);
+			
+			Button dataGridBtn = new Button("Alle Profile");
+			dataGridBtn.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					ClientsideSettings.getPartnerboerseVerwaltung().getProfilesByAehnlichkeitsmass(user, new AsyncCallback<ArrayList<Profil>>() {
+						
+						@Override
+						public void onSuccess(ArrayList<Profil> result) {
+							DataGridForProfiles dgt = new DataGridForProfiles(result);
+							VerticalPanel detailsPanel = new VerticalPanel();
+							detailsPanel.add(dgt);
+							RootPanel.get("Details").clear();
+							RootPanel.get("rechts").clear();
+							RootPanel.get("Menu").clear();
+							RootPanel.get("Details").add(detailsPanel);
+							
+						}
+						
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+							
+						}
+					} );
+
+
+				}
+			});
+			append(dataGridBtn);
 			
 			Button reportButton = new Button("Report");
 			// hp.add(logoutBtn);

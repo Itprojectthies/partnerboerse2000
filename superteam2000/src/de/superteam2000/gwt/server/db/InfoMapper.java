@@ -7,7 +7,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
-import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Info;
 
 /**
@@ -85,7 +84,7 @@ public class InfoMapper {
 			
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs1 = stmt.executeQuery(
-					"SELECT id, Text, Profil_id, Eigenschaft_id FROM Info WHERE Profil_id=" + id);
+					"SELECT id, Text, Profil_id, Eigenschaft_id FROM Info WHERE Profil_id=" + id +" ORDER BY id");
 
 			
 			/*
@@ -182,7 +181,7 @@ public class InfoMapper {
 						
 						// Statement ausfüllen und als Query an die DB schicken
 						ResultSet rs1 = stmt.executeQuery(
-								"SELECT id, Text, Profil_id, Eigenschaft_id FROM Info");
+								"SELECT id, Text, Profil_id, Eigenschaft_id FROM Info ORDER BY id DESC");
 
 						
 						/*
@@ -233,7 +232,7 @@ public class InfoMapper {
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM Info ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM Info ");
 
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
@@ -246,7 +245,7 @@ public class InfoMapper {
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO Info (id, Text, Profil_id, Eigenschaft_id) VALUES (" + i.getId() + ",'"
+				stmt.executeUpdate("INSERT INTO Info (Text, Profil_id, Eigenschaft_id) VALUES ('"
 						+ i.getText() + "'," + i.getProfilId() + "," + i.getEigenschaftId() + ")");
 			}
 		} catch (SQLException e) {
@@ -255,16 +254,6 @@ public class InfoMapper {
 					e.getMessage() + " " + e.getCause() + " ");
 		}
 
-		/*
-		 * Rückgabe, des evtl. korrigierten Profils.
-		 *
-		 * HINWEIS: Da in Java nur Referenzen auf Objekte und keine physischen
-		 * Objekte übergeben werden, wäre die Anpassung des Auswahl-Objekts auch
-		 * ohne diese explizite Rückgabe außerhalb dieser Methode sichtbar. Die
-		 * explizite Rückgabe von a ist eher ein Stilmittel, um zu
-		 * signalisieren, dass sich das Objekt evtl. im Laufe der Methode
-		 * verändert hat.
-		 */
 		return i;
 	}
 
@@ -275,21 +264,22 @@ public class InfoMapper {
 	 *            das Objekt, das in die DB geschrieben werden soll
 	 * @return das als Parameter übergebene Objekt
 	 */
-	public Auswahl update(Auswahl a) {
+	public Info update(Info i) {
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE Eigenschaft SET Name=\"" + a.getName() + "\", Beschreibungstext=\""
-					+ a.getBeschreibungstext() + "\", e_typ=\"a\" WHERE id=" + a.getId());
+			stmt.executeUpdate("UPDATE Info SET Text='"+i.getText()+
+					 "' WHERE Profil_id=" + i.getProfilId() + 
+					 " AND Eigenschaft_id=" + i.getEigenschaftId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		// Um Analogie zu insert(Auswahl a) zu wahren, geben wir a zurück
-		return a;
+		return i;
 	}
 
 	/**
@@ -304,7 +294,7 @@ public class InfoMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM Info " + "WHERE id=" + i.getId());
+			stmt.executeUpdate("DELETE FROM Info WHERE id=" + i.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
