@@ -9,12 +9,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.superteam2000.gwt.client.gui.ProfilAttributeBoxPanel;
@@ -23,7 +20,6 @@ import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
 import de.superteam2000.gwt.shared.bo.Profil;
-import de.superteam2000.gwt.shared.report.CompositeParagraph;
 
 /**
  * Formular für die Darstellung des selektierten Kunden
@@ -74,6 +70,7 @@ public class CreateProfil extends BasicFrame {
 		confirmBtn.addClickHandler(new ConfirmClickHandler());
 
 		RootPanel.get("Details").add(fPanel);
+		
 	}
 
 	private class GetAllBeschreibungProfilAttributeCallBack implements AsyncCallback<ArrayList<Beschreibung>> {

@@ -1,7 +1,10 @@
 package de.superteam2000.gwt.server.db;
 
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
@@ -73,7 +76,8 @@ public class BeschreibungMapper {
 			
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs1 = stmt.executeQuery(
-					"SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE Name=\"" + name + "\" AND e_typ='p_b'");
+					"SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE Name='" 
+					+ name + "' AND e_typ='p_b'");
 
 			
 			/*
@@ -101,7 +105,7 @@ public class BeschreibungMapper {
 	
 	/**
 	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
-	 * ist, wird genau ein Objekt zur�ckgegeben.
+	 * ist, wird genau ein Objekt zurückgegeben.
 	 * 
 	 * @param id
 	 *            Primärschlüsselattribut (->DB)
@@ -163,7 +167,6 @@ public class BeschreibungMapper {
 			
 			// Für jeden Eintrag im Suchergebnis wird nun ein Auswahl-Objekt
 			// erstellt.
-			ClientsideSettings.getLogger().severe("Statement erfolgreich");
 			
 			while (rs1.next()) {
 				Beschreibung b = new Beschreibung();
@@ -203,7 +206,6 @@ public class BeschreibungMapper {
 			
 			// Für jeden Eintrag im Suchergebnis wird nun ein Auswahl-Objekt
 			// erstellt.
-			ClientsideSettings.getLogger().severe("Statement erfolgreich");
 			
 			while (rs1.next()) {
 				Beschreibung b = new Beschreibung();
@@ -290,8 +292,8 @@ public class BeschreibungMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE Eigenschaft SET Name=\"" + b.getName() + "\", Beschreibungstext=\""
-					+ b.getBeschreibungstext() + "\", e_typ=\"a\" WHERE id=" + b.getId());
+			stmt.executeUpdate("UPDATE Eigenschaft SET Name='" + b.getName() + "', Beschreibungstext='"
+					+ b.getBeschreibungstext() + "', e_typ='a' WHERE id=" + b.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -313,7 +315,7 @@ public class BeschreibungMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM Eigenschaft " + "WHERE id=" + b.getId());
+			stmt.executeUpdate("DELETE FROM Eigenschaft WHERE id=" + b.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

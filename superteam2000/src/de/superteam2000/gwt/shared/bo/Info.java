@@ -30,7 +30,7 @@ public class Info extends BusinessObject {
 	}
 
 	@Override
-	public boolean equals(Object object) {
+	public boolean equals (Object object) {
 		boolean result = false;
 		if (object == null || object.getClass() != getClass()) {
 			result = false;

@@ -3,8 +3,6 @@ package de.superteam2000.gwt.shared.report;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.google.gwt.user.client.ui.Widget;
-
 import de.superteam2000.gwt.shared.bo.Profil;
 
 /**

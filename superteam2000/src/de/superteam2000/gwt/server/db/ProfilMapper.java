@@ -1,10 +1,13 @@
 package de.superteam2000.gwt.server.db;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
-import de.superteam2000.gwt.shared.bo.*;
+import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
  * Mapper-Klasse, die <code>Profil</code>-Objekte auf eine relationale Datenbank
@@ -64,10 +67,9 @@ public class ProfilMapper {
 
 	/**
 	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
-	 * ist, wird genau ein Objekt zur�ckgegeben.
+	 * ist, wird genau ein Objekt zurückgegeben.
 	 * 
-	 * @param id
-	 *            Primärschlüsselattribut (->DB)
+	 * @param id Primärschlüsselattribut (->DB)
 	 * @return Kunden-Objekt, das dem übergebenen Schlüssel entspricht, null bei
 	 *         nicht vorhandenem DB-Tupel.
 	 */
@@ -81,9 +83,9 @@ public class ProfilMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht, Geburtsdatum FROM Profil "
-					
-							+ "WHERE id=" + id + " ORDER BY Nachname");
+					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, "
+					+ "Raucher, Religion, Geschlecht, Geburtsdatum, Erstelldatum FROM Profil "
+					+ "WHERE id=" + id );
 
 			/*
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -98,11 +100,11 @@ public class ProfilMapper {
 				p.setEmail(rs.getString("Email"));
 				p.setHaarfarbe(rs.getString("Haarfarbe"));
 				p.setGeburtsdatum(rs.getDate("Geburtsdatum"));
+				p.setErstelldatum(rs.getTimestamp("Erstelldatum"));
 				p.setGroesse(rs.getInt("Koerpergroesse"));
 				p.setRaucher(rs.getString("Raucher"));
 				p.setReligion(rs.getString("Religion"));
 				p.setGeschlecht(rs.getString("Geschlecht"));
-				p.setGeburtsdatum(rs.getDate("Geburtsdatum"));
 
 				return p;
 			}
@@ -116,7 +118,7 @@ public class ProfilMapper {
 
 	/**
 	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
-	 * ist, wird genau ein Objekt zur�ckgegeben.
+	 * ist, wird genau ein Objekt zurückgegeben.
 	 * 
 	 * @param email
 	 *            Primärschlüsselattribut (->DB)
@@ -133,14 +135,9 @@ public class ProfilMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, Vorname, Nachname, Email, Geburtsdatum, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht FROM Profil "
-							+ "WHERE Email LIKE '" + email + "'");
-
-			/*
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-			 * werden. Prüfe, ob ein Ergebnis vorliegt.
-			 */
-
+					"SELECT id, Vorname, Nachname, Email, Geburtsdatum, Erstelldatum, Haarfarbe, "
+					+ "Koerpergroesse, Raucher, Religion, Geschlecht FROM Profil "
+					+ "WHERE Email LIKE '" + email + "'");
 
 			if (rs.next()) {
 				// Ergebnis-Tupel in Objekt umwandeln
@@ -150,6 +147,7 @@ public class ProfilMapper {
 				p.setNachname(rs.getString("Nachname"));
 				p.setEmail(rs.getString("Email"));
 				p.setGeburtsdatum(rs.getDate("Geburtsdatum"));
+				p.setErstelldatum(rs.getTimestamp("Erstelldatum"));
 				p.setHaarfarbe(rs.getString("Haarfarbe"));
 				p.setGroesse(rs.getInt("Koerpergroesse"));
 				p.setRaucher(rs.getString("Raucher"));
@@ -157,7 +155,6 @@ public class ProfilMapper {
 				p.setGeschlecht(rs.getString("Geschlecht"));
 				p.setCreated(true);
 
-				ClientsideSettings.getLogger().severe("User byEmail zurückgegeben");
 				return p;
 			}
 		} catch (SQLException e) {
@@ -173,7 +170,7 @@ public class ProfilMapper {
 	 * Auslesen aller Kunden.
 	 * 
 	 * @return Ein Vektor mit Profil-Objekten, die sämtliche Kunden
-	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gef�llter
+	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gefüllter
 	 *         oder ggf. auch leerer Vetor zurückgeliefert.
 	 */
 	public ArrayList<Profil> findAll() {
@@ -185,8 +182,9 @@ public class ProfilMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht, Geburtsdatum "
-							+ "FROM Profil ORDER BY Nachname");
+					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, "
+					+ "Raucher, Religion, Geschlecht, Geburtsdatum , Erstelldatum"
+					+ " FROM Profil");
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Profil-Objekt
 			// erstellt.
@@ -204,20 +202,20 @@ public class ProfilMapper {
 				p.setReligion(rs.getString("Religion"));
 				p.setGeschlecht(rs.getString("Geschlecht"));
 				p.setGeburtsdatum(rs.getDate("Geburtsdatum"));
-
+				p.setErstelldatum(rs.getTimestamp("Erstelldatum"));
+				
 				// Hinzufügen des neuen Objekts zum Ergebnisvektor
 				result.add(p);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
-					e.getMessage() + " " + e.getCause() + " ");
+			ClientsideSettings.getLogger()
+					.severe("Fehler beim schreiben in die DB" + e.getMessage() + " " + e.getCause() + " ");
 		}
 
 		// Ergebnisvektor zurückgeben
 		return result;
 	}
-
 
 	/**
 	 * Einfügen eines <code>Profil</code>-Objekts in die Datenbank. Dabei wird
@@ -231,7 +229,6 @@ public class ProfilMapper {
 	 */
 	public Profil insert(Profil p) {
 		Connection con = DBConnection.connection();
-		ClientsideSettings.getLogger().info("Profil " +p.getEmail() + " in DB schreiben");
 		try {
 			Statement stmt = con.createStatement();
 
@@ -253,58 +250,49 @@ public class ProfilMapper {
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
 				stmt.executeUpdate("INSERT INTO Profil (id, Vorname, Nachname, Email, "
-						+ "Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht, Geburtsdatum) " + "VALUES ("
-						+ p.getId() + ",'" + p.getVorname() + "','" + p.getNachname() + "','" + p.getEmail() + "','"
-						+ p.getHaarfarbe() + "'," + p.getGroesse() + ",'" + p.getRaucher() + "','" + p.getReligion()
+						+ "Haarfarbe, Koerpergroesse, Raucher, Religion, Geschlecht, "
+						+ "Geburtsdatum) VALUES ("+ p.getId() + ",'" + p.getVorname() + 
+						"','" + p.getNachname() + "','" + p.getEmail() + "','"
+						+ p.getHaarfarbe() + "'," + p.getGroesse() + ",'" 
+						+ p.getRaucher() + "','" + p.getReligion()
 						+ "','" + p.getGeschlecht() + "','" + p.getGeburtsdatum() + "')");
 
-				ClientsideSettings.getLogger().info("Profil " +p.getEmail() + " in DB geschrieben");
-
+				ClientsideSettings.getLogger().info("Profil " + p.getNachname() + "  in DB geschrieben");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
-					e.getMessage() + " " + e.getCause() + " ");
+			ClientsideSettings.getLogger()
+					.severe("Fehler beim schreiben in die DB" + e.getMessage() + " " + e.getCause() + " ");
 		}
 
-		/*
-		 * Rückgabe, des evtl. korrigierten Profils.
-		 * 
-		 * HINWEIS: Da in Java nur Referenzen auf Objekte und keine physischen
-		 * Objekte übergeben werden, wäre die Anpassung des Profil-Objekts auch
-		 * ohne diese explizite Rückgabe außerhalb dieser Methode sichtbar. Die
-		 * explizite Rückgabe von p ist eher ein Stilmittel, um zu
-		 * signalisieren, dass sich das Objekt evtl. im Laufe der Methode
-		 * verändert hat.
-		 */
 		return p;
 	}
 
 	/**
 	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
 	 * 
-	 * @param p
-	 *            das Objekt, das in die DB geschrieben werden soll
+	 * @param p das Objekt, das in die DB geschrieben werden soll
 	 * @return das als Parameter übergebene Objekt
 	 */
 	public Profil update(Profil p) {
 		Connection con = DBConnection.connection();
-		ClientsideSettings.getLogger().info("Versuche Änderungen in DB geschrieben");
 		// Jetzt erst erfolgt die tatsächliche Einfügeoperation
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE Profil SET Vorname=\"" + p.getVorname() + "\", Nachname=\""
-					+ p.getNachname() + "\", Haarfarbe=\"" + p.getHaarfarbe() + "\", Koerpergroesse="
-					+ p.getGroesse() + ", Raucher=\"" + p.getRaucher() + "\", Religion=\"" + p.getReligion()
-					+ "\", Geburtsdatum=\"" + p.getGeburtsdatum() + "\" WHERE id=" + p.getId());
+			stmt.executeUpdate("UPDATE Profil SET Vorname='" + p.getVorname() + 
+					"', Nachname='" + p.getNachname()+ "', Haarfarbe='" 
+					+ p.getHaarfarbe() + "', Koerpergroesse=" + p.getGroesse() + 
+					", Raucher='" + p.getRaucher() + "', Religion='" 
+					+ p.getReligion() + "', Geburtsdatum='" + p.getGeburtsdatum()
+					+ "' WHERE id=" + p.getId());
 
-			ClientsideSettings.getLogger().info("Profil " +p.getEmail() + " Änderungen in DB geschrieben");
+			ClientsideSettings.getLogger().info("Profiländerungen " + p.getNachname() + " in DB geschrieben");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
-					e.getMessage() + " " + e.getCause() + " ");
+			ClientsideSettings.getLogger()
+					.severe("Fehler beim schreiben in die DB" + e.getMessage() + " " + e.getCause() + " ");
 
 		}
 
@@ -319,112 +307,73 @@ public class ProfilMapper {
 	 *            das aus der DB zu löschende "Objekt"
 	 */
 	public void delete(Profil p) {
-		//TODO: alle FK beziehnungen löschen bevor profil löschen
-		
+
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate("DELETE FROM Info WHERE Profil_id=" + p.getId());
 			stmt.executeUpdate("DELETE FROM Profil WHERE id=" + p.getId());
-			
+			ClientsideSettings.getLogger().info("Profil " + p.getNachname() + "  aus DB gelöscht");
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB: " + 
-					e.getMessage() + " " + e.getCause() + " ");
+			ClientsideSettings.getLogger()
+					.severe("Fehler beim schreiben in die DB: " 
+					+ e.getMessage() + " " + e.getCause() + " ");
 		}
 	}
 
 	// soll in Besuchertabelle schreiben wann wer wen besucht hat. und eine
-	// die beiden Id's setzen(vom Besucher und  vom Besuchten)
+	// die beiden Id's setzen(vom Besucher und vom Besuchten)
 	public void setVisited(Profil besucher, Profil besuchter) {
-		
 
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			
-		stmt.execute("INSERT IGNORE INTO Profilbesuch SET Besucher_id = "+besucher.getId()+ " , Besuchter_id = "+ besuchter.getId());
-	//		stmt.executeUpdate("REPLACE INTO Profilbesuch (Besucher_id, Besuchter_id) VALUES ("
-		//			+ besucher.getId() + "," + besuchter.getId() + ")");
-
+			stmt.execute("INSERT IGNORE INTO Profilbesuch SET Besucher_id = "
+					+ besucher.getId() + " , Besuchter_id = "+ besuchter.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
-					e.getMessage() + " " + e.getCause() + " ");
+			ClientsideSettings.getLogger()
+					.severe("Fehler beim schreiben in die DB " + e.getMessage() + " " + e.getCause() + " ");
 		}
 
 	}
 
 	// soll eine Liste mit allen Profilen returnen wo ein timestamp drin is
-	 public ArrayList<Profil> getVisitedProfiles(Profil a){
-		 
-		 Connection con = DBConnection.connection();
-			// Ergebnisvektor vorbereiten
-			ArrayList<Profil> result = new ArrayList<>();
+	public ArrayList<Profil> getVisitedProfiles(Profil a) {
 
-			try {
-				Statement stmt = con.createStatement();
+		Connection con = DBConnection.connection();
+		// Ergebnisvektor vorbereiten
+		ArrayList<Profil> result = new ArrayList<>();
 
-				ResultSet rs = stmt.executeQuery(
-						"SELECT Besuchter_id "
-								+ "FROM Profilbesuch WHERE Besucher_id=" + a.getId());
-				
-				// Für jeden Eintrag im Suchergebnis wird nun ein Profil-Objekt
-				// erstellt.
-				ClientsideSettings.getLogger().severe("Statement ausgeführt");
-				while (rs.next()) {
-					// Ergebnis-Tupel in Objekt umwandeln
-					
-					Profil p = new Profil();
-					p = ProfilMapper.findByKey(rs.getInt("Besuchter_id"));
+		try {
+			Statement stmt = con.createStatement();
 
-					// Hinzufügen des neuen Objekts zum Ergebnisvektor
-					result.add(p);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-				ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
-						e.getMessage() + " " + e.getCause() + " ");
+			ResultSet rs = stmt.executeQuery("SELECT Besuchter_id FROM Profilbesuch WHERE Besucher_id=" + a.getId());
+
+			// Für jeden Eintrag im Suchergebnis wird nun ein Profil-Objekt
+			// erstellt.
+			while (rs.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln
+
+				Profil p = new Profil();
+				p = ProfilMapper.findByKey(rs.getInt("Besuchter_id"));
+
+				// Hinzufügen des neuen Objekts zum Ergebnisvektor
+				result.add(p);
 			}
-		 
-	 return result;
-	 }
-
-	 
-	 public String findSelectionByName(String name, int id) {
-			// DB-Verbindung holen
-			Connection con = DBConnection.connection();
-			String result = "";
-			try {
-				// Leeres SQL-Statement (JDBC) anlegen
-				Statement stmt = con.createStatement();
-
-				// Statement ausfüllen und als Query an die DB schicken
-				ResultSet rs = stmt.executeQuery(
-						"SELECT " + name + " FROM Profil "
-								+ "WHERE id=" + id);
-
-				/*
-				 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-				 * werden. Prüfe, ob ein Ergebnis vorliegt.
-				 */
-				if (rs.next()) {
-					// Ergebnis-Tupel in Objekt umwandeln
-					result = rs.getString(name);
-					
-
-					return result;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-				return null;
-			}
-
-			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ClientsideSettings.getLogger()
+					.severe("Fehler beim schreiben in die DB " + e.getMessage() + " " + e.getCause() + " ");
 		}
-	 
+
+		return result;
+	}
+
 }

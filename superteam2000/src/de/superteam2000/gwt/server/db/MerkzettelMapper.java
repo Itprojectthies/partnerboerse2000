@@ -6,9 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import org.apache.bcel.classfile.PMGClass;
-
-import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.bo.Merkzettel;
 import de.superteam2000.gwt.shared.bo.Profil;
 
@@ -84,8 +81,8 @@ public class MerkzettelMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT `Gemerkter_id` "
-					+ "FROM `merkzettel`" +" WHERE `Merker_id`=" + p.getId());
+			ResultSet rs = stmt.executeQuery("SELECT Gemerkter_id "
+					+ "FROM Merkzettel WHERE Merker_id=" + p.getId());
 			result.setMerkerId(p.getId());
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Merkzettel-Objekt
@@ -124,7 +121,7 @@ public class MerkzettelMapper {
 			Statement stmt = con.createStatement();
 			// Jetzt erst erfolgt die tatsächliche Einfügeoperation
 
-			stmt.execute("INSERT INTO `merkzettel`( `Gemerkter_id`, `Merker_id`)" 
+			stmt.execute("INSERT INTO Merkzettel(Gemerkter_id, Merker_id)" 
 			+ "VALUES ("+gemerkter.getId()+"," + merker.getId()+  ")");
 			Merkzettel m = new Merkzettel();
 
@@ -155,8 +152,8 @@ public class MerkzettelMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM merkzettel WHERE Merker_id=" +
-			entferner.getId()+ " AND Gemerkter_id=" + entfernter.getId()  );
+			stmt.executeUpdate("DELETE FROM Merkzettel WHERE Merker_id=" +
+			entferner.getId()+ " AND Gemerkter_id=" + entfernter.getId());
 		}
 		catch (SQLException e) {
 			e.printStackTrace();

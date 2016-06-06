@@ -1,5 +1,6 @@
 package de.superteam2000.gwt.shared.bo;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import de.superteam2000.gwt.client.gui.DateTimeFormat;
@@ -14,7 +15,7 @@ public class Profil extends BusinessObject {
 	private String vorname = "";
 	private String email = "";
 	private Date geburtsdatum = null;
-	private Date erstelldatum = null;
+	private Timestamp erstelldatum = null;
 	private String haarfarbe  = "";
 	private String raucher = "";
 	private String religion = "";
@@ -116,14 +117,15 @@ public class Profil extends BusinessObject {
 		this.geburtsdatum = geburtsdatum;
 	}
 
-	public Date getErstelldatum() {
+	public Timestamp getErstelldatum() {
+//		Date date = new Date(stamp.getTime());
 		return erstelldatum;
 	}
-
-	public void setErstelldatum(Date erstelldatum) {
+	
+	public void setErstelldatum (Timestamp erstelldatum) {
 		this.erstelldatum = erstelldatum;
 	}
-
+	
 	public String getHaarfarbe() {
 		return haarfarbe;
 	}

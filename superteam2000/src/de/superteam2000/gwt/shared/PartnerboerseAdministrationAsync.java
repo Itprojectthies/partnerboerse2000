@@ -6,7 +6,13 @@ import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.superteam2000.gwt.shared.bo.*;
+import de.superteam2000.gwt.shared.bo.Auswahl;
+import de.superteam2000.gwt.shared.bo.Beschreibung;
+import de.superteam2000.gwt.shared.bo.Info;
+import de.superteam2000.gwt.shared.bo.Kontaktsperre;
+import de.superteam2000.gwt.shared.bo.Merkzettel;
+import de.superteam2000.gwt.shared.bo.Profil;
+import de.superteam2000.gwt.shared.bo.Suchprofil;
 
 /**
  * Das asynchrone Gegenstück des Interface {@link Administration}. Es wird
@@ -58,9 +64,9 @@ public interface PartnerboerseAdministrationAsync {
 
 	// Info
 
-	void saveInfoForProfil(Profil profil, Info info, AsyncCallback<Void> callback);
+	void save(Info info, AsyncCallback<Void> callback);
 
-	void deleteInfoForProfil(Profil profil, Info info, AsyncCallback<Void> callback);
+	void delete(Info info, AsyncCallback<Void> callback);
 
 	void getInfoByProfile(Profil profil, AsyncCallback<ArrayList<Info>> callback);
 
@@ -95,11 +101,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getProfilByMail(String email, AsyncCallback<Profil> callback);
 
-	void getProfilesBySuche(Profil p, AsyncCallback<ArrayList<Profil>> callback);
-
 	void getEigenschaftsNameById(int id, AsyncCallback<String> callback);
-
-	void createInfosFor(Map<Integer, Info> infos, AsyncCallback<Void> callback);
 
 	void getAuswahlProfilAttributByName(String name, AsyncCallback<Auswahl> callback);
 
@@ -109,14 +111,26 @@ public interface PartnerboerseAdministrationAsync {
 
 	void deleteSperre(Profil entferner, Profil entfernter, AsyncCallback<Void> callback);
 
-
-
-
 	void getAllAuswahlProfilAttribute(AsyncCallback<ArrayList<Auswahl>> callback);
 
-	void getSelectionForProfilAttributAuswahl(String name, Profil p, AsyncCallback<String> callback);
-
 	void getAllBeschreibungProfilAttribute(AsyncCallback<ArrayList<Beschreibung>> callback);
+
+	void createSuchprofil(Suchprofil sp, AsyncCallback<Void> callback);
+
+	void getAllSuchprofileForProfil(Profil p, AsyncCallback<ArrayList<Suchprofil>> callback);
+
+	void getSuchprofileForProfilByName(Profil p, String name, AsyncCallback<Suchprofil> callback);
+
+	void deleteSuchprofil(Suchprofil sp, AsyncCallback<Void> callback);
+
+	void save(Suchprofil sp, AsyncCallback<Void> callback);
+
+	void getProfilesBySuchprofil(Suchprofil sp, AsyncCallback<ArrayList<Profil>> callback);
+
+	void getAllNotVisitedProfilesByAehnlichkeitsmass(Profil p,
+			AsyncCallback<ArrayList<Profil>> callback);
+
+	void getAllNewProfilesByAehnlichkeitsmass(Profil p, AsyncCallback<ArrayList<Profil>> callback);
 
 	// Suchprofil
 

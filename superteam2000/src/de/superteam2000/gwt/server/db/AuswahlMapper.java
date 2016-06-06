@@ -1,6 +1,9 @@
 package de.superteam2000.gwt.server.db;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
@@ -167,20 +170,23 @@ public class AuswahlMapper {
 
 		try {
 			Statement stmt1 = con.createStatement();
-			ResultSet rs1 = stmt1.executeQuery("SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE e_typ='a'");
+			ResultSet rs1 = stmt1
+					.executeQuery("SELECT id, Name, Beschreibungstext"
+							+ " FROM Eigenschaft WHERE e_typ='a'");
 
 			Statement stmt2 = con.createStatement();
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Auswahl-Objekt
 			// erstellt.
-			ClientsideSettings.getLogger().severe("Statement erfolgreich");
 
 			while (rs1.next()) {
 				Auswahl a = new Auswahl();
 				a.setId(rs1.getInt("id"));
 				a.setName(rs1.getString("Name"));
 				a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
-				ResultSet rs2 = stmt2.executeQuery("SELECT Text FROM Alternative WHERE Auswahl_id=" + rs1.getInt("id"));
+				ResultSet rs2 = stmt2
+						.executeQuery("SELECT Text FROM Alternative WHERE" 
+								+ " Auswahl_id=" + rs1.getInt("id"));
 				ArrayList<String> al = new ArrayList<>();
 				while (rs2.next()) {
 					al.add(rs2.getString("Text"));
@@ -194,7 +200,8 @@ public class AuswahlMapper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ClientsideSettings.getLogger()
-					.severe("Fehler beim schreiben in die DB" + e.getMessage() + " " + e.getCause() + " ");
+			.severe("Fehler beim schreiben in die DB" + e.getMessage() + " " 
+					+ e.getCause() + " ");
 		}
 
 		// Ergebnisvektor zurückgeben
@@ -205,7 +212,7 @@ public class AuswahlMapper {
 	 * Auslesen aller Kunden.
 	 *
 	 * @return Ein Vektor mit Auswahl-Objekten, die sämtliche Kunden
-	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gef�llter
+	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gefüllter
 	 *         oder ggf. auch leerer Vetor zurückgeliefert.
 	 */
 	public ArrayList<Auswahl> findAllProfilAtrribute() {
@@ -215,20 +222,22 @@ public class AuswahlMapper {
 
 		try {
 			Statement stmt1 = con.createStatement();
-			ResultSet rs1 = stmt1.executeQuery("SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE e_typ='p_a'");
+			ResultSet rs1 = stmt1
+					.executeQuery("SELECT id, Name, Beschreibungstext" 
+							+ " FROM Eigenschaft WHERE e_typ='p_a'");
 
 			Statement stmt2 = con.createStatement();
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Auswahl-Objekt
 			// erstellt.
-			ClientsideSettings.getLogger().severe("Statement erfolgreich");
 
 			while (rs1.next()) {
 				Auswahl a = new Auswahl();
 				a.setId(rs1.getInt("id"));
 				a.setName(rs1.getString("Name"));
 				a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
-				ResultSet rs2 = stmt2.executeQuery("SELECT Text FROM Alternative WHERE Auswahl_id=" + rs1.getInt("id"));
+				ResultSet rs2 = stmt2.executeQuery("SELECT Text FROM Alternative "
+						+ "WHERE Auswahl_id=" + rs1.getInt("id"));
 				ArrayList<String> al = new ArrayList<>();
 				while (rs2.next()) {
 					al.add(rs2.getString("Text"));
@@ -242,13 +251,14 @@ public class AuswahlMapper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ClientsideSettings.getLogger()
-					.severe("Fehler beim schreiben in die DB" + e.getMessage() + " " + e.getCause() + " ");
+			.severe("Fehler beim schreiben in die DB" + e.getMessage() 
+			+ " " + e.getCause() + " ");
 		}
 
 		// Ergebnisvektor zurückgeben
 		return result;
 	}
-	
+
 	/**
 	 * Einfügen eines <code>Auswahl</code>-Objekts in die Datenbank. Dabei wird
 	 * auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
@@ -269,7 +279,8 @@ public class AuswahlMapper {
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM Eigenschaft ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " 
+			 + "FROM Eigenschaft ");
 
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
@@ -282,23 +293,14 @@ public class AuswahlMapper {
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO Eigenschaft (id, Name, Beschreibungstext, e_typ) VALUES (" + a.getId()
+				stmt.executeUpdate("INSERT INTO Eigenschaft (id, Name, "
+						+ "Beschreibungstext, e_typ) VALUES (" + a.getId()
 						+ ",'" + a.getName() + "','" + a.getBeschreibungstext() + "','a')");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		/*
-		 * Rückgabe, des evtl. korrigierten Profils.
-		 *
-		 * HINWEIS: Da in Java nur Referenzen auf Objekte und keine physischen
-		 * Objekte übergeben werden, wäre die Anpassung des Auswahl-Objekts auch
-		 * ohne diese explizite Rückgabe außerhalb dieser Methode sichtbar. Die
-		 * explizite Rückgabe von a ist eher ein Stilmittel, um zu
-		 * signalisieren, dass sich das Objekt evtl. im Laufe der Methode
-		 * verändert hat.
-		 */
 		return a;
 	}
 
@@ -315,8 +317,9 @@ public class AuswahlMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE Eigenschaft SET Name=\"" + a.getName() + "\", Beschreibungstext=\""
-					+ a.getBeschreibungstext() + "\", e_typ=\"a\" WHERE id=" + a.getId());
+			stmt.executeUpdate("UPDATE Eigenschaft SET Name='" + a.getName() + 
+					"', Beschreibungstext='"+ a.getBeschreibungstext() 
+					+ "', e_typ='a' WHERE id=" + a.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -338,7 +341,8 @@ public class AuswahlMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM Eigenschaft " + "WHERE id=" + a.getId());
+			stmt.executeUpdate("DELETE FROM Eigenschaft " 
+			+ "WHERE id=" + a.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

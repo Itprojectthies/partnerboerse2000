@@ -1,11 +1,17 @@
 package de.superteam2000.gwt.client;
 
+
+
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.superteam2000.gwt.shared.*;
+import de.superteam2000.gwt.shared.CommonSettings;
+import de.superteam2000.gwt.shared.PartnerboerseAdministration;
+import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
+import de.superteam2000.gwt.shared.ReportGenerator;
+import de.superteam2000.gwt.shared.ReportGeneratorAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 
 /**

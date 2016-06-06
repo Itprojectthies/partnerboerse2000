@@ -1,5 +1,10 @@
 package de.superteam2000.gwt.client.gui;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 /*
  * Copyright 2008 Google Inc.
  * 
@@ -22,11 +27,6 @@ import com.google.gwt.i18n.shared.DateTimeFormatInfo;
 import com.google.gwt.i18n.shared.DefaultDateTimeFormatInfo;
 import com.google.gwt.i18n.shared.TimeZone;
 import com.google.gwt.i18n.shared.impl.DateRecord;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Formats and parses dates and times using locale-sensitive patterns.

@@ -1,6 +1,5 @@
 package de.superteam2000.gwt.client;
 
-
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -12,7 +11,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.i18n.shared.DateTimeFormat;
+
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.ReportGeneratorAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
