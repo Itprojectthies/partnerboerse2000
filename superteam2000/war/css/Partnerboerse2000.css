@@ -1,7 +1,7 @@
 
 
 body {
-	
+    /* text-align: center; */  /* Zentrierung im Internet Explorer */
   }
 
 h1 {
@@ -20,10 +20,7 @@ table.fremdProfilAnzeigen td{
     border-bottom: 1px ridge lightgreen;
     text-align: left;
 
-select.profil-attribute-listbox {
-    width: 120px;
 }
-
 .gwt-ListBox {
 	width: 120px;
 }
@@ -42,9 +39,6 @@ select.profil-attribute-listbox {
    width: 150px;
 }
 
-
-    width: 80%;
-}
 #logDialogBox td {
 	border-bottom: dashed 1px #e1e1e1;
 }
@@ -113,15 +107,8 @@ div#Header {
 
 div#Navigator {
 	text-align: left;
-<<<<<<< HEAD
 	padding: 1em 1em;
-	/* background: #FFFF99; */
-	/*border-top: 1px dashed #235AFF; */
-	border-bottom: 2px ridge lightgreen;
-	
-=======
-	padding: 1em 1em;	
->>>>>>> refs/heads/CarolinTroester
+
 	
 }
 
@@ -131,18 +118,11 @@ div#wrapper {
 }
 
 div#Menu {
-<<<<<<< HEAD
-	/* background-color: yellow; */
-	width: 140px;
-	float:left;
-	padding-top: 20px;
-=======
 	width: 210px;
 	height: 540px;
 	float: left;
 	padding-left:10px;
 	margin-left: 5px;
->>>>>>> refs/heads/CarolinTroester
 }
 
 div#rechts {
@@ -157,11 +137,7 @@ div#Details {
 	font-family: Helvetica;
 	font-size: smaller;
 	/* background-color: green; */
-<<<<<<< HEAD
-	margin-left: 150px;
-=======
 	margin-left: 240px;
->>>>>>> refs/heads/CarolinTroester
 	width: 500px;
 }
 
@@ -170,17 +146,12 @@ div#Trailer {
 	padding: 10px 0;
 	/* margin: 0 auto; */      /* standardkonforme horizontale Zentrierung */
 	/* border-top: 1px dashed silver; */
-	font-size: 100%;
+	font-size: 80%;
 	text-align: center;
-<<<<<<< HEAD
-	/* background: #FFCCCC; */
-	border-top: 2px ridge lightgreen;
-	/*border-bottom: 1px dashed #235AFF;*/
-=======
 	background-color: white;
 	background-size: 100%;
   	font-weight: bold;
->>>>>>> refs/heads/CarolinTroester
+
 }
 
 button.gwt-Button {
@@ -208,7 +179,7 @@ select.prof-attrib-listbox {
     font-weight: normal;
  
 }
-/* Einstellung für die Überschrift, kann hier nicht eingefügt werden!
+/* Einstellung fï¿½r die ï¿½berschrift, kann hier nicht eingefï¿½gt werden!
  * element.style {
     vertical-align: top;
     font-size: large;
