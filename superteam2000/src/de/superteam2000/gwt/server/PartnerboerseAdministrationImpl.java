@@ -313,6 +313,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException {
 
 		Merkzettel m = mMapper.findAllForProfil(profil);
+		Kontaktsperre k = kMapper.findAllForProfil(profil);
+		ArrayList<Profil> mListe = m.getGemerkteProfile();
+		ArrayList<Profil> kListe = k.getGesperrteProfile();
+		
+		for(Profil p: kListe){
+			if(mListe.contains(p)){
+				mListe.remove(p);
+			}
+		}
+		
 		return m;
 	}
 

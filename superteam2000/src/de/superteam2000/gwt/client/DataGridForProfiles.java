@@ -161,6 +161,7 @@ public class DataGridForProfiles extends BasicFrame {
 							@Override
 							public void onSuccess(Void result) {
 								RootPanel.get("Details").clear();
+								profilListe.remove(selected);
 								DataGridForProfiles d = new DataGridForProfiles(profilListe);
 								RootPanel.get("Details").add(d);
 								Window.alert("Profil gesperrt!");

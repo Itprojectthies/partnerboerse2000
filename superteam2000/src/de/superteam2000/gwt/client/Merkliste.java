@@ -164,7 +164,7 @@ public class Merkliste extends BasicFrame {
 	}
 	/**
 	 * Clickhandler der das ausgewählte Profil anzeigt,
-	 *  bzw einen Report des Profils anzeigt und es als besucht markiert
+	 *   und es als besucht markiert
 	 * @author Christopher
 	 *
 	 */
@@ -177,6 +177,10 @@ public class Merkliste extends BasicFrame {
 				
 				@Override
 				public void onSuccess(ProfilReport result) {
+					
+					RootPanel.get("Details").clear();
+					FremdProfil fp = new FremdProfil(selected);
+					RootPanel.get("Details").add(fp);
 					
 					//Profil als besucht setzen
 					pbVerwaltung.setVisited(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
@@ -194,12 +198,7 @@ public class Merkliste extends BasicFrame {
 						}
 					});
 					
-					//Hier wird der Report prozessiert und ausgegeben
-					HTMLReportWriter writer = new HTMLReportWriter();
-					writer.process(result);
-					RootPanel.get("Details").clear();
-					HTML html = new HTML(writer.getReportText());
-					RootPanel.get("Details").add(html);
+					
 					
 					
 				}
