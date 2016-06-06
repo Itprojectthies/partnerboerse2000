@@ -29,6 +29,7 @@ table.fremdProfilAnzeigen td{
 select.profil-attribute-listbox {
     width: 120px;
 }
+
 .gwt-ListBox {
 	width: 120px;
 }
@@ -147,11 +148,15 @@ div#wrapper {
 div#Menu {
 	/* background-color: yellow; */
 <<<<<<< HEAD
+<<<<<<< HEAD
 	width: 960px;
 	height: 55px;
 	margin: 0 auto;
 =======
 	width: 115px;
+=======
+	width: 140px;
+>>>>>>> refs/heads/master
 	float:left;
 	padding-top: 20px;
 >>>>>>> refs/remotes/origin/master
@@ -171,8 +176,12 @@ div#Details {
 	margin-left: 200px;
 =======
 	/* background-color: green; */
+<<<<<<< HEAD
 	margin-left: 120px;
 >>>>>>> refs/remotes/origin/master
+=======
+	margin-left: 150px;
+>>>>>>> refs/heads/master
 	width: 500px;
 }
 

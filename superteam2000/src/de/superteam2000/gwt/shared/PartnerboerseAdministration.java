@@ -93,10 +93,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public Profil getProfilByMail(String email) throws IllegalArgumentException;
 
-	//public String getEigenschaftsNameById(int id) throws IllegalArgumentException;
-
-	//public void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException;
-
 	public Auswahl getAuswahlProfilAttributByName(String name) throws IllegalArgumentException;
 
 	public Beschreibung getBeschreibungProfilAttributByName(String name) throws IllegalArgumentException;
@@ -123,9 +119,10 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public ArrayList<Profil> getProfilesBySuchprofil(Suchprofil sp) throws IllegalArgumentException;
 
-	void createInfosFor(Map<Integer, Info> infos) throws IllegalArgumentException;
+	
+	public ArrayList<Profil> getAllNotVisitedProfilesByAehnlichkeitsmass(Profil p);
 
-	String getEigenschaftsNameById(int id) throws IllegalArgumentException;
+	public ArrayList<Profil> getAllNewProfilesByAehnlichkeitsmass(Profil p);
 
 
 

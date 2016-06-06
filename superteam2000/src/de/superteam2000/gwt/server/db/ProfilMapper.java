@@ -84,8 +84,8 @@ public class ProfilMapper {
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(
 					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, "
-					+ "Raucher, Religion, Geschlecht, Geburtsdatum FROM Profil "
-					+ "WHERE id=" + id + " ORDER BY Nachname");
+					+ "Raucher, Religion, Geschlecht, Geburtsdatum, Erstelldatum FROM Profil "
+					+ "WHERE id=" + id );
 
 			/*
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -100,11 +100,11 @@ public class ProfilMapper {
 				p.setEmail(rs.getString("Email"));
 				p.setHaarfarbe(rs.getString("Haarfarbe"));
 				p.setGeburtsdatum(rs.getDate("Geburtsdatum"));
+				p.setErstelldatum(rs.getTimestamp("Erstelldatum"));
 				p.setGroesse(rs.getInt("Koerpergroesse"));
 				p.setRaucher(rs.getString("Raucher"));
 				p.setReligion(rs.getString("Religion"));
 				p.setGeschlecht(rs.getString("Geschlecht"));
-				p.setGeburtsdatum(rs.getDate("Geburtsdatum"));
 
 				return p;
 			}
@@ -135,7 +135,7 @@ public class ProfilMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, Vorname, Nachname, Email, Geburtsdatum, Haarfarbe, "
+					"SELECT id, Vorname, Nachname, Email, Geburtsdatum, Erstelldatum, Haarfarbe, "
 					+ "Koerpergroesse, Raucher, Religion, Geschlecht FROM Profil "
 					+ "WHERE Email LIKE '" + email + "'");
 
@@ -147,6 +147,7 @@ public class ProfilMapper {
 				p.setNachname(rs.getString("Nachname"));
 				p.setEmail(rs.getString("Email"));
 				p.setGeburtsdatum(rs.getDate("Geburtsdatum"));
+				p.setErstelldatum(rs.getTimestamp("Erstelldatum"));
 				p.setHaarfarbe(rs.getString("Haarfarbe"));
 				p.setGroesse(rs.getInt("Koerpergroesse"));
 				p.setRaucher(rs.getString("Raucher"));
@@ -182,8 +183,8 @@ public class ProfilMapper {
 
 			ResultSet rs = stmt.executeQuery(
 					"SELECT id, Vorname, Nachname, Email, Haarfarbe, Koerpergroesse, "
-					+ "Raucher, Religion, Geschlecht, Geburtsdatum "
-					+ "FROM Profil ORDER BY Nachname");
+					+ "Raucher, Religion, Geschlecht, Geburtsdatum , Erstelldatum"
+					+ " FROM Profil");
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Profil-Objekt
 			// erstellt.
@@ -201,7 +202,8 @@ public class ProfilMapper {
 				p.setReligion(rs.getString("Religion"));
 				p.setGeschlecht(rs.getString("Geschlecht"));
 				p.setGeburtsdatum(rs.getDate("Geburtsdatum"));
-
+				p.setErstelldatum(rs.getTimestamp("Erstelldatum"));
+				
 				// Hinzufügen des neuen Objekts zum Ergebnisvektor
 				result.add(p);
 			}
