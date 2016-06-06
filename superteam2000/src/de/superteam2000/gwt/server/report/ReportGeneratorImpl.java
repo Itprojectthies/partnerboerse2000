@@ -23,207 +23,188 @@ import de.superteam2000.gwt.shared.report.SimpleParagraph;
 
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator {
 
-	
-	private static final long serialVersionUID = 1L;
-	private PartnerboerseAdministration administration = null;
+    private static final long serialVersionUID = 1L;
+    private PartnerboerseAdministration administration = null;
 
-	public ReportGeneratorImpl() throws IllegalArgumentException {
+    public ReportGeneratorImpl() throws IllegalArgumentException {
+    }
+
+    @Override
+    public void init() throws IllegalArgumentException {
+	/*
+	 * Ein ReportGeneratorImpl-Objekt instantiiert für seinen Eigenbedarf
+	 * eine pbAdministration-Instanz.
+	 */
+	PartnerboerseAdministrationImpl a = new PartnerboerseAdministrationImpl();
+	a.init();
+	this.administration = a;
+    }
+
+    @Override
+    public ProfilReport createProfilReport(Profil p) throws IllegalArgumentException {
+	if (this.administration == null) {
+	    return null;
 	}
 
-	@Override
-	public void init() throws IllegalArgumentException {
-		/*
-		 * Ein ReportGeneratorImpl-Objekt instantiiert für seinen Eigenbedarf
-		 * eine pbAdministration-Instanz.
-		 */
-		PartnerboerseAdministrationImpl a = new PartnerboerseAdministrationImpl();
-		a.init();
-		this.administration = a;
+	// zu befüllenden Report erstellen
+	ProfilReport result = new ProfilReport();
+	result.setProfilId(p.getId());
+
+	// ab hier result mit Inhalten befüllen
+	result.setTitle(p.getVorname() + " " + p.getNachname());
+	// result.setCreated(new Date());
+
+	// Header des Reports erstellen
+	CompositeParagraph header = new CompositeParagraph();
+	header.addSubParagraph(new SimpleParagraph(p.getVorname() + " " + p.getNachname()));
+	header.addSubParagraph(new SimpleParagraph(String.valueOf(p.getId())));
+
+	result.setHeaderData(header);
+
+	// "Impressum" mit Attributen des Profils befüllen
+	// TODO restliche benötigten Attribute hinzufügen
+	CompositeParagraph imprint = new CompositeParagraph();
+	imprint.addSubParagraph(new SimpleParagraph("Email: " + p.getEmail()));
+	imprint.addSubParagraph(new SimpleParagraph("Geschlecht: " + p.getGeschlecht()));
+	imprint.addSubParagraph(new SimpleParagraph("Alter: " + p.getAlter()));
+	imprint.addSubParagraph(new SimpleParagraph("Raucher: " + p.getRaucher()));
+	imprint.addSubParagraph(new SimpleParagraph("Religion: " + p.getReligion()));
+
+	result.setImprint(imprint);
+
+	// Eigenschaften anhängen als Tabelle mit zwei Spalten
+	// TODO ggf Info anpassen für besseres auslesen
+
+	ArrayList<Info> infos = this.administration.getInfoByProfile(p);
+
+	// Kopfzeile anlegen
+	Row headline = new Row();
+	headline.addColumn(new Column("Eigenschaften:"));
+	result.addRow(headline);
+
+	if (infos != null) {
+
+	    for (Info i : infos) {
+		Row infoRow = new Row();
+
+		infoRow.addColumn(new Column(i.getText()));
+
+		result.addRow(infoRow);
+
+	    }
 	}
 
-	
-	
-	@Override
-	public ProfilReport createProfilReport(Profil p) throws IllegalArgumentException {
-		if (this.administration == null) {
-			return null;
-		}
+	return result;
 
-		// zu befüllenden Report erstellen
-		ProfilReport result = new ProfilReport();
-		result.setProfilId(p.getId());
+    }
 
-		// ab hier result mit Inhalten befüllen
-		result.setTitle(p.getVorname()+" "+p.getNachname());
-//		result.setCreated(new Date());
+    @Override
+    public AllProfileBySuche createSuchreport(ArrayList<Profil> p) {
 
-		// Header des Reports erstellen
-		CompositeParagraph header = new CompositeParagraph();
-		header.addSubParagraph(new SimpleParagraph(p.getVorname() + " " + p.getNachname()));
-		header.addSubParagraph(new SimpleParagraph(String.valueOf(p.getId())));
+	ClientsideSettings.getLogger().info("createSuchreport Methode in ReportGenerator aufgerufen");
+	if (this.administration == null) {
+	    return null;
+	}
 
-		result.setHeaderData(header);
+	AllProfileBySuche result = new AllProfileBySuche();
 
-		// "Impressum" mit Attributen des Profils befüllen
-		// TODO restliche benötigten Attribute hinzufügen
-		CompositeParagraph imprint = new CompositeParagraph();
-		imprint.addSubParagraph(new SimpleParagraph("Email: " + p.getEmail()));
-		imprint.addSubParagraph(new SimpleParagraph("Geschlecht: " + p.getGeschlecht()));
-		imprint.addSubParagraph(new SimpleParagraph("Alter: " + p.getAlter()));
-		imprint.addSubParagraph(new SimpleParagraph("Raucher: " + p.getRaucher()));
-		imprint.addSubParagraph(new SimpleParagraph("Religion: "+p.getReligion()));
+	// mit Inhalt befüllen
+	result.setTitle("Die Suche ergab: " + p.size() + " Treffer");
+	// result.setCreated(new Date());
 
-		result.setImprint(imprint);
+	for (Profil profil : p) {
+	    result.addSubReport(this.createProfilReport(profil));
 
-		// Eigenschaften anhängen als Tabelle mit zwei Spalten
-		// TODO ggf Info anpassen für besseres auslesen
+	}
+	return result;
 
-		ArrayList<Info> infos = this.administration.getInfoByProfile(p);
-		
-		//Kopfzeile anlegen
-		Row headline = new Row();
-		headline.addColumn(new Column("Eigenschaften:"));
-		result.addRow(headline);
+    }
 
-		if(infos != null){
-		
-			for(Info i: infos){
-				Row infoRow = new Row();
+    @Override
+    public AllProfilesReport createAllProfilesReport() throws IllegalArgumentException {
+	if (this.administration == null) {
+	    return null;
+	}
 
-				infoRow.addColumn(new Column(i.getText()));
-				
-				result.addRow(infoRow);
+	// zu befüllenden Report erstellen
+	AllProfilesReport result = new AllProfilesReport();
 
-			}}
-			
-		
-		
+	// mit Inhalt befüllen
+	result.setTitle("Alle Profile anzeigen Report");
+	result.setCreated(new Date());
 
-		return result;
+	// Hinzufügen der Kopfzeile
+	// result.addRow(headline);
+
+	// alle Profile abfragen
+	ArrayList<Profil> profile = this.administration.getAllProfiles();
+
+	for (Profil p : profile) {
+	    result.addSubReport(this.createProfilReport(p));
 
 	}
 
+	return result;
+    }
 
-	@Override
-	public AllProfileBySuche createSuchreport(ArrayList<Profil> p){
-		
-		ClientsideSettings.getLogger().info("createSuchreport Methode in ReportGenerator aufgerufen");
-		if (this.administration == null) {
-			return null;
-		}
-		
-		AllProfileBySuche result = new AllProfileBySuche();
-		
-		// mit Inhalt befüllen
-		result.setTitle("Die Suche ergab: " + p.size() + " Treffer");
-//		result.setCreated(new Date());
-		
-		for (Profil profil : p) {
-			result.addSubReport(this.createProfilReport(profil));
-
-		}
-		return result;
-		
-	}
-	@Override
-	public AllProfilesReport createAllProfilesReport() throws IllegalArgumentException {
-		if (this.administration == null) {
-			return null;
-		}
-
-		// zu befüllenden Report erstellen
-		AllProfilesReport result = new AllProfilesReport();
-
-		// mit Inhalt befüllen
-		result.setTitle("Alle Profile anzeigen Report");
-		result.setCreated(new Date());
-
-		// Hinzufügen der Kopfzeile
-		// result.addRow(headline);
-
-		// alle Profile abfragen
-		ArrayList<Profil> profile = this.administration.getAllProfiles();
-
-		for (Profil p : profile) {
-			result.addSubReport(this.createProfilReport(p));
-
-		}
-
-
-		return result;
+    @Override
+    public AllNotVisitedProfileReport createAllNotVisitedProfileReport(Profil p) throws IllegalArgumentException {
+	if (this.administration == null) {
+	    return null;
 	}
 
+	// zu befüllenden Report erstellen
+	AllNotVisitedProfileReport result = new AllNotVisitedProfileReport();
 
+	// // mit Inhalt befüllen
+	result.setTitle("Alle nicht besuchen Profile anzeigen Report");
+	result.setCreated(new Date());
 
-	@Override
-	public AllNotVisitedProfileReport createAllNotVisitedProfileReport(Profil p) throws IllegalArgumentException {
-		if (this.administration == null) {
-			return null;
-		}
+	// Hinzufügen der Kopfzeile
+	// result.addRow(headline);
 
-		// zu befüllenden Report erstellen
-		AllNotVisitedProfileReport result = new AllNotVisitedProfileReport();
+	// alle Profile abfragen
+	ArrayList<Profil> profile = this.administration.getAllNotVisitedProfilesByAehnlichkeitsmass(p);
 
-		//		// mit Inhalt befüllen
-		result.setTitle("Alle Profile anzeigen Report");
-		result.setCreated(new Date());
-		
-		// Hinzufügen der Kopfzeile
-		// result.addRow(headline);
+	for (Profil profil : profile) {
+	    result.addSubReport(this.createProfilReport(profil));
 
-		// alle Profile abfragen
-		ArrayList<Profil> profile = this.administration.getAllNotVisitedProfilesByAehnlichkeitsmass(p);
-
-		for (Profil profil : profile) {
-			result.addSubReport(this.createProfilReport(profil));
-
-		}
-
-		return result;
 	}
 
-	@Override
-	public AllNewProfileReport createAllNewProfilesReport(Profil p) {
-		if (this.administration == null) {
-			return null;
-		}
+	return result;
+    }
 
-		// zu befüllenden Report erstellen
-		AllNewProfileReport result = new AllNewProfileReport();
-
-		//		// mit Inhalt befüllen
-		result.setTitle("Alle Profile anzeigen Report");
-		result.setCreated(new Date());
-		
-		// Hinzufügen der Kopfzeile
-		// result.addRow(headline);
-
-		// alle Profile abfragen
-		ArrayList<Profil> profile = this.administration.getAllNewProfilesByAehnlichkeitsmass(p);
-		
-		for (Profil profil : profile) {
-			result.addSubReport(this.createProfilReport(profil));
-
-		}
-
-		return result;
+    @Override
+    public AllNewProfileReport createAllNewProfilesReport(Profil p) {
+	if (this.administration == null) {
+	    return null;
 	}
 
-	@Override
-	public AllProfileBySuche createAllProfileBySucheReport(Profil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	
-	
+	// zu befüllenden Report erstellen
+	AllNewProfileReport result = new AllNewProfileReport();
 
-	
-	
-	
-	
-	
-	
-	
+	// mit Inhalt befüllen
+	result.setTitle("Alle neuen Profile anzeigen Report");
+	result.setCreated(new Date());
+
+	// Hinzufügen der Kopfzeile
+	// result.addRow(headline);
+
+	// alle Profile abfragen
+	ArrayList<Profil> profile = this.administration.getAllNewProfilesByAehnlichkeitsmass(p);
+
+	for (Profil profil : profile) {
+	    result.addSubReport(this.createProfilReport(profil));
+
+	}
+
+	return result;
+    }
+
+    @Override
+    public AllProfileBySuche createAllProfileBySucheReport(Profil p) throws IllegalArgumentException {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
 }
