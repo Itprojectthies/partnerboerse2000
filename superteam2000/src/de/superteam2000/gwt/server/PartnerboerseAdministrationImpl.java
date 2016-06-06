@@ -310,13 +310,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			}			
 		}
 		
-		for(Profil aktProfil: alleProfile){
+		for(Profil aktProfil: neueProfile){
 			int f = this.berechneAehnlichkeit(p, aktProfil);
 			aktProfil.setAehnlichkeit(f);
 		
 		}
 		
-        Collections.sort(alleProfile, new Comparator<Profil>() {
+        Collections.sort(neueProfile, new Comparator<Profil>() {
 
 			@Override
 			public int compare(Profil p1, Profil p2) {
