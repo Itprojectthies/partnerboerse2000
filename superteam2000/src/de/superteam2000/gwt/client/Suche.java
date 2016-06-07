@@ -158,7 +158,7 @@ public class Suche extends BasicFrame {
 				//Erstelle Listboxen für die Auswahleigenschaften und füge sie dem FlowPanel hinzu
 
 				for (Auswahl a : result) {
-					ProfilAttributeBoxPanel clb = new ProfilAttributeBoxPanel(a, true);
+					ProfilAttributeBoxPanel clb = new ProfilAttributeBoxPanel(a, false);
 					clb.setId(a.getId());
 					clb.addKeineAngabenItem();
 					fPanel.add(clb);
