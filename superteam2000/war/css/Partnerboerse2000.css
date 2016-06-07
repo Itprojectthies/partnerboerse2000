@@ -1,7 +1,6 @@
 
-
 body {
-<<<<<<< HEAD
+
     /* text-align: center; */  /* Zentrierung im Internet Explorer */
     margin: 11px 0 0 0;
 	padding: 0;
@@ -10,26 +9,21 @@ body {
 	font-size: 11pt;
 	text-align: justify;
 	color: #666666;
-}
-  
-=======
+
     /* text-align: center; */  /* Zentrierung im Internet Explorer */
   }
   
 html{
 	background-color: beige;
 }
->>>>>>> refs/heads/master
 
 h1 {
-<<<<<<< HEAD
 	margin: 0;
 	padding: 0;
 	color: #000000;
   
     /*margin-top: 0px;
     margin-bottom: 0px;+*/
-=======
   	font: 3em Arial;
 	letter-spacing: 2px;
 	font-weight: lighter;
@@ -38,7 +32,6 @@ h1 {
   	padding: 5px;
     margin-top: 0px;
     margin-bottom: 0px;
->>>>>>> refs/heads/master
   
 }
 table.fremdProfilAnzeigen td{
@@ -118,24 +111,20 @@ div.CompositeProfilAttributeBox {
 div#TopLevelFrame {
 	/* max-width: 600px; */
 	/* min-width: 300px; */
-<<<<<<< HEAD
 	/* background: #FFFF99; */
-}
-=======
 	width: auto;
 	height: auto;
 	background: #FCF6DB;
 	}
- 
->>>>>>> refs/heads/master
 
-div#Header {
-<<<<<<< HEAD
+
+div#Header { 
 	width: 720px;
 	height: 161px;
 	margin: 0 auto;
 	background:#EAEAEC
 }
+
 #header * {
 	text-decoration: none;
 	text-align: center;
@@ -145,11 +134,8 @@ div#Header {
 #header h1 {
 	padding-top: 40px;
 	font-size: 3em;
-=======
 	background:#FCF6DB;
 	background-size: 100%;
-
->>>>>>> refs/heads/master
 }
 
 div#Navigator {
@@ -165,28 +151,19 @@ div#wrapper {
 }
 
 div#Menu {
-<<<<<<< HEAD
 	/* background-color: yellow; */
-<<<<<<< HEAD
-<<<<<<< HEAD
 	width: 960px;
 	height: 55px;
 	margin: 0 auto;
-=======
 	width: 115px;
-=======
 	width: 140px;
->>>>>>> refs/heads/master
 	float:left;
 	padding-top: 20px;
->>>>>>> refs/remotes/origin/master
-=======
 	width: 210px;
 	height: 540px;
 	float: left;
 	padding-left:10px;
 	margin-left: 5px;
->>>>>>> refs/heads/master
 }
 
 div#rechts {
@@ -199,22 +176,13 @@ div#Details {
 	text-align: center;
 	font-family: Helvetica;
 	font-size: smaller;
-<<<<<<< HEAD
 	margin-left: 200px;
-=======
 	/* background-color: green; */
-<<<<<<< HEAD
-<<<<<<< HEAD
 	margin-left: 120px;
->>>>>>> refs/remotes/origin/master
-=======
 	margin-left: 150px;
->>>>>>> refs/heads/master
 	width: 500px;
-=======
 	margin-left: 19em;
 	width: auto;
->>>>>>> refs/heads/master
 }
 
 div#Trailer {
@@ -222,35 +190,28 @@ div#Trailer {
 	padding: 15px 0 0 0;
 	color: #fff;
 	clear: both;
-<<<<<<< HEAD
 	margin: 0 auto;
 	font-size: 80%;
-=======
 	padding: 10px 0;
 	/* margin: 0 auto; */      /* standardkonforme horizontale Zentrierung */
 	/* border-top: 1px dashed silver; */
-<<<<<<< HEAD
 	font-size: 100%;
->>>>>>> refs/remotes/origin/master
-=======
+
 	font-size: 80%;
->>>>>>> refs/heads/master
+
 	text-align: center;
-<<<<<<< HEAD
-<<<<<<< HEAD
 	border-top: 1px dashed #235AFF;
 	border-bottom: 1px dashed #235AFF;
-=======
+
 	/* background: #FFCCCC; */
 	border-top: 2px ridge lightgreen;
 	/*border-bottom: 1px dashed #235AFF;*/
->>>>>>> refs/remotes/origin/master
-=======
+
 	background-color: white;
 	background-size: 100%;
   	font-weight: bold;
 
->>>>>>> refs/heads/master
+
 }
 
 button.gwt-Button {
@@ -333,45 +294,3 @@ input:disabled, textarea:disabled {
     font-family: Vivaldi;
 }
 */
-
-/**
-	Ab hier: Alte Deklarationen. K�nnen ggf. gel�scht werden.
-*/
-.sendButton {
-  display: block;
-  font-size: 16pt;
-}
-
-/** Most GWT widgets already have a style name defined */
-.gwt-DialogBox {
-  width: 400px;
-}
-
-.dialogVPanel {
-  margin: 5px;
-}
-
-.serverResponseLabelError {
-  color: red;
-}
-
-/** Set ids using widget.getElement().setId("idOfElement") */
-#closeButton {
-  margin: 15px 6px 6px;
-}
-
-#content {
-	width: 960px;
-	margin: 0 auto;
-}
-
- input:disabled, textarea:disabled {
-     color: #C3BFBF;
-}
-
-html {
-	
-    
-	
-}
-
