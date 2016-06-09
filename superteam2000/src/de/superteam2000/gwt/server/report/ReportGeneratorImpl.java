@@ -57,7 +57,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	// Header des Reports erstellen
 	CompositeParagraph header = new CompositeParagraph();
 	header.addSubParagraph(new SimpleParagraph(p.getVorname() + " " + p.getNachname()));
-	header.addSubParagraph(new SimpleParagraph(String.valueOf(p.getId())));
+	header.addSubParagraph(new SimpleParagraph(String.valueOf(p.getAehnlichkeit())));
 
 	result.setHeaderData(header);
 
@@ -66,31 +66,35 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	CompositeParagraph imprint = new CompositeParagraph();
 	imprint.addSubParagraph(new SimpleParagraph("Email: " + p.getEmail()));
 	imprint.addSubParagraph(new SimpleParagraph("Geschlecht: " + p.getGeschlecht()));
-	imprint.addSubParagraph(new SimpleParagraph("Alter: " + p.getAlter()));
-	imprint.addSubParagraph(new SimpleParagraph("Raucher: " + p.getRaucher()));
-	imprint.addSubParagraph(new SimpleParagraph("Religion: " + p.getReligion()));
-
 	result.setImprint(imprint);
+	
+	CompositeParagraph imprint2 = new CompositeParagraph();
+	imprint2.addSubParagraph(new SimpleParagraph("Alter: " + p.getAlter()));
+	imprint2.addSubParagraph(new SimpleParagraph("Raucher: " + p.getRaucher()));
+	result.setImprint2(imprint2);
+
+	CompositeParagraph imprint3 = new CompositeParagraph();
+	imprint3.addSubParagraph(new SimpleParagraph("Religion: " + p.getReligion()));
+	imprint3.addSubParagraph(new SimpleParagraph("Haarfarbe: "+ p.getHaarfarbe()));
+	result.setImprint3(imprint3);
 
 	// Eigenschaften anhängen als Tabelle mit zwei Spalten
 	// TODO ggf Info anpassen für besseres auslesen
 
 	ArrayList<Info> infos = this.administration.getInfoByProfile(p);
 
-	// Kopfzeile anlegen
-	Row headline = new Row();
-	headline.addColumn(new Column("Eigenschaften:"));
-	result.addRow(headline);
+
 
 	if (infos != null) {
 
 	    for (Info i : infos) {
 		Row infoRow = new Row();
-
+		
+		
 		infoRow.addColumn(new Column(i.getText()));
-
+		infoRow.addColumn(new Column(administration.getEigenschaftsNameById(i.getEigenschaftId())));
 		result.addRow(infoRow);
-
+		
 	    }
 	}
 

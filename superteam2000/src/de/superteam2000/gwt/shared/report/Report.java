@@ -36,6 +36,10 @@ public abstract class Report implements Serializable {
 	 * Geschäftsdokumenten ab. Dies gilt auch für die hier realisierten Reports.
 	 */
 	private Paragraph imprint = null;
+	
+	private Paragraph imprint2 = null;
+	
+	private Paragraph imprint3 = null;
 
 	/**
 	 * Kopfdaten des Berichts.
@@ -136,6 +140,22 @@ public abstract class Report implements Serializable {
 
 	public void setProfil(Profil profil) {
 		this.profil = profil;
+	}
+
+	public Paragraph getImprint2() {
+		return imprint2;
+	}
+
+	public void setImprint2(Paragraph imprint2) {
+		this.imprint2 = imprint2;
+	}
+
+	public Paragraph getImprint3() {
+		return imprint3;
+	}
+
+	public void setImprint3(Paragraph imprint3) {
+		this.imprint3 = imprint3;
 	}
 
 }
