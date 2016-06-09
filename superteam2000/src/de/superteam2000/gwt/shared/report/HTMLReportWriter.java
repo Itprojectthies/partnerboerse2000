@@ -256,8 +256,10 @@ public class HTMLReportWriter extends ReportWriter {
 	result.append("<table><tr>");
 	result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getHeaderData()) + "</b></td>");
 	result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint()) + "</td>");
+	result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint2()) + "</td>");
+	result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint3()) + "</td>");
 
-	result.append("</tr><tr><td></td><td>" + r.getCreated().toString() + "</td></tr></table>");
+
 
 	Vector<Row> rows = r.getRows();
 	if (rows != null) {
@@ -269,15 +271,16 @@ public class HTMLReportWriter extends ReportWriter {
 	    Row row = rows.elementAt(i);
 	    result.append("<tr>");
 	    for (int k = 0; k < row.getNumColumns(); k++) {
-		if (i == 0) {
-		    result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnAt(k) + "</td>");
-		} else {
-		    if (i > 1) {
-			result.append("<td style=\"border-top:1px solid silver\">" + row.getColumnAt(k) + "</td>");
-		    } else {
-			result.append("<td valign=\"top\">" + row.getColumnAt(k) + "</td>");
-		    }
-		}
+//		if (i == 0) {
+//		    result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnAt(k) + "</td>");
+//		} else {
+//		    if (i > 1) {
+//			result.append("<td style=\"border-top:1px solid silver\">" + row.getColumnAt(k) + "</td>");
+//		    } else {
+//			result.append("<td valign=\"top\">" + row.getColumnAt(k) + "</td>");
+//		    }
+//		}
+	    	result.append("<td style=\"border-top:1px solid silver\">" + row.getColumnAt(k) + "</td>");
 	    }
 	    result.append("</tr>");
 	}
