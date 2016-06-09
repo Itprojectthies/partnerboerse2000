@@ -263,6 +263,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.iMapper.findByKey(id);
 	}
 
+
 	public int berechneAehnlichkeit(Profil p1, Profil p2){
 		// 6 Profilattribute: Geb, Geschlecht, Groesse, Haarfarbe, Raucher, Religion
 		float i = 6;
@@ -559,7 +560,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<Profil> getProfilesBySuchprofil(Suchprofil sp) throws IllegalArgumentException {
+	public ArrayList<Profil> getProfilesBySuchprofil(Suchprofil sp, Profil user) throws IllegalArgumentException {
 
 		ArrayList<Profil> profile = this.pMapper.findAll();
 		ArrayList<Profil> result = new ArrayList<>();
@@ -656,6 +657,20 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			}
 
 		}
+		
+		
+		for(Profil akt: result){
+			akt.setAehnlichkeit(this.berechneAehnlichkeit(user, akt));
+		}
+        Collections.sort(result, new Comparator<Profil>() {
+
+			@Override
+			public int compare(Profil p1, Profil p2) {
+				
+				return p2.getAehnlichkeit() - p1.getAehnlichkeit();
+			}
+        	
+		}); 
 
 		return result;
 	}
