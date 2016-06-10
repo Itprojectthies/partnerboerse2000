@@ -182,7 +182,7 @@ public class Suche extends BasicFrame {
 				RootPanel.get("rechts").clear();
 				sp = createSP();
 
-				ClientsideSettings.getPartnerboerseVerwaltung().getProfilesBySuchprofil(sp,
+				ClientsideSettings.getPartnerboerseVerwaltung().getProfilesBySuchprofil(sp,user,
 						new AsyncCallback<ArrayList<Profil>>() {
 
 					/**

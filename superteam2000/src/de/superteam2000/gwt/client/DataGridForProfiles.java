@@ -43,7 +43,7 @@ public class DataGridForProfiles extends BasicFrame {
 	 */
 	public DataGridForProfiles(ArrayList<Profil> list, boolean isForSuchprofil) {
 		this(list);
-		this.isForSuchprofil = isForSuchprofil;
+		this.isForSuchprofil = false;
 	}
 	
 	/*
