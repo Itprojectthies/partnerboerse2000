@@ -84,9 +84,13 @@ public class DataGridForProfiles extends BasicFrame {
 	/**
 	 * ??
 	 * 
-	 * @param merkenButton Der Button wird erstellt, benannt und auf der Seite eingebunden.
-	 * @param sperrenButton Der Button wird angelegt, benannt und auf der Seite eingebunden.
-	 * @param profilAnzeigenButton Der Button wird angelegt, benannt und auf der Seite eingebunden.
+	 * @param merkenButton Der Button wird erstellt, benannt und auf der Seite eingebunden (zum merken eines fremden Profils)
+	 * @param sperrenButton Der Button wird angelegt, benannt und auf der Seite eingebunden (zum sperren eines fremden Profils)
+	 * @param profilAnzeigenButton Der Button wird angelegt, benannt und auf der Seite eingebunden (Profil anzeigen allgemein)
+	 * @param neueProfilAnzeigenButton Button wird angelegt, benannt und eingebunden (soll alle neu dazugekommenen Profile anzeigen)
+	 * @param nichtBesuchteProfilAnzeigenButton Button wird angelegt, benannt und eingebunden (soll alle noch nicht besuchten Profile anzeigen)
+	 * @param profileAnzeigenButton Button wird angelegt, benannt und eingebunden (soll alle Profile ausser dem eigenen anzeigen)
+	 * @param hPanel Die Extra Buttons werden in einem horizontal Panel angeordnet und auf der Seite ausgegeben.
 	 * @param table ??
 	 * @param selectionModel Damit der User ausgewählt werden kann.
 	 */
@@ -112,12 +116,24 @@ public class DataGridForProfiles extends BasicFrame {
 		RootPanel.get("rechts").add(neueProfilAnzeigenButton);
 		RootPanel.get("rechts").add(nichtBesuchteProfilAnzeigenButton);
 		
+		
+		/*
+		 * Der Button zum anzeigen aller neuen Profile wird dem Click Handler und damit Mouse Listener hinzugefügt.
+		 * Beim Drücken des Buttons wird die folgende Methode aufgerufen.
+		 */
 		neueProfilAnzeigenButton.addClickHandler(new ClickHandler() {
 
+			/**
+			 * Alle neuen Profile werden mit dem Aehnlichkeitsmass, passend zum eigenen Profil, berechnet.
+			 */
 			@Override
 			public void onClick(ClickEvent event) {
 				pbVerwaltung.getAllNewProfilesByAehnlichkeitsmass(profil, new AsyncCallback<ArrayList<Profil>>() {
 					
+					/**
+					 * Die Seite wird neu aufgerufen mit allen neuen Profilen, sortiert nach Aehnlichkeitsmass.
+					 * @param dgt Hierin werden die Profile gespeichert, die von der Anfrage zurückkommen.
+					 */
 					@Override
 					public void onSuccess(ArrayList<Profil> result) {
 						DataGridForProfiles dgt = new DataGridForProfiles(result);
@@ -134,40 +150,53 @@ public class DataGridForProfiles extends BasicFrame {
 						
 					}
 				} );
-
-
 			}
 		});
 		
+		
+		/*
+		 * Der Button zum anzeigen aller bisher noch nicht besuchten Profile wird dem Click Handler und damit Mouse Listener hinzugefügt.
+		 * Beim Drücken des Buttons wird die folgende Methode aufgerufen.
+		 */
 		nichtBesuchteProfilAnzeigenButton.addClickHandler(new ClickHandler() {
 
+			/**
+			 * Alle noch nicht besuchten Profile werden ausgegeben, sortiert nach dem Aehnlichkeitsmass.
+			 */
 			@Override
 			public void onClick(ClickEvent event) {
 				pbVerwaltung.getAllNotVisitedProfilesByAehnlichkeitsmass(profil, new AsyncCallback<ArrayList<Profil>>() {
 					
+					/**
+					 * Die Seite wird neu aufgerufen mit allen Profilen, die noch nicht besucht wurden, sortiert nach Aehnlichkeitsmass.
+					 * @param dgt Hierin wird das Ergebnis der Anfrage gespeichert um ausgegeben werden zu können.
+					 */
 					@Override
 					public void onSuccess(ArrayList<Profil> result) {
 						DataGridForProfiles dgt = new DataGridForProfiles(result);
 						RootPanel.get("Details").clear();
 						RootPanel.get("rechts").clear();
 						RootPanel.get("Menu").clear();
-						RootPanel.get("Details").add(dgt);
-						
+						RootPanel.get("Details").add(dgt);	
 					}
 					
 					@Override
 					public void onFailure(Throwable caught) {
 						// TODO Auto-generated method stub
-						
 					}
 				} );
-
-
 			}
 		});
 		
+		/*
+		 * Der Button zum anzeigen aller Profile ausser dem eigenen wird dem Click Handler und damit Mouse Listener hinzugefügt.
+		 * Beim Drücken des Buttons wird die folgende Methode aufgerufen.
+		 */
 		profileAnzeigenButton.addClickHandler(new ClickHandler() {
 
+			/**
+			 * 
+			 */
 			@Override
 			public void onClick(ClickEvent event) {
 				pbVerwaltung.getProfilesByAehnlichkeitsmass(profil, new AsyncCallback<ArrayList<Profil>>() {
@@ -193,17 +222,15 @@ public class DataGridForProfiles extends BasicFrame {
 			}
 		});
 		
-		// eigenes Profil aus der Liste entfernen
-		// if(profile.contains(ClientsideSettings.getCurrentUser())){
-		// profile.remove(ClientsideSettings.getCurrentUser());
-		// }
-
+		//??
 		DataGrid<Profil> table = new DataGrid<Profil>();
 		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
 		TextColumn<Profil> vorname = new TextColumn<Profil>() {
 			
-			// Der Vorname wird ausgelesen und anschliessend in die Tabelle hinzugefügt.
+			/** 
+			 * Der Vorname wird ausgelesen und anschliessend in die Tabelle hinzugefügt.
+			 */
 			@Override
 			public String getValue(Profil p) {
 				return p.getVorname();
@@ -211,8 +238,12 @@ public class DataGridForProfiles extends BasicFrame {
 		};
 		table.addColumn(vorname, "Vorname");
 
-		// Der Nachname wird ausgelesen und anschliessend in die Tabelle eingefügt.
 		TextColumn<Profil> nachname = new TextColumn<Profil>() {
+			
+			/**
+			 * Der Nachname wird ausgelesen und anschliessend in die Tabelle eingefügt.
+			 * @return
+			 */
 			@Override
 			public String getValue(Profil p) {
 				return p.getNachname();
@@ -220,8 +251,11 @@ public class DataGridForProfiles extends BasicFrame {
 		};
 		table.addColumn(nachname, "Nachname");
 
-		// Das Alter wird ausgelesen und anschliessend in die Tabelle eingefügt.
 		TextColumn<Profil> alter = new TextColumn<Profil>() {
+			
+			/**
+			 * Das Alter wird ausgelesen und anschliessend in die Tabelle eingefügt.
+			 */
 			@Override
 			public String getValue(Profil p) {
 				return String.valueOf(p.getAlter());
@@ -229,8 +263,11 @@ public class DataGridForProfiles extends BasicFrame {
 		};
 		table.addColumn(alter, "Alter");
 
-		// Die Ähnlichkeitsmessung wird gesucht und in Prozent zurückgegeben.
 		TextColumn<Profil> aehnlichkeit = new TextColumn<Profil>() {
+			
+			/**
+			 * Die Aehnlichkeitsmessung wird gesucht und in Prozent zurückgegeben.
+			 */
 			@Override
 			public String getValue(Profil p) {
 				;
@@ -239,18 +276,22 @@ public class DataGridForProfiles extends BasicFrame {
 			}
 		};
 		
+		/**
+		 *??
+		 */
 		if (!isForSuchprofil) {
 			table.addColumn(aehnlichkeit, "Ã„hnlichkeit");
 		}
 		
 		
-		// Add a selection model to handle user selection.
+		// Add a selection model to handle user selection. //??
 		final SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
 		table.setSelectionModel(selectionModel);
 		selectionModel.addSelectionChangeHandler(new Handler() {
 
 			/**
 			 * Diese Methode gewährleistet eine entsprechende Reaktion, wenn ein Button gedrückt wird.
+			 * Die Seite wird nicht aktualisiert, die Aenderung laeuft im Hintergrund.
 			 */
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
@@ -262,7 +303,7 @@ public class DataGridForProfiles extends BasicFrame {
 			}
 		});
 
-		/*
+		/**
 		 * Ausgabe der Profile
 		 */
 		table.setRowCount(profilListe.size(), true);
@@ -296,6 +337,10 @@ public class DataGridForProfiles extends BasicFrame {
 				ClientsideSettings.getPartnerboerseVerwaltung().createSperre(ClientsideSettings.getCurrentUser(),
 						selected, new AsyncCallback<Void>() {
 
+							/**
+							 * Die rechte Navigationsbar wird aktualisiert und das Profil aus der aktuellen Liste der angezeigten
+							 * Profile entfernt, da es gesperrt wurde.
+							 */
 							@Override
 							public void onSuccess(Void result) {
 								RootPanel.get("rechts").clear();
@@ -330,6 +375,9 @@ public class DataGridForProfiles extends BasicFrame {
 				ClientsideSettings.getPartnerboerseVerwaltung().createMerken(ClientsideSettings.getCurrentUser(),
 						selected, new AsyncCallback<Void>() {
 
+					/**
+					 * Die Liste der aktuell angezeigten Profile wird aktualisiert sowie die rechte Navigationsbar.
+					 */
 					@Override
 					public void onSuccess(Void result) {
 						RootPanel.get("rechts").clear();
