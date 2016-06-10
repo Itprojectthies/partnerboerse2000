@@ -46,20 +46,6 @@ public class Suche extends BasicFrame {
 	Button suchprofilLÃ¶schenButton = null;
 	Button suchprofilSpeichernButton = null;
 
-	ListBox lbRaucher = new ListBox();
-	ListBox lbReligion = new ListBox();
-	ListBox lbGeschlecht = new ListBox();
-	ListBox lbHaarfarbe = new ListBox();
-	ListBox lbEigenschaften = new ListBox();
-	
-	TextBox tbSuchprofilName = new TextBox();
-	TextBox tbAlterVon = new TextBox();
-	TextBox tbAlterBis = new TextBox();
-	TextBox tbGroesseVon = new TextBox();
-	TextBox tbGroesseBis = new TextBox();
-
-	
-	
 	@SuppressWarnings("deprecation")
 	ListBox suchProfilListBox = new ListBox(true);
 
@@ -81,75 +67,6 @@ public class Suche extends BasicFrame {
 		suchProfilTextbox = new ProfilAttributeTextBox();
 		suchProfilTextbox.setName("suchProfilName");
 
-		this.add(suchButton);
-		suchButton.addClickHandler(new SuchButtonClickHandler());
-
-		//Raucher
-		Label raucherLabel = new Label("Raucher");
-		lbRaucher.addItem("Raucher");
-		lbRaucher.addItem("Nichtraucher");
-		lbRaucher.addItem("Gelegenheitsraucher");
-		customerGrid.setWidget(0, 0, raucherLabel);
-		customerGrid.setWidget(0, 1, lbRaucher);
-
-		//Religion
-		Label reliLabel = new Label("Religion");
-		lbReligion.addItem("rÃ¶misch-katholisch");
-		lbReligion.addItem("evangelisch");
-		lbReligion.addItem("jÃ¼disch");
-		lbReligion.addItem("buddhistisch");
-		lbReligion.addItem("orthodox");
-		lbReligion.addItem("islamistisch");
-		lbReligion.addItem("atheistisch");
-		lbReligion.addItem("sonstige Zugehörigkeit");
-		customerGrid.setWidget(1, 0, reliLabel);
-		customerGrid.setWidget(1, 1, lbReligion);
-
-		//Geschlecht
-		Label geschlechtLabel = new Label("Geschlecht");
-		lbGeschlecht.addItem("mÃ¤nnlich");
-		lbGeschlecht.addItem("weiblich");
-		lbGeschlecht.addItem("beides");
-		customerGrid.setWidget(2, 0, geschlechtLabel);
-		customerGrid.setWidget(2, 1, lbGeschlecht);
-
-		//Haarfarbe
-		Label haarLabel = new Label("Haarfarbe");
-		lbHaarfarbe.addItem("braun");
-		lbHaarfarbe.addItem("blond");
-		lbHaarfarbe.addItem("schwarz");
-		lbHaarfarbe.addItem("rot");
-		lbHaarfarbe.addItem("grau/weiß");
-		lbHaarfarbe.addItem("andere Haarfarbe");
-		customerGrid.setWidget(3, 0, haarLabel);
-		customerGrid.setWidget(3, 1, lbHaarfarbe);
-		
-		//Suchprofilname
-		Label suchprofilLabel = new Label ("Suchprofilname");
-		//tbSuchprofilName(style);
-		customerGrid.setWidget(3, 0, suchprofilLabel);
-		customerGrid.setWidget(3, 1, tbSuchprofilName);
-		
-		//weitere Eigenschaften auswählen
-		Label weitEigenschaft = new Label ("weitere Eigenschaften");
-		lbEigenschaften.addItem("Was ist dein Lieblingsessen?");
-		lbEigenschaften.addItem("Welche Sportart betreibst du?");
-		lbEigenschaften.addItem("Hast du Haustiere und wenn ja welche?");
-		lbEigenschaften.addItem("Was sind deine Lieblingsfilme?");
-		lbEigenschaften.addItem("Was sind deine Lieblingsserien?");
-		lbEigenschaften.addItem("Was ist deine Lieblingsfarbe?");
-		lbEigenschaften.addItem("Was ist deine Lieblingszahl?");
-		lbEigenschaften.addItem("Was sind deine Freizeitaktivitäten?");
-		lbEigenschaften.addItem("Was ist deine sonstigen Interessen?");
-		lbEigenschaften.addItem("Was du sonst noch über dich sagen willst");
-
-
-		//pb Verwaltung Ã¼ber ClientsideSettings holen
-		PartnerboerseAdministrationAsync pbVerwaltung = 
-				ClientsideSettings.getPartnerboerseVerwaltung();
-
-		//Alle Profile aus der db holen
-		pbVerwaltung.getAllProfiles(new AsyncCallback<ArrayList<Profil>>() {
 		pbVerwaltung.getAllAuswahl(new AsyncCallback<ArrayList<Auswahl>>() {
 
 			@Override
@@ -170,7 +87,7 @@ public class Suche extends BasicFrame {
 				// TODO Auto-generated method stub
 
 			}
-		
+		});
 
 		suchProfilListBox.setSize("8em", "14em");
 		suchProfilListBox.addClickHandler(new ClickHandler() {
@@ -389,7 +306,7 @@ public class Suche extends BasicFrame {
 //
 //			}
 //		});
-	
+	}
 
 	private class GetAllAuswahlProfilAttributeCallback implements AsyncCallback<ArrayList<Auswahl>> {
 		@Override
@@ -447,15 +364,6 @@ public class Suche extends BasicFrame {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			// "dummmy-Profil" erstellen
-			Profil p = new Profil();
-			p.setRaucher(lbRaucher.getSelectedValue());
-			p.setReligion(lbReligion.getSelectedValue());
-			p.setGeschlecht(lbGeschlecht.getSelectedValue());
-			p.setHaarfarbe(lbHaarfarbe.getSelectedValue());
-			p.setEigenschaften(lbEigenschaften.getSelectedValue());
-			
-			
 			sp = createSP();
 			RootPanel.get("Menu").clear();
 			RootPanel.get("rechts").clear();

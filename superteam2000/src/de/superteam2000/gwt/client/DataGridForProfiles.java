@@ -69,7 +69,7 @@ public class DataGridForProfiles extends BasicFrame {
 	}
 
 	/**
-	 * 
+	 * ??
 	 * @param profilListe
 	 */
 	public void setProfilListe(ArrayList<Profil> profilListe) {
@@ -79,6 +79,8 @@ public class DataGridForProfiles extends BasicFrame {
 	// pb Verwaltung Ã¼ber ClientsideSettings holen
 	PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
+	Profil profil = ClientsideSettings.getCurrentUser();
+	
 	/**
 	 * ??
 	 * 
@@ -88,9 +90,6 @@ public class DataGridForProfiles extends BasicFrame {
 	 * @param table ??
 	 * @param selectionModel Damit der User ausgewählt werden kann.
 	 */
-
-	Profil profil = ClientsideSettings.getCurrentUser();
-	
 	@Override
 	public void run() {
 
