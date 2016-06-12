@@ -19,22 +19,22 @@ public class Profil extends BusinessObject {
 	
 /**
  * Deklaration der	Parameter eines Profils
- * @param nickname	Deklaration des Parameter nickname eines Profils, um später damit weiter zu arbeiten
- * @param nachname	Deklaration des Parameter nachname eines Users
- * @mparam vorname 	Deklaration des Parameter vorname
- * @param email 	Deklaration es Parameter email
- * @param geburtsdatum Deklaration des Parameter geburtsdatum
- * @param erstelldatum Deklaration des Parameter erstelldatum
- * @param haarfarbe Deklaration des Parameter haarfarbe
- * @param raucher Deklaration des Parameter raucher
- * @param religion Deklaration des Parameter religion
- * @param groesse Deklaration des Parameter groesse
- * @param geschlecht Deklaration des Parameter geschlecht
- * @param loggedIn Deklaration des Parameter loggedIn
- * @param loginUrl Deklaration des Parameter loginUrl
- * @param logoutUrl Deklaration des Parameter logoutUrl
- * @param isCreated Deklaration des Parameter isCreated
- * @param aehnlichkeit Deklaration des Parameter aehnlichkeit
+ * @param nickname	
+ * @param nachname	
+ * @mparam vorname 	
+ * @param email 	E-Mail-Adresse des Users
+ * @param geburtsdatum 
+ * @param erstelldatum Erstelldatum des Profils
+ * @param haarfarbe
+ * @param raucher Parameter gibt an, ob User Raucher oder Nichtraucher ist
+ * @param religion 
+ * @param groesse 
+ * @param geschlecht 
+ * @param loggedIn Parameter gibt an, ob der User eingeloggt ist
+ * @param loginUrl Parameter gibt die Login-Informationen des User an 
+ * @param logoutUrl Parameter gibt die Logout-Informationen des User an
+ * @param isCreated Parameter gibt an, ob Profil angelegt ist
+ * @param aehnlichkeit 
  */
 	private String nickname = "";
 	private String nachname = "";

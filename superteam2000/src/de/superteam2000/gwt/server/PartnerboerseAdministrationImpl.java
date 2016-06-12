@@ -29,11 +29,52 @@ import de.superteam2000.gwt.shared.bo.Merkzettel;
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.bo.Suchprofil;
 
+/**
+ * <p>
+ * Implementierungsklasse des Interface PartnerboerseAdministration. Diese
+ * Klasse ist die Klasse, die neben {@link ReportGeneratorImpl}
+ * sämtliche Applikationslogik (oder engl. Business Logic) aggregiert. Sie überblickt
+ * die Daten der Applikation und sorgt für einen gerodneten Ablauf und dauerhafte 
+ * Konsistenz der Daten.
+ * Die Applikationslogik befindet sich in den Methoden dieser Klasse. 
+ * Hier werden analog zu Datenbanktransaktion pro
+ * Transaktion gleiche mehrere Teilaktionen durchgeführt, die das System
+ * von einem konsistenten Zustand in einen anderen, auch wieder konsistenten
+ * Zustand überführen. Wenn dies zwischenzeitig scheitern sollte, dann ist das
+ * jeweilige Transaction Script dafür verwantwortlich, eine Fehlerbehandlung
+ * durchzuführen.
+ * 
+ * Diese Klasse steht mit einer Reihe weiterer Datentypen in Verbindung. Dies
+ * sind:
+ * {@link PartnerboerseAdministration}: Dies ist das lokale - also
+ * Server-seitige - Interface, das die im System zur Verfügung gestellten
+ * Funktionen deklariert.
+ * {@link PartnerboerseAdministrationAsync}: PartnerboerseAdministrationImpl und
+ * PartnerboerseAdministration bilden nur die Server-seitige Sicht der
+ * Applikationslogik ab. Diese basiert vollständig auf synchronen
+ * Funktionsaufrufen. Wir müssen jedoch in der Lage sein, Client-seitige
+ * asynchrone Aufrufe zu bedienen. Dies bedingt ein weiteres Interface, das in
+ * der Regel genauso benannt wird, wie das synchrone Interface, jedoch mit dem
+ * zusätzlichen Suffix "Async". Es steht nur mittelbar mit dieser Klasse in
+ * Verbindung. Die Erstellung und Pflege der Async Interfaces wird durch das
+ * Google Plugin semiautomatisch unterstützt. Weitere Informationen unter
+ * {@link PartnerboerseAdministrationAsync}.
+ * {@link RemoteServiceServlet}: Jede Server-seitig instantiierbare und
+ * Client-seitig über GWT RPC nutzbare Klasse muss die Klasse
+ * RemoteServiceServlet implementieren. Sie legt die funktionale
+ * Basis für die Anbindung von PartnerboerseAdministrationImpl an die Runtime
+ * des GWT RPC-Mechanismus.
+ * 
+ * @see PartnerboerseAdministration
+ * @see PartnerboerseAdministrationAsync
+ * @see RemoteServiceServlet
+ * @author Thies, Christopher Funke, Daniel Volz
+ */
+
+
 public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implements PartnerboerseAdministration {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private AuswahlMapper auswahlMapper = null;
 	private BeschreibungMapper beschrMapper = null;
@@ -43,13 +84,32 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	private ProfilMapper pMapper = null;
 	private SuchprofilMapper sMapper = null;
 
-	/**
-	 * Der momentane Benutzer
-	 */
+
+/**
+* Ein RemoteServiceServlet wird unter GWT mittels
+* GWT.create(Klassenname.class) Client-seitig erzeugt. Hierzu
+* ist ein solcher No-Argument-Konstruktor anzulegen. Ein Aufruf eines anderen
+* Konstruktors ist durch die Client-seitige Instantiierung durch
+* GWT.create(Klassenname.class) nach derzeitigem Stand nicht
+* möglich.
+* Es bietet sich also an, eine separate Instanzenmethode zu erstellen, die
+* Client-seitig direkt nach GWT.create(Klassenname.class)
+* aufgerufen wird, um eine Initialisierung der Instanz vorzunehmen.
+* 
+* 
+* @see #init()
+*/
 
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
 	}
-
+	
+	/**
+	   * Initialsierungsmethode. Siehe dazu Anmerkungen zum No-Argument-Konstruktor
+	   * {@link #ReportGeneratorImpl()}. Diese Methode muss für jede Instanz von
+	   * PartnerboerseAdministrationImpl aufgerufen werden.
+	   * 
+	   * @see #ReportGeneratorImpl()
+	   */
 	@Override
 	public void init() throws IllegalArgumentException {
 
@@ -62,7 +122,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.sMapper = SuchprofilMapper.suchprofilMapper();
 
 	}
-
+	
+/**
+ * Login der Partnerbörse. Überprüfung ob User ein bestehendes Profil hat oder nicht.
+ */
 	@Override
 	public Profil login(String requestUri) {
 		UserService userService = UserServiceFactory.getUserService();
@@ -94,7 +157,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return profil;
 
 	}
-
+	
+/**
+ * Erstellung eines Profils
+ */
 	@Override
 	public Profil createProfil(String nachname, String vorname, String email, Date geburtsdatum, String haarfarbe,
 			String raucher, String religion, int groesse, String geschlecht) throws IllegalArgumentException {
@@ -110,7 +176,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		p.setGroesse(groesse);
 		p.setGeschlecht(geschlecht);
 
-		/*
+		/**
 		 * Setzen einer vorläufigen Kundennr. Der insert-Aufruf liefert dann ein
 		 * Objekt, dessen Nummer mit der Datenbank konsistent ist.
 		 */
@@ -123,69 +189,108 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+/**
+ * Löschen eines Profils
+ */
 	@Override
 	public void delete(Profil profil) throws IllegalArgumentException {
 		this.pMapper.delete(profil);
 	}
-
+	
+/**
+ * Speichern eines Profils
+ */
 	@Override
 	public void save(Profil profil) throws IllegalArgumentException {
 		this.pMapper.update(profil);
 
 	}
-
+	
+/**
+ * Speichern eines Suchprofils
+ */
 	@Override
 	public void save(Suchprofil sp) throws IllegalArgumentException {
 		this.sMapper.update(sp);
 
 	}
 
+/**
+ * Auslesen aller Profile	
+ */
 	@Override
 	public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException {
 		return this.pMapper.findAll();
 	}
 
+/**
+ * 	Auslesen eines Profils mit einer bestimmten ID
+ */
 	@Override
 	public Profil getProfilById(int id) {
 		return this.pMapper.findByKey(id);
 	}
-
+	
+/**
+ * Auslesen eines Profils mit einer bestimmten E-Mail-Adresse
+ */
 	@Override
 	public Profil getProfilByMail(String email) {
 		return this.pMapper.findByEmail(email);
 
 	}
-
+	
+/**
+ * Auslesen aller Suchprofile eines Profils
+ */
 	@Override
 	public ArrayList<Suchprofil> getAllSuchprofileForProfil(Profil p) throws IllegalArgumentException {
 		return this.sMapper.findAllForProfil(p);
 	}
-
+	
+/**
+ * Auslesen aller Suchprofile mit einem bestimmten Namen
+ */
 	@Override
 	public Suchprofil getSuchprofileForProfilByName(Profil p, String name) throws IllegalArgumentException {
 		return this.sMapper.findSuchprofilForProfilByName(p, name);
 	}
 
+/**
+ * Auslesen der gesamten Auswahlmöglichkeiten	
+ */
 	@Override
 	public ArrayList<Auswahl> getAllAuswahl() throws IllegalArgumentException {
 		return this.auswahlMapper.findAll();
 	}
 
+/**
+ * 	Auslesen der gesamten Auswahl mit einer bestimmten ID
+ */
 	@Override
 	public Auswahl getAuswahlById(int id) throws IllegalArgumentException {
 		return this.auswahlMapper.findByKey(id);
 	}
 
+/**
+ * Auslesen aller Auswahl von Profilattribute mit einem bestimmten Namen
+ */
 	@Override
 	public Auswahl getAuswahlProfilAttributByName(String name) throws IllegalArgumentException {
 		return this.auswahlMapper.findByName(name);
 	}
 
+/**
+ * 	Auslesen einer Beschreibung von Profilattributen mit einem bestimmten Namen
+ */
 	@Override
 	public Beschreibung getBeschreibungProfilAttributByName(String name) throws IllegalArgumentException {
 		return this.beschrMapper.findByName(name);
 	}
 
+/**
+ * Erstellen von Info-Objekten für ein Profil	
+ */
 	@Override
 	public Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException {
 			
@@ -215,6 +320,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 	}
 	
+// Wieso doppelt?	
 	@Override
 	public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text) throws IllegalArgumentException {
 		Info i = new Info();
@@ -240,12 +346,18 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		log("Info neuangelegt");
 		return this.iMapper.insert(i);
 	}
-
+	
+/**
+ * Speichern von Info-Objekten
+ */
 	@Override
 	public void save(Info info) throws IllegalArgumentException {
 		this.iMapper.update(info);
 	}
 
+/**
+ * Löschen von Info-Objekten	
+ */
 	@Override
 	public void delete(Info info) throws IllegalArgumentException {
 		if (info != null) {
@@ -253,16 +365,28 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		}
 	}
 
+/**
+ * Auslesen von Info-Objketen eines bestimmten Profils	
+ */
 	@Override
 	public ArrayList<Info> getInfoByProfile(Profil profil) throws IllegalArgumentException {
 		return this.iMapper.findAllByProfilId(profil.getId());
 	}
-
+	
+/**
+ * Auslesen von Info-Objekten mit einer bestimmten Eigenschafts-ID
+ */
 	@Override
 	public Info getInfoByEigenschaftsId(int id) throws IllegalArgumentException {
 		return this.iMapper.findByKey(id);
 	}
 
+/**
+ * 	Berechnung des Ähnlichkeitsmaß' zwischen zwei Profilen
+ * @param p1
+ * @param p2
+ * @return result (Ähnlichkeitsmaß)
+ */
 	public int berechneAehnlichkeit(Profil p1, Profil p2){
 		// 6 Profilattribute: Geb, Geschlecht, Groesse, Haarfarbe, Raucher, Religion
 		float i = 6;
@@ -292,6 +416,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return result;
 	}
 	
+/**
+ * 	Auslesen neu angelegter Profile sortiert anhand des Ähnlichkeitsmaß'
+ */
 	@Override
 	public ArrayList<Profil> getAllNewProfilesByAehnlichkeitsmass(Profil p) {
 		ArrayList<Profil> alleProfile = pMapper.findAll();
@@ -329,6 +456,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return neueProfile;
 	}
 	
+/**
+ * 	Auslesen aller nicht besuchten Profile sortiert anhand des Ähnlichkeitsmaß'
+ */
 	@Override
 	public ArrayList<Profil> getAllNotVisitedProfilesByAehnlichkeitsmass(Profil p) {
 		
@@ -368,7 +498,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		return alleProfile;
 	}
-	
+
+/**
+ * Auslesen aller Profile sortiert anhand des Ähnlichkeitsmaß'	
+ */
 	@Override
 	public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil profil) throws IllegalArgumentException {
 		ArrayList<Profil> alleProfile = pMapper.findAll();
@@ -400,17 +533,26 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return alleProfile;
 	}
 
+/**
+ * Setzen eines Markers, dass ein bestimmtes Profil besucht wurde.	
+ */
 	@Override
 	public void setVisited(Profil besucher, Profil besuchter) throws IllegalArgumentException {
 		this.pMapper.setVisited(besucher, besuchter);
 
 	}
 
+/**
+ * Auslesen aller besuchten Profil eines Profils	
+ */
 	@Override
 	public ArrayList<Profil> getVisitedProfiles(Profil profil) throws IllegalArgumentException {
 		return this.pMapper.getVisitedProfiles(profil);
 	}
 
+/**
+ * Merken eines Profils	
+ */
 	@Override
 	public void createMerken(Profil a, Profil b) throws IllegalArgumentException {
 		Merkzettel m = mMapper.findAllForProfil(a);
@@ -421,27 +563,42 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+/**
+ * Sperren eines Profils	
+ */
 	@Override
 	public void createSperre(Profil a, Profil b) throws IllegalArgumentException {
 		kMapper.insertForProfil(a, b);
 
 	}
 
+/**
+ * Löschen eines Profils von der Sperrliste (Kontakt ist nicht mehr gesperrt).	
+ */
 	@Override
 	public void deleteSperre(Profil entferner, Profil entfernter) {
 		kMapper.deleteSperreFor(entferner, entfernter);
 	}
 
+/**
+ * Löschen eines Suchprofils	
+ */
 	@Override
 	public void deleteSuchprofil(Suchprofil sp) {
 		this.sMapper.delete(sp);
 	}
 
+/**
+ * Löschen eines gemerkten Profils von der Merkliste (Profil ist nicht mehr gemerkt).	
+ */
 	@Override
 	public void deleteMerken(Profil entferner, Profil entfernter) throws IllegalArgumentException {
 		mMapper.deleteMerkenFor(entferner, entfernter);
 	}
 
+/**
+ * Auslesen des Merkzettels (Auslesen aller gemerkten Profile).	
+ */
 	@Override
 	public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException {
 
@@ -458,35 +615,57 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		return m;
 	}
-
+	
+/**
+ * Auslesen der Sperrliste eines bestimmten Profils (Auslesen aller gesperrten Profile für ein bestimmtes Profil).
+ */
 	@Override
 	public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException {
 		Kontaktsperre k = kMapper.findAllForProfil(profil);
 		return k;
 	}
 
+/**
+ * ein bestimmtes Profil sperren 	
+ */
 	@Override
 	public void createKontaktsperre(Profil sperrer, Profil gesperrter) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 
 	}
 
+/**
+ * Löschen eines gesperrten Profils (Profil ist nicht mehr gesperrt).	
+ */
+	// nochmal nachfragen warum deleteSperre zweimal vorhanden
 	@Override
 	public void deleteKontaktsperre(Kontaktsperre kontaktsperre) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 
 	}
 
+/**
+ * Erstellen eines Suchprofils	
+ */
 	@Override
 	public void createSuchprofil(Suchprofil sp) throws IllegalArgumentException {
 		this.sMapper.insert(sp);
 	}
 
+/**
+ * Auslesen einer Beschreibung mit einer bestimmten ID	
+ */
 	@Override
 	public Beschreibung getBeschreibungById(int id) throws IllegalArgumentException {
 		return this.beschrMapper.findByKey(id);
 	}
 
+/**
+ * 	Auslesen einer Eigenschaft mit einer bestimmten ID
+ * @param id
+ * @return name oder "Nichts gefunden"
+ * @throws IllegalArgumentException
+ */
 	public String getEigenschaftsNameById(int id) throws IllegalArgumentException {
 		if (this.beschrMapper.findByKey(id) != null) {
 			Beschreibung b = this.beschrMapper.findByKey(id);
@@ -497,9 +676,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			String name = a.getBeschreibungstext();
 			return name;
 		}
-		return "nichts gefunden!";
+		return "Nichts gefunden!";
 	}
 
+/**
+ * 	Auslesen aller Beschreibungs-Objekte
+ */
 	@Override
 	public ArrayList<Beschreibung> getAllBeschreibung() throws IllegalArgumentException {
 		return this.beschrMapper.findAll();
@@ -507,32 +689,48 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	/*
 	 * Diese Methoden brauchen wir wohl nicht
+	 * Welche?
 	 */
 
+/**
+ * 	Löschen eines Auswahl-Objektes
+ */
 	@Override
 	public void delete(Auswahl auswahl) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 
 	}
 
+/**
+ * Speichern eines Auswahl-Objektes	
+ */
 	@Override
 	public void save(Auswahl auswahl) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+/**
+ * Löschen eines Beschreibungs-Objektes
+ */
 	@Override
 	public void delete(Beschreibung beschreibung) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 
 	}
 
+/**
+ * 	Speichern eines Beschreibungs-Objektes
+ */
 	@Override
 	public void save(Beschreibung beschreibung) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 
 	}
 
+/**
+ * Erstellung eines Beschreibungs-Objektes	
+ */
 	@Override
 	public Beschreibung createBeschreibung(String name, String beschreibungstext) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
@@ -557,6 +755,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return false;
 	}
 
+/**
+ * Auslesen von Profilen, die einem Suchprofil entsprechen
+ */
 	@Override
 	public ArrayList<Profil> getProfilesBySuchprofil(Suchprofil sp) throws IllegalArgumentException {
 
@@ -659,16 +860,25 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return result;
 	}
 
+/**
+ * Auslesen aller Auswahl-Objekte	
+ */
 	@Override
 	public ArrayList<Auswahl> getAllAuswahlProfilAttribute() {
 		return this.auswahlMapper.findAllProfilAtrribute();
 	}
 
+/**
+ * 	Auslesen aller Beschreibungs-Objkete
+ */
 	@Override
 	public ArrayList<Beschreibung> getAllBeschreibungProfilAttribute() {
 		return this.beschrMapper.findAllProfilAttribute();
 	}
 
+/**
+ * 	Erstellung einer Auswahl
+ */
 	@Override
 	public Auswahl createAuswahl(String name, String beschreibungstext, ArrayList<String> alternativen)
 			throws IllegalArgumentException {
