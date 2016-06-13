@@ -343,6 +343,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		return result;
 	}
+
 	public int berechneAehnlichkeit(Profil p1, Profil p2){
 		// 6 Profilattribute: Geb, Geschlecht, Groesse, Haarfarbe, Raucher, Religion
 		float i = 6;
@@ -651,12 +652,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		// Objekte um sie mit den Info-Objekten eines Profils zu vergelichen
 
 		for (Map.Entry<Integer, String> entry : auswahlListe.entrySet()) {
+		    if (entry.getValue().equals("Keine Angabe")) {
+			continue;
+		    }
 			Info i = new Info();
 			i.setEigenschaftId(entry.getKey());
 			i.setText(entry.getValue());
 			suchprofilInfoListe.add(i);
-			// ClientsideSettings.getLogger().info("infos für passendes
-			// suchprofil: Id=" + i.getProfilId() + " text= "
+			// ClientsideSettings.getLogger().info("infos für passendes" +
+			//" suchprofil: Id=" + i.getProfilId() + " text= "
 			// + i.getText() + " E-Id=" + i.getEigenschaftId());
 		}
 
