@@ -22,8 +22,8 @@ import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.bo.Suchprofil;
 
 /**
- * Die Klasse Suche ist für die Darstellung von Möglichen Auswahlen und eine
- * anschließende Suche anhand dieser Kriterien
+ * Die Klasse Suche ist fuer die Darstellung von Moeglichen Auswahlen und eine
+ * anschliesssende Suche anhand dieser Kriterien
  * 
  * @author Funke, Volz
  *
@@ -43,7 +43,7 @@ public class Suche extends BasicFrame {
 
 	Button suchprofilErstellButton = new Button("Suchprofil erstellen");
 	Button sucheButton = new Button("Suchen");
-	Button suchprofilLöschenButton = null;
+	Button suchprofilLoeschenButton = null;
 	Button suchprofilSpeichernButton = null;
 
 	@SuppressWarnings("deprecation")
@@ -97,7 +97,7 @@ public class Suche extends BasicFrame {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				suchprofilLöschenButton.setEnabled(true);
+				suchprofilLoeschenButton.setEnabled(true);
 
 				ListBox clickedLb = (ListBox) event.getSource();
 				suchProfilTextbox.setText(clickedLb.getSelectedItemText());
@@ -168,12 +168,12 @@ public class Suche extends BasicFrame {
 		fPanel.add(sucheButton);
 		
 		suchprofilSpeichernButton = new Button("Suchprofil Speichern");
-		suchprofilLöschenButton = new Button("Suchprofil löschen");
-		suchprofilLöschenButton.setEnabled(false);
+		suchprofilLoeschenButton = new Button("Suchprofil löschen");
+		suchprofilLoeschenButton.setEnabled(false);
 
 		RootPanel.get("Menu").add(suchProfilListBox);
 		RootPanel.get("Menu").add(suchprofilSpeichernButton);
-		RootPanel.get("Menu").add(suchprofilLöschenButton);
+		RootPanel.get("Menu").add(suchprofilLoeschenButton);
 
 		sucheButton.addClickHandler(new ClickHandler() {
 
@@ -212,7 +212,7 @@ public class Suche extends BasicFrame {
 		});
 
 		
-		suchprofilLöschenButton.addClickHandler(new ClickHandler() {
+		suchprofilLoeschenButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -370,7 +370,7 @@ public class Suche extends BasicFrame {
 			
 			RootPanel.get("Menu").add(suchProfilListBox);
 			RootPanel.get("Menu").add(suchprofilSpeichernButton);
-			RootPanel.get("Menu").add(suchprofilLöschenButton);
+			RootPanel.get("Menu").add(suchprofilLoeschenButton);
 
 
 			if (suchProfilListe.contains(sp)) {
