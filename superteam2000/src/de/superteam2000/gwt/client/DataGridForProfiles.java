@@ -26,7 +26,7 @@ public class DataGridForProfiles extends BasicFrame {
 
   private ArrayList<Profil> profilListe = new ArrayList<>();
 
-   public DataGridForProfiles(ArrayList<Profil> list) {
+  public DataGridForProfiles(ArrayList<Profil> list) {
     this.profilListe = list;
   }
 
@@ -196,9 +196,9 @@ public class DataGridForProfiles extends BasicFrame {
       }
     };
 
-    
-      table.addColumn(aehnlichkeit, "Ähnlichkeit");
-    
+
+    table.addColumn(aehnlichkeit, "Ähnlichkeit");
+
     // Add a selection model to handle user selection.
     final SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
     table.setSelectionModel(selectionModel);

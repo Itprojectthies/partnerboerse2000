@@ -264,6 +264,86 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 
+	public int berechneAehnlichkeitforSuchprofil(Profil p1, Profil p2, Suchprofil sp){
+		Profil pNeu = p1;
+		float i = 4;
+		float aehnlichkeit = 0;
+		
+		//neues Profil mit "angepassten" Angaben anhand des Suchprofils erstellen
+		
+		if (!pNeu.getGeschlecht().equals( sp.getGeschlecht()) && !sp.getGeschlecht().equals("Keine Angabe"))
+		{pNeu.setGeschlecht(sp.getGeschlecht());}
+		if (!pNeu.getHaarfarbe().equals( sp.getHaarfarbe()) && !sp.getHaarfarbe().equals("Keine Angabe"))
+		{pNeu.setHaarfarbe(sp.getHaarfarbe());}
+		if (!pNeu.getRaucher().equals( sp.getRaucher()) && !sp.getRaucher().equals("Keine Angabe"))
+		{pNeu.setRaucher(sp.getRaucher());}
+		if (!pNeu.getReligion().equals( sp.getReligion()) && !sp.getReligion().equals("Keine Angabe"))
+		{pNeu.setReligion(sp.getReligion());}
+
+		
+		
+		HashMap<Integer, String> auswahlListe = sp.getAuswahlListe();
+		
+		//Liste der Infos des Suchprofils aus der Map ziehen
+		ArrayList<Info> suchprofilInfoListe = new ArrayList<>();
+		for (Map.Entry<Integer, String> entry : auswahlListe.entrySet()) {
+			Info info = new Info();
+			info.setEigenschaftId(entry.getKey());
+			info.setText(entry.getValue());
+			suchprofilInfoListe.add(info);
+		}
+		ArrayList<Info> neuesProfiInfoListe = this.getInfoByProfile(p1);
+		
+		for(Info spInfo: suchprofilInfoListe){
+			if(!(neuesProfiInfoListe.contains(spInfo))){
+				neuesProfiInfoListe.add(spInfo);
+			}
+		}
+		
+		// JETZT wird erst die Ähnlichkeit zwischen pNeu und p2 berechnet
+		
+		
+		if (pNeu.getGeschlecht().equals( p2.getGeschlecht())){aehnlichkeit++;}
+		if (pNeu.getHaarfarbe().equals( p2.getHaarfarbe())){aehnlichkeit++;}
+		if (pNeu.getRaucher().equals( p2.getRaucher())){aehnlichkeit++;}
+		if (pNeu.getReligion().equals( p2.getReligion())){aehnlichkeit++;}
+		
+		if(sp.getGroesse_min() != 0 && sp.getGroesse_min() < p2.getGroesse()){
+			aehnlichkeit++;
+			i++;
+		}
+		
+		if(sp.getGroesse_max() != 0 && p2.getGroesse() < sp.getGroesse_max()){
+			aehnlichkeit++;
+			i++;
+		}
+		
+		if(sp.getAlter_min() != 0 && sp.getAlter_min() < p2.getAlter()){
+			aehnlichkeit++;
+			i++;
+		}
+		
+		if(sp.getAlter_max() != 0 && p2.getAlter() < sp.getAlter_max()){
+			aehnlichkeit++;
+			i++;
+		}
+	
+		
+		ArrayList<Info> infoP2 = this.getInfoByProfile(p2);
+		
+		for (Info meineInfo: neuesProfiInfoListe){
+			for(Info referenzInfo: infoP2){
+				if(meineInfo.equals(referenzInfo)){
+					aehnlichkeit++;
+					i++;
+				}
+			}
+		}
+		int result = Math.round(aehnlichkeit * (100f/i));
+		
+		return result;
+	}
+
 	public int berechneAehnlichkeit(Profil p1, Profil p2){
 		// 6 Profilattribute: Geb, Geschlecht, Groesse, Haarfarbe, Raucher, Religion
 		float i = 6;
@@ -579,9 +659,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			i.setEigenschaftId(entry.getKey());
 			i.setText(entry.getValue());
 			suchprofilInfoListe.add(i);
-			 ClientsideSettings.getLogger().info("infos für passendes" +
-			" suchprofil: Id=" + i.getProfilId() + " text= "
-			 + i.getText() + " E-Id=" + i.getEigenschaftId());
+			// ClientsideSettings.getLogger().info("infos für passendes" +
+			//" suchprofil: Id=" + i.getProfilId() + " text= "
+			// + i.getText() + " E-Id=" + i.getEigenschaftId());
 		}
 
 		for (Profil p : profile) {
@@ -663,7 +743,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		
 		for(Profil akt: result){
-			akt.setAehnlichkeit(this.berechneAehnlichkeit(user, akt));
+			akt.setAehnlichkeit(this.berechneAehnlichkeitforSuchprofil(user, akt, sp));
 		}
         Collections.sort(result, new Comparator<Profil>() {
 

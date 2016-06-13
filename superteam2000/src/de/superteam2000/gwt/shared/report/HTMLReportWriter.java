@@ -259,6 +259,7 @@ public class HTMLReportWriter extends ReportWriter {
 //	result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint2()) + "</td>");
 //	result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint3()) + "</td>");
 	
+
 	result.append("<div class=\"container\">");
 	result.append("<div class=\"avatar-flip\">");
 	result.append("<img src=\"img/dummy.jpg\" height=\"150\" width=\"150\">");
