@@ -251,13 +251,25 @@ public class HTMLReportWriter extends ReportWriter {
 	 * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
 	 * ausgelesen und in HTML-Form übersetzt.
 	 */
-	result.append("<H1>" + r.getTitle() + "</H1>");
-	result.append("<div id=\"test\"></div>");
-	result.append("<table><tr>");
-	result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getHeaderData()) + "</b></td>");
-	result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint()) + "</td>");
-	result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint2()) + "</td>");
-	result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint3()) + "</td>");
+//	result.append("<H1>" + r.getTitle() + "</H1>");
+//	result.append("<div id=\"test\"></div>");
+//	result.append("<table><tr>");
+//	result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getHeaderData()) + "</b></td>");
+//	result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint()) + "</td>");
+//	result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint2()) + "</td>");
+//	result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint3()) + "</td>");
+	
+	result.append("<div class=\"container\">");
+	result.append("<div class=\"avatar-flip\">");
+	result.append("<img src=\"img/dummy.jpg\" height=\"150\" width=\"150\">");
+	result.append("<img src=\"img/dummy.jpg\" height=\"150\" width=\"150\">");
+	result.append("</div>");
+	result.append("<h2>"+ r.getHeaderData() +"</h2>");
+	result.append("<h4>HOVER OVER CONTAINER</h4>");
+	result.append("<p>" + r.getImprint()+ "</p>");
+	result.append("<p>" + r.getImprint2()+ "</p>");
+	result.append("<p>" + r.getImprint3()+ "</p>");
+//	result.append("</div>");
 
 
 
@@ -265,11 +277,11 @@ public class HTMLReportWriter extends ReportWriter {
 	if (rows != null) {
 	    ClientsideSettings.getLogger().info("Vector an Rows im HTMLWriter ungleich null");
 	}
-	result.append("<table style=\"width:400px\">");
+//	result.append("<table style=\"width:400px\">");
 
 	for (int i = 0; i < rows.size(); i++) {
 	    Row row = rows.elementAt(i);
-	    result.append("<tr>");
+	    result.append("<p>");
 	    for (int k = 0; k < row.getNumColumns(); k++) {
 //		if (i == 0) {
 //		    result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnAt(k) + "</td>");
@@ -280,12 +292,13 @@ public class HTMLReportWriter extends ReportWriter {
 //			result.append("<td valign=\"top\">" + row.getColumnAt(k) + "</td>");
 //		    }
 //		}
-	    	result.append("<td style=\"border-top:1px solid silver\">" + row.getColumnAt(k) + "</td>");
+//	    	result.append("<td style=\"border-top:1px solid silver\">" + row.getColumnAt(k) + "</td>");
+	    	result.append(" "+ row.getColumnAt(k));
 	    }
-	    result.append("</tr>");
+	    result.append("</p>");
 	}
-
-	result.append("</table>");
+	result.append("</div>");
+//	result.append("</table>");
 
 	/*
 	 * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und

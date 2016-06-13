@@ -91,8 +91,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Row infoRow = new Row();
 		
 		
-		infoRow.addColumn(new Column(i.getText()));
 		infoRow.addColumn(new Column(administration.getEigenschaftsNameById(i.getEigenschaftId())));
+		infoRow.addColumn(new Column(i.getText()));
 		result.addRow(infoRow);
 		
 	    }
