@@ -117,14 +117,12 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void save(Suchprofil sp) throws IllegalArgumentException;
 
-	public ArrayList<Profil> getProfilesBySuchprofil(Suchprofil sp) throws IllegalArgumentException;
+	public ArrayList<Profil> getProfilesBySuchprofil(Suchprofil sp, Profil user) throws IllegalArgumentException;
 
 	
 	public ArrayList<Profil> getAllNotVisitedProfilesByAehnlichkeitsmass(Profil p);
 
 	public ArrayList<Profil> getAllNewProfilesByAehnlichkeitsmass(Profil p);
-
-	//public String getEigenschaftsNameById(int id) throws IllegalArgumentException;
 
 
 

@@ -30,11 +30,10 @@ public abstract class Report implements Serializable {
 	
 	private Profil profil = null;
 
-	/**
-	 * Ein kleines Impressum, das eine Art Briefkopf darstellt. Jedes
-	 * Unternehmen einige Daten wie Firmenname, Adresse, Logo, etc. auf
-	 * Geschäftsdokumenten ab. Dies gilt auch für die hier realisierten Reports.
-	 */
+	
+	private Paragraph imprint2 = null;
+	
+	private Paragraph imprint3 = null;
 
 
 	/**
@@ -118,6 +117,22 @@ public void setCreated(Date created) {
 
 	public void setProfil(Profil profil) {
 		this.profil = profil;
+	}
+
+	public Paragraph getImprint2() {
+		return imprint2;
+	}
+
+	public void setImprint2(Paragraph imprint2) {
+		this.imprint2 = imprint2;
+	}
+
+	public Paragraph getImprint3() {
+		return imprint3;
+	}
+
+	public void setImprint3(Paragraph imprint3) {
+		this.imprint3 = imprint3;
 	}
 
 }

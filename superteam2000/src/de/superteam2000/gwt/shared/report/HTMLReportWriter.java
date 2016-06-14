@@ -250,14 +250,26 @@ result.append("</tr><tr><td></td><td>" + r.getCreated().toString() + "</td></tr>
 
 		//result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint()) + "</td>");
 
+	/*
+	 * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
+	 * ausgelesen und in HTML-Form übersetzt.
+	 */
+	//result.append("<H1>" + r.getTitle() + "</H1>");
+	result.append("<div id=\"test\"></div>");
+	result.append("<table><tr>");
+	result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getHeaderData()) + "</b></td>");
+	result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint2()) + "</td>");
+	result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint3()) + "</td>");
 
-	result.append("</tr><tr><td></td><td>" + r.getCreated().toString() + "</td></tr></table>");
+
+
 
 	Vector<Row> rows = r.getRows();
 	if (rows != null) {
 	    ClientsideSettings.getLogger().info("Vector an Rows im HTMLWriter ungleich null");
 	}
 	result.append("<table style=\"width:400px\">");
+
 
 		for (int i = 0; i < rows.size(); i++) {
 			Row row = rows.elementAt(i);
@@ -281,6 +293,22 @@ result.append("</tr><tr><td></td><td>" + r.getCreated().toString() + "</td></tr>
 			result.append("</tr>");
 		}
 	    
+	for (int i = 0; i < rows.size(); i++) {
+	    Row row = rows.elementAt(i);
+	    result.append("<tr>");
+	    for (int k = 0; k < row.getNumColumns(); k++) {
+//		if (i == 0) {
+//		    result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnAt(k) + "</td>");
+//		} else {
+//		    if (i > 1) {
+//			result.append("<td style=\"border-top:1px solid silver\">" + row.getColumnAt(k) + "</td>");
+//		    } else {
+//			result.append("<td valign=\"top\">" + row.getColumnAt(k) + "</td>");
+//		    }
+//		}
+	    	result.append("<td style=\"border-top:1px solid silver\">" + row.getColumnAt(k) + "</td>");
+	    }
+
 	    result.append("</tr>");
 
 	result.append("</table>");
@@ -290,7 +318,7 @@ result.append("</tr><tr><td></td><td>" + r.getCreated().toString() + "</td></tr>
 	 * der reportText-Variable zugewiesen. Dadurch wird es möglich,
 	 * anschließend das Ergebnis mittels getReportText() auszulesen.
 	 */
-	this.reportText = result.toString();
+	this.reportText = result.toString();}
 
     }
     // public void process(AllProfilesReport r) {

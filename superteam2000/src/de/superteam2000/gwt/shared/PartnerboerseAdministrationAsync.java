@@ -125,7 +125,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void save(Suchprofil sp, AsyncCallback<Void> callback);
 
-	void getProfilesBySuchprofil(Suchprofil sp, AsyncCallback<ArrayList<Profil>> callback);
+	void getProfilesBySuchprofil(Suchprofil sp, Profil user, AsyncCallback<ArrayList<Profil>> callback);
 
 	void getAllNotVisitedProfilesByAehnlichkeitsmass(Profil p,
 			AsyncCallback<ArrayList<Profil>> callback);
