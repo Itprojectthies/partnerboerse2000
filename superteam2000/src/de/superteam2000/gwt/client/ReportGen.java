@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.ParagraphElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -54,14 +55,16 @@ public class ReportGen implements EntryPoint {
   Suchprofil sp = new Suchprofil();
 
   ArrayList<Suchprofil> suchProfilListe = new ArrayList<>();
-
+  FlowPanel menu = new FlowPanel();
+  UnorderedListWidget menuList = new UnorderedListWidget();
+  FlowPanel pureMenu = new FlowPanel();
+  
   @Override
   public void onModuleLoad() {
-    FlowPanel menu = new FlowPanel();
-    FlowPanel pureMenu = new FlowPanel();
+    
     Anchor anchor = new Anchor("PartnerBörse", GWT.getHostPageBaseURL() + "Superteam2000.html");
     
-    UnorderedListWidget menuList = new UnorderedListWidget();
+    
 
     menuList.setStyleName("pure-menu-list");
     
@@ -98,10 +101,10 @@ public class ReportGen implements EntryPoint {
     pureMenu.add(anchor);
     pureMenu.add(menuList);
     
-    RootPanel.get("menu").add(menu);
     
     
-    pbVerwaltung.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback());
+    
+    pbVerwaltung.login(GWT.getHostPageBaseURL() + "Reportgen.html", new LoginCallback());
 
 
 
@@ -125,7 +128,16 @@ public class ReportGen implements EntryPoint {
 
     @Override
     public void onSuccess(Profil result) {
-
+      if (result.isLoggedIn()) {
+        RootPanel.get("menu").add(menu);
+    } else {
+            
+      Anchor loginAnchor = new Anchor("Login");
+      loginAnchor.setStyleName("pure-menu-link");
+      loginAnchor.setHref(result.getLoginUrl());
+      
+      RootPanel.get("menu").add(loginAnchor);
+    }
       p = result;
       
       pbVerwaltung.getAllSuchprofileForProfil(p, new AsyncCallback<ArrayList<Suchprofil>>() {
