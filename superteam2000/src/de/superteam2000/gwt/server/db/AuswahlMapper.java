@@ -9,53 +9,46 @@ import java.util.ArrayList;
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 
-/**
- * Mapper-Klasse, die <code>Auswahl</code>-Objekte auf eine relationale
- * Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
- * gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
- * gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
- * in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
- * <p>
- * 
- * 
- * @see
- * @author Thies
- */
+	 /**
+  	 * Klasse, die die Aufgabe erf�llt, die Objekte einer persistenten Klasse auf die Datenbank abzubilden und dort zu speichern.
+ 	 * Die zu speichernden Objekte werden dematerialisiert und zu gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird
+ 	 * als indirektes Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende Methoden zur Suche, zum Speichern, L�schen und 
+ 	 * Modifizieren von Objekten.
+ 	 * @see AehnlichkeitsMapper
+ 	 * @see BeschreibungsMapper
+	 * @see DBConnection
+	 * @see InfoMapper
+	 * @see KontaktsperreMapper
+	 * @see MerkzettelMapper
+	 * @see ProfilMapper
+	 * @see SuchprofilMapper
+ 
+	 * @author 
+	 */
 
 public class AuswahlMapper {
 
+
 	/**
-	 * Die Klasse AuswahlMapper wird nur einmal instantiiert. Man spricht
-	 * hierbei von einem sogenannten <b>Singleton</b>.
-	 * <p>
-	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal
-	 * für sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie
-	 * speichert die einzige Instanz dieser Klasse.
+	 * Von der Klasse AuswahlMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die Singleton-Eigenschaft.
+	 * Dies geschieht mittels eines private default-Konstruktors und genau einer statischen Variablen vom 
+	 * Typ AuswahlMapper, die die einzige Instanz der Klasse darstellt.
+	 *
 	 * 
 	 */
 	private static AuswahlMapper AuswahlMapper = null;
 
 	/**
-	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit new neue
-	 * Instanzen dieser Klasse zu erzeugen.
-	 * 
+	 * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der Klasse erzeugt werden k�nnen
+	 *  
 	 */
 	protected AuswahlMapper() {
 	}
 
 	/**
-	 * Diese statische Methode kann aufgrufen werden durch
-	 * <code>AuswahlMapper.AuswahlMapper()</code>. Sie stellt die
-	 * Singleton-Auswahl sicher, indem Sie dafür sorgt, dass nur eine einzige
-	 * Instanz von <code>AuswahlMapper</code> existiert.
-	 * <p>
-	 * 
-	 * <b>Fazit:</b> AuswahlMapper sollte nicht mittels <code>new</code>
-	 * instantiiert werden, sondern stets durch Aufruf dieser statischen
-	 * Methode.
-	 * 
-	 * @return DAS <code>AuswahlMapper</code>-Objekt.
-	 * @see BeschreibungMapper
+	 * Von der Klasse AuswahlMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die Singleton-Eigenschaft.
+	 * Dies geschieht mittels eines private default-Konstruktors und genau einer statischen Variablen vom 
+	 * Typ AuswahlMapper, die die einzige Instanz der Klasse darstellt.
 	 */
 	public static AuswahlMapper auswahlMapper() {
 		if (AuswahlMapper == null) {
@@ -63,28 +56,28 @@ public class AuswahlMapper {
 		}
 
 		return AuswahlMapper;
+		
 	}
+	
+	/**
+	 * Die Methode findByName erf�llt eine Suchfunktion und liefert Objekte des Typs Auswahl aus der Datenbank zur�ck
+	 * 
+	 * @param name 
+	 * @return Auswahl - Ein Auswahl-Objekt in dem Informationen des Objekts Auswahl aus der Datenbank gespeichert werden
+	 */
 
 	public Auswahl findByName(String name) {
-		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
 
 		try {
-			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 			Statement stmt2 = con.createStatement();
 
-			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs1 = stmt.executeQuery(
 					"SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE Name=\"" + name + "\" AND e_typ='p_a'");
 
-			/*
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-			 * werden. Prüfe, ob ein Ergebnis vorliegt.
-			 */
-
+			
 			if (rs1.next()) {
-				// Ergebnis-Tupel in Objekt umwandeln
 				Auswahl a = new Auswahl();
 				a.setId(rs1.getInt("id"));
 				a.setName(rs1.getString("Name"));
@@ -107,12 +100,12 @@ public class AuswahlMapper {
 	}
 
 	/**
-	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
-	 * ist, wird genau ein Objekt zur�ckgegeben.
+	 * Die Methode findByKey implementiert die Suche nach genau einer id aus der Datenbank, entsprechend wird 
+	 * genau ein Objekt zur�ckgegeben.
 	 * 
 	 * @param id
-	 *            Primärschlüsselattribut (->DB)
-	 * @return Kunden-Objekt, das dem übergebenen Schlüssel entspricht, null bei
+	 * 
+	 * @return Auswahl-Objekt, das der �bergegebenen id entspricht bzw. null bei
 	 *         nicht vorhandenem DB-Tupel.
 	 */
 	public Auswahl findByKey(int id) {
@@ -157,15 +150,12 @@ public class AuswahlMapper {
 	}
 
 	/**
-	 * Auslesen aller Kunden.
+	 * Auslesen aller Auswahl-Tupel.
 	 *
-	 * @return Ein Vektor mit Auswahl-Objekten, die sämtliche Kunden
-	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gef�llter
-	 *         oder ggf. auch leerer Vetor zurückgeliefert.
+	 * @return Eine ArrayList mit Auswahl-Objekten
 	 */
 	public ArrayList<Auswahl> findAll() {
 		Connection con = DBConnection.connection();
-		// Ergebnisvektor vorbereiten
 		ArrayList<Auswahl> result = new ArrayList<Auswahl>();
 
 		try {
@@ -176,8 +166,7 @@ public class AuswahlMapper {
 
 			Statement stmt2 = con.createStatement();
 
-			// Für jeden Eintrag im Suchergebnis wird nun ein Auswahl-Objekt
-			// erstellt.
+			
 
 			while (rs1.next()) {
 				Auswahl a = new Auswahl();
@@ -204,16 +193,13 @@ public class AuswahlMapper {
 					+ e.getCause() + " ");
 		}
 
-		// Ergebnisvektor zurückgeben
 		return result;
 	}
 
 	/**
-	 * Auslesen aller Kunden.
+	 * Auslesen aller Auswahl-Tupel.
 	 *
-	 * @return Ein Vektor mit Auswahl-Objekten, die sämtliche Kunden
-	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gefüllter
-	 *         oder ggf. auch leerer Vetor zurückgeliefert.
+	 * @return Eine ArrayList  mit Auswahl-Objekten, bei einem Fehler wird eine SQL-Exception ausgel�st
 	 */
 	public ArrayList<Auswahl> findAllProfilAtrribute() {
 		Connection con = DBConnection.connection();
@@ -228,9 +214,6 @@ public class AuswahlMapper {
 
 			Statement stmt2 = con.createStatement();
 
-			// Für jeden Eintrag im Suchergebnis wird nun ein Auswahl-Objekt
-			// erstellt.
-
 			while (rs1.next()) {
 				Auswahl a = new Auswahl();
 				a.setId(rs1.getInt("id"));
@@ -243,7 +226,6 @@ public class AuswahlMapper {
 					al.add(rs2.getString("Text"));
 				}
 				a.setAlternativen(al);
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
 				result.add(a);
 
 			}
@@ -255,19 +237,15 @@ public class AuswahlMapper {
 			+ " " + e.getCause() + " ");
 		}
 
-		// Ergebnisvektor zurückgeben
 		return result;
 	}
 
 	/**
-	 * Einfügen eines <code>Auswahl</code>-Objekts in die Datenbank. Dabei wird
-	 * auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
-	 * berichtigt.
+	 * Hinzuf�gen eines Auswahl-Objekts in die Datenbank. 
 	 *
-	 * @param a
-	 *            das zu speichernde Objekt
-	 * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
-	 *         <code>id</code>.
+	 * @param a - das zu speichernde Objekt
+	 *            
+	 * @return das an die Datenbank �bergebene Objekt
 	 */
 	public Auswahl insert(Auswahl a) {
 		Connection con = DBConnection.connection();
@@ -275,19 +253,12 @@ public class AuswahlMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			/*
-			 * Zunächst schauen wir nach, welches der momentan höchste
-			 * Primärschlüsselwert ist.
-			 */
+			
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " 
 			 + "FROM Eigenschaft ");
 
-			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
-				/*
-				 * a erhält den bisher maximalen, nun um 1 inkrementierten
-				 * Primärschlüssel.
-				 */
+			
 				a.setId(rs.getInt("maxid") + 1);
 
 				stmt = con.createStatement();
@@ -305,11 +276,9 @@ public class AuswahlMapper {
 	}
 
 	/**
-	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
-	 *
-	 * @param a
-	 *            das Objekt, das in die DB geschrieben werden soll
-	 * @return das als Parameter übergebene Objekt
+	 * Die Methode update modifiziert ein auf die Datenbank abgebildetes Auswahl-Objekt.
+	 * @param a - das Objekt, welches in der Datenbank ge�ndert wird
+	 * @return das als Parameter �bergebene Objekt
 	 */
 	public Auswahl update(Auswahl a) {
 		Connection con = DBConnection.connection();
@@ -330,10 +299,9 @@ public class AuswahlMapper {
 	}
 
 	/**
-	 * Löschen der Daten eines <code>Auswahl</code>-Objekts aus der Datenbank.
+	 * L�schen eines auf die Datenbank abgebildeteten Auswahl-Objekts
 	 *
-	 * @param a
-	 *            das aus der DB zu löschende "Objekt"
+	 * @param a das aus der DB zu l�schende Objekt
 	 */
 	public void delete(Auswahl a) {
 		Connection con = DBConnection.connection();

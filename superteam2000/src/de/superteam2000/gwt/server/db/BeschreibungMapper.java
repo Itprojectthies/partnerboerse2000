@@ -9,55 +9,47 @@ import java.util.ArrayList;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
+	 /**
+	 * Klasse, die die Aufgabe erfüllt, die Objekte einer persistenten Klasse auf die Datenbank abzubilden und dort zu speichern.
+	 * Die zu speichernden Objekte werden dematerialisiert und zu gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird
+	 * als indirektes Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende Methoden zur Suche, zum Speichern, Löschen und 
+	 * Modifizieren von Objekten.
+	 * @see AehnlichkeitsMapper
+	 * @see AuswahlMapper
+	 * @see DBConnection
+	 * @see InfoMapper
+	 * @see KontaktsperreMapper
+	 * @see MerkzettelMapper
+	 * @see ProfilMapper
+	 * @see SuchprofilMapper
 
-/**
- * Mapper-Klasse, die <code>Auswahl</code>-Objekte auf eine relationale
- * Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur VerfÃ¼gung
- * gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
- * gelÃ¶scht werden kÃ¶nnen. Das Mapping ist bidirektional. D.h., Objekte kÃ¶nnen
- * in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
- * <p>
- * 
- * 
- * @see
- * @author Thies
- */
+	 * @author 
+	 */
 
 public class BeschreibungMapper {
 
 	/**
-	 * Die Klasse AuswahlMapper wird nur einmal instantiiert. Man spricht
-	 * hierbei von einem sogenannten <b>Singleton</b>.
-	 * <p>
-	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal
-	 * fÃ¼r sÃ¤mtliche eventuellen Instanzen dieser Klasse vorhanden. Sie
-	 * speichert die einzige Instanz dieser Klasse.
+	 * Von der Klasse BeschreibungMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die Singleton-Eigenschaft.
+	 * Dies geschieht mittels eines private default-Konstruktors und genau einer statischen Variablen vom 
+	 * Typ BeschreibungMapper, die die einzige Instanz der Klasse darstellt.
+	 *
 	 * 
 	 */
 	private static BeschreibungMapper BeschreibungMapper = null;
 
 	/**
-	 * GeschÃ¼tzter Konstruktor - verhindert die MÃ¶glichkeit, mit new neue
-	 * Instanzen dieser Klasse zu erzeugen.
-	 * 
+	 * Durch den Modifier "private" geschützter Konstruktor, der verhindert das weiter Instanzen der Klasse erzeugt werden können
+	 *  
 	 */
 	protected BeschreibungMapper() {
 	}
 
 	/**
-	 * Diese statische Methode kann aufgrufen werden durch
-	 * <code>AuswahlMapper.AuswahlMapper()</code>. Sie stellt die
-	 * Singleton-Auswahl sicher, indem Sie dafÃ¼r sorgt, dass nur eine einzige
-	 * Instanz von <code>AuswahlMapper</code> existiert.
-	 * <p>
-	 * 
-	 * <b>Fazit:</b> AuswahlMapper sollte nicht mittels <code>new</code>
-	 * instantiiert werden, sondern stets durch Aufruf dieser statischen
-	 * Methode.
-	 * 
-	 * @return DAS <code>AuswahlMapper</code>-Objekt.
-	 * @see AuswahlMapper
+	 * Von der Klasse AuswahlMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die Singleton-Eigenschaft.
+	 * Dies geschieht mittels eines private default-Konstruktors und genau einer statischen Variablen vom 
+	 * Typ AuswahlMapper, die die einzige Instanz der Klasse darstellt.
 	 */
+	
 	public static BeschreibungMapper beschreibungMapper() {
 		if (BeschreibungMapper == null) {
 			BeschreibungMapper = new BeschreibungMapper();
@@ -65,7 +57,16 @@ public class BeschreibungMapper {
 
 		return BeschreibungMapper;
 	}
-
+	
+	
+	/**
+	 * Die Methode findByName erfüllt eine Suchfunktion und liefert Objekte des Typs Beschreibung aus der Datenbank zurück
+	 * 
+	 * @param name 
+	 * @return Beschreibung - Ein Beschreibungs-Objekt, in dem Informationen des Objekts Beschreibung aus der Datenbank gespeichert werden
+	 */
+	
+	
 	public Beschreibung findByName(String name) {
 		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
@@ -104,12 +105,12 @@ public class BeschreibungMapper {
 	}
 	
 	/**
-	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
-	 * ist, wird genau ein Objekt zurÃ¼ckgegeben.
+	 * Die Methode findByKey implementiert die Suche nach genau einer id aus der Datenbank, entsprechend wird 
+	 * genau ein Objekt zurückgegeben.
 	 * 
 	 * @param id
-	 *            PrimÃ¤rschlÃ¼sselattribut (->DB)
-	 * @return Kunden-Objekt, das dem Ã¼bergebenen SchlÃ¼ssel entspricht, null bei
+	 * 
+	 * @return Beschreibung, Beschreibungs-Objekt, das der übergegebenen id entspricht, bzw. null bei
 	 *         nicht vorhandenem DB-Tupel.
 	 */
 	public Beschreibung findByKey(int id) {
@@ -147,13 +148,11 @@ public class BeschreibungMapper {
 
 		return null;
 	}
-
+	
 	/**
-	 * Auslesen aller Kunden.
+	 * Auslesen aller Auswahl-Tupel.
 	 *
-	 * @return Ein Vektor mit Auswahl-Objekten, die sÃ¤mtliche Kunden
-	 *         reprÃ¤sentieren. Bei evtl. Exceptions wird ein partiell gefï¿½llter
-	 *         oder ggf. auch leerer Vetor zurÃ¼ckgeliefert.
+	 * @return Eine ArrayList mit Auswahl-Objekten
 	 */
 	public ArrayList<Beschreibung> findAll() {
 		Connection con = DBConnection.connection();
@@ -187,12 +186,11 @@ public class BeschreibungMapper {
 		return result;
 	}
 	
+	
 	/**
-	 * Auslesen aller Kunden.
+	 * Auslesen aller auf die Datenbank abgebildeten Datenbank-Objekte.
 	 *
-	 * @return Ein Vektor mit Auswahl-Objekten, die sÃ¤mtliche Kunden
-	 *         reprÃ¤sentieren. Bei evtl. Exceptions wird ein partiell gefï¿½llter
-	 *         oder ggf. auch leerer Vetor zurÃ¼ckgeliefert.
+	 * @return ArrayList <Beschreibung> - ArrayList mit Beschreibungs-Objekten, bei einem Fehler wird eine SQL-Exception ausgelöst
 	 */
 	public ArrayList<Beschreibung> findAllProfilAttribute() {
 		Connection con = DBConnection.connection();
@@ -227,14 +225,11 @@ public class BeschreibungMapper {
 	}
 
 	/**
-	 * EinfÃ¼gen eines <code>Auswahl</code>-Objekts in die Datenbank. Dabei wird
-	 * auch der PrimÃ¤rschlÃ¼ssel des Ã¼bergebenen Objekts geprÃ¼ft und ggf.
-	 * berichtigt.
+	 * Hinzufügen eines Beschreibungs-Objekts in die Datenbank. 
 	 *
-	 * @param b
-	 *            das zu speichernde Objekt
-	 * @return das bereits Ã¼bergebene Objekt, jedoch mit ggf. korrigierter
-	 *         <code>id</code>.
+	 * @param a - das zu speichernde Objekt
+	 *            
+	 * @return das an die Datenbank übergebene Objekt
 	 */
 	public Beschreibung insert(Beschreibung b) {
 		Connection con = DBConnection.connection();
@@ -279,12 +274,11 @@ public class BeschreibungMapper {
 		return b;
 	}
 
+
 	/**
-	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
-	 *
-	 * @param b
-	 *            das Objekt, das in die DB geschrieben werden soll
-	 * @return das als Parameter Ã¼bergebene Objekt
+	 * Die Methode update modifiziert ein auf die Datenbank abgebildetes Beschreibungs-Objekt.
+	 * @param a - das Objekt, welches in der Datenbank geändert wird
+	 * @return das als Parameter übergebene Objekt
 	 */
 	public Beschreibung update(Beschreibung b) {
 		Connection con = DBConnection.connection();
@@ -304,10 +298,9 @@ public class BeschreibungMapper {
 	}
 
 	/**
-	 * LÃ¶schen der Daten eines <code>Auswahl</code>-Objekts aus der Datenbank.
+	 * Löschen eines auf die Datenbank abgebildeteten Auswahl-Objekts
 	 *
-	 * @param b
-	 *            das aus der DB zu lÃ¶schende "Objekt"
+	 * @param a das aus der DB zu löschende Objekt
 	 */
 	public void delete(Beschreibung b) {
 		Connection con = DBConnection.connection();
