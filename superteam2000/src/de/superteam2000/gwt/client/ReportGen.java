@@ -60,37 +60,47 @@ public class ReportGen implements EntryPoint {
     FlowPanel menu = new FlowPanel();
     FlowPanel pureMenu = new FlowPanel();
     Anchor anchor = new Anchor("PartnerBörse", GWT.getHostPageBaseURL() + "Superteam2000.html");
-    Anchor anchor2 =
-        new Anchor("PartnerBörse2000", GWT.getHostPageBaseURL() + "Superteam2000.html");
+    
     UnorderedListWidget menuList = new UnorderedListWidget();
 
     menuList.setStyleName("pure-menu-list");
+    
     anchor.setStyleName("pure-menu-heading");
-//    menu.getElement().setId("menu");
+    
     pureMenu.setStyleName("pure-menu");
-//    menuList.add(new ListItemWidget(anchor));
+    
+    
+    
     profilAnzeigenButton.setStyleName("pure-menu-link");
+    menuList.add(new ListItemWidget(profilAnzeigenButton));
+    
     alleProfileAnzeigenButton.setStyleName("pure-menu-link");
+    menuList.add(new ListItemWidget(alleProfileAnzeigenButton));
+    
     alleNeuenProfileAnzeigenButton.setStyleName("pure-menu-link");
+    menuList.add(new ListItemWidget(alleNeuenProfileAnzeigenButton));
+    
     alleNichtBesuchtProfileAnzeigenButton.setStyleName("pure-menu-link");
+    menuList.add(new ListItemWidget(alleNichtBesuchtProfileAnzeigenButton));
+    
     sucheBtn.setStyleName("pure-menu-link");
+    
+    suchProfilListBox.setStyleDependentName("suchprofilListbox", true);
+    suchProfilListBox.setStyleName("pure-menu-link");
+    
+    menuList.add(new ListItemWidget(suchProfilListBox));
+    menuList.add(new ListItemWidget(sucheBtn));
+    
+    
+    
+    
     menu.add(pureMenu);
     pureMenu.add(anchor);
-//    menuList.add(new ListItemWidget());
-    menuList.add(new ListItemWidget(profilAnzeigenButton));
     pureMenu.add(menuList);
-
+    
     RootPanel.get("menu").add(menu);
-
-    RootPanel.get("menu").add(profilAnzeigenButton);
-    RootPanel.get("menu").add(alleProfileAnzeigenButton);
-    RootPanel.get("menu").add(alleNeuenProfileAnzeigenButton);
-    RootPanel.get("menu").add(alleNichtBesuchtProfileAnzeigenButton);
-
-    suchProfilListBox.setStyleName("suchprofilListbox");
-    RootPanel.get("menu").add(suchProfilListBox);
-    RootPanel.get("menu").add(sucheBtn);
-
+    
+    
     pbVerwaltung.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback());
 
 

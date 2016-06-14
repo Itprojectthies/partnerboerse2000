@@ -2,9 +2,13 @@ package de.superteam2000.gwt.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.HeadingElement;
+import com.google.gwt.dom.client.ParagraphElement;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -59,17 +63,33 @@ public class Superteam2000 implements EntryPoint {
 
 				// signup link für login anzeigen
 			} else {
-				VerticalPanel loginPanel = new VerticalPanel();
-				Label loginLabel = new Label(
-						"Logge Dich mit deinem Google Account ein, um die Partnerboerse2000 zu nutzen!");
-				Anchor signInLink = new Anchor("Sign In");
-
-				signInLink.setHref(result.getLoginUrl());
-				loginPanel.add(loginLabel);
-				loginPanel.add(signInLink);
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(loginPanel);
-
+				
+				FlowPanel splashContaiern = new FlowPanel();
+				splashContaiern.setStyleName("splash-container");
+				FlowPanel splash = new FlowPanel();
+				splash.setStyleName("splash");
+				
+				HTML headingElement= new HTML();
+				headingElement.setHTML("Willkommen auf PartnerBörse2000");  
+				headingElement.setStyleName("splash-head");
+				
+				
+				FlowPanel splashSubhead = new FlowPanel(ParagraphElement.TAG);
+				splashSubhead.setStyleName("splash-subhead");
+				HTML splahParagraph = new HTML("Melde dich an und finde deine besser Hälfte");
+				splashSubhead.add(splahParagraph);
+				
+				Anchor loginAnchor = new Anchor("Los!");
+				loginAnchor.setStyleName("pure-button pure-button-primary");
+				loginAnchor.setHref(result.getLoginUrl());
+				
+				
+				splash.add(headingElement);
+				splash.add(splashSubhead);
+				splash.add(loginAnchor);
+				splashContaiern.add(splash);
+				
+				RootPanel.get("main").add(splashContaiern);
 			}
 		}
 
@@ -91,15 +111,15 @@ public class Superteam2000 implements EntryPoint {
 
 			Navbar nb = new Navbar();
 			
-			RootPanel.get("Navigator").clear();
-			RootPanel.get("Navigator").add(nb);
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(new Home());
+			RootPanel.get("main").clear();
+			RootPanel.get("main").add(nb);
+//			RootPanel.get("Details").clear();
+//			RootPanel.get("Details").add(new Home());
 			
 			ShowProfil sp = new ShowProfil();
 			FlowPanel fp = new FlowPanel();
 			fp.add(sp);
-			RootPanel.get("Details").add(fp);
+			RootPanel.get("main").add(fp);
 
 		}
 	}

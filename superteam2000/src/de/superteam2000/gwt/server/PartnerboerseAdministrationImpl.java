@@ -637,11 +637,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   public String getEigenschaftsNameById(int id) throws IllegalArgumentException {
     if (this.beschrMapper.findByKey(id) != null) {
       Beschreibung b = this.beschrMapper.findByKey(id);
-      String name = b.getBeschreibungstext();
+      String name = b.getName();
       return name;
     } else if (this.auswahlMapper.findByKey(id) != null) {
       Auswahl a = this.auswahlMapper.findByKey(id);
-      String name = a.getBeschreibungstext();
+      String name = a.getName();
       return name;
     }
     return null;

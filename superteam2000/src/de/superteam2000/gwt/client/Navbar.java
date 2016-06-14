@@ -2,10 +2,6 @@ package de.superteam2000.gwt.client;
 
 import java.util.ArrayList;
 
-import org.gwtbootstrap3.client.ui.Anchor;
-import org.gwtbootstrap3.client.ui.ListItem;
-import org.gwtbootstrap3.client.ui.html.UnorderedList;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.UListElement;
 import com.google.gwt.event.dom.client.ClickEvent;
