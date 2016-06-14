@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.superteam2000.gwt.shared.bo.Profil;
+import de.superteam2000.gwt.shared.bo.Suchprofil;
 import de.superteam2000.gwt.shared.report.AllNewProfileReport;
 import de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport;
 import de.superteam2000.gwt.shared.report.AllProfileBySuche;
@@ -37,7 +38,7 @@ public interface ReportGeneratorAsync {
 	
 	void  createAllProfilesReport( AsyncCallback<AllProfilesReport> callback);
 
-	void createSuchreport(ArrayList<Profil> p, AsyncCallback<AllProfileBySuche> callback);
+	void createSuchreportBySuchprofil(Suchprofil sp, Profil p, AsyncCallback<AllProfileBySuche> callback);
 
 
 

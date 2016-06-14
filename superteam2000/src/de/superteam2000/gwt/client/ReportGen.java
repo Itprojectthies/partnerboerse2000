@@ -3,16 +3,21 @@ package de.superteam2000.gwt.client;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import de.superteam2000.gwt.client.gui.ListItemWidget;
+import de.superteam2000.gwt.client.gui.UnorderedListWidget;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.ReportGeneratorAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
@@ -26,12 +31,12 @@ import de.superteam2000.gwt.shared.report.ProfilReport;
 
 public class ReportGen implements EntryPoint {
 
-  Button profilAnzeigenButton = new Button("Profil anzeigen");
-  Button alleProfileAnzeigenButton = new Button("alle Profile anzeigen");
-  Button alleNeuenProfileAnzeigenButton = new Button("alle neuen Profile anzeigen");
-  Button alleNichtBesuchtProfileAnzeigenButton =
-      new Button("alle nicht besuchten Profile anzeigen");
-  Button sucheBtn = new Button("Suche nach Suchprofilen");
+  Anchor profilAnzeigenButton = new Anchor("Mein Profil");
+  Anchor alleProfileAnzeigenButton = new Anchor("Alle Profile");
+  Anchor alleNeuenProfileAnzeigenButton = new Anchor("Neuen Profile");
+  Anchor alleNichtBesuchtProfileAnzeigenButton =
+      new Anchor("Nicht besuchte Profile");
+  Anchor sucheBtn = new Anchor("Suche");
 
   @SuppressWarnings("deprecation")
   ListBox suchProfilListBox = new ListBox(true);
@@ -52,21 +57,44 @@ public class ReportGen implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
+    FlowPanel menu = new FlowPanel();
+    FlowPanel pureMenu = new FlowPanel();
+    Anchor anchor = new Anchor("PartnerBörse", GWT.getHostPageBaseURL() + "Superteam2000.html");
+    Anchor anchor2 =
+        new Anchor("PartnerBörse2000", GWT.getHostPageBaseURL() + "Superteam2000.html");
+    UnorderedListWidget menuList = new UnorderedListWidget();
 
-    RootPanel.get("Details").add(profilAnzeigenButton);
-    RootPanel.get("Details").add(alleProfileAnzeigenButton);
-    RootPanel.get("Details").add(alleNeuenProfileAnzeigenButton);
-    RootPanel.get("Details").add(alleNichtBesuchtProfileAnzeigenButton);
-    RootPanel.get("Details").add(sucheBtn);
+    menuList.setStyleName("pure-menu-list");
+    anchor.setStyleName("pure-menu-heading");
+//    menu.getElement().setId("menu");
+    pureMenu.setStyleName("pure-menu");
+//    menuList.add(new ListItemWidget(anchor));
+    profilAnzeigenButton.setStyleName("pure-menu-link");
+    alleProfileAnzeigenButton.setStyleName("pure-menu-link");
+    alleNeuenProfileAnzeigenButton.setStyleName("pure-menu-link");
+    alleNichtBesuchtProfileAnzeigenButton.setStyleName("pure-menu-link");
+    sucheBtn.setStyleName("pure-menu-link");
+    menu.add(pureMenu);
+    pureMenu.add(anchor);
+//    menuList.add(new ListItemWidget());
+    menuList.add(new ListItemWidget(profilAnzeigenButton));
+    pureMenu.add(menuList);
 
+    RootPanel.get("menu").add(menu);
+
+    RootPanel.get("menu").add(profilAnzeigenButton);
+    RootPanel.get("menu").add(alleProfileAnzeigenButton);
+    RootPanel.get("menu").add(alleNeuenProfileAnzeigenButton);
+    RootPanel.get("menu").add(alleNichtBesuchtProfileAnzeigenButton);
+
+    suchProfilListBox.setStyleName("suchprofilListbox");
+    RootPanel.get("menu").add(suchProfilListBox);
+    RootPanel.get("menu").add(sucheBtn);
 
     pbVerwaltung.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback());
 
-    suchProfilListBox.setSize("8em", "14em");
 
 
-
-    RootPanel.get("Details").add(suchProfilListBox);
   }
 
 
@@ -89,7 +117,7 @@ public class ReportGen implements EntryPoint {
     public void onSuccess(Profil result) {
 
       p = result;
-
+      
       pbVerwaltung.getAllSuchprofileForProfil(p, new AsyncCallback<ArrayList<Suchprofil>>() {
 
         // Befülle die SuchProfilListBox mit bereits gespeichtern Suchprofilen
@@ -101,7 +129,7 @@ public class ReportGen implements EntryPoint {
           for (Suchprofil sp : suchProfilListe) {
             suchProfilListBox.addItem(sp.getName());
           }
-
+          reportGenerator.createProfilReport(p, new createProfilReportCallback());
         }
 
         @Override
@@ -114,50 +142,30 @@ public class ReportGen implements EntryPoint {
 
         @Override
         public void onClick(ClickEvent event) {
-          Suchprofil sp2 = sp;
-          ClientsideSettings.getLogger().info(sp2.getRaucher());
-          ClientsideSettings.getPartnerboerseVerwaltung().getProfilesBySuchprofil(sp2, p,
-              new AsyncCallback<ArrayList<Profil>>() {
+
+          reportGenerator.createSuchreportBySuchprofil(sp, p,
+              new AsyncCallback<AllProfileBySuche>() {
 
                 @Override
-                public void onSuccess(ArrayList<Profil> result) {
-                  if (result == null) {
+                public void onSuccess(AllProfileBySuche result) {
+                  if (result != null) {
+                    ClientsideSettings.getLogger().info("hier bin ich schonmal");
+                    RootPanel.get("main").clear();
+                    result.getTitle();
+                    HTMLReportWriter writer = new HTMLReportWriter();
+                    writer.process(result);
+                    HTML alleProfileBySuche = new HTML(writer.getReportText());
+                    alleProfileBySuche.setStyleName("content");
+                    RootPanel.get("main").add(alleProfileBySuche);
+                  } else {
                     ClientsideSettings.getLogger().info("Result == null");
                   }
-                  if (result.isEmpty()) {
-
-                    ClientsideSettings.getLogger().info("Result == empty");
-                  }
-                  profileForSuchprofil = result;
-                  reportGenerator.createSuchreport(profileForSuchprofil,
-                      new AsyncCallback<AllProfileBySuche>() {
-
-                        @Override
-                        public void onSuccess(AllProfileBySuche result) {
-                          if (result != null) {
-                            ClientsideSettings.getLogger().info("hier bin ich schonmal");
-                            RootPanel.get("Details").clear();
-                            result.getTitle();
-                            HTMLReportWriter writer = new HTMLReportWriter();
-                            writer.process(result);
-                            RootPanel.get("Details").add(new HTML(writer.getReportText()));
-                          } else {
-                            ClientsideSettings.getLogger().info("Result == null");
-                          }
-
-                        }
-
-                        @Override
-                        public void onFailure(Throwable caught) {
-                          ClientsideSettings.getLogger().severe("Fehler createSuchreport");
-                        }
-                      });
 
                 }
 
                 @Override
                 public void onFailure(Throwable caught) {
-                  ClientsideSettings.getLogger().severe("Fehler getProfilesBySuchprofil");
+                  ClientsideSettings.getLogger().severe("Fehler createSuchreport");
                 }
               });
 
@@ -242,10 +250,10 @@ public class ReportGen implements EntryPoint {
             public void onSuccess(AllProfilesReport result) {
               ClientsideSettings.getLogger().info("onSuccess AllprofilesReport");
               if (result != null) {
-                RootPanel.get("Details").clear();
+                RootPanel.get("main").clear();
                 HTMLReportWriter writer = new HTMLReportWriter();
                 writer.process(result);
-                RootPanel.get("Details").add(new HTML(writer.getReportText()));
+                RootPanel.get("main").add(new HTML(writer.getReportText()));
               }
             }
 
@@ -274,10 +282,10 @@ public class ReportGen implements EntryPoint {
                 ClientsideSettings.getLogger().severe("result != null");
               }
               ClientsideSettings.getLogger().severe("createallnewprofiles funktioniert ");
-              RootPanel.get("Details").clear();
+              RootPanel.get("main").clear();
               HTMLReportWriter writer = new HTMLReportWriter();
               writer.process(result);
-              RootPanel.get("Details").add(new HTML(writer.getReportText()));
+              RootPanel.get("main").add(new HTML(writer.getReportText()));
             }
 
             @Override
@@ -303,10 +311,10 @@ public class ReportGen implements EntryPoint {
                     ClientsideSettings.getLogger().severe("result != null");
                   }
                   ClientsideSettings.getLogger().severe("createallnewprofiles funktioniert ");
-                  RootPanel.get("Details").clear();
+                  RootPanel.get("main").clear();
                   HTMLReportWriter writer = new HTMLReportWriter();
                   writer.process(result);
-                  RootPanel.get("Details").add(new HTML(writer.getReportText()));
+                  RootPanel.get("main").add(new HTML(writer.getReportText()));
                 }
 
                 @Override
@@ -368,9 +376,9 @@ public class ReportGen implements EntryPoint {
       if (report != null) {
         HTMLReportWriter writer = new HTMLReportWriter();
         writer.process(report);
-        RootPanel.get("Details").clear();
+        RootPanel.get("main").clear();
         HTML html = new HTML(writer.getReportText());
-        RootPanel.get("Details").add(html);
+        RootPanel.get("main").add(html);
 
       }
     }

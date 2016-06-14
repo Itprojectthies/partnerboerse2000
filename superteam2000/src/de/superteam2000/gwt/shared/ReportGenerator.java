@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.superteam2000.gwt.shared.bo.Profil;
+import de.superteam2000.gwt.shared.bo.Suchprofil;
 import de.superteam2000.gwt.shared.report.AllNewProfileReport;
 import de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport;
 import de.superteam2000.gwt.shared.report.AllProfileBySuche;
@@ -105,7 +106,7 @@ public interface ReportGenerator extends RemoteService {
 	
 	public abstract AllProfilesReport createAllProfilesReport() throws IllegalArgumentException;
 
-	public abstract AllProfileBySuche createSuchreport(ArrayList<Profil> p);
+	public abstract AllProfileBySuche createSuchreportBySuchprofil(Suchprofil sp, Profil p);
 
 
 

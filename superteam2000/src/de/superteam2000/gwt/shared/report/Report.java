@@ -35,22 +35,22 @@ public abstract class Report implements Serializable {
 	 * Unternehmen einige Daten wie Firmenname, Adresse, Logo, etc. auf
 	 * Geschäftsdokumenten ab. Dies gilt auch für die hier realisierten Reports.
 	 */
-	private Paragraph imprint = null;
+	private Paragraph name = null;
 	
-	private Paragraph imprint2 = null;
+	private CompositeParagraph attribute = null;
 	
 	private Paragraph imprint3 = null;
 
 	/**
 	 * Kopfdaten des Berichts.
 	 */
-	private Paragraph headerData = null;
+	private Paragraph aehnlichkeit = null;
 
 	/**
 	 * Jeder Bericht kann einen individuellen Titel besitzen.
 	 */
 	private String title = "Report";
-
+	private String subtitle = "";
 	/**
 	 * Datum der Erstellung des Berichts.
 	 */
@@ -61,18 +61,25 @@ public abstract class Report implements Serializable {
 	 * 
 	 * @return Text des Impressums
 	 */
-	public Paragraph getImprint() {
-		return this.imprint;
+	public Paragraph getName() {
+		return this.name;
 	}
-
+	
+	 public void setName(Paragraph name) {
+	   this.name = name;
+	 }
 	/**
 	 * Setzen des Impressums.
 	 * 
-	 * @param imprint
+	 * @param attribute
 	 *            Text des Impressums
 	 */
-	public void setImprint(Paragraph imprint) {
-		this.imprint = imprint;
+	public void setProfilAttribute(CompositeParagraph attribute) {
+		this.attribute = attribute;
+	}
+	
+	public CompositeParagraph getProfilAttribute() {
+	  return attribute;
 	}
 
 	/**
@@ -80,18 +87,17 @@ public abstract class Report implements Serializable {
 	 * 
 	 * @return Text der Kopfdaten.
 	 */
-	public Paragraph getHeaderData() {
-		return this.headerData;
+	public Paragraph getAehnlichkeit() {
+		return this.aehnlichkeit;
 	}
 
 	/**
 	 * Setzen der Kopfdaten.
 	 * 
-	 * @param headerData
-	 *            Text der Kopfdaten.
+	 * @param aehnlichkeit Text der Kopfdaten.
 	 */
-	public void setHeaderData(Paragraph headerData) {
-		this.headerData = headerData;
+	public void setAehnlichekit(Paragraph aehnlichkeit) {
+		this.aehnlichkeit = aehnlichkeit;
 	}
 
 	/**
@@ -109,9 +115,22 @@ public abstract class Report implements Serializable {
 	 * @param title
 	 *            Titeltext
 	 */
-	public void setTitle(String title) {
-		this.title = title;
+	public void setSubTitle(String subtitle) {
+		this.subtitle = subtitle;
 	}
+	public String getSubTitle() {
+      return this.subtitle;
+  }
+
+  /**
+   * Setzen des Berichtstitels.
+   * 
+   * @param title
+   *            Titeltext
+   */
+  public void setTitle(String title) {
+      this.title = title;
+  }
 
 	/**
 	 * Auslesen des Erstellungsdatums.
@@ -140,14 +159,6 @@ public abstract class Report implements Serializable {
 
 	public void setProfil(Profil profil) {
 		this.profil = profil;
-	}
-
-	public Paragraph getImprint2() {
-		return imprint2;
-	}
-
-	public void setImprint2(Paragraph imprint2) {
-		this.imprint2 = imprint2;
 	}
 
 	public Paragraph getImprint3() {

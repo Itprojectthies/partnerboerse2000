@@ -18,115 +18,125 @@ import de.superteam2000.gwt.shared.bo.Suchprofil;
 @RemoteServiceRelativePath("pba")
 public interface PartnerboerseAdministration extends RemoteService {
 
-	public void init() throws IllegalArgumentException;
+  public void init() throws IllegalArgumentException;
 
-	public Profil login(String requestUri) throws IllegalArgumentException;
+  public Profil login(String requestUri) throws IllegalArgumentException;
 
-	public Profil createProfil(String nachname, String vorname, String email, Date date, String haarfarbe,
-			String raucher, String religion, int groesse, String geschlecht);
+  public Profil createProfil(String nachname, String vorname, String email, Date date,
+      String haarfarbe, String raucher, String religion, int groesse, String geschlecht);
 
-	public void delete(Profil profil) throws IllegalArgumentException;
+  public void delete(Profil profil) throws IllegalArgumentException;
 
-	public void save(Profil profil) throws IllegalArgumentException;
+  public void save(Profil profil) throws IllegalArgumentException;
 
-	public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException;
+  public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException;
 
-	public Profil getProfilById(int id) throws IllegalArgumentException;
-	
-	// Auswahl Eigenschaft
-	public Auswahl createAuswahl(String name, String beschreibungstext, ArrayList<String> alternativen)
-			throws IllegalArgumentException;
+  public Profil getProfilById(int id) throws IllegalArgumentException;
 
-	public void delete(Auswahl auswahl) throws IllegalArgumentException;
+  // Auswahl Eigenschaft
+  public Auswahl createAuswahl(String name, String beschreibungstext,
+      ArrayList<String> alternativen) throws IllegalArgumentException;
 
-	public void save(Auswahl auswahl) throws IllegalArgumentException;
+  public void delete(Auswahl auswahl) throws IllegalArgumentException;
 
-	public ArrayList<Auswahl> getAllAuswahl() throws IllegalArgumentException;
+  public void save(Auswahl auswahl) throws IllegalArgumentException;
 
-	public Auswahl getAuswahlById(int id) throws IllegalArgumentException;
+  public ArrayList<Auswahl> getAllAuswahl() throws IllegalArgumentException;
 
-	// Beschreibung Eigenschaft
-	public Beschreibung createBeschreibung(String name, String beschreibungstext) throws IllegalArgumentException;
+  public Auswahl getAuswahlById(int id) throws IllegalArgumentException;
 
-	public void delete(Beschreibung beschreibung) throws IllegalArgumentException;
+  // Beschreibung Eigenschaft
+  public Beschreibung createBeschreibung(String name, String beschreibungstext)
+      throws IllegalArgumentException;
 
-	public void save(Beschreibung beschreibung) throws IllegalArgumentException;
+  public void delete(Beschreibung beschreibung) throws IllegalArgumentException;
 
-	public ArrayList<Beschreibung> getAllBeschreibung() throws IllegalArgumentException;
+  public void save(Beschreibung beschreibung) throws IllegalArgumentException;
 
-	public Beschreibung getBeschreibungById(int id) throws IllegalArgumentException;
+  public ArrayList<Beschreibung> getAllBeschreibung() throws IllegalArgumentException;
 
-	// Info
+  public Beschreibung getBeschreibungById(int id) throws IllegalArgumentException;
 
-	public void save(Info info) throws IllegalArgumentException;
+  // Info
 
-	public void delete(Info info) throws IllegalArgumentException;
+  public void save(Info info) throws IllegalArgumentException;
 
-	public ArrayList<Info> getInfoByProfile(Profil profil) throws IllegalArgumentException;
+  public void delete(Info info) throws IllegalArgumentException;
 
-	public Info getInfoByEigenschaftsId(int id) throws IllegalArgumentException;
+  public ArrayList<Info> getInfoByProfile(Profil profil) throws IllegalArgumentException;
 
-	// 'hnlichkeitsmaß
-	public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil profil) throws IllegalArgumentException;
+  public Info getInfoByEigenschaftsId(int id) throws IllegalArgumentException;
 
-	// Profilbesuch
-	public void setVisited(Profil a, Profil b) throws IllegalArgumentException;
+  // 'hnlichkeitsmaß
+  public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil profil)
+      throws IllegalArgumentException;
 
-	public ArrayList<Profil> getVisitedProfiles(Profil profil) throws IllegalArgumentException;
+  // Profilbesuch
+  public void setVisited(Profil a, Profil b) throws IllegalArgumentException;
 
-	// Merkzettel
-	public void createMerken(Profil a, Profil b) throws IllegalArgumentException;
+  public ArrayList<Profil> getVisitedProfiles(Profil profil) throws IllegalArgumentException;
 
-	public void deleteMerken(Profil entferner, Profil entfernter) throws IllegalArgumentException;
+  // Merkzettel
+  public void createMerken(Profil a, Profil b) throws IllegalArgumentException;
 
-
-	// Kontaktsperre
-	public void createKontaktsperre(Profil sperrer, Profil gesperrter) throws IllegalArgumentException;
-
-	public void deleteKontaktsperre(Kontaktsperre kontaktsperre) throws IllegalArgumentException;
-
-	public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException;
-
-	public Info createInfoFor(Profil profil, Auswahl auswahl, String text) throws IllegalArgumentException;
-
-	public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text) throws IllegalArgumentException;
-
-	public Profil getProfilByMail(String email) throws IllegalArgumentException;
-
-	public String getEigenschaftsNameById(int id) throws IllegalArgumentException;
-
-	public Auswahl getAuswahlProfilAttributByName(String name) throws IllegalArgumentException;
-
-	public Beschreibung getBeschreibungProfilAttributByName(String name) throws IllegalArgumentException;
-
-	public ArrayList<Auswahl> getAllAuswahlProfilAttribute();
-
-	public ArrayList<Beschreibung> getAllBeschreibungProfilAttribute();
-
-	public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException;
-
-	public void createSperre(Profil a, Profil b) throws IllegalArgumentException;
-
-	public void deleteSperre(Profil entferner, Profil entfernter);
-
-	public void createSuchprofil(Suchprofil sp) throws IllegalArgumentException;
-
-	public ArrayList<Suchprofil> getAllSuchprofileForProfil(Profil p) throws IllegalArgumentException;
-
-	public Suchprofil getSuchprofileForProfilByName(Profil p, String name) throws IllegalArgumentException;
-
-	public void deleteSuchprofil(Suchprofil sp);
-
-	public void save(Suchprofil sp) throws IllegalArgumentException;
-
-	public ArrayList<Profil> getProfilesBySuchprofil(Suchprofil sp, Profil user) throws IllegalArgumentException;
-
-	public ArrayList<Profil> getAllNotVisitedProfilesByAehnlichkeitsmass(Profil p);
-
-	public ArrayList<Profil> getAllNewProfilesByAehnlichkeitsmass(Profil p);
+  public void deleteMerken(Profil entferner, Profil entfernter) throws IllegalArgumentException;
 
 
+  // Kontaktsperre
+  public void createKontaktsperre(Profil sperrer, Profil gesperrter)
+      throws IllegalArgumentException;
 
-	// Suchprofil
+  public void deleteKontaktsperre(Kontaktsperre kontaktsperre) throws IllegalArgumentException;
+
+  public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException;
+
+  public Info createInfoFor(Profil profil, Auswahl auswahl, String text)
+      throws IllegalArgumentException;
+
+  public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text)
+      throws IllegalArgumentException;
+
+  public Profil getProfilByMail(String email) throws IllegalArgumentException;
+
+  public String getEigenschaftsNameById(int id) throws IllegalArgumentException;
+
+  public Auswahl getAuswahlProfilAttributByName(String name) throws IllegalArgumentException;
+
+  public Beschreibung getBeschreibungProfilAttributByName(String name)
+      throws IllegalArgumentException;
+
+  public ArrayList<Auswahl> getAllAuswahlProfilAttribute();
+
+  public ArrayList<Beschreibung> getAllBeschreibungProfilAttribute();
+
+  public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException;
+
+  public void createSperre(Profil a, Profil b) throws IllegalArgumentException;
+
+  public void deleteSperre(Profil entferner, Profil entfernter);
+
+  public void createSuchprofil(Suchprofil sp) throws IllegalArgumentException;
+
+  public ArrayList<Suchprofil> getAllSuchprofileForProfil(Profil p) throws IllegalArgumentException;
+
+  public Suchprofil getSuchprofileForProfilByName(Profil p, String name)
+      throws IllegalArgumentException;
+
+  public void deleteSuchprofil(Suchprofil sp);
+
+  public void save(Suchprofil sp) throws IllegalArgumentException;
+
+  public ArrayList<Profil> getProfilesBySuchprofil(Suchprofil sp, Profil user)
+      throws IllegalArgumentException;
+
+  public ArrayList<Profil> getAllNotVisitedProfilesByAehnlichkeitsmass(Profil p);
+
+  public ArrayList<Profil> getAllNewProfilesByAehnlichkeitsmass(Profil p);
+
+  public ArrayList<String> getItemsOfSuchprofil(Suchprofil sp);
+
+
+
+  // Suchprofil
 
 }

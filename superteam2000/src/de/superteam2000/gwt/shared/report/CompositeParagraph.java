@@ -93,7 +93,7 @@ public class CompositeParagraph extends Paragraph implements Serializable {
 			 * den jew. Unterabschnitt in einen String wandeln und an den Buffer
 			 * hängen.
 			 */
-			result.append(p.toString() + "\n");
+			result.append(p.toString() + "<br>");
 		}
 
 		/*
