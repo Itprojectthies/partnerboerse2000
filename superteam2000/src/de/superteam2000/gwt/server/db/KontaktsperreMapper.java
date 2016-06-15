@@ -10,54 +10,46 @@ import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.bo.Kontaktsperre;
 import de.superteam2000.gwt.shared.bo.Profil;
 
-/**
- * Mapper-Klasse, die <code>Kontaktsperre</code>-Objekte auf eine relationale
- * Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur VerfÃ¼gung
- * gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
- * gelÃ¶scht werden kÃ¶nnen. Das Mapping ist bidirektional. D.h., Objekte kÃ¶nnen
- * in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
- * <p>
- * 
- * 
- * @see
- * @author Thies
- */
+	/**
+	 * Klasse, die die Aufgabe erfüllt, die Objekte einer persistenten Klasse auf die Datenbank abzubilden und dort zu speichern.
+	 * Die zu speichernden Objekte werden dematerialisiert und zu gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird
+	 * als indirektes Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende Methoden zur Suche, zum Speichern, Löschen und 
+	 * Modifizieren von Objekten. 
+	 * @see AehnlichkeitsMapper
+	 * @see AuswahlMapper
+	 * @see BeschreibungMapper
+	 * @see DBConnection
+	 * @see InfoMapper
+	 * @see MerkzettelMapper
+	 * @see ProfilMapper
+	 * @see SuchprofilMapper
+	 * @author 
+	 */
 
 public class KontaktsperreMapper {
 
 	/**
-	 * Die Klasse KontaktsperreMapper wird nur einmal instantiiert. Man spricht
-	 * hierbei von einem sogenannten <b>Singleton</b>.
-	 * <p>
-	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal
-	 * fÃ¼r sÃ¤mtliche eventuellen Instanzen dieser Klasse vorhanden. Sie
-	 * speichert die einzige Instanz dieser Klasse.
+	 * Von der Klasse KontaktsperreMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die Singleton-Eigenschaft.
+	 * Dies geschieht mittels eines private default-Konstruktors und genau einer statischen Variablen vom 
+	 * Typ KontaktsperreMapper, die die einzige Instanz der Klasse darstellt.
+	 *
 	 * 
 	 */
 	private static KontaktsperreMapper kontaktsperreMapper = null;
 
 	/**
-	 * GeschÃ¼tzter Konstruktor - verhindert die MÃ¶glichkeit, mit new neue
-	 * Instanzen dieser Klasse zu erzeugen.
-	 * 
+	 * Durch den Modifier "private" geschützter Konstruktor, der verhindert das weiter Instanzen der Klasse erzeugt werden können
+	 *  
 	 */
 	protected KontaktsperreMapper() {
 	}
 
 	/**
-	 * Diese statische Methode kann aufgrufen werden durch
-	 * <code>KontaktsperreMapper.KontaktsperreMapper()</code>. Sie stellt die
-	 * Singleton-Kontaktsperre sicher, indem Sie dafÃ¼r sorgt, dass nur eine
-	 * einzige Instanz von <code>KontaktsperreMapper</code> existiert.
-	 * <p>
-	 * 
-	 * <b>Fazit:</b> KontaktsperreMapper sollte nicht mittels <code>new</code>
-	 * instantiiert werden, sondern stets durch Aufruf dieser statischen
-	 * Methode.
-	 * 
-	 * @return DAS <code>KontaktsperreMapper</code>-Objekt.
-	 * @see KontaktsperreMapper
+	 * Von der Klasse KontaktsperreMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die Singleton-Eigenschaft.
+	 * Dies geschieht mittels eines private default-Konstruktors und genau einer statischen Variablen vom 
+	 * Typ KontaktsperreMapper, die die einzige Instanz der Klasse darstellt.
 	 */
+	
 	public static KontaktsperreMapper kontaktsperreMapper() {
 		if (kontaktsperreMapper == null) {
 			kontaktsperreMapper = new KontaktsperreMapper();
@@ -67,13 +59,16 @@ public class KontaktsperreMapper {
 	}
 
 	/**
-	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
-	 * ist, wird genau ein Objekt zurÃ¼ckgegeben.
+	 * Die Methode insertForProfil bietet die Möglichkeit die Kontaktsperre  auf die Datenbank abzubilden
 	 * 
-	 * @param id PrimÃ¤rschlÃ¼sselattribut (->DB)
-	 * @return Kunden-Objekt, das dem Ã¼bergebenen SchlÃ¼ssel entspricht, null bei
-	 *         nicht vorhandenem DB-Tupel.
+	 * @param sperrer - sperrendes Profil
+	 * @param gesperrter - gesperrtes Profil
+	 * @return 
 	 */
+	
+	
+	
+	
 		public Kontaktsperre insertForProfil(Profil sperrer, Profil gesperrter) {
 		ClientsideSettings.getLogger().info("insertMerkenforProfil Methode aufgerufen");
 
@@ -96,7 +91,16 @@ public class KontaktsperreMapper {
 
 		
 	}
-	
+		/**
+		 * Die Methode deleteSperreFor löscht die Kontaktsperre zwischen zwei Profil-Objekten.
+		 * 
+		 * 
+		 * @param entferner
+		 * @param entfernter
+		 */
+		
+
+		
 	public void deleteSperreFor(Profil entferner, Profil entfernter) {
 		Connection con = DBConnection.connection();
 		
@@ -116,7 +120,7 @@ public class KontaktsperreMapper {
 	/**
 	 * Auslesen aller Kontaktsperren eines Profils.
 	 *
-	 * @return Kontaktsperr(liste) des Profils
+	 * @return Kontaktsperre (liste) des Profils
 	 */
 	public Kontaktsperre findAllForProfil(Profil p) {
 		Connection con = DBConnection.connection();
