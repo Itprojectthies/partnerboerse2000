@@ -251,7 +251,7 @@ public class HTMLReportWriter extends ReportWriter {
 	 * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
 	 * ausgelesen und in HTML-Form übersetzt.
 	 */
-	result.append("<H1>" + r.getTitle() + "</H1>");
+	//result.append("<H1>" + r.getTitle() + "</H1>");
 	result.append("<div id=\"test\"></div>");
 	result.append("<table><tr>");
 	result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getHeaderData()) + "</b></td>");
