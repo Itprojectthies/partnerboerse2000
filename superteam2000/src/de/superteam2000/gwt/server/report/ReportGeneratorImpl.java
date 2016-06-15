@@ -51,7 +51,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	result.setProfilId(p.getId());
 
 	// ab hier result mit Inhalten befüllen
-	result.setTitle(p.getVorname() + " " + p.getNachname());
+	//result.setTitle(p.getVorname() + " " + p.getNachname());
 	// result.setCreated(new Date());
 
 	// Header des Reports erstellen

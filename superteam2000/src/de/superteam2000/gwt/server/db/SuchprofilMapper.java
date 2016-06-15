@@ -102,7 +102,10 @@ public class SuchprofilMapper {
 				
 				HashMap<Integer, String> auswahlListe = new HashMap<>();
 				for (int i = 1; i <= 5; i++) {
+//				    if (!rs.getString("Auswahl_text_"+i).equals("Keine Angabe")) {
 					auswahlListe.put(rs.getInt("Auswahl_id_"+i), rs.getString("Auswahl_text_"+i));
+//				    }
+					
 				}
 				sp.setAuswahlListe(auswahlListe);
 				// Hinzufügen des neuen Objekts zum Ergebnisvektor
@@ -218,7 +221,7 @@ public class SuchprofilMapper {
 				for (Map.Entry<Integer, String> entry : auswahlListe.entrySet()) {
 				    stmt2.executeUpdate("UPDATE Suchprofil SET "
 				    		+ "Auswahl_text_"+i+"='"+entry.getValue()+"', "
-				    				+ "Auswahl_id_"+i+"="+entry.getKey()+" WHERE id=" + sp.getId() );
+				    		+ "Auswahl_id_"+i+"="+entry.getKey()+" WHERE id=" + sp.getId() );
 				    i++;
 				}
 				
