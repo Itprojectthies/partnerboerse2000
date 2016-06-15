@@ -223,7 +223,7 @@ public class Navbar extends BasicFrame {
         public void onClick(ClickEvent event) {
           // Window.open(user.getLogoutUrl(), "_self", "");
           // Window.confirm("OK = true Cancel = false");
-          Window.Location.replace("http://127.0.0.1:8888/Reportgen.html");
+          Window.Location.replace(GWT.getHostPageBaseURL() + "ReportGen.html");
         }
       });
 
