@@ -9,54 +9,49 @@ import java.util.ArrayList;
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.bo.Profil;
 
+
 /**
- * Mapper-Klasse, die <code>Profil</code>-Objekte auf eine relationale Datenbank
- * abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung gestellt, mit
- * deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und gelöscht werden
- * können. Das Mapping ist bidirektional. D.h., Objekte können in DB-Strukturen
- * und DB-Strukturen in Objekte umgewandelt werden.
- * <p>
- * 
- * 
- * @see
- * @author Thies
+ * Klasse, die die Aufgabe erf�llt, die Objekte einer persistenten Klasse auf die Datenbank abzubilden und dort zu speichern.
+ * Die zu speichernden Objekte werden dematerialisiert und zu gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird
+ * als indirektes Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende Methoden zur Suche, zum Speichern, L�schen und 
+	 * Modifizieren von Objekten. 
+ * @see AehnlichkeitsMapper
+ * @see AuswahlMapper
+ * @see BeschreibungMapper
+ * @see DBConnection
+ * @see InfoMapper
+ * @see KontaktsperreMapper
+ * @see MerkzettelMapper
+ * @see SuchprofilMapper
+ * @author 
  */
 
 public class ProfilMapper {
 
+
 	/**
-	 * Die Klasse ProfilMapper wird nur einmal instantiiert. Man spricht hierbei
-	 * von einem sogenannten <b>Singleton</b>.
-	 * <p>
-	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal
-	 * für sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie
-	 * speichert die einzige Instanz dieser Klasse.
+	 * Von der Klasse ProfilMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die Singleton-Eigenschaft.
+	 * Dies geschieht mittels eines private default-Konstruktors und genau einer statischen Variablen vom 
+	 * Typ ProfilMapper, die die einzige Instanz der Klasse darstellt.
 	 * 
 	 */
 	private static ProfilMapper ProfilMapper = null;
 
+
 	/**
-	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit new neue
-	 * Instanzen dieser Klasse zu erzeugen.
-	 * 
+	 * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der Klasse erzeugt werden k�nnen
+	 *  
 	 */
 	protected ProfilMapper() {
 	}
 
+
 	/**
-	 * Diese statische Methode kann aufgrufen werden durch
-	 * <code>ProfilMapper.profilMapper()</code>. Sie stellt die
-	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine
-	 * einzige Instanz von <code>ProfilMapper</code> existiert.
-	 * <p>
-	 * 
-	 * <b>Fazit:</b> ProfilMapper sollte nicht mittels <code>new</code>
-	 * instantiiert werden, sondern stets durch Aufruf dieser statischen
-	 * Methode.
-	 * 
-	 * @return DAS <code>ProfilMapper</code>-Objekt.
-	 * @see ProfilMapper
+	 * Von der Klasse ProfilMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die Singleton-Eigenschaft.
+	 * Dies geschieht mittels eines private default-Konstruktors und genau einer statischen Variablen vom 
+	 * Typ ProfilMapper, die die einzige Instanz der Klasse darstellt.
 	 */
+	
 	public static ProfilMapper profilMapper() {
 		if (ProfilMapper == null) {
 			ProfilMapper = new ProfilMapper();
@@ -66,12 +61,11 @@ public class ProfilMapper {
 	}
 
 	/**
-	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
-	 * ist, wird genau ein Objekt zurückgegeben.
+	 * Die Methode findByKey sucht auf die Datenbank abgebildete Profile �ber die Profil-id
 	 * 
-	 * @param id Primärschlüsselattribut (->DB)
-	 * @return Kunden-Objekt, das dem übergebenen Schlüssel entspricht, null bei
-	 *         nicht vorhandenem DB-Tupel.
+	 * 
+	 * @param id
+	 * @return Profil p 
 	 */
 	public Profil findByKey(int id) {
 		// DB-Verbindung holen
@@ -117,13 +111,11 @@ public class ProfilMapper {
 	}
 
 	/**
-	 * Suchen eines Kunden mit vorgegebener Kundennummer. Da diese eindeutig
-	 * ist, wird genau ein Objekt zurückgegeben.
+	 * Suchen eines Kunden anhand der E-Mail Adresse
 	 * 
 	 * @param email
-	 *            Primärschlüsselattribut (->DB)
-	 * @return Kunden-Objekt, das dem übergebenen Schlüssel entspricht, null bei
-	 *         nicht vorhandenem DB-Tupel.
+	 *            
+	 * @return Profil p
 	 */
 	public Profil findByEmail(String email) {
 		// DB-Verbindung holen
@@ -167,11 +159,9 @@ public class ProfilMapper {
 	}
 
 	/**
-	 * Auslesen aller Kunden.
+	 * Ausgabe aller Profile.
 	 * 
-	 * @return Ein Vektor mit Profil-Objekten, die sämtliche Kunden
-	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gefüllter
-	 *         oder ggf. auch leerer Vetor zurückgeliefert.
+	 * @return Eine ArrayList mit Profil-Objekten
 	 */
 	public ArrayList<Profil> findAll() {
 		Connection con = DBConnection.connection();
@@ -218,14 +208,13 @@ public class ProfilMapper {
 	}
 
 	/**
-	 * Einfügen eines <code>Profil</code>-Objekts in die Datenbank. Dabei wird
-	 * auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
-	 * berichtigt.
 	 * 
-	 * @param p
-	 *            das zu speichernde Objekt
-	 * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
-	 *         <code>id</code>.
+	 * Abbilden eines Profil-Objektes auf die Datenbank
+	 * 
+	 * 
+	 * @param p - vom Typ Profil
+	 * @return Profil p
+	 * 
 	 */
 	public Profil insert(Profil p) {
 		Connection con = DBConnection.connection();
@@ -269,10 +258,9 @@ public class ProfilMapper {
 	}
 
 	/**
-	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
-	 * 
-	 * @param p das Objekt, das in die DB geschrieben werden soll
-	 * @return das als Parameter übergebene Objekt
+	 * �ndern eines auf die Datenbank abgebildeten Profil-Objekts
+	 * @param Profil p
+	 * @return Profil 
 	 */
 	public Profil update(Profil p) {
 		Connection con = DBConnection.connection();
@@ -301,10 +289,9 @@ public class ProfilMapper {
 	}
 
 	/**
-	 * Löschen der Daten eines <code>Profil</code>-Objekts aus der Datenbank.
-	 * 
-	 * @param p
-	 *            das aus der DB zu löschende "Objekt"
+	 *  L�schen eines Profil-Objektes aus der Datenbank
+	 *  
+	 *  @param Profil p
 	 */
 	public void delete(Profil p) {
 
@@ -323,9 +310,18 @@ public class ProfilMapper {
 					+ e.getMessage() + " " + e.getCause() + " ");
 		}
 	}
+	
+	
+	/**
+	 * Bildet einen Profilbesuch zwischen zwei Profilen auf die Datenbank ab
+	 * 
+	 *
+	 * 
+	 * @param besucher
+	 * @param besuchter
+	 */
 
-	// soll in Besuchertabelle schreiben wann wer wen besucht hat. und eine
-	// die beiden Id's setzen(vom Besucher und vom Besuchten)
+	
 	public void setVisited(Profil besucher, Profil besuchter) {
 
 		Connection con = DBConnection.connection();
@@ -343,12 +339,17 @@ public class ProfilMapper {
 		}
 
 	}
+	
+	/**
+	 * Holt Informationen �ber m�glicherweise erfolgten Profilbesuch aus der Datenbank
+	 * 
+	 * @param a
+	 * @return Profil - ArrayList
+	 */
 
-	// soll eine Liste mit allen Profilen returnen wo ein timestamp drin is
 	public ArrayList<Profil> getVisitedProfiles(Profil a) {
 
 		Connection con = DBConnection.connection();
-		// Ergebnisvektor vorbereiten
 		ArrayList<Profil> result = new ArrayList<>();
 
 		try {
@@ -356,15 +357,14 @@ public class ProfilMapper {
 
 			ResultSet rs = stmt.executeQuery("SELECT Besuchter_id FROM Profilbesuch WHERE Besucher_id=" + a.getId());
 
-			// Für jeden Eintrag im Suchergebnis wird nun ein Profil-Objekt
-			// erstellt.
+			//
 			while (rs.next()) {
 				// Ergebnis-Tupel in Objekt umwandeln
 
 				Profil p = new Profil();
 				p = ProfilMapper.findByKey(rs.getInt("Besuchter_id"));
 
-				// Hinzufügen des neuen Objekts zum Ergebnisvektor
+				// Hinzuf�gen des neuen Objekts zum Ergebnisvektor
 				result.add(p);
 			}
 		} catch (SQLException e) {
