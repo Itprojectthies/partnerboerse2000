@@ -15,8 +15,8 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.superteam2000.gwt.client.gui.ProfilAttributeBoxPanel;
-import de.superteam2000.gwt.client.gui.ProfilAttributeTextBox;
+import de.superteam2000.gwt.client.gui.BoxPanel;
+import de.superteam2000.gwt.client.gui.ProfilTextBox;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Profil;
@@ -39,8 +39,8 @@ public class Suche extends BasicFrame {
   FlowPanel fPanel = null;
 
   Suchprofil sp = null;
-  ProfilAttributeTextBox suchProfilTextbox = null;
-  ProfilAttributeBoxPanel clb = null;
+  ProfilTextBox suchProfilTextbox = null;
+  BoxPanel clb = null;
 
   Button suchprofilErstellButton = new Button("Suchprofil erstellen");
   Button sucheButton = new Button("Suchen");
@@ -64,8 +64,8 @@ public class Suche extends BasicFrame {
     fPanel = new FlowPanel();
     fPanel.setStyleName("ProfilAttribute-Suche");
 
-    ProfilAttributeBoxPanel suchProfilName = new ProfilAttributeBoxPanel("Name des Suchprofils");
-    suchProfilTextbox = new ProfilAttributeTextBox();
+    BoxPanel suchProfilName = new BoxPanel("Name des Suchprofils");
+    suchProfilTextbox = new ProfilTextBox();
     suchProfilTextbox.setName("suchProfilName");
 
     pbVerwaltung.getAllAuswahl(new AsyncCallback<ArrayList<Auswahl>>() {
@@ -76,7 +76,7 @@ public class Suche extends BasicFrame {
         // Erstelle Listboxen für die Auswahleigenschaften und füge sie dem FlowPanel hinzu
 
         for (Auswahl a : result) {
-          ProfilAttributeBoxPanel clb = new ProfilAttributeBoxPanel(a, false);
+          BoxPanel clb = new BoxPanel(a, false);
           clb.setId(a.getId());
           clb.addKeineAngabenItem();
           fPanel.add(clb);
@@ -109,21 +109,13 @@ public class Suche extends BasicFrame {
               @Override
               public void onSuccess(Suchprofil result) {
                 sp = result;
-                logger.info(sp.getId() + " naem:" + sp.getName() + " pid" + sp.getProfilId()
-                    + " haar:" + sp.getHaarfarbe() + " rauch:" + sp.getRaucher() + " rel:"
-                    + sp.getReligion() + " g:" + sp.getGeschlecht() + " amax" + sp.getAlter_max()
-                    + " amin" + sp.getAlter_min() + " gmax" + sp.getGroesse_max() + " gmin"
-                    + sp.getGroesse_min() + " ");
 
                 final HashMap<Integer, String> auswahlListeSp = sp.getAuswahlListe();
 
-                for (Map.Entry<Integer, String> e : auswahlListeSp.entrySet()) {
-                  logger.severe(e.getKey() + " " + e.getValue());
-                }
 
                 for (Widget child : fPanel) {
-                  if (child instanceof ProfilAttributeBoxPanel) {
-                    ProfilAttributeBoxPanel childPanel = (ProfilAttributeBoxPanel) child;
+                  if (child instanceof BoxPanel) {
+                    BoxPanel childPanel = (BoxPanel) child;
 
                     for (Auswahl a : auswahlListe) {
                       if (childPanel.getId() == a.getId()) {
@@ -145,18 +137,18 @@ public class Suche extends BasicFrame {
                       case "Geschlecht":
                         childPanel.setSelectedItemForSP(sp.getGeschlecht());
                         break;
-                      case "Körpergröße_min":
-                        childPanel.setGroesse(sp.getGroesse_min() + 1);
-                        break;
-                      case "Körpergröße_max":
-                        childPanel.setGroesse(sp.getGroesse_max() + 1);
-                        break;
-                      case "Alter_min":
-                        childPanel.setAlter(sp.getAlter_min());
-                        break;
-                      case "Alter_max":
-                        childPanel.setAlter(sp.getAlter_max());
-                        break;
+//                      case "Körpergröße_min":
+//                        childPanel.setGroesse(sp.getGroesse_min() + 1);
+//                        break;
+//                      case "Körpergröße_max":
+//                        childPanel.setGroesse(sp.getGroesse_max() + 1);
+//                        break;
+//                      case "Alter_min":
+//                        childPanel.setAlter(sp.getAlter_min());
+//                        break;
+//                      case "Alter_max":
+//                        childPanel.setAlter(sp.getAlter_max());
+//                        break;
                     }
                   }
                 }
@@ -322,29 +314,29 @@ public class Suche extends BasicFrame {
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
       for (Auswahl a : result) {
-        ProfilAttributeBoxPanel clb = new ProfilAttributeBoxPanel(a, true);
+        BoxPanel clb = new BoxPanel(a, true);
         clb.addKeineAngabenItem();
         fPanel.add(clb);
 
       }
 
-      ProfilAttributeBoxPanel groesseMin = new ProfilAttributeBoxPanel("Minimale Größe");
-      groesseMin.createGroesseListBox();
+      BoxPanel groesseMin = new BoxPanel("Minimale Größe");
+//      groesseMin.createGroesseListBox();
       groesseMin.setName("Körpergröße_min");
       groesseMin.addKeineAngabenItem();
 
-      ProfilAttributeBoxPanel groesseMax = new ProfilAttributeBoxPanel("Maximale Größe");
-      groesseMax.createGroesseListBox();
+      BoxPanel groesseMax = new BoxPanel("Maximale Größe");
+//      groesseMax.createGroesseListBox();
       groesseMax.addKeineAngabenItem();
       groesseMax.setName("Körpergröße_max");
 
-      ProfilAttributeBoxPanel alterMin = new ProfilAttributeBoxPanel("Minimales Alter");
-      alterMin.createAlterListbox();
+      BoxPanel alterMin = new BoxPanel("Minimales Alter");
+//      alterMin.createAlterListbox();
       alterMin.setName("Alter_min");
       alterMin.addKeineAngabenItem();
 
-      ProfilAttributeBoxPanel alterMax = new ProfilAttributeBoxPanel("Maximales Alter");
-      alterMax.createAlterListbox();
+      BoxPanel alterMax = new BoxPanel("Maximales Alter");
+//      alterMax.createAlterListbox();
       alterMax.addKeineAngabenItem();
       alterMax.setName("Alter_max");
 
@@ -415,8 +407,8 @@ public class Suche extends BasicFrame {
     HashMap<Integer, String> auswahlListeSp = new HashMap<>();
 
     for (Widget child : fPanel) {
-      if (child instanceof ProfilAttributeBoxPanel) {
-        ProfilAttributeBoxPanel childPanel = (ProfilAttributeBoxPanel) child;
+      if (child instanceof BoxPanel) {
+        BoxPanel childPanel = (BoxPanel) child;
         if (childPanel.getName() != null) {
 
           // Auswahleigenschaftslistboxen dynamisch auslesen und in des Hashmap auswahlListeSp

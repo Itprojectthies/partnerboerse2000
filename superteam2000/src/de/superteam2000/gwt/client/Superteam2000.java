@@ -89,6 +89,7 @@ public class Superteam2000 implements EntryPoint {
 				splash.add(loginAnchor);
 				splashContaiern.add(splash);
 				
+				RootPanel.get("menu").getElement().getStyle().setProperty("width","0px");
 				RootPanel.get("main").add(splashContaiern);
 			}
 		}
@@ -96,14 +97,14 @@ public class Superteam2000 implements EntryPoint {
 		private void profilErstellen() {
 
 			Navbar nb = new Navbar();
-			RootPanel.get("Navigator").clear();
-			RootPanel.get("Navigator").add(nb);
+			RootPanel.get("menu").clear();
+			RootPanel.get("menu").add(nb);
 			
-			RootPanel.get("Details").add(new Home());
+			RootPanel.get("main").add(new Home());
 
 			CreateProfil cf = new CreateProfil();
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(cf);
+			RootPanel.get("main").clear();
+			RootPanel.get("main").add(cf);
 
 		}
 
@@ -111,15 +112,15 @@ public class Superteam2000 implements EntryPoint {
 
 			Navbar nb = new Navbar();
 			
-			RootPanel.get("main").clear();
-			RootPanel.get("main").add(nb);
+			RootPanel.get("menu").clear();
+			RootPanel.get("menu").add(nb);
 //			RootPanel.get("Details").clear();
 //			RootPanel.get("Details").add(new Home());
 			
 			ShowProfil sp = new ShowProfil();
 			FlowPanel fp = new FlowPanel();
 			fp.add(sp);
-			RootPanel.get("main").add(fp);
+//			RootPanel.get("main").add(fp);
 
 		}
 	}

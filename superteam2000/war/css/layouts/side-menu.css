@@ -180,6 +180,13 @@ appears on the left side of the page.
         padding: 0.6em 0 0.6em 0.6em;
     }
 
+    #menu label {
+        color: #999;
+        /* border: none; */
+        padding: 0.6em 0 0.6em 0.6em;
+        outline: none;
+    }
+    
     /*
     Remove all background/borders, since we are applying them to #menu.
     */
@@ -194,7 +201,7 @@ appears on the left side of the page.
     */
     #menu .pure-menu ul,
     #menu .pure-menu .menu-item-divided {
-        border-top: 1px solid #333;
+        border-top: 4px solid #333;
     }
         /*
         Change color of the anchor links on hover/focus.
@@ -203,6 +210,15 @@ appears on the left side of the page.
         #menu .pure-menu li a:focus {
             background: #333;
         }
+        #menu .pure-menu label:hover,
+        #menu .pure-menu label:focus {
+            background: #333;
+        }
+        #menu .pure-menu div a:hover,
+        #menu .pure-menu div a:focus {
+            background: #333;
+        }
+        
 
     /*
     This styles the selected menu item `<li>`.

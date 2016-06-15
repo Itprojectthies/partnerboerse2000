@@ -6,9 +6,11 @@ import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.thirdparty.javascript.rhino.head.ast.FunctionNode.Form;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -17,8 +19,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.superteam2000.gwt.client.gui.DateTimeFormat;
-import de.superteam2000.gwt.client.gui.ProfilAttributeBoxPanel;
-import de.superteam2000.gwt.client.gui.ProfilAttributeListBox;
+import de.superteam2000.gwt.client.gui.BoxPanel;
+import de.superteam2000.gwt.client.gui.EigenschaftListBox;
+import de.superteam2000.gwt.client.gui.ProfilAttributListbox;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
@@ -37,53 +40,38 @@ public class ShowProfil extends BasicFrame {
    * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
    */
 
-  ProfilAttributeBoxPanel gebTag = null;
-  ProfilAttributeBoxPanel groesse = null;
+  ProfilAttributListbox gebTag = null;
+  ProfilAttributListbox groesse = null;
   FlowPanel fPanel = new FlowPanel();
-  FlowPanel fPanelEigenschaften = new FlowPanel();
   Button saveButton = new Button("Speichern");
 
-  ProfilAttributeBoxPanel clb = null;
+  BoxPanel clb = null;
 
   Profil currentProfil = ClientsideSettings.getCurrentUser();
   Logger logger = ClientsideSettings.getLogger();
 
   @Override
   public String getHeadlineText() {
-    return null;
+    return "Hallo " + currentProfil.getVorname() +"!";
   }
 
   @Override
   public void run() {
-
-    final PartnerboerseAdministrationAsync pbVerwaltung =
+    fPanel.setStyleName("pure-form pure-form-aligned");
+    
+    
+    
+    
+    PartnerboerseAdministrationAsync pbVerwaltung =
         ClientsideSettings.getPartnerboerseVerwaltung();
 
-    // pbVerwaltung.getInfoByProfile(user, new InfoCallback(this));
 
     // Geburtstags- und KörpergrößeListbox müssen seperat erstellt werden,
     // weil sie Speziallfälle
     // von ProfilAttributListBox und ProfilAttributtextBox sind
 
-    gebTag = new ProfilAttributeBoxPanel("Geburtstag");
-    gebTag.createGebtaListobx();
-    gebTag.setGebtag(currentProfil.getGeburtsdatum());
-    gebTag.setEnable(false);
-
-    groesse = new ProfilAttributeBoxPanel("Körpergröße");
-    groesse.createGroesseListBox();
-    groesse.setGroesse(currentProfil.getGroesse());
-    groesse.setEnable(false);
-
-    // Profilbeschreibungsattribute (Vorname, Nachname) werden vom Server
-    // abgefragt, damit sie als Textboxen
-    // dargestellt werden können
-
-    pbVerwaltung.getAllBeschreibungProfilAttribute(new GetAllBeschreibungProfilAttributeCallback());
-    pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
-
     VerticalPanel menuButtonsPanel = new VerticalPanel();
-    RootPanel.get("Menu").add(menuButtonsPanel);
+    RootPanel.get("main").add(menuButtonsPanel);
 
     Button editButton = new Button("Bearbeiten");
     editButton.addClickHandler(new EditButtonClickHandler());
@@ -96,9 +84,32 @@ public class ShowProfil extends BasicFrame {
     Button deleteBtn = new Button("Profil löschen");
     menuButtonsPanel.add(deleteBtn);
     deleteBtn.addClickHandler(new DeleteClickHandler());
+    
+    
+//    gebTag = new BoxPanel("Geburtstag");
+//    gebTag.createGebtaListobx();
+//    gebTag.setGebtag(currentProfil.getGeburtsdatum());
+//    gebTag.setEnable(false);
+
+    gebTag = new ProfilAttributListbox();
+    gebTag.createGebtaListobx();
+    gebTag.setGebtag(currentProfil.getGeburtsdatum());
+    
+    groesse = new ProfilAttributListbox();
+    groesse.createGroesseListBox();
+    groesse.setGroesse(currentProfil.getGroesse());
+
+//     Profilbeschreibungsattribute (Vorname, Nachname) werden vom Server
+    // abgefragt, damit sie als Textboxen
+    // dargestellt werden können
+
+    pbVerwaltung.getAllBeschreibungProfilAttribute(new GetAllBeschreibungProfilAttributeCallback());
+    pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
+
+    
 
 
-    RootPanel.get("Details").add(fPanel);
+    RootPanel.get("main").add(fPanel);
 
   }
 
@@ -113,8 +124,8 @@ public class ShowProfil extends BasicFrame {
       for (Widget child : fPanel) {
         FlowPanel childPanel = (FlowPanel) child;
         for (Widget box : childPanel) {
-          if (box instanceof ProfilAttributeListBox) {
-            ProfilAttributeListBox lb = (ProfilAttributeListBox) box;
+          if (box instanceof EigenschaftListBox) {
+            EigenschaftListBox lb = (EigenschaftListBox) box;
             // Listbox auswählbar machen
             lb.setEnabled(true);
           } else if (box instanceof TextBox) {
@@ -144,8 +155,8 @@ public class ShowProfil extends BasicFrame {
       for (Widget child : fPanel) {
         FlowPanel childPanel = (FlowPanel) child;
         for (Widget box : childPanel) {
-          if (box instanceof ProfilAttributeListBox) {
-            ProfilAttributeListBox lb = (ProfilAttributeListBox) box;
+          if (box instanceof EigenschaftListBox) {
+            EigenschaftListBox lb = (EigenschaftListBox) box;
 
             switch (lb.getName()) {
 
@@ -227,9 +238,9 @@ public class ShowProfil extends BasicFrame {
             logger.severe("Profil gelöscht");
 
             VerticalPanel detailsPanel = new VerticalPanel();
-            RootPanel.get("Details").clear();
+            RootPanel.get("main").clear();
             detailsPanel.add(new HTML("Profil erflogreich gelöscht"));
-            RootPanel.get("Details").add(detailsPanel);
+            RootPanel.get("main").add(detailsPanel);
           }
 
           @Override
@@ -249,10 +260,9 @@ public class ShowProfil extends BasicFrame {
 
       ShowProfil sp = new ShowProfil();
 
-      RootPanel.get("Details").clear();
-      RootPanel.get("Menu").clear();
-      RootPanel.get("Details").add(new Home());
-      RootPanel.get("Details").add(sp);
+      RootPanel.get("main").clear();
+      RootPanel.get("main").add(new Home());
+      RootPanel.get("main").add(sp);
     }
 
     @Override
@@ -268,22 +278,22 @@ public class ShowProfil extends BasicFrame {
       for (Auswahl a : result) {
         switch (a.getName()) {
           case "Religion":
-            clb = new ProfilAttributeBoxPanel(a, currentProfil.getReligion(), true);
+            clb = new BoxPanel(a, currentProfil.getReligion(), true);
             clb.setEnable(false);
             fPanel.add(clb);
             break;
           case "Haarfarbe":
-            clb = new ProfilAttributeBoxPanel(a, currentProfil.getHaarfarbe(), true);
+            clb = new BoxPanel(a, currentProfil.getHaarfarbe(), true);
             clb.setEnable(false);
             fPanel.add(clb);
             break;
           case "Geschlecht":
-            clb = new ProfilAttributeBoxPanel(a, currentProfil.getGeschlecht(), true);
+            clb = new BoxPanel(a, currentProfil.getGeschlecht(), true);
             clb.setEnable(false);
             fPanel.add(clb);
             break;
           case "Raucher":
-            clb = new ProfilAttributeBoxPanel(a, currentProfil.getRaucher(), true);
+            clb = new BoxPanel(a, currentProfil.getRaucher(), true);
             clb.setEnable(false);
             fPanel.add(clb);
             break;
@@ -315,19 +325,19 @@ public class ShowProfil extends BasicFrame {
         // Für die Beschreibung Vorname und Nachname wird eine
         // Textbox erstellt und mit den Werten des aktuellen Nutzers
         // befüllt
+        
         switch (b.getName()) {
           case "Vorname":
-            clb = new ProfilAttributeBoxPanel(b, currentProfil.getVorname(), true);
+            clb = new BoxPanel(b, currentProfil.getVorname(), true);
             clb.setEnable(false);
             fPanel.add(clb);
             break;
           case "Nachname":
-            clb = new ProfilAttributeBoxPanel(b, currentProfil.getNachname(), true);
+            clb = new BoxPanel(b, currentProfil.getNachname(), true);
             clb.setEnable(false);
             fPanel.add(clb);
             break;
-          default:
-            break;
+          
         }
       }
     }

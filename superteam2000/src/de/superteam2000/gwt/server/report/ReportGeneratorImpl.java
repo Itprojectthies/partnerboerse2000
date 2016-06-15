@@ -53,13 +53,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
     // ab hier result mit Inhalten befüllen
     result.setTitle("Mein Profil");
-    // result.setCreated(new Date());
-
-    // Header des Reports erstellen
-    // CompositeParagraph header = new CompositeParagraph();
-    // header.addSubParagraph(new SimpleParagraph(p.getVorname() + " " + p.getNachname()));
-    // header.addSubParagraph(new SimpleParagraph(String.valueOf(p.getAehnlichkeit())));
-
     SimpleParagraph aehnlickeit = new SimpleParagraph(String.valueOf(p.getAehnlichkeit()));
     result.setAehnlichekit(aehnlickeit);
 

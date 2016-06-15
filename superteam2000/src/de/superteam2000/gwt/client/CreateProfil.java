@@ -14,8 +14,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.superteam2000.gwt.client.gui.ProfilAttributeBoxPanel;
-import de.superteam2000.gwt.client.gui.ProfilAttributeListBox;
+import de.superteam2000.gwt.client.gui.BoxPanel;
+import de.superteam2000.gwt.client.gui.EigenschaftListBox;
+import de.superteam2000.gwt.client.gui.ProfilAttributListbox;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
@@ -39,8 +40,8 @@ public class CreateProfil extends BasicFrame {
 
     FlowPanel fPanel = new FlowPanel();
     FlowPanel fPanel2 = new FlowPanel();
-    ProfilAttributeBoxPanel gebTag = null;
-    ProfilAttributeBoxPanel groesse = null;
+    BoxPanel gebTag = null;
+    BoxPanel groesse = null;
 
     @Override
     public String getHeadlineText() {
@@ -56,11 +57,11 @@ public class CreateProfil extends BasicFrame {
 
     @Override
     public void run() {
-	gebTag = new ProfilAttributeBoxPanel("Was ist dein Geburtstag?");
-	gebTag.createGebtaListobx();
-
-	groesse = new ProfilAttributeBoxPanel("Was ist dein Körpergröße?");
-	groesse.createGroesseListBox();
+      ProfilAttributListbox gebTag = new ProfilAttributListbox();
+//      gebTag.createGebtaListobx();
+      
+      ProfilAttributListbox groesse = new ProfilAttributListbox();
+//      groesse.createGroesseListBox();
 
 	pbVerwaltung.getAllBeschreibungProfilAttribute(new GetAllBeschreibungProfilAttributeCallBack());
 	pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallBack());
@@ -78,7 +79,7 @@ public class CreateProfil extends BasicFrame {
 	public void onSuccess(ArrayList<Beschreibung> result) {
 	    for (Beschreibung b : result) {
 
-		ProfilAttributeBoxPanel clb = new ProfilAttributeBoxPanel(b, false);
+		BoxPanel clb = new BoxPanel(b, false);
 		fPanel.add(clb);
 	    }
 
@@ -96,7 +97,7 @@ public class CreateProfil extends BasicFrame {
 	public void onSuccess(ArrayList<Auswahl> result) {
 	    for (Auswahl a : result) {
 
-		ProfilAttributeBoxPanel clb = new ProfilAttributeBoxPanel(a, false);
+		BoxPanel clb = new BoxPanel(a, false);
 		fPanel.add(clb);
 	    }
 
@@ -140,8 +141,8 @@ public class CreateProfil extends BasicFrame {
 
 		    FlowPanel vp1 = (FlowPanel) child;
 		    for (Widget widget3 : vp1) {
-			if (widget3 instanceof ProfilAttributeListBox) {
-			    ProfilAttributeListBox lb = (ProfilAttributeListBox) widget3;
+			if (widget3 instanceof EigenschaftListBox) {
+			    EigenschaftListBox lb = (EigenschaftListBox) widget3;
 			    logger.severe("test " + lb.getName());
 
 			    switch (lb.getName()) {

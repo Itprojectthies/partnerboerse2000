@@ -6,27 +6,27 @@ import com.google.gwt.user.client.ui.ListBox;
 
 import de.superteam2000.gwt.shared.bo.Auswahl;
 
-public class ProfilAttributeListBox extends ListBox {
+public class EigenschaftListBox extends ListBox {
 
-	public static final String CLASSNAME = "profil-attribute-listbox";
+	public static final String CLASSNAME = "pure-input-1-4";
 
 	private int listBoxAuswahlId = 0;
 	
 	private ArrayList<String> alternativenListe = new ArrayList<>();
 
-	public ProfilAttributeListBox(Auswahl a, String name) {
+	public EigenschaftListBox(Auswahl a, String name) {
 		this(a);
 		this.setSelectedItemByText(name);
 		setStyleName(CLASSNAME);
 	}
 
-	public ProfilAttributeListBox(Auswahl a) {
+	public EigenschaftListBox(Auswahl a) {
 		this.setName(a.getName());
 		this.addAuswahlAlternativen(a);
 		setStyleName(CLASSNAME);
 	}
 	
-	public ProfilAttributeListBox() {
+	public EigenschaftListBox() {
 	}
 
 	public void addAuswahlAlternativen(Auswahl a) {

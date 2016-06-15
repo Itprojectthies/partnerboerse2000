@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.superteam2000.gwt.client.gui.ProfilAttributeBoxPanel;
+import de.superteam2000.gwt.client.gui.BoxPanel;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
@@ -85,9 +85,9 @@ public class Eigenschaft extends BasicFrame {
         for (int i = 0, n = flexTableAuswahl.getRowCount(); i < n; i++) {
           CheckBox box = (CheckBox) flexTableAuswahl.getWidget(i, 0);
           if (box.getValue()) {
-            Auswahl a = ((ProfilAttributeBoxPanel) flexTableAuswahl.getWidget(i, 2)).getAuswahl();
+            Auswahl a = ((BoxPanel) flexTableAuswahl.getWidget(i, 2)).getAuswahl();
             String text =
-                ((ProfilAttributeBoxPanel) flexTableAuswahl.getWidget(i, 2)).getSelectedItem();
+                ((BoxPanel) flexTableAuswahl.getWidget(i, 2)).getSelectedItem();
 
             pbVerwaltung.createInfoFor(currentProfil, a, text, new AsyncCallback<Info>() {
 
@@ -104,10 +104,10 @@ public class Eigenschaft extends BasicFrame {
             });
             ClientsideSettings.getLogger()
                 .info("CheckBox is "
-                    + ((ProfilAttributeBoxPanel) flexTableAuswahl.getWidget(i, 2)).getSelectedItem()
+                    + ((BoxPanel) flexTableAuswahl.getWidget(i, 2)).getSelectedItem()
                     + " checked");
           } else {
-            Auswahl a = ((ProfilAttributeBoxPanel) flexTableAuswahl.getWidget(i, 2)).getAuswahl();
+            Auswahl a = ((BoxPanel) flexTableAuswahl.getWidget(i, 2)).getAuswahl();
             pbVerwaltung.getInfoByEigenschaftsId(a.getId(), new AsyncCallback<Info>() {
 
               @Override
@@ -140,9 +140,9 @@ public class Eigenschaft extends BasicFrame {
           CheckBox box = (CheckBox) flexTableBeschreibung.getWidget(i, 0);
           if (box.getValue()) {
             Beschreibung b =
-                ((ProfilAttributeBoxPanel) flexTableBeschreibung.getWidget(i, 2)).getBeschreibung();
+                ((BoxPanel) flexTableBeschreibung.getWidget(i, 2)).getBeschreibung();
             String text =
-                ((ProfilAttributeBoxPanel) flexTableBeschreibung.getWidget(i, 2)).getText();
+                ((BoxPanel) flexTableBeschreibung.getWidget(i, 2)).getText();
 
             pbVerwaltung.createInfoFor(currentProfil, b, text, new AsyncCallback<Info>() {
 
@@ -158,12 +158,12 @@ public class Eigenschaft extends BasicFrame {
             });
             ClientsideSettings.getLogger()
                 .info("CheckBox is "
-                    + ((ProfilAttributeBoxPanel) flexTableBeschreibung.getWidget(i, 2)).getText()
+                    + ((BoxPanel) flexTableBeschreibung.getWidget(i, 2)).getText()
                     + " checked");
 
           } else {
             Beschreibung b =
-                ((ProfilAttributeBoxPanel) flexTableBeschreibung.getWidget(i, 2)).getBeschreibung();
+                ((BoxPanel) flexTableBeschreibung.getWidget(i, 2)).getBeschreibung();
             pbVerwaltung.getInfoByEigenschaftsId(b.getId(), new AsyncCallback<Info>() {
 
               @Override
@@ -215,7 +215,7 @@ public class Eigenschaft extends BasicFrame {
         for (Auswahl a : result) {
           // Befülle die Zeilen der Tabelle mit Auswahlobjektinformationen und der Checkbox
           CheckBox checkBox1 = new CheckBox();
-          ProfilAttributeBoxPanel pabp = new ProfilAttributeBoxPanel(a);
+          BoxPanel pabp = new BoxPanel(a);
           flexTableAuswahl.setWidget(rowCounter1, 0, checkBox1);
           flexTableAuswahl.setText(rowCounter1, 1, a.getBeschreibungstext());
           flexTableAuswahl.setWidget(rowCounter1, 2, pabp);
@@ -225,12 +225,12 @@ public class Eigenschaft extends BasicFrame {
 
           for (int i = 0, n = flexTableAuswahl.getRowCount(); i < n; i++) {
             CheckBox box = (CheckBox) flexTableAuswahl.getWidget(i, 0);
-            Auswahl a1 = ((ProfilAttributeBoxPanel) flexTableAuswahl.getWidget(i, 2)).getAuswahl();
+            Auswahl a1 = ((BoxPanel) flexTableAuswahl.getWidget(i, 2)).getAuswahl();
             int auswahlId = a1.getId();
             for (Info info : infoListe) {
               if (auswahlId == info.getEigenschaftId()) {
                 box.setValue(true);
-                ((ProfilAttributeBoxPanel) flexTableAuswahl.getWidget(i, 2))
+                ((BoxPanel) flexTableAuswahl.getWidget(i, 2))
                     .setSelectedItem(info.getText());
               }
             }
@@ -257,7 +257,7 @@ public class Eigenschaft extends BasicFrame {
       if (result != null) {
         for (Beschreibung b : result) {
           CheckBox checkBox1 = new CheckBox();
-          ProfilAttributeBoxPanel pabp = new ProfilAttributeBoxPanel(b);
+          BoxPanel pabp = new BoxPanel(b);
           flexTableBeschreibung.setWidget(rowCounter2, 0, checkBox1);
           flexTableBeschreibung.setText(rowCounter2, 1, b.getBeschreibungstext());
           flexTableBeschreibung.setWidget(rowCounter2, 2, pabp);
@@ -268,13 +268,13 @@ public class Eigenschaft extends BasicFrame {
           for (int i = 0, n = flexTableBeschreibung.getRowCount(); i < n; i++) {
             CheckBox box = (CheckBox) flexTableBeschreibung.getWidget(i, 0);
             Beschreibung b1 =
-                ((ProfilAttributeBoxPanel) flexTableBeschreibung.getWidget(i, 2)).getBeschreibung();
+                ((BoxPanel) flexTableBeschreibung.getWidget(i, 2)).getBeschreibung();
             int beschreibungId = b1.getId();
             for (Info info : infoListe) {
               if (beschreibungId == info.getEigenschaftId()) {
                 box.setValue(true);
                 ClientsideSettings.getLogger().info("was ist hier los?" + info.getText());
-                ((ProfilAttributeBoxPanel) flexTableBeschreibung.getWidget(i, 2))
+                ((BoxPanel) flexTableBeschreibung.getWidget(i, 2))
                     .setText(info.getText());
               }
             }

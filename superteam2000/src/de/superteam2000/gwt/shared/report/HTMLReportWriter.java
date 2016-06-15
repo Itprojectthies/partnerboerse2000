@@ -228,7 +228,7 @@ public class HTMLReportWriter extends ReportWriter {
      * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports ausgelesen und in
      * HTML-Form übersetzt.
      */
-
+   
     result.append("<div class=\"container\">");
     result.append("<div class=\"avatar-flip\">");
     result.append("<img src=\"http://lorempixel.com/200/200/cats/\" height=\"150\" width=\"150\">");
@@ -299,6 +299,7 @@ public class HTMLReportWriter extends ReportWriter {
      * processAllAccountsOfCustomerReport auf. Das Ergebnis des jew. Aufrufs f�gen wir dem Buffer
      * hinzu.
      */
+    result.append("<div class=\"content\">");
     for (int i = 0; i < r.getNumSubReports(); i++) {
       /*
        * AllAccountsOfCustomerReport wird als Typ der SubReports vorausgesetzt. Sollte dies in einer
@@ -317,7 +318,7 @@ public class HTMLReportWriter extends ReportWriter {
        */
       this.resetReportText();
     }
-
+    result.append("</div>");
     /*
      * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und der reportText-Variable
      * zugewiesen. Dadurch wird es m�glich, anschlie�end das Ergebnis mittels getReportText()

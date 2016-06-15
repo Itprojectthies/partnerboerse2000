@@ -1,6 +1,8 @@
 package de.superteam2000.gwt.client;
 
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -12,7 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @version 1.0
  * 
  */
-public abstract class BasicFrame extends VerticalPanel {
+public abstract class BasicFrame extends FlowPanel {
 
 	/**
 	 * Jedes GWT Widget muss diese Methode implementieren. Sie gibt an, sas
@@ -32,7 +34,7 @@ public abstract class BasicFrame extends VerticalPanel {
 		 * realisiert wird, obliegt es den Subklassen, für eine Ausgestaltung
 		 * also Implementierung zu sorgen.
 		 */
-		this.add(this.createHeadline(this.getHeadlineText()));
+		RootPanel.get("main").add(this.createHeadline(this.getHeadlineText()));
 
 		/*
 		 * Wenn alles vorbereitet ist, stoßen wir die run()-Methode an. Auch
@@ -53,8 +55,9 @@ public abstract class BasicFrame extends VerticalPanel {
 	 * @return GWT HTML Widget.
 	 */
 	protected HTML createHeadline(String text) {
-		HTML content = new HTML(text);
-		//content.setStylePrimaryName("bankproject-headline");
+		HTML content = new HTML();
+		content.setStylePrimaryName("header");
+		content.setHTML("<h1>" + text + "</h1>");
 		return content;
 	}
 
