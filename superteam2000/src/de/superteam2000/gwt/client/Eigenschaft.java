@@ -32,7 +32,6 @@ public class Eigenschaft extends BasicFrame {
 
   @Override
   protected String getHeadlineText() {
-    // TODO Auto-generated method stub
     return "Eigenschaften";
   }
 
@@ -195,9 +194,9 @@ public class Eigenschaft extends BasicFrame {
       }
     });
 
-    RootPanel.get("Details").add(flexTableAuswahl);
-    RootPanel.get("Details").add(flexTableBeschreibung);
-    RootPanel.get("Details").add(addInfo);
+    RootPanel.get("main").add(flexTableAuswahl);
+    RootPanel.get("main").add(flexTableBeschreibung);
+    RootPanel.get("main").add(addInfo);
 
     pbVerwaltung.getAllAuswahl(new AuswahlCallback());
 
@@ -286,6 +285,12 @@ public class Eigenschaft extends BasicFrame {
         ClientsideSettings.getLogger().info("result == null");
       }
     }
+  }
+
+  @Override
+  protected String getSubHeadlineText() {
+    // TODO Auto-generated method stub
+    return "Was passt zu Dir passt?";
   }
 }
 

@@ -4,16 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
 
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.thirdparty.javascript.rhino.head.ast.FunctionNode.Form;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -21,10 +16,9 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.superteam2000.gwt.client.gui.DateTimeFormat;
 import de.superteam2000.gwt.client.gui.BoxPanel;
+import de.superteam2000.gwt.client.gui.DateTimeFormat;
 import de.superteam2000.gwt.client.gui.EigenschaftListBox;
-import de.superteam2000.gwt.client.gui.Label;
 import de.superteam2000.gwt.client.gui.ProfilAttributListbox;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
@@ -47,6 +41,7 @@ public class ShowProfil extends BasicFrame {
   ProfilAttributListbox gebTag = null;
   ProfilAttributListbox groesse = null;
   FlowPanel fPanel = new FlowPanel();
+  FlowPanel fPanel2 = new FlowPanel();
   Button saveButton = new Button("Speichern");
 
   BoxPanel clb = null;
@@ -62,6 +57,7 @@ public class ShowProfil extends BasicFrame {
   @Override
   public void run() {
     fPanel.setStyleName("pure-form pure-form-aligned");
+    fPanel2.setStyleName("content");
     
     
     
@@ -111,8 +107,8 @@ public class ShowProfil extends BasicFrame {
 
     
 
-
-    RootPanel.get("main").add(fPanel);
+    fPanel2.add(fPanel);
+    RootPanel.get("main").add(fPanel2);
 
   }
 
@@ -349,6 +345,11 @@ public class ShowProfil extends BasicFrame {
     public void onFailure(Throwable caught) {
       logger.severe("Erstellen der Beschreibungstextboxen (z.B. Vorname) fehlgeschlagen!");
     }
+  }
+
+  @Override
+  protected String getSubHeadlineText() {
+    return "Hier kannst du deine Profileinstellungen bearbeiten";
   }
 
 }

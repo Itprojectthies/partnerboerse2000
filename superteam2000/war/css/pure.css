@@ -16,6 +16,10 @@ Copyright (c) Nicolas Gallagher and Jonathan Neal
  *    user zoom.
  */
 
+input.gwt-TextBox {
+    width: 170px;
+}
+
 html {
   font-family: sans-serif; /* 1 */
   -ms-text-size-adjust: 100%; /* 2 */

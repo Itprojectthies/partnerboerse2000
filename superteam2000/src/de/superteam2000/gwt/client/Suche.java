@@ -56,7 +56,7 @@ public class Suche extends BasicFrame {
 
   @Override
   protected String getHeadlineText() {
-    return null;
+    return "Suche";
   }
 
   @Override
@@ -464,5 +464,11 @@ public class Suche extends BasicFrame {
 
     sp.setAuswahlListe(auswahlListeSp);
     return sp;
+  }
+
+  @Override
+  protected String getSubHeadlineText() {
+    // TODO Auto-generated method stub
+    return "Suche den perfekten Match!";
   }
 }

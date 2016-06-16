@@ -25,9 +25,15 @@ public class Sperre extends BasicFrame {
   @Override
   public String getHeadlineText() {
 
-    return "Von ihnen gesperrte Profile:";
+    return "Sperrliste";
   }
-
+  
+  @Override
+  protected String getSubHeadlineText() {
+    // TODO Auto-generated method stub
+    return "Hier findest du deine gemerkten Profile";
+  }
+  
   ArrayList<Profil> profile = new ArrayList<>();
 
   // pbVerwaltung über ClientsideSettings holen

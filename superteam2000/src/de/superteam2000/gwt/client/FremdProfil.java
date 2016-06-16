@@ -245,4 +245,10 @@ public class FremdProfil extends BasicFrame {
 	}
     }
 
+    @Override
+    protected String getSubHeadlineText() {
+      // TODO Auto-generated method stub
+      return "";
+    }
+
 }

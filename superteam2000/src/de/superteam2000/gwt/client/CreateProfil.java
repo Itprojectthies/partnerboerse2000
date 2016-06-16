@@ -39,6 +39,7 @@ public class CreateProfil extends BasicFrame {
   Logger logger = ClientsideSettings.getLogger();
 
   FlowPanel fPanel = new FlowPanel();
+  FlowPanel fPanel2 = new FlowPanel();
   ProfilAttributListbox gebTag = null;
   ProfilAttributListbox groesse = null;
   Button confirmBtn = null;
@@ -55,6 +56,7 @@ public class CreateProfil extends BasicFrame {
   @Override
   public void run() {
     fPanel.setStyleName("pure-form pure-form-aligned");
+    fPanel2.setStyleName("content");
     gebTag = new ProfilAttributListbox();
     gebTag.createGebtaListobx();
     gebTag.setEnable(true);
@@ -72,8 +74,8 @@ public class CreateProfil extends BasicFrame {
     confirmBtn.setStyleName("pure-button pure-button-primary");
     
     confirmBtn.addClickHandler(new ConfirmClickHandler());
-    
-    RootPanel.get("main").add(fPanel);
+    fPanel2.add(fPanel);
+    RootPanel.get("main").add(fPanel2);
 
   }
 
@@ -241,6 +243,12 @@ public class CreateProfil extends BasicFrame {
       RootPanel.get("main").add(sp);
     }
 
+  }
+
+  @Override
+  protected String getSubHeadlineText() {
+    // TODO Auto-generated method stub
+    return "Erstelle dein Profile und lege gelich los!";
   }
 
 }

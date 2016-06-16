@@ -28,7 +28,7 @@ public abstract class BasicFrame extends FlowPanel {
 		 */
 	  
 		super.onLoad();
-		this.add(this.createHeadline(this.getHeadlineText()));
+		this.add(this.createHeadline(this.getHeadlineText(), this.getSubHeadlineText()));
 		/*
 		 * Als erstes geben wir stets die Headline des BasicFrame aus. Da
 		 * getHeadlineText() als abstrakte Methode bzw. als Einschubmethode
@@ -56,16 +56,14 @@ public abstract class BasicFrame extends FlowPanel {
 	 *            der String, den wir als andernorts HTML setzen wollen.
 	 * @return GWT HTML Widget.
 	 */
-	protected HTML createHeadline(String text) {
+	protected HTML createHeadline(String header, String subHeader) {
 		HTML content = new HTML();
 		content.setStylePrimaryName("header");
-		content.setHTML("<h1>" + text + "</h1>");
+		content.setHTML("<h1>" + header + "</h1><h2>" +subHeader+ "</h2>");
 		return content;
 	}
 	
-	protected BasicFrame dsa(BasicFrame bla) {
-	        return bla;
-  }
+	
 	/**
 	 * Mit Hilfe dieser Methode erstellen wir aus einem Strinng ein mittels CSS
 	 * formatierbares HTML-Element, das an das Ende der bisherigen Ausgabe
@@ -102,6 +100,7 @@ public abstract class BasicFrame extends FlowPanel {
 	 * @return der Text, den wir als Headline setzen wollen.
 	 */
 	protected abstract String getHeadlineText();
+	protected abstract String getSubHeadlineText();
 
 	/**
 	 * Abstrakte Einschubmethode, die in den Subklassen zu realisieren ist.

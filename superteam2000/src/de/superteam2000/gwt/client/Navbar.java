@@ -95,7 +95,7 @@ public class Navbar extends VerticalPanel {
       edit.getElement().setAttribute("id", "1");
       
       FlowPanel contentDiv = new FlowPanel(DivElement.TAG);
-      contentDiv.setStyleName("content");
+      contentDiv.setStyleName("subLink");
     
       test.setStyleName("pure-menu-item");
       
@@ -182,10 +182,8 @@ public class Navbar extends VerticalPanel {
         public void onClick(ClickEvent event) {
 
           Eigenschaft e = new Eigenschaft();
-          VerticalPanel detailsPanel = new VerticalPanel();
-          detailsPanel.add(e);
           RootPanel.get("main").clear();
-          RootPanel.get("main").add(detailsPanel);
+          RootPanel.get("main").add(e);
         }
       });
 

@@ -37,7 +37,7 @@ public class Merkliste extends BasicFrame {
 	@Override
 	public String getHeadlineText() {
 
-		return "Von ihnen gemerkte Profile:";
+		return "Merkliste";
 	}
 	
 	//Das ausgewählte Profil
@@ -116,7 +116,7 @@ public class Merkliste extends BasicFrame {
 				LayoutPanel panel = new LayoutPanel();
 				panel.setSize("80em", "50em");
 				panel.add(table);
-				RootPanel.get("Details").add(panel);
+				RootPanel.get("main").add(panel);
 
 			}
 
@@ -144,9 +144,9 @@ public class Merkliste extends BasicFrame {
 					
 					@Override
 					public void onSuccess(Void result) {
-						RootPanel.get("Details").clear();
+						RootPanel.get("main").clear();
 						Merkliste m = new Merkliste();
-						RootPanel.get("Details").add(m);
+						RootPanel.get("main").add(m);
 						
 						Window.alert("Profil wurde von der Merkliste entfernt!");
 						
@@ -179,9 +179,9 @@ public class Merkliste extends BasicFrame {
 				@Override
 				public void onSuccess(ProfilReport result) {
 					
-					RootPanel.get("Details").clear();
+					RootPanel.get("main").clear();
 					FremdProfil fp = new FremdProfil(selected);
-					RootPanel.get("Details").add(fp);
+					RootPanel.get("main").add(fp);
 					
 					//Profil als besucht setzen
 					pbVerwaltung.setVisited(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
@@ -213,5 +213,10 @@ public class Merkliste extends BasicFrame {
 		}
 	}
 	}
+  @Override
+  protected String getSubHeadlineText() {
+    // TODO Auto-generated method stub
+    return "Hier findest du deine gemerkten Profile";
+  }
 
 }

@@ -321,5 +321,11 @@ public class DataGridForProfiles extends BasicFrame {
     }
   }
 
+  @Override
+  protected String getSubHeadlineText() {
+    // TODO Auto-generated method stub
+    return "";
+  }
+
 
 }

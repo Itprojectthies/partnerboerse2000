@@ -1,4 +1,4 @@
-#accordion-button, .content { 
+#accordion-button, .subLink { 
 	display: none;
 }
 
@@ -7,11 +7,11 @@
  	cursor: pointer;  
  } 
 
-#accordion-button:checked ~ .content {
+#accordion-button:checked ~ .subLink {
 	display: block;
 	margin-bottom: 0px
 }
-#accordion-button:unchecked ~ .content {
+#accordion-button:unchecked ~ .subLink {
 	display: block;
 	margin-bottom: 123px
 }
@@ -20,7 +20,7 @@
  */
 body {
   background-color: #f0f0f0;
-  font-family: Verdana;
+  /* font-family: Verdana; */
 }
 .container {
   width: 400px;
