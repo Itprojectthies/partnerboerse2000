@@ -1,3 +1,20 @@
+#accordion-button, .content { 
+	display: none;
+}
+
+
+.accordion-label { 
+ 	cursor: pointer;  
+ } 
+
+#accordion-button:checked ~ .content {
+	display: block;
+	margin-bottom: 0px
+}
+#accordion-button:unchecked ~ .content {
+	display: block;
+	margin-bottom: 123px
+}
 /*
  * ------------------------------------------- profil reports
  */

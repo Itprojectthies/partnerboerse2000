@@ -307,7 +307,6 @@ public class ReportGen implements EntryPoint {
     HTMLReportWriter writer = new HTMLReportWriter();
     writer.process(result);
     HTML report = new HTML(writer.getReportText());
-    report.setStyleName("content");
     RootPanel.get("main").add(report);
   }
 
@@ -316,7 +315,6 @@ public class ReportGen implements EntryPoint {
     HTMLReportWriter writer = new HTMLReportWriter();
     writer.process(result);
     HTML report = new HTML(writer.getReportText());
-    report.setStyleName("content");
     RootPanel.get("main").add(report);
   }
 
@@ -325,7 +323,6 @@ public class ReportGen implements EntryPoint {
     HTMLReportWriter writer = new HTMLReportWriter();
     writer.process(result);
     HTML report = new HTML(writer.getReportText());
-    report.setStyleName("content");
     RootPanel.get("main").add(report);
   }
 
@@ -334,7 +331,6 @@ public class ReportGen implements EntryPoint {
     HTMLReportWriter writer = new HTMLReportWriter();
     writer.process(result);
     HTML report = new HTML(writer.getReportText());
-    report.setStyleName("content");
     RootPanel.get("main").add(report);
   }
 
@@ -343,7 +339,6 @@ public class ReportGen implements EntryPoint {
     HTMLReportWriter writer = new HTMLReportWriter();
     writer.process(result);
     HTML report = new HTML(writer.getReportText());
-    report.setStyleName("content");
     RootPanel.get("main").add(report);
   }
 

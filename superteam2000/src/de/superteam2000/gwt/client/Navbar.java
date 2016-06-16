@@ -25,17 +25,13 @@ import de.superteam2000.gwt.client.gui.ListItemWidget;
 import de.superteam2000.gwt.client.gui.UnorderedListWidget;
 import de.superteam2000.gwt.shared.bo.Profil;
 
-public class Navbar extends BasicFrame {
+public class Navbar extends VerticalPanel {
 
   
   Profil user = ClientsideSettings.getCurrentUser();
 
-  public void append(Widget wi) {
-    this.add(wi);
-  }
 
-  @Override
-  public void run() {
+  protected void onLoad() {
 
     if (user != null && user.isLoggedIn()) {
 
@@ -57,9 +53,12 @@ public class Navbar extends BasicFrame {
       Anchor eigenschaftenBtn = new Anchor("Eigenschaften");
       Anchor dataGridBtn = new Anchor("Alle Profile");
       Anchor reportButton = new Anchor("Report");
+      Anchor edit = new Anchor("edit");
+      edit.setStyleName("pure-menu-link");
 
-
-
+      FlowPanel test = new FlowPanel(DivElement.TAG);
+      menuList.add(test);
+      
       profilBtn.setStyleName("pure-menu-link");
       menuList.add(new ListItemWidget(profilBtn));
       
@@ -89,24 +88,25 @@ public class Navbar extends BasicFrame {
       profilBtn.setFor("accordion-button");
       profilBtn.setStyleName("pure-menu-link accordion-label");
       
-      SimpleCheckBox profilCheck = new SimpleCheckBox();
+      final SimpleCheckBox profilCheck = new SimpleCheckBox();
       profilCheck.setStyleName("accordion-button");
       profilCheck.getElement().setAttribute("id", "accordion-button");
       
+      edit.getElement().setAttribute("id", "1");
+      
       FlowPanel contentDiv = new FlowPanel(DivElement.TAG);
       contentDiv.setStyleName("content");
-      FlowPanel test = new FlowPanel(DivElement.TAG);
-      
+    
       test.setStyleName("pure-menu-item");
       
       test.add(profilBtn);
       test.add(profilCheck);
       
-      contentDiv.add(suchprofilBtn);
+      contentDiv.add(edit);
       
       test.add(contentDiv);
       
-      menuList.add(test);
+      
       pureMenu.add(anchor);
       pureMenu.add(menuList);
       menu.add(pureMenu);
@@ -130,6 +130,7 @@ public class Navbar extends BasicFrame {
         @Override
         public void onClick(ClickEvent event) {
           ShowProfil sp = new ShowProfil();
+//          profilCheck.setChecked(true);
           RootPanel.get("main").clear();
           RootPanel.get("main").add(sp);
         }
@@ -142,6 +143,7 @@ public class Navbar extends BasicFrame {
         @Override
         public void onClick(ClickEvent event) {
           Merkliste m = new Merkliste();
+          profilCheck.setChecked(false);
           RootPanel.get("main").clear();
           RootPanel.get("main").add(m);
 
@@ -234,10 +236,5 @@ public class Navbar extends BasicFrame {
   }
 
 
-  @Override
-  protected String getHeadlineText() {
-    // TODO Auto-generated method stub
-    return "hallo";
-  }
 
 }

@@ -1,7 +1,7 @@
 * {
-    -webkit-box-sizing: border-box;
+    /* -webkit-box-sizing: border-box; */
     -moz-box-sizing: border-box;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
 }
 
 /*
@@ -9,7 +9,7 @@
  * Most of these are inherited from Base, but I want to change a few.
  */
 body {
-    line-height: 1.7em;
+    /* line-height: 1.7em; */
     color: #7f8c8d;
     font-size: 13px;
 }
@@ -63,6 +63,10 @@ label {
     color: white;
     padding: 0.5em 2em;
     border-radius: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+
 }
 
 a.pure-button-primary {

@@ -51,8 +51,8 @@ public class Superteam2000 implements EntryPoint {
 			// User eingeloggt und nicht in der db vorhanden?
 			if (result.isLoggedIn() && !result.isCreated()) {
 				ClientsideSettings.setCurrentUser(result);
-				profilErstellen();
 				ClientsideSettings.getLogger().info("Erstelle profil für " + result.getEmail());
+				profilErstellen();
 
 				// User exisitiert in der db und loggt sich ein.
 			} else if (result.isLoggedIn()) {
@@ -96,13 +96,13 @@ public class Superteam2000 implements EntryPoint {
 
 		private void profilErstellen() {
 
-			Navbar nb = new Navbar();
-			RootPanel.get("menu").clear();
-			RootPanel.get("menu").add(nb);
+//			Navbar nb = new Navbar();
+//			RootPanel.get("menu").clear();
+//			RootPanel.get("menu").add(nb);
 			
-			RootPanel.get("main").add(new Home());
+//			RootPanel.get("main").add(new Home());
 
-			CreateProfil cf = new CreateProfil();
+			BasicFrame cf = new CreateProfil();
 			RootPanel.get("main").clear();
 			RootPanel.get("main").add(cf);
 
@@ -118,9 +118,7 @@ public class Superteam2000 implements EntryPoint {
 //			RootPanel.get("Details").add(new Home());
 			
 			ShowProfil sp = new ShowProfil();
-			FlowPanel fp = new FlowPanel();
-			fp.add(sp);
-//			RootPanel.get("main").add(fp);
+			RootPanel.get("main").add(sp);
 
 		}
 	}

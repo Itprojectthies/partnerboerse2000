@@ -1016,6 +1016,13 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     border-bottom: 1px solid #e5e5e5;
 }
 
+.pure-form.pure-form-aligned {
+    margin-top: 25px;
+    border-bottom-width: 25px;
+}
+
+
+
 .pure-form-stacked input[type="text"],
 .pure-form-stacked input[type="password"],
 .pure-form-stacked input[type="email"],
@@ -1069,7 +1076,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     text-align: right;
     display: inline-block;
     vertical-align: middle;
-    width: 10em;
+    width: 22em;
     margin: 0 1em 0 0;
     -webkit-tap-highlight-color: rgba(0, 255, 255, 0);
     outline: none;

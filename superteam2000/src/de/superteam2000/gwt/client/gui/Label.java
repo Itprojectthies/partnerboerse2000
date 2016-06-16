@@ -1,8 +1,15 @@
 package de.superteam2000.gwt.client.gui;
 
+import com.google.gwt.dom.client.AnchorElement;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.LabelElement;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.DirectionalTextHelper;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class Label extends FocusWidget implements HasText {
@@ -29,4 +36,5 @@ public class Label extends FocusWidget implements HasText {
   public void setFor(String forWho) {
     getElement().setAttribute("for", forWho);
   }
+ 
 }

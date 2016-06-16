@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
 
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.thirdparty.javascript.rhino.head.ast.FunctionNode.Form;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -21,6 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.superteam2000.gwt.client.gui.DateTimeFormat;
 import de.superteam2000.gwt.client.gui.BoxPanel;
 import de.superteam2000.gwt.client.gui.EigenschaftListBox;
+import de.superteam2000.gwt.client.gui.Label;
 import de.superteam2000.gwt.client.gui.ProfilAttributListbox;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
@@ -46,7 +50,7 @@ public class ShowProfil extends BasicFrame {
   Button saveButton = new Button("Speichern");
 
   BoxPanel clb = null;
-
+  FlowPanel buttonsPanel = new FlowPanel();
   Profil currentProfil = ClientsideSettings.getCurrentUser();
   Logger logger = ClientsideSettings.getLogger();
 
@@ -61,35 +65,34 @@ public class ShowProfil extends BasicFrame {
     
     
     
-    
     PartnerboerseAdministrationAsync pbVerwaltung =
         ClientsideSettings.getPartnerboerseVerwaltung();
 
-
+//    <button type="submit" class="pure-button pure-button-primary">Submit</button>
     // Geburtstags- und KörpergrößeListbox müssen seperat erstellt werden,
     // weil sie Speziallfälle
     // von ProfilAttributListBox und ProfilAttributtextBox sind
-
-    VerticalPanel menuButtonsPanel = new VerticalPanel();
-    RootPanel.get("main").add(menuButtonsPanel);
-
+//    Label testAnchor = Label.wrap(Document.get().getElementById("1"));
+//    VerticalPanel menuButtonsPanel = new VerticalPanel();
+//    RootPanel.get("main").add(menuButtonsPanel);
+   
+    buttonsPanel.setStyleName("pure-controls");
+    
     Button editButton = new Button("Bearbeiten");
+    editButton.setStyleName("pure-button pure-button-primary");
     editButton.addClickHandler(new EditButtonClickHandler());
-    menuButtonsPanel.add(editButton);
-
+    
+    saveButton.setStyleName("pure-button pure-button-primary");
     saveButton.addClickHandler(new SaveButtonClickHandler());
-    menuButtonsPanel.add(saveButton);
     saveButton.setEnabled(false);
 
     Button deleteBtn = new Button("Profil löschen");
-    menuButtonsPanel.add(deleteBtn);
+    deleteBtn.setStyleName("pure-button pure-button-primary");
     deleteBtn.addClickHandler(new DeleteClickHandler());
+    buttonsPanel.add(deleteBtn);
+    buttonsPanel.add(editButton);
+    buttonsPanel.add(saveButton);
     
-    
-//    gebTag = new BoxPanel("Geburtstag");
-//    gebTag.createGebtaListobx();
-//    gebTag.setGebtag(currentProfil.getGeburtsdatum());
-//    gebTag.setEnable(false);
 
     gebTag = new ProfilAttributListbox();
     gebTag.createGebtaListobx();
@@ -99,7 +102,7 @@ public class ShowProfil extends BasicFrame {
     groesse.createGroesseListBox();
     groesse.setGroesse(currentProfil.getGroesse());
 
-//     Profilbeschreibungsattribute (Vorname, Nachname) werden vom Server
+    // Profilbeschreibungsattribute (Vorname, Nachname) werden vom Server
     // abgefragt, damit sie als Textboxen
     // dargestellt werden können
 
@@ -261,7 +264,6 @@ public class ShowProfil extends BasicFrame {
       ShowProfil sp = new ShowProfil();
 
       RootPanel.get("main").clear();
-      RootPanel.get("main").add(new Home());
       RootPanel.get("main").add(sp);
     }
 
@@ -307,6 +309,7 @@ public class ShowProfil extends BasicFrame {
       // AuswahlProfilAttributen zum Panel hinzugefügt
       fPanel.add(groesse);
       fPanel.add(gebTag);
+      fPanel.add(buttonsPanel);
     }
 
     @Override

@@ -299,7 +299,6 @@ public class HTMLReportWriter extends ReportWriter {
      * processAllAccountsOfCustomerReport auf. Das Ergebnis des jew. Aufrufs f�gen wir dem Buffer
      * hinzu.
      */
-    result.append("<div class=\"content\">");
     for (int i = 0; i < r.getNumSubReports(); i++) {
       /*
        * AllAccountsOfCustomerReport wird als Typ der SubReports vorausgesetzt. Sollte dies in einer

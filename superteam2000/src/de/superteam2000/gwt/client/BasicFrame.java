@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 public abstract class BasicFrame extends FlowPanel {
-
+  
 	/**
 	 * Jedes GWT Widget muss diese Methode implementieren. Sie gibt an, sas
 	 * geschehen soll, wenn eine Widget-Instanz zur Anzeige gebracht wird.
@@ -26,16 +26,17 @@ public abstract class BasicFrame extends FlowPanel {
 		 * Bevor wir unsere eigene Formatierung veranslassen, überlassen wir es
 		 * der Superklasse eine Initialisierung vorzunehmen.
 		 */
+	  
 		super.onLoad();
-
+		this.add(this.createHeadline(this.getHeadlineText()));
 		/*
 		 * Als erstes geben wir stets die Headline des BasicFrame aus. Da
 		 * getHeadlineText() als abstrakte Methode bzw. als Einschubmethode
 		 * realisiert wird, obliegt es den Subklassen, für eine Ausgestaltung
 		 * also Implementierung zu sorgen.
 		 */
-		RootPanel.get("main").add(this.createHeadline(this.getHeadlineText()));
-
+		
+		
 		/*
 		 * Wenn alles vorbereitet ist, stoßen wir die run()-Methode an. Auch
 		 * run() ist als abstrakte Methode bzw. als Einschubmethode realisiert.
@@ -43,8 +44,9 @@ public abstract class BasicFrame extends FlowPanel {
 		 * sorgen.
 		 */
 		this.run();
+		
 	}
-
+	
 	/**
 	 * Mit Hilfe dieser Methode erstellen wir aus einem String ein mittels CSS
 	 * formatierbares HTML-Element. Unter CSS lässt sich das Ergebnis über
@@ -60,7 +62,10 @@ public abstract class BasicFrame extends FlowPanel {
 		content.setHTML("<h1>" + text + "</h1>");
 		return content;
 	}
-
+	
+	protected BasicFrame dsa(BasicFrame bla) {
+	        return bla;
+  }
 	/**
 	 * Mit Hilfe dieser Methode erstellen wir aus einem Strinng ein mittels CSS
 	 * formatierbares HTML-Element, das an das Ende der bisherigen Ausgabe
