@@ -69,6 +69,7 @@ public interface PartnerboerseAdministrationAsync {
 
   void delete(Info info, AsyncCallback<Void> callback);
 
+  void getInfoByProfile(AsyncCallback<ArrayList<Info>> callback);
   void getInfoByProfile(Profil profil, AsyncCallback<ArrayList<Info>> callback);
 
   void getInfoByEigenschaftsId(int id, AsyncCallback<Info> callback);
@@ -96,9 +97,9 @@ public interface PartnerboerseAdministrationAsync {
 
   void getKontaktsperreForProfil(Profil profil, AsyncCallback<Kontaktsperre> callback);
 
-  void createInfoFor(Profil profil, Auswahl auswahl, String text, AsyncCallback<Info> callback);
+  void createInfoFor(Auswahl auswahl, String text, AsyncCallback<Info> callback);
 
-  void createInfoFor(Profil profil, Beschreibung beschreibung, String text,
+  void createInfoFor(Beschreibung beschreibung, String text,
       AsyncCallback<Info> callback);
 
   void getProfilByMail(String email, AsyncCallback<Profil> callback);
@@ -136,6 +137,10 @@ public interface PartnerboerseAdministrationAsync {
   void getAllNewProfilesByAehnlichkeitsmass(Profil p, AsyncCallback<ArrayList<Profil>> callback);
 
   void getItemsOfSuchprofil(Suchprofil sp, AsyncCallback<ArrayList<String>> callback);
+
+  void getProfil(AsyncCallback<Profil> callback);
+
+  void setProfil(Profil p, AsyncCallback<Void> callback);
 
   // Suchprofil
 

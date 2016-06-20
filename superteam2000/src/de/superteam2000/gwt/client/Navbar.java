@@ -8,6 +8,7 @@ import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.ParagraphElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
@@ -32,9 +33,11 @@ public class Navbar extends VerticalPanel {
 
 
   protected void onLoad() {
-
+    RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#191818");
+    
     if (user != null && user.isLoggedIn()) {
-
+      DivElement divID = (DivElement) DOM.getElementById("test").cast();
+//      divID.
       FlowPanel menu = new FlowPanel();
       UnorderedListWidget menuList = new UnorderedListWidget();
       FlowPanel pureMenu = new FlowPanel();

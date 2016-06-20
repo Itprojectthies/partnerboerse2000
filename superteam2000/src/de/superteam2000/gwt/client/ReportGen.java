@@ -56,7 +56,7 @@ public class ReportGen implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
-
+    RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#191818");
     Anchor anchor = new Anchor("PartnerBörse", GWT.getHostPageBaseURL() + "Superteam2000.html");
 
     menuList.setStyleName("pure-menu-list");

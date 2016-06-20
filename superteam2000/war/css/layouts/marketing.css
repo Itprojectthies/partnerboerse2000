@@ -11,7 +11,7 @@
 body {
     /* line-height: 1.7em; */
     color: #7f8c8d;
-    font-size: 13px;
+    font-size: 20px;
 }
 
 h1,
@@ -23,6 +23,7 @@ h6,
 label {
     color: #34495e;
 }
+
 
 .pure-img-responsive {
     max-width: 100%;
@@ -58,7 +59,9 @@ label {
  * -- PURE BUTTON STYLES --
  * I want my pure-button elements to look a little different
  */
-.pure-button {
+ 
+ 
+/* .pure-button {
     background-color: #1f8dd6;
     color: white;
     padding: 0.5em 2em;
@@ -66,7 +69,7 @@ label {
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
-
+    width: 180px;
 }
 
 a.pure-button-primary {
@@ -75,7 +78,7 @@ a.pure-button-primary {
     border-radius: 5px;
     font-size: 120%;
 }
-
+*/
 
 
 /*

@@ -62,8 +62,8 @@ public class Merkliste extends BasicFrame {
 				final Button profilAnzeigenButton = new Button("Profil anzeigen");
 				
 				//Button hinzufügen
-				RootPanel.get("Details").add(profilEntfernenButton);
-				RootPanel.get("Details").add(profilAnzeigenButton);
+				RootPanel.get("main").add(profilEntfernenButton);
+				RootPanel.get("main").add(profilAnzeigenButton);
 				
 				//DataGrid Mit den gemerkten Profilen erstellen
 				DataGrid<Profil> table = new DataGrid<Profil>();

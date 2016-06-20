@@ -20,11 +20,11 @@ import de.superteam2000.gwt.shared.bo.Profil;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Superteam2000 implements EntryPoint {
+  PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
 	@Override
 	public void onModuleLoad() {
-
-		PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+//	  RootPanel.get("menu").getElemen
 		pbVerwaltung.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback());
 
 	}
@@ -47,7 +47,7 @@ public class Superteam2000 implements EntryPoint {
 		@Override
 		public void onSuccess(Profil result) {
 			
-
+		  
 			// User eingeloggt und nicht in der db vorhanden?
 			if (result.isLoggedIn() && !result.isCreated()) {
 				ClientsideSettings.setCurrentUser(result);
@@ -56,7 +56,21 @@ public class Superteam2000 implements EntryPoint {
 
 				// User exisitiert in der db und loggt sich ein.
 			} else if (result.isLoggedIn()) {
-
+			    pbVerwaltung.setProfil(result, new AsyncCallback<Void>() {
+                  
+                  @Override
+                  public void onSuccess(Void result) {
+                    // TODO Auto-generated method stub
+                    
+                  }
+                  
+                  @Override
+                  public void onFailure(Throwable caught) {
+                    // TODO Auto-generated method stub
+                    
+                  }
+                });
+                
 				ClientsideSettings.setCurrentUser(result);
 				loadProfil();
 				ClientsideSettings.getLogger().info("Lade vorhandenes Profil");
@@ -89,7 +103,7 @@ public class Superteam2000 implements EntryPoint {
 				splash.add(loginAnchor);
 				splashContaiern.add(splash);
 				
-				RootPanel.get("menu").getElement().getStyle().setProperty("width","0px");
+				RootPanel.get("menu").getElement().getStyle().setZIndex(0);
 				RootPanel.get("main").add(splashContaiern);
 			}
 		}

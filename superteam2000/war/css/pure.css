@@ -15,6 +15,14 @@ Copyright (c) Nicolas Gallagher and Jonathan Neal
  * 2. Prevent iOS text size adjust after orientation change, without disabling
  *    user zoom.
  */
+#attributeLabel {
+	-webkit-appearance: none;
+	cursor: auto;
+    background-color: #ffffff;
+    color: #767777;
+}
+
+
 
 input.gwt-TextBox {
     width: 170px;
@@ -942,7 +950,8 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 .pure-form .pure-checkbox,
 .pure-form .pure-radio {
     margin: 0.5em 0;
-    display: block;
+    /* display: block; */
+    margin-left: 8px;
 }
 
 .pure-form input[type="text"][disabled],
@@ -1005,6 +1014,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 .pure-form label {
     margin: 0.5em 0 0.2em;
+    text-align: right;
 }
 .pure-form fieldset {
     margin: 0;
@@ -1077,7 +1087,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     margin-bottom: 0.5em;
 }
 .pure-form-aligned .pure-control-group label {
-    text-align: right;
+    /*text-align: right;*/
     display: inline-block;
     vertical-align: middle;
     width: 22em;
@@ -1085,8 +1095,26 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     -webkit-tap-highlight-color: rgba(0, 255, 255, 0);
     outline: none;
 }
+
+.pure-form-aligned .pure-control-group .label-rechts label {
+    text-align: left;
+    
+}
+
+
+label.label-rechts {
+    text-align: left;
+    color: #AD1457;
+    
+}
+
+.pure-form-aligned .pure-control-group .label-rechts label {
+    text-align: left;
+   
+}
+
 .pure-form-aligned .pure-controls {
-    margin: 1.5em 0 0 11em;
+    margin: 1.5em 0 0 15em;
 }
 
 /* Rounded Inputs */

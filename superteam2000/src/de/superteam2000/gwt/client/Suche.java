@@ -56,7 +56,7 @@ public class Suche extends BasicFrame {
 
   @Override
   protected String getHeadlineText() {
-    return "Suche";
+    return "Suche und finde deine bessere Hälfte";
   }
 
   @Override
@@ -174,15 +174,15 @@ public class Suche extends BasicFrame {
     suchprofilLöschenButton = new Button("Suchprofil löschen");
     suchprofilLöschenButton.setEnabled(false);
 
-    RootPanel.get("Menu").add(suchProfilListBox);
-    RootPanel.get("Menu").add(suchprofilSpeichernButton);
-    RootPanel.get("Menu").add(suchprofilLöschenButton);
+    RootPanel.get("main").add(suchProfilListBox);
+    RootPanel.get("main").add(suchprofilSpeichernButton);
+    RootPanel.get("main").add(suchprofilLöschenButton);
 
     sucheButton.addClickHandler(new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
-        RootPanel.get("rechts").clear();
+//        RootPanel.get("main").clear();
         sp = createSP();
         logger.info(sp.getRaucher());
         ClientsideSettings.getPartnerboerseVerwaltung().getProfilesBySuchprofil(sp,
@@ -199,7 +199,7 @@ public class Suche extends BasicFrame {
                   profile = result;
 
                   DataGridForProfiles dgp = new DataGridForProfiles(profile);
-                  RootPanel.get("rechts").add(dgp);
+                  RootPanel.get("main").add(dgp);
                 }
 
               }
@@ -289,25 +289,7 @@ public class Suche extends BasicFrame {
 
     suchprofilErstellButton.addClickHandler(new SuchButtonClickHandler());
 
-    RootPanel.get("Details").add(fPanel);
-
-    // Alle Profile aus der db holen
-    // pbVerwaltung.getAllProfiles(new AsyncCallback<ArrayList<Profil>>() {
-    //
-    // @Override
-    // public void onSuccess(ArrayList<Profil> result) {
-    // if (result != null) {
-    // profile = result;
-    // }
-    //
-    // }
-    //
-    // @Override
-    // public void onFailure(Throwable caught) {
-    // ClientsideSettings.getLogger().severe("Fehler AsyncCallback alle Profile");
-    //
-    // }
-    // });
+    RootPanel.get("main").add(fPanel);
   }
 
   private class GetAllAuswahlProfilAttributeCallback implements AsyncCallback<ArrayList<Auswahl>> {
@@ -367,16 +349,15 @@ public class Suche extends BasicFrame {
     public void onClick(ClickEvent event) {
 
       sp = createSP();
-      RootPanel.get("Menu").clear();
-      RootPanel.get("rechts").clear();
+//      RootPanel.get("main").clear();
 
-      RootPanel.get("Menu").add(suchProfilListBox);
-      RootPanel.get("Menu").add(suchprofilSpeichernButton);
-      RootPanel.get("Menu").add(suchprofilLöschenButton);
+      RootPanel.get("main").add(suchProfilListBox);
+      RootPanel.get("main").add(suchprofilSpeichernButton);
+      RootPanel.get("main").add(suchprofilLöschenButton);
 
 
       if (suchProfilListe.contains(sp)) {
-        RootPanel.get("Details").add(new HTML("suchprofil schon vorhanden"));
+        RootPanel.get("main").add(new HTML("suchprofil schon vorhanden"));
       } else {
         suchProfilListe.add(sp);
         suchProfilListBox.addItem(sp.getName());

@@ -73,10 +73,10 @@ public class FremdProfil extends BasicFrame {
 	table.setText(7, 0, "Religion");
 	table.setText(7, 1, profil.getReligion());
 
-	RootPanel.get("rechts").add(merkenButton);
-	RootPanel.get("rechts").add(sperrenButton);
+	RootPanel.get("main").add(merkenButton);
+	RootPanel.get("main").add(sperrenButton);
 	table.setStyleName("fremdProfilAnzeigen");
-	RootPanel.get("rechts").add(table);
+	RootPanel.get("main").add(table);
 	rowCounter++;
 
     }

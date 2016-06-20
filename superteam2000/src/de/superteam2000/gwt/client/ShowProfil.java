@@ -61,17 +61,7 @@ public class ShowProfil extends BasicFrame {
     
     
     
-    PartnerboerseAdministrationAsync pbVerwaltung =
-        ClientsideSettings.getPartnerboerseVerwaltung();
-
-//    <button type="submit" class="pure-button pure-button-primary">Submit</button>
-    // Geburtstags- und KörpergrößeListbox müssen seperat erstellt werden,
-    // weil sie Speziallfälle
-    // von ProfilAttributListBox und ProfilAttributtextBox sind
-//    Label testAnchor = Label.wrap(Document.get().getElementById("1"));
-//    VerticalPanel menuButtonsPanel = new VerticalPanel();
-//    RootPanel.get("main").add(menuButtonsPanel);
-   
+    
     buttonsPanel.setStyleName("pure-controls");
     
     Button editButton = new Button("Bearbeiten");
@@ -271,6 +261,7 @@ public class ShowProfil extends BasicFrame {
   }
 
   private class GetAllAuswahlProfilAttributeCallback implements AsyncCallback<ArrayList<Auswahl>> {
+    
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
       for (Auswahl a : result) {

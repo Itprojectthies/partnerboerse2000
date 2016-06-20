@@ -82,7 +82,7 @@ public class BoxPanel extends FlowPanel {
 		this.auswahl = a;
 		addLabelAuswahl(isNameListbox);
 		this.profilAttributListBox = new EigenschaftListBox(a);
-
+		
 		// set style name for entire widget
 		this.add(profilAttributListBox);
 		setStyleName("pure-control-group");

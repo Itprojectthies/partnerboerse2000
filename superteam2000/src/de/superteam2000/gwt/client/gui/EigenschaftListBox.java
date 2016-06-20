@@ -18,6 +18,7 @@ public class EigenschaftListBox extends ListBox {
 		this(a);
 		this.setSelectedItemByText(name);
 		setStyleName(CLASSNAME);
+		
 	}
 
 	public EigenschaftListBox(Auswahl a) {

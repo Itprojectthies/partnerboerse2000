@@ -90,10 +90,10 @@ public interface PartnerboerseAdministration extends RemoteService {
 
   public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException;
 
-  public Info createInfoFor(Profil profil, Auswahl auswahl, String text)
+  public Info createInfoFor(Auswahl auswahl, String text)
       throws IllegalArgumentException;
 
-  public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text)
+  public Info createInfoFor(Beschreibung beschreibung, String text)
       throws IllegalArgumentException;
 
   public Profil getProfilByMail(String email) throws IllegalArgumentException;
@@ -134,6 +134,12 @@ public interface PartnerboerseAdministration extends RemoteService {
   public ArrayList<Profil> getAllNewProfilesByAehnlichkeitsmass(Profil p);
 
   public ArrayList<String> getItemsOfSuchprofil(Suchprofil sp);
+
+  public Profil getProfil() throws IllegalArgumentException;
+
+  public void setProfil(Profil p) throws IllegalArgumentException;
+
+  public ArrayList<Info> getInfoByProfile() throws IllegalArgumentException;
 
 
 

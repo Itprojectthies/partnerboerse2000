@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -18,6 +21,7 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
 
+import de.superteam2000.gwt.client.gui.ShowFremdProfil;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.report.ProfilReport;
@@ -34,7 +38,7 @@ public class DataGridForProfiles extends BasicFrame {
 
   @Override
   public String getHeadlineText() {
-    return null;
+    return "Alle Profile";
   }
 
   public ArrayList<Profil> getProfilListe() {
@@ -66,11 +70,11 @@ public class DataGridForProfiles extends BasicFrame {
     hPanel.add(neueProfilAnzeigenButton);
     hPanel.add(nichtBesuchteProfilAnzeigenButton);
 
-    RootPanel.get("rechts").add(merkenButton);
-    RootPanel.get("rechts").add(sperrenButton);
-    RootPanel.get("rechts").add(profilAnzeigenButton);
-    RootPanel.get("rechts").add(neueProfilAnzeigenButton);
-    RootPanel.get("rechts").add(nichtBesuchteProfilAnzeigenButton);
+    RootPanel.get("main").add(merkenButton);
+    RootPanel.get("main").add(sperrenButton);
+    RootPanel.get("main").add(profilAnzeigenButton);
+    RootPanel.get("main").add(neueProfilAnzeigenButton);
+    RootPanel.get("main").add(nichtBesuchteProfilAnzeigenButton);
 
     neueProfilAnzeigenButton.addClickHandler(new ClickHandler() {
 
@@ -82,10 +86,8 @@ public class DataGridForProfiles extends BasicFrame {
               @Override
               public void onSuccess(ArrayList<Profil> result) {
                 DataGridForProfiles dgt = new DataGridForProfiles(result);
-                RootPanel.get("Details").clear();
-                RootPanel.get("Menu").clear();
-                RootPanel.get("rechts").clear();
-                RootPanel.get("Details").add(dgt);
+                RootPanel.get("main").clear();
+                RootPanel.get("main").add(dgt);
 
               }
 
@@ -110,10 +112,8 @@ public class DataGridForProfiles extends BasicFrame {
               @Override
               public void onSuccess(ArrayList<Profil> result) {
                 DataGridForProfiles dgt = new DataGridForProfiles(result);
-                RootPanel.get("Details").clear();
-                RootPanel.get("rechts").clear();
-                RootPanel.get("Menu").clear();
-                RootPanel.get("Details").add(dgt);
+                RootPanel.get("main").clear();
+                RootPanel.get("main").add(dgt);
 
               }
 
@@ -136,11 +136,10 @@ public class DataGridForProfiles extends BasicFrame {
 
           @Override
           public void onSuccess(ArrayList<Profil> result) {
+            profilListe = result;
             DataGridForProfiles dgt = new DataGridForProfiles(result);
-            RootPanel.get("Details").clear();
-            RootPanel.get("rechts").clear();
-            RootPanel.get("Menu").clear();
-            RootPanel.get("Details").add(dgt);
+            RootPanel.get("main").clear();
+            RootPanel.get("main").add(dgt);
 
           }
 
@@ -207,13 +206,28 @@ public class DataGridForProfiles extends BasicFrame {
       @Override
       public void onSelectionChange(SelectionChangeEvent event) {
         selected = selectionModel.getSelectedObject();
+        History.newItem(selected.getNachname());
+        ShowFremdProfil fp = new ShowFremdProfil(selected);
+        RootPanel.get("main").clear();
+        RootPanel.get("main").add(fp);
+        
 
-        sperrenButton.addClickHandler(new SperrenButtonClickhandler());
-        merkenButton.addClickHandler(new MerkenButtonClickhandler());
-        profilAnzeigenButton.addClickHandler(new ProfilAnzeigenButtonClickhandler());
+//        sperrenButton.addClickHandler(new SperrenButtonClickhandler());
+//        merkenButton.addClickHandler(new MerkenButtonClickhandler());
+//        profilAnzeigenButton.addClickHandler(new ProfilAnzeigenButtonClickhandler());
       }
     });
-
+    
+    History.addValueChangeHandler(new ValueChangeHandler<String>() {
+      
+      @Override
+      public void onValueChange(ValueChangeEvent<String> event) {
+        DataGridForProfiles dgt = new DataGridForProfiles(profilListe);
+        RootPanel.get("main").clear();
+        RootPanel.get("main").add(dgt);     
+      }
+    });
+    
     table.setRowCount(profilListe.size(), true);
     table.setRowData(0, profilListe);
     table.setWidth("80%");
@@ -223,8 +237,8 @@ public class DataGridForProfiles extends BasicFrame {
     panel.add(table);
     FlowPanel fPanel = new FlowPanel();
     fPanel.add(panel);
-    RootPanel.get("rechts").add(panel);
-    RootPanel.get("Details").add(hPanel);
+    RootPanel.get("main").add(panel);
+    RootPanel.get("main").add(hPanel);
 
 
   }
@@ -238,10 +252,10 @@ public class DataGridForProfiles extends BasicFrame {
 
               @Override
               public void onSuccess(Void result) {
-                RootPanel.get("rechts").clear();
+                RootPanel.get("main").clear();
                 profilListe.remove(selected);
                 DataGridForProfiles d = new DataGridForProfiles(profilListe);
-                RootPanel.get("rechts").add(d);
+                RootPanel.get("main").add(d);
                 // Window.alert("Profil gesperrt!");
               }
 
@@ -264,9 +278,9 @@ public class DataGridForProfiles extends BasicFrame {
 
               @Override
               public void onSuccess(Void result) {
-                RootPanel.get("rechts").clear();
+                RootPanel.get("main").clear();
                 DataGridForProfiles d = new DataGridForProfiles(profilListe);
-                RootPanel.get("rechts").add(d);
+                RootPanel.get("main").add(d);
                 // Window.alert("Profil gemerkt.");
 
               }
@@ -284,9 +298,11 @@ public class DataGridForProfiles extends BasicFrame {
     @Override
     public void onClick(ClickEvent event) {
       if (selected != null) {
-        FremdProfil fp = new FremdProfil(selected);
-        RootPanel.get("rechts").clear();
-        RootPanel.get("rechts").add(fp);
+        ShowFremdProfil fp = new ShowFremdProfil(selected);
+        RootPanel.get("main").clear();
+        RootPanel.get("main").add(fp);
+        
+        
 
         ClientsideSettings.getReportGenerator().createProfilReport(selected,
             new AsyncCallback<ProfilReport>() {
@@ -324,7 +340,7 @@ public class DataGridForProfiles extends BasicFrame {
   @Override
   protected String getSubHeadlineText() {
     // TODO Auto-generated method stub
-    return "";
+    return "Hier findes du alle Profile der Partnerbörse2000";
   }
 
 

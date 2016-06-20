@@ -49,7 +49,7 @@ public class Sperre extends BasicFrame {
           public void onSuccess(Kontaktsperre result) {
 
             final Button profilEntfernenButton = new Button("Profil von Sperrliste entfernen");
-            RootPanel.get("Details").add(profilEntfernenButton);
+            RootPanel.get("main").add(profilEntfernenButton);
 
             profile = result.getGesperrteProfile();
 
@@ -101,9 +101,9 @@ public class Sperre extends BasicFrame {
 
                             @Override
                             public void onSuccess(Void result) {
-                              RootPanel.get("Details").clear();
+                              RootPanel.get("main").clear();
                               Sperre s = new Sperre();
-                              RootPanel.get("Details").add(s);
+                              RootPanel.get("main").add(s);
                               Window.alert("Profil wurde von der Sperrliste entfernt!");
 
                             }
@@ -132,7 +132,7 @@ public class Sperre extends BasicFrame {
             LayoutPanel panel = new LayoutPanel();
             panel.setSize("80em", "50em");
             panel.add(table);
-            RootPanel.get("Details").add(panel);
+            RootPanel.get("main").add(panel);
 
           }
 
