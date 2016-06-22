@@ -35,8 +35,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   /**
    * Referenz auf das zugehörige Bank-Objekt.
    */
-  private Profil profil = null;
-
+  
   private static final long serialVersionUID = 1L;
   private AuswahlMapper auswahlMapper = null;
   private BeschreibungMapper beschrMapper = null;
@@ -145,7 +144,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException {
-    return this.pMapper.findAll();
+    ArrayList<Profil> profile = this.pMapper.findAll();
+    Profil p = ClientsideSettings.getCurrentUser();
+    
+    for (Profil aktProfil : profile) {
+      int f = this.berechneAehnlichkeit(p, aktProfil);
+      aktProfil.setAehnlichkeit(f);
+    }
+    
+    return profile;
   }
 
   @Override
@@ -228,7 +235,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   @Override
-  public Info createInfoFor(Auswahl auswahl, String text)
+  public Info createInfoFor(Profil profil, Auswahl auswahl, String text)
       throws IllegalArgumentException {
 
 
@@ -256,7 +263,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   @Override
-  public Info createInfoFor(Beschreibung beschreibung, String text)
+  public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text)
       throws IllegalArgumentException {
     Info i = new Info();
     i.setText(text);
@@ -297,16 +304,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     return this.iMapper.findAllByProfilId(profil.getId());
   }
   
-  @Override
-  public ArrayList<Info> getInfoByProfile() throws IllegalArgumentException {
-    return this.iMapper.findAllByProfilId(profil.getId());
-  }
 
   @Override
   public Info getInfoByEigenschaftsId(int id) throws IllegalArgumentException {
     return this.iMapper.findByKey(id);
   }
 
+  @Override
+  public Info getInfoById(int id) throws IllegalArgumentException {
+    return this.iMapper.findByKey(id);
+  }
 
   public int berechneAehnlichkeitforSuchprofil(Profil p1, Profil p2, Suchprofil sp) {
     Profil pNeu = p1;
@@ -595,7 +602,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   @Override
-  public Merkzettel getMerkzettelForProfil() throws IllegalArgumentException {
+  public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException {
 
     Merkzettel m = mMapper.findAllForProfil(profil);
     Kontaktsperre k = kMapper.findAllForProfil(profil);
@@ -616,7 +623,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   @Override
-  public Kontaktsperre getKontaktsperreForProfil() throws IllegalArgumentException {
+  public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException {
     Kontaktsperre k = kMapper.findAllForProfil(profil);
     ArrayList<Profil> kListe = k.getGesperrteProfile();
     
@@ -874,19 +881,5 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     // TODO Auto-generated method stub
     return null;
   }
-  /**
-   * Auslesen der Bank für die diese Bankverwaltung gewissermaßen tätig ist.
-   */
-  @Override
-  public Profil getProfil() throws IllegalArgumentException {
-      return this.profil;
-  }
-
-  /**
-   * Setzen der Bank für die diese Bankverwaltung tätig ist.
-   */
-  @Override
-  public void setProfil(Profil p) throws IllegalArgumentException {
-      this.profil = p;
-  }
+  
 }

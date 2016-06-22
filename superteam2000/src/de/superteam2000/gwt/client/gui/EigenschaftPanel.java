@@ -13,37 +13,50 @@ import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
 import de.superteam2000.gwt.shared.bo.Info;
+import de.superteam2000.gwt.shared.bo.Profil;
 
 public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHandler {
-
+  Profil profil = ClientsideSettings.getCurrentUser();
   SimpleCheckBox check1 = new SimpleCheckBox();
   SimpleCheckBox check2 = new SimpleCheckBox();
+  int infoId = 0;
+  
+  /**
+   * @return the infoId
+   */
+  public synchronized int getInfoId() {
+    return infoId;
+  }
+
+  /**
+   * @param infoId the infoId to set
+   */
+  public synchronized void setInfoId(int infoId) {
+    this.infoId = infoId;
+  }
 
   public EigenschaftPanel(Auswahl a) {
     super(a);
-    // TODO Auto-generated constructor stub
   }
 
   public EigenschaftPanel(Beschreibung b) {
     super(b);
-    // TODO Auto-generated constructor stub
   }
 
   public EigenschaftPanel(Auswahl a, String selectedItem, boolean isNameListbox) {
     super(a, selectedItem, isNameListbox);
     check1.setStyleName("pure-checkbox");
-    // TODO Auto-generated constructor stub
   }
 
   public EigenschaftPanel(Beschreibung b, String text, boolean isNameTextbox) {
     super(b, text, isNameTextbox);
-    // TODO Auto-generated constructor stub
   }
 
   public EigenschaftPanel(Beschreibung b, boolean isNameTextbox, ArrayList<Info> infoListe) {
     super(b, isNameTextbox);
     this.add(check2);
     check2.addClickHandler(this);
+    
     for (Info info : infoListe) {
       if (b.getId() == info.getEigenschaftId()) {
         check2.setValue(true);
@@ -59,65 +72,62 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
     this.add(check1);
     check1.addClickHandler(this);
     this.profilAttributListBox.addChangeHandler(this);
+    
     for (Info info : infoListe) {
       if (a.getId() == info.getEigenschaftId()) {
         check1.setValue(true);
+        this.setInfoId(info.getId());
         this.setSelectedItem(info.getText());
       }
     }
 
     check1.setStyleName("pure-checkbox");
-    // TODO Auto-generated constructor stub
   }
 
   public EigenschaftPanel(String text) {
     super(text);
-    // TODO Auto-generated constructor stub
   }
 
-  public EigenschaftPanel() {
-    // TODO Auto-generated constructor stub
-  }
+  public EigenschaftPanel() {}
 
   @Override
   public void onClick(ClickEvent event) {
     if (this.check1.getValue()) {
       saveAuswahlSelection();
-      
+
     } else if (this.check2.getValue()) {
       saveBeschreibung();
-     
+
     } else {
       try {
         deleteAuswahlInfo();
-        
+
       } catch (Exception e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       try {
         deleteBeschreibungInfo();
-        
+
       } catch (Exception e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
     }
   }
 
   private void deleteAuswahlInfo() {
-    ClientsideSettings.getPartnerboerseVerwaltung().getInfoByEigenschaftsId(auswahl.getId(),
+    ClientsideSettings.getPartnerboerseVerwaltung().getInfoById(getInfoId(),
         new AsyncCallback<Info>() {
 
           @Override
           public void onSuccess(Info result) {
-            Notification n1 = new Notification("Auswahl "+ result.getText() +" gelöscht", "success");
+            Notification n1 =
+                new Notification("Auswahl " + result.getText() + " gelöscht", "success");
             ClientsideSettings.getPartnerboerseVerwaltung().delete(result,
                 new AsyncCallback<Void>() {
 
                   @Override
                   public void onSuccess(Void result) {
-                    
+
                     ClientsideSettings.getLogger().info("Auswahl Info gelöscht");
                   }
 
@@ -135,7 +145,7 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
           }
         });
   }
-  
+
   private void deleteBeschreibungInfo() {
     this.profilAttributTextBox.setText("");
     ClientsideSettings.getPartnerboerseVerwaltung().getInfoByEigenschaftsId(beschreibung.getId(),
@@ -143,13 +153,14 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
 
           @Override
           public void onSuccess(Info result) {
-            Notification n1 = new Notification("Beschreibung " + result.getText() + " gelöscht", "success");
+            Notification n1 =
+                new Notification("Beschreibung " + result.getText() + " gelöscht", "success");
             ClientsideSettings.getPartnerboerseVerwaltung().delete(result,
                 new AsyncCallback<Void>() {
 
                   @Override
                   public void onSuccess(Void result) {
-                    
+
                     ClientsideSettings.getLogger().info("beschreibungs Info gelöscht");
                   }
 
@@ -169,12 +180,13 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
   }
 
   private void saveAuswahlSelection() {
-    ClientsideSettings.getPartnerboerseVerwaltung().createInfoFor(auswahl, this.getSelectedItem(),
+    ClientsideSettings.getPartnerboerseVerwaltung().createInfoFor(profil, auswahl, this.getSelectedItem(),
         new AsyncCallback<Info>() {
 
           @Override
           public void onSuccess(Info result) {
-            Notification n1 = new Notification("Auswahl "+ result.getText() +" gespeichert", "success");
+            Notification n1 =
+                new Notification("Auswahl " + result.getText() + " gespeichert", "success");
             ClientsideSettings.getLogger().info("juhu auswahl");
           }
 
@@ -187,12 +199,13 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
   }
 
   private void saveBeschreibung() {
-    ClientsideSettings.getPartnerboerseVerwaltung().createInfoFor(beschreibung,
+    ClientsideSettings.getPartnerboerseVerwaltung().createInfoFor(profil, beschreibung,
         this.profilAttributTextBox.getText(), new AsyncCallback<Info>() {
 
           @Override
           public void onSuccess(Info result) {
-            Notification n1 = new Notification("Beschreibung " + result.getText() + " gespeichert", "success");
+            Notification n1 =
+                new Notification("Beschreibung " + result.getText() + " gespeichert", "success");
             ClientsideSettings.getLogger().info("juhu beschreibung");
           }
 
@@ -206,7 +219,9 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
 
   @Override
   public void onChange(ChangeEvent event) {
-    saveAuswahlSelection();
+    if (this.check1.getValue()) {
+      saveAuswahlSelection();
+    }
   }
 
 }

@@ -34,11 +34,10 @@ public interface ReportGeneratorAsync {
 
 	void createAllNewProfilesReport(Profil p, AsyncCallback<AllNewProfileReport> callback);
 
-	void createAllProfileBySucheReport(Profil p, AsyncCallback<AllProfileBySuche> callback);
-	
-	void  createAllProfilesReport( AsyncCallback<AllProfilesReport> callback);
+	void createAllProfilesReport( AsyncCallback<AllProfilesReport> callback);
 
 	void createSuchreportBySuchprofil(Suchprofil sp, Profil p, AsyncCallback<AllProfileBySuche> callback);
+
 
 
 

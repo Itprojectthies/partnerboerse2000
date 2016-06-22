@@ -69,8 +69,6 @@ public interface PartnerboerseAdministrationAsync {
 
   void delete(Info info, AsyncCallback<Void> callback);
 
-  void getInfoByProfile(AsyncCallback<ArrayList<Info>> callback);
-
   void getInfoByProfile(Profil profil, AsyncCallback<ArrayList<Info>> callback);
 
   void getInfoByEigenschaftsId(int id, AsyncCallback<Info> callback);
@@ -88,18 +86,18 @@ public interface PartnerboerseAdministrationAsync {
 
   void deleteMerken(Profil entferner, Profil entfernter, AsyncCallback<Void> callback);
 
-  void getMerkzettelForProfil(AsyncCallback<Merkzettel> callback);
+  void getMerkzettelForProfil(Profil profil, AsyncCallback<Merkzettel> callback);
 
   // Kontaktsperre
   void createKontaktsperre(Profil sperrer, Profil gesperrter, AsyncCallback<Void> callback);
 
   void deleteKontaktsperre(Kontaktsperre kontaktsperre, AsyncCallback<Void> callback);
 
-  void getKontaktsperreForProfil(AsyncCallback<Kontaktsperre> callback);
+  void getKontaktsperreForProfil(Profil profil, AsyncCallback<Kontaktsperre> callback);
 
-  void createInfoFor(Auswahl auswahl, String text, AsyncCallback<Info> callback);
+  void createInfoFor(Profil profil, Auswahl auswahl, String text, AsyncCallback<Info> callback);
 
-  void createInfoFor(Beschreibung beschreibung, String text, AsyncCallback<Info> callback);
+  void createInfoFor(Profil profil, Beschreibung beschreibung, String text, AsyncCallback<Info> callback);
 
   void getProfilByMail(String email, AsyncCallback<Profil> callback);
 
@@ -137,11 +135,9 @@ public interface PartnerboerseAdministrationAsync {
 
   void getItemsOfSuchprofil(Suchprofil sp, AsyncCallback<ArrayList<String>> callback);
 
-  void getProfil(AsyncCallback<Profil> callback);
-
-  void setProfil(Profil p, AsyncCallback<Void> callback);
-
   void getEigenschaftsBeschreibungById(int id, AsyncCallback<String> callback);
+
+  void getInfoById(int id, AsyncCallback<Info> callback);
 
   // Suchprofil
 

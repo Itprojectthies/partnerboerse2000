@@ -40,7 +40,6 @@ public abstract class Report implements Serializable {
 	private CompositeParagraph attribute = null;
 	private CompositeParagraph attributeBez = null;
 	
-	private Paragraph imprint3 = null;
 
 	/**
 	 * Kopfdaten des Berichts.
@@ -169,12 +168,5 @@ public abstract class Report implements Serializable {
 		this.profil = profil;
 	}
 
-	public Paragraph getImprint3() {
-		return imprint3;
-	}
-
-	public void setImprint3(Paragraph imprint3) {
-		this.imprint3 = imprint3;
-	}
 
 }

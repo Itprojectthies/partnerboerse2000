@@ -215,10 +215,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     return result;
   }
 
-  @Override
-  public AllProfileBySuche createAllProfileBySucheReport(Profil p) throws IllegalArgumentException {
-    // TODO Auto-generated method stub
-    return null;
-  }
+
+
 
 }

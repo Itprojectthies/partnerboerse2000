@@ -16,7 +16,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.superteam2000.gwt.client.gui.BoxPanel;
-import de.superteam2000.gwt.client.gui.ProfilTextBox;
+import de.superteam2000.gwt.client.gui.Notification;
+import de.superteam2000.gwt.client.gui.ProfilAttributTextBox;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Profil;
@@ -39,7 +40,7 @@ public class Suche extends BasicFrame {
   FlowPanel fPanel = null;
 
   Suchprofil sp = null;
-  ProfilTextBox suchProfilTextbox = null;
+  ProfilAttributTextBox suchProfilTextbox = null;
   BoxPanel clb = null;
 
   Button suchprofilErstellButton = new Button("Suchprofil erstellen");
@@ -65,7 +66,7 @@ public class Suche extends BasicFrame {
     fPanel.setStyleName("ProfilAttribute-Suche");
 
     BoxPanel suchProfilName = new BoxPanel("Name des Suchprofils");
-    suchProfilTextbox = new ProfilTextBox();
+    suchProfilTextbox = new ProfilAttributTextBox();
     suchProfilTextbox.setName("suchProfilName");
 
     pbVerwaltung.getAllAuswahl(new AsyncCallback<ArrayList<Auswahl>>() {
@@ -274,7 +275,9 @@ public class Suche extends BasicFrame {
         for (Suchprofil sp : suchProfilListe) {
           suchProfilListBox.addItem(sp.getName());
         }
-
+        if (result.size() == 0) {
+          Notification n1 = new Notification("Sie haben keine Suchprofile", "info");
+        }
       }
 
       @Override

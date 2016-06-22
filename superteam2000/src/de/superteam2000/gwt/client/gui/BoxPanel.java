@@ -14,7 +14,7 @@ public class BoxPanel extends FlowPanel {
 	
 
 	EigenschaftListBox profilAttributListBox = new EigenschaftListBox();
-	ProfilTextBox profilAttributTextBox = new ProfilTextBox();
+	ProfilAttributTextBox profilAttributTextBox = new ProfilAttributTextBox();
 
 	public BoxPanel(Auswahl a) {
 		this.auswahl = a;
@@ -31,7 +31,7 @@ public class BoxPanel extends FlowPanel {
 	
 	public BoxPanel(Beschreibung b) {
 		this.beschreibung = b;
-		this.profilAttributTextBox = new ProfilTextBox(b);
+		this.profilAttributTextBox = new ProfilAttributTextBox(b);
 		this.add(profilAttributTextBox);
 
 		// set style name for entire widget
@@ -59,7 +59,7 @@ public class BoxPanel extends FlowPanel {
 	public BoxPanel(Beschreibung b, String text, boolean isNameTextbox) {
 		this.beschreibung = b;
 		this.addLabelBeschreibung(isNameTextbox);
-		this.profilAttributTextBox = new ProfilTextBox(b, text);
+		this.profilAttributTextBox = new ProfilAttributTextBox(b, text);
 		this.add(this.profilAttributTextBox);
 
 		// set style name for entire widget
@@ -70,7 +70,7 @@ public class BoxPanel extends FlowPanel {
 	public BoxPanel(Beschreibung b, boolean isNameTextbox) {
 		this.beschreibung = b;
 		addLabelBeschreibung(isNameTextbox);
-		this.profilAttributTextBox = new ProfilTextBox(b);
+		this.profilAttributTextBox = new ProfilAttributTextBox(b);
 		this.add(this.profilAttributTextBox);
 
 		// set style name for entire widget

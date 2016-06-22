@@ -24,7 +24,7 @@ public class Merkliste extends BasicFrame {
 
   // pb Verwaltung über ClientsideSettings holen
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
-
+  Profil profil = ClientsideSettings.getCurrentUser();
   @Override
   public String getHeadlineText() {
 
@@ -40,7 +40,7 @@ public class Merkliste extends BasicFrame {
   public void run() {
 
     // Merkliste abfragen und anzeigen
-    pbVerwaltung.getMerkzettelForProfil(new AsyncCallback<Merkzettel>() {
+    pbVerwaltung.getMerkzettelForProfil(profil, new AsyncCallback<Merkzettel>() {
 
       @Override
       public void onSuccess(Merkzettel result) {

@@ -102,7 +102,6 @@ public interface ReportGenerator extends RemoteService {
 	 * @throws IllegalArgumentException
 	 * @see AllAccountsOfCustomerReport
 	 */
-	public abstract AllProfileBySuche createAllProfileBySucheReport(Profil p) throws IllegalArgumentException;
 	
 	public abstract AllProfilesReport createAllProfilesReport() throws IllegalArgumentException;
 

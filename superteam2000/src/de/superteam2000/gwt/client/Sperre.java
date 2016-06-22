@@ -42,6 +42,7 @@ public class Sperre extends BasicFrame {
 
   // pbVerwaltung über ClientsideSettings holen
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+  Profil profil = ClientsideSettings.getCurrentUser();
 
   FlowPanel fPanel2 = new FlowPanel();
   Profil selected;
@@ -77,7 +78,7 @@ public class Sperre extends BasicFrame {
     });
 
     // Hole alle gesperrte Kontakte, um damit die Tabelle zu füllen und um diese anzuzeigen
-    pbVerwaltung.getKontaktsperreForProfil(new AsyncCallback<Kontaktsperre>() {
+    pbVerwaltung.getKontaktsperreForProfil(profil, new AsyncCallback<Kontaktsperre>() {
 
           @Override
           public void onSuccess(Kontaktsperre result) {

@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.superteam2000.gwt.client.gui.BoxPanel;
 import de.superteam2000.gwt.client.gui.EigenschaftListBox;
+import de.superteam2000.gwt.client.gui.Notification;
 import de.superteam2000.gwt.client.gui.ProfilAttributListbox;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
@@ -216,8 +217,12 @@ public class CreateProfil extends BasicFrame {
           .parse(geburtsJahr + "-" + geburtsMonat + "-" + geburtsTag);
       java.sql.Date gebTag =  new java.sql.Date(gebTag2.getTime());
 
-      pbVerwaltung.createProfil(lastName, firstName, email, gebTag, haarfarbe, raucher, religion,
-          groesse, geschlecht, new CreateCustomerCallback());
+      if (!firstName.isEmpty() && !lastName.isEmpty()) {
+        pbVerwaltung.createProfil(lastName, firstName, email, gebTag, haarfarbe, raucher, religion,
+            groesse, geschlecht, new CreateCustomerCallback());
+      } else {
+        Notification n1 = new Notification("Bitte füllen sie alle Felder aus", "warning");
+      }
 
     }
   }
@@ -239,7 +244,6 @@ public class CreateProfil extends BasicFrame {
       Navbar nb = new Navbar();
       RootPanel.get("menu").clear();
       RootPanel.get("menu").add(nb);
-      RootPanel.get("main").clear();
       RootPanel.get("main").add(sp);
     }
 
@@ -248,7 +252,7 @@ public class CreateProfil extends BasicFrame {
   @Override
   protected String getSubHeadlineText() {
     // TODO Auto-generated method stub
-    return "Erstelle dein Profile und lege gelich los!";
+    return "Erstelle dein Profil und lege gleich los!";
   }
 
 }

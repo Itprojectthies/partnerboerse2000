@@ -11,11 +11,12 @@ import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
 import de.superteam2000.gwt.shared.bo.Info;
+import de.superteam2000.gwt.shared.bo.Profil;
 
 public class Eigenschaft extends BasicFrame {
 
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
-
+  Profil profil = ClientsideSettings.getCurrentUser();
   ArrayList<Info> infoListe;
   FlowPanel fPanel = new FlowPanel();
   FlowPanel fPanel2 = new FlowPanel();
@@ -33,7 +34,7 @@ public class Eigenschaft extends BasicFrame {
 
     fPanel2.add(fPanel);
     RootPanel.get("main").add(fPanel2);
-    pbVerwaltung.getInfoByProfile(new AsyncCallback<ArrayList<Info>>() {
+    pbVerwaltung.getInfoByProfile(profil, new AsyncCallback<ArrayList<Info>>() {
 
       @Override
       public void onSuccess(ArrayList<Info> result) {

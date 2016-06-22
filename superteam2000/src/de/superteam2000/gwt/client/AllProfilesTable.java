@@ -20,7 +20,6 @@ import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.superteam2000.gwt.client.gui.DataGridProfiles;
-import de.superteam2000.gwt.client.gui.ShowFremdProfil;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 

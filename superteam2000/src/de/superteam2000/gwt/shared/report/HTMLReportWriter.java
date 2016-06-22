@@ -251,8 +251,6 @@ public class HTMLReportWriter extends ReportWriter {
     if (rows != null) {
       ClientsideSettings.getLogger().info("Vector an Rows im HTMLWriter ungleich null");
     }
-    // result.append("<table style=\"width:400px\">");
-    result.append("<div>");
     for (int i = 0; i < rows.size(); i++) {
       Row row = rows.elementAt(i);
      

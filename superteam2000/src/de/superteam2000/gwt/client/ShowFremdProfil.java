@@ -1,4 +1,4 @@
-package de.superteam2000.gwt.client.gui;
+package de.superteam2000.gwt.client;
 
 import java.util.ArrayList;
 
@@ -13,8 +13,9 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.superteam2000.gwt.client.BasicFrame;
-import de.superteam2000.gwt.client.ClientsideSettings;
+import de.superteam2000.gwt.client.gui.CustomButton;
+import de.superteam2000.gwt.client.gui.Label;
+import de.superteam2000.gwt.client.gui.Notification;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
@@ -24,6 +25,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
 
 public class ShowFremdProfil extends BasicFrame {
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+  Profil profil = ClientsideSettings.getCurrentUser();
   
   CustomButton merkenBtn = new CustomButton();
   CustomButton sperrenBtn = new CustomButton();
@@ -81,7 +83,7 @@ public class ShowFremdProfil extends BasicFrame {
     this.setStyleName("pure-form pure-form-aligned");
     fPanel.setStyleName("pure-controls-group content"); 
     
-    pbVerwaltung.getMerkzettelForProfil(new MerkzettelCallback());
+    pbVerwaltung.getMerkzettelForProfil(profil, new MerkzettelCallback());
     
     
     pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());

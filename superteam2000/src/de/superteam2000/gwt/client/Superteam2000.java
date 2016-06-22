@@ -56,20 +56,20 @@ public class Superteam2000 implements EntryPoint {
 
 				// User exisitiert in der db und loggt sich ein.
 			} else if (result.isLoggedIn()) {
-			    pbVerwaltung.setProfil(result, new AsyncCallback<Void>() {
-                  
-                  @Override
-                  public void onSuccess(Void result) {
-                    // TODO Auto-generated method stub
-                    
-                  }
-                  
-                  @Override
-                  public void onFailure(Throwable caught) {
-                    // TODO Auto-generated method stub
-                    
-                  }
-                });
+//			    pbVerwaltung.setProfil(result, new AsyncCallback<Void>() {
+//                  
+//                  @Override
+//                  public void onSuccess(Void result) {
+//                    // TODO Auto-generated method stub
+//                    
+//                  }
+//                  
+//                  @Override
+//                  public void onFailure(Throwable caught) {
+//                    // TODO Auto-generated method stub
+//                    
+//                  }
+//                });
                 
 				ClientsideSettings.setCurrentUser(result);
 				loadProfil();
@@ -90,7 +90,7 @@ public class Superteam2000 implements EntryPoint {
 				
 				FlowPanel splashSubhead = new FlowPanel(ParagraphElement.TAG);
 				splashSubhead.setStyleName("splash-subhead");
-				HTML splahParagraph = new HTML("Melde dich an und finde deine besser Hälfte");
+				HTML splahParagraph = new HTML("Melde dich an und finde deine bessere Hälfte");
 				splashSubhead.add(splahParagraph);
 				
 				Anchor loginAnchor = new Anchor("Los!");

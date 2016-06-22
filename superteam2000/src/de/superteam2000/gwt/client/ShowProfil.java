@@ -54,14 +54,16 @@ public class ShowProfil extends BasicFrame {
   public String getHeadlineText() {
     return "Hallo " + currentProfil.getVorname() +"!";
   }
-
+  
+  @Override
+  protected String getSubHeadlineText() {
+    return "Hier kannst du deine Profileinstellungen bearbeiten";
+  }
+  
   @Override
   public void run() {
     fPanel.setStyleName("pure-form pure-form-aligned");
     fPanel2.setStyleName("content");
-    
-    
-    
     
     buttonsPanel.setStyleName("pure-controls");
     
@@ -340,9 +342,6 @@ public class ShowProfil extends BasicFrame {
     }
   }
 
-  @Override
-  protected String getSubHeadlineText() {
-    return "Hier kannst du deine Profileinstellungen bearbeiten";
-  }
+  
 
 }
