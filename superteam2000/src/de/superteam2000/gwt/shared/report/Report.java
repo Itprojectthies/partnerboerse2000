@@ -38,6 +38,7 @@ public abstract class Report implements Serializable {
 	private Paragraph name = null;
 	
 	private CompositeParagraph attribute = null;
+	private CompositeParagraph attributeBez = null;
 	
 	private Paragraph imprint3 = null;
 
@@ -82,6 +83,13 @@ public abstract class Report implements Serializable {
 	  return attribute;
 	}
 
+	public void setProfilAttributeBez(CompositeParagraph attributeBez) {
+      this.attributeBez = attributeBez;
+  }
+  
+  public CompositeParagraph getProfilAttributeBez() {
+    return attributeBez;
+  }
 	/**
 	 * Auslesen der Kopfdaten.
 	 * 

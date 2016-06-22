@@ -59,15 +59,25 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     SimpleParagraph name = new SimpleParagraph(p.getVorname() + " " + p.getNachname());
     result.setName(name);
 
-    CompositeParagraph profilAttribute = new CompositeParagraph();
-    profilAttribute.addSubParagraph(new SimpleParagraph("Email: " + p.getEmail()));
-    profilAttribute.addSubParagraph(new SimpleParagraph("Geschlecht: " + p.getGeschlecht()));
-    profilAttribute.addSubParagraph(new SimpleParagraph("Alter: " + p.getAlter()));
-    profilAttribute.addSubParagraph(new SimpleParagraph("Raucher: " + p.getRaucher()));
-    profilAttribute.addSubParagraph(new SimpleParagraph("Religion: " + p.getReligion()));
-    profilAttribute.addSubParagraph(new SimpleParagraph("Haarfarbe: " + p.getHaarfarbe()));
-    result.setProfilAttribute(profilAttribute);
+    CompositeParagraph profilAttributBez = new CompositeParagraph();
+    profilAttributBez.addSubParagraph(new SimpleParagraph("Email: "));
+    profilAttributBez.addSubParagraph(new SimpleParagraph("Geschlecht: "));
+    profilAttributBez.addSubParagraph(new SimpleParagraph("Alter: "));
+    profilAttributBez.addSubParagraph(new SimpleParagraph("Raucher: "));
+    profilAttributBez.addSubParagraph(new SimpleParagraph("Religion: "));
+    profilAttributBez.addSubParagraph(new SimpleParagraph("Haarfarbe: "));
+    result.setProfilAttributeBez(profilAttributBez);
 
+    CompositeParagraph profilAttribute = new CompositeParagraph();
+    profilAttribute.addSubParagraph(new SimpleParagraph(p.getEmail()));
+    profilAttribute.addSubParagraph(new SimpleParagraph(p.getGeschlecht()));
+    profilAttribute.addSubParagraph(new SimpleParagraph(""+p.getAlter()));
+    profilAttribute.addSubParagraph(new SimpleParagraph(p.getRaucher()));
+    profilAttribute.addSubParagraph(new SimpleParagraph(p.getReligion()));
+    profilAttribute.addSubParagraph(new SimpleParagraph(p.getHaarfarbe()));
+    result.setProfilAttribute(profilAttribute);
+    
+    
     // Eigenschaften anhängen als Tabelle mit zwei Spalten
     // TODO ggf Info anpassen für besseres auslesen
 
@@ -81,7 +91,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
         Row infoRow = new Row();
 
 
-        infoRow.addColumn(new Column(administration.getEigenschaftsNameById(i.getEigenschaftId())));
+        infoRow.addColumn(new Column(administration.getEigenschaftsBeschreibungById(i.getEigenschaftId())));
         infoRow.addColumn(new Column(i.getText()));
         result.addRow(infoRow);
 

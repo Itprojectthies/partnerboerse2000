@@ -1,6 +1,5 @@
 package de.superteam2000.gwt.server.db;
 
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

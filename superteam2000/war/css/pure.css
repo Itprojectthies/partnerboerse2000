@@ -15,6 +15,10 @@ Copyright (c) Nicolas Gallagher and Jonathan Neal
  * 2. Prevent iOS text size adjust after orientation change, without disabling
  *    user zoom.
  */
+ 
+
+
+ 
 #attributeLabel {
 	-webkit-appearance: none;
 	cursor: auto;
@@ -799,6 +803,7 @@ this the same font stack that Normalize.css sets for the `body`.
     background-color: #E6E6E6;
     text-decoration: none;
     border-radius: 2px;
+    margin-right: 10px;
 }
 
 .pure-button-hover,
@@ -1014,7 +1019,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 .pure-form label {
     margin: 0.5em 0 0.2em;
-    text-align: right;
+    text-align: left;
 }
 .pure-form fieldset {
     margin: 0;
@@ -1026,7 +1031,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     width: 100%;
     padding: 0.3em 0;
     margin-bottom: 0.3em;
-    color: #333;
+    color: #1f8dd6;
     border-bottom: 1px solid #e5e5e5;
 }
 
@@ -1087,13 +1092,13 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     margin-bottom: 0.5em;
 }
 .pure-form-aligned .pure-control-group label {
-    /*text-align: right;*/
+    text-align: left;
     display: inline-block;
-    vertical-align: middle;
-    width: 22em;
-    margin: 0 1em 0 0;
+    vertical-align: initial;
+    width: 7em;
     -webkit-tap-highlight-color: rgba(0, 255, 255, 0);
     outline: none;
+    margin-right: 1em;
 }
 
 .pure-form-aligned .pure-control-group .label-rechts label {
@@ -1105,7 +1110,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 label.label-rechts {
     text-align: left;
     color: #AD1457;
-    
+    /* margin-left: 10em; */
 }
 
 .pure-form-aligned .pure-control-group .label-rechts label {
@@ -1176,7 +1181,7 @@ label.label-rechts {
     width: 33%;
 }
 .pure-form .pure-input-1-4 {
-    width: 25%;
+    /* width: 25%; */
 }
 
 /* Inline help for forms */

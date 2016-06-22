@@ -4,22 +4,14 @@ import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.InputElement;
-import com.google.gwt.dom.client.ParagraphElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 import de.superteam2000.gwt.client.gui.Label;
 import de.superteam2000.gwt.client.gui.ListItemWidget;
@@ -36,8 +28,7 @@ public class Navbar extends VerticalPanel {
     RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#191818");
     
     if (user != null && user.isLoggedIn()) {
-      DivElement divID = (DivElement) DOM.getElementById("test").cast();
-//      divID.
+      
       FlowPanel menu = new FlowPanel();
       UnorderedListWidget menuList = new UnorderedListWidget();
       FlowPanel pureMenu = new FlowPanel();
@@ -56,8 +47,8 @@ public class Navbar extends VerticalPanel {
       Anchor eigenschaftenBtn = new Anchor("Eigenschaften");
       Anchor dataGridBtn = new Anchor("Alle Profile");
       Anchor reportButton = new Anchor("Report");
-      Anchor edit = new Anchor("edit");
-      edit.setStyleName("pure-menu-link");
+//      Anchor edit = new Anchor("edit");
+//      edit.setStyleName("pure-menu-link");
 
       FlowPanel test = new FlowPanel(DivElement.TAG);
       menuList.add(test);
@@ -91,11 +82,11 @@ public class Navbar extends VerticalPanel {
       profilBtn.setFor("accordion-button");
       profilBtn.setStyleName("pure-menu-link accordion-label");
       
-      final SimpleCheckBox profilCheck = new SimpleCheckBox();
-      profilCheck.setStyleName("accordion-button");
-      profilCheck.getElement().setAttribute("id", "accordion-button");
+//      final SimpleCheckBox profilCheck = new SimpleCheckBox();
+//      profilCheck.setStyleName("accordion-button");
+//      profilCheck.getElement().setAttribute("id", "accordion-button");
       
-      edit.getElement().setAttribute("id", "1");
+//      edit.getElement().setAttribute("id", "1");
       
       FlowPanel contentDiv = new FlowPanel(DivElement.TAG);
       contentDiv.setStyleName("subLink");
@@ -103,9 +94,9 @@ public class Navbar extends VerticalPanel {
       test.setStyleName("pure-menu-item");
       
       test.add(profilBtn);
-      test.add(profilCheck);
+//      test.add(profilCheck);
       
-      contentDiv.add(edit);
+//      contentDiv.add(edit);
       
       test.add(contentDiv);
       
@@ -133,7 +124,6 @@ public class Navbar extends VerticalPanel {
         @Override
         public void onClick(ClickEvent event) {
           ShowProfil sp = new ShowProfil();
-//          profilCheck.setChecked(true);
           RootPanel.get("main").clear();
           RootPanel.get("main").add(sp);
         }
@@ -146,7 +136,6 @@ public class Navbar extends VerticalPanel {
         @Override
         public void onClick(ClickEvent event) {
           Merkliste m = new Merkliste();
-          profilCheck.setChecked(false);
           RootPanel.get("main").clear();
           RootPanel.get("main").add(m);
 
@@ -200,11 +189,9 @@ public class Navbar extends VerticalPanel {
 
                 @Override
                 public void onSuccess(ArrayList<Profil> result) {
-                  DataGridForProfiles dgt = new DataGridForProfiles(result);
-                  VerticalPanel detailsPanel = new VerticalPanel();
-                  detailsPanel.add(dgt);
+                  AllProfilesTable dgt = new AllProfilesTable(result);
                   RootPanel.get("main").clear();
-                  RootPanel.get("main").add(detailsPanel);
+                  RootPanel.get("main").add(dgt);
 
                 }
 
@@ -224,15 +211,10 @@ public class Navbar extends VerticalPanel {
 
         @Override
         public void onClick(ClickEvent event) {
-          // Window.open(user.getLogoutUrl(), "_self", "");
-          // Window.confirm("OK = true Cancel = false");
           Window.Location.replace(GWT.getHostPageBaseURL() + "ReportGen.html");
         }
       });
 
-      // Anchor logOutLink = new Anchor("Logout");
-      // logOutLink.setHref(user.getLogoutUrl());
-      // this.append(logOutLink);
     }
   }
 

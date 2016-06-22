@@ -1,12 +1,13 @@
 package de.superteam2000.gwt.shared.bo;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Merkzettel extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
 
-	private ArrayList<Profil> gemerkteProfile = new ArrayList<>();
+	private ArrayList<Profil> gemerkteProfile;
 	private int gemerkterId = 0;
 	private int merkerId = 0;
 

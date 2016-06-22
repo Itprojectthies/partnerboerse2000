@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.superteam2000.gwt.client.gui.BoxPanel;
 import de.superteam2000.gwt.client.gui.DateTimeFormat;
 import de.superteam2000.gwt.client.gui.EigenschaftListBox;
+import de.superteam2000.gwt.client.gui.Notification;
 import de.superteam2000.gwt.client.gui.ProfilAttributListbox;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
@@ -245,6 +246,7 @@ public class ShowProfil extends BasicFrame {
 
     @Override
     public void onSuccess(Void result) {
+      Notification n1 = new Notification("Profiländerung gespeichert", "success");
       logger.severe("Ändern der Profildaten hat funktioniert");
 
       ShowProfil sp = new ShowProfil();

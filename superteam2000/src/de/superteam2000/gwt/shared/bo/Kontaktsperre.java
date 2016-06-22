@@ -6,7 +6,7 @@ public class Kontaktsperre extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
 	
-	private ArrayList<Profil> gesperrteProfile = new ArrayList<>();
+	private ArrayList<Profil> gesperrteProfile;
 
 	private int gesperrterId = 0;
 	private int sperrerId = 0;

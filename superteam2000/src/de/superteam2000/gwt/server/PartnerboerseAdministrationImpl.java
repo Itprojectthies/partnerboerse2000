@@ -168,7 +168,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public ArrayList<String> getItemsOfSuchprofil(Suchprofil sp) {
-    ArrayList<String> itemsList = new ArrayList<>();
+    ArrayList<String> itemsList = new ArrayList<String>();
     
     if (!sp.getReligion().equals("Keine Angabe"))
       itemsList.add("Religion: " + sp.getReligion());
@@ -335,7 +335,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     HashMap<Integer, String> auswahlListe = sp.getAuswahlListe();
 
     // Liste der Infos des Suchprofils aus der Map ziehen
-    ArrayList<Info> suchprofilInfoListe = new ArrayList<>();
+    ArrayList<Info> suchprofilInfoListe = new ArrayList<Info>();
     for (Map.Entry<Integer, String> entry : auswahlListe.entrySet()) {
       Info info = new Info();
       info.setEigenschaftId(entry.getKey());
@@ -402,32 +402,32 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     return result;
   }
 
-  public int berechneAehnlichkeit(Profil p1, Profil p2) {
+  public int berechneAehnlichkeit(Profil user, Profil refernz) {
     // 6 Profilattribute: Geb, Geschlecht, Groesse, Haarfarbe, Raucher, Religion
     float i = 6;
     float aehnlichkeit = 0;
 
-    if (p1.getAlter() == p2.getAlter()) {
+    if (user.getAlter() == refernz.getAlter()) {
       aehnlichkeit++;
     }
-    if (p1.getGeschlecht().equals(p2.getGeschlecht())) {
+    if (user.getGeschlecht().equals(refernz.getGeschlecht())) {
       aehnlichkeit++;
     }
-    if (p1.getGroesse() == p2.getGroesse()) {
+    if (user.getGroesse() == refernz.getGroesse()) {
       aehnlichkeit++;
     }
-    if (p1.getHaarfarbe().equals(p2.getHaarfarbe())) {
+    if (user.getHaarfarbe().equals(refernz.getHaarfarbe())) {
       aehnlichkeit++;
     }
-    if (p1.getRaucher().equals(p2.getRaucher())) {
+    if (user.getRaucher().equals(refernz.getRaucher())) {
       aehnlichkeit++;
     }
-    if (p1.getReligion().equals(p2.getReligion())) {
+    if (user.getReligion().equals(refernz.getReligion())) {
       aehnlichkeit++;
     }
 
-    ArrayList<Info> infoP1 = iMapper.findAllByProfilId(p1.getId());
-    ArrayList<Info> infoP2 = iMapper.findAllByProfilId(p2.getId());
+    ArrayList<Info> infoP1 = iMapper.findAllByProfilId(user.getId());
+    ArrayList<Info> infoP2 = iMapper.findAllByProfilId(refernz.getId());
 
     for (Info meineInfo : infoP1) {
       for (Info referenzInfo : infoP2) {
@@ -446,7 +446,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public ArrayList<Profil> getAllNewProfilesByAehnlichkeitsmass(Profil p) {
     ArrayList<Profil> alleProfile = pMapper.findAll();
-    ArrayList<Profil> neueProfile = new ArrayList<>();
+    ArrayList<Profil> neueProfile = new ArrayList<Profil>();
     Kontaktsperre kontaktsperreforProfil = kMapper.findAllForProfil(p);
     ArrayList<Profil> gesperrteProfile = kontaktsperreforProfil.getGesperrteProfile();
 
@@ -595,7 +595,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   @Override
-  public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException {
+  public Merkzettel getMerkzettelForProfil() throws IllegalArgumentException {
 
     Merkzettel m = mMapper.findAllForProfil(profil);
     Kontaktsperre k = kMapper.findAllForProfil(profil);
@@ -607,13 +607,24 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
         mListe.remove(p);
       }
     }
-
+    
+    for (Profil p : mListe) {
+      p.setAehnlichkeit(this.berechneAehnlichkeit(profil, p));
+    }
+    
     return m;
   }
 
   @Override
-  public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException {
+  public Kontaktsperre getKontaktsperreForProfil() throws IllegalArgumentException {
     Kontaktsperre k = kMapper.findAllForProfil(profil);
+    ArrayList<Profil> kListe = k.getGesperrteProfile();
+    
+    for (Profil p : kListe) {
+      p.setAehnlichkeit(this.berechneAehnlichkeit(profil, p));
+    }
+    
+    
     return k;
   }
 
@@ -649,6 +660,20 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     } else if (this.auswahlMapper.findByKey(id) != null) {
       Auswahl a = this.auswahlMapper.findByKey(id);
       String name = a.getName();
+      return name;
+    }
+    return null;
+  }
+  
+  @Override
+  public String getEigenschaftsBeschreibungById(int id) throws IllegalArgumentException {
+    if (this.beschrMapper.findByKey(id) != null) {
+      Beschreibung b = this.beschrMapper.findByKey(id);
+      String name = b.getBeschreibungstext();
+      return name;
+    } else if (this.auswahlMapper.findByKey(id) != null) {
+      Auswahl a = this.auswahlMapper.findByKey(id);
+      String name = a.getBeschreibungstext();
       return name;
     }
     return null;
@@ -717,9 +742,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       throws IllegalArgumentException {
 
     ArrayList<Profil> profile = this.pMapper.findAll();
-    ArrayList<Profil> result = new ArrayList<>();
+    ArrayList<Profil> result = new ArrayList<Profil>();
 
-    ArrayList<Info> suchprofilInfoListe = new ArrayList<>();
+    ArrayList<Info> suchprofilInfoListe = new ArrayList<Info>();
     HashMap<Integer, String> auswahlListe = sp.getAuswahlListe();
 
     // Erstelle aus den infomationen der Hashmap des Suchprofils, Info-

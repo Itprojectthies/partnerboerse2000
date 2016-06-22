@@ -198,7 +198,7 @@ public class Suche extends BasicFrame {
                 if (result != null) {
                   profile = result;
 
-                  DataGridForProfiles dgp = new DataGridForProfiles(profile);
+                  AllProfilesTable dgp = new AllProfilesTable(profile);
                   RootPanel.get("main").add(dgp);
                 }
 

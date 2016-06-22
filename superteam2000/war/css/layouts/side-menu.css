@@ -1,3 +1,23 @@
+/*!
+Pure v0.6.0
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+https://github.com/yahoo/pure/blob/master/LICENSE.md
+*/
+/*!
+normalize.css v^3.0 | MIT License | git.io/normalize
+Copyright (c) Nicolas Gallagher and Jonathan Neal
+*/
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+
+/**
+ * 1. Set default font family to sans-serif.
+ * 2. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+ 
+
+
 #accordion-button, .subLink { 
 	display: none;
 }
@@ -77,6 +97,10 @@ h4 {
   margin-bottom: 25px
 }
 p {
+  display: inline-block;
+  text-align: left;
+  width: 40%;
+  padding: 0em 0 0 0em;
   font-size: 16px;
   line-height: 26px;
   margin-bottom: 20px;
@@ -140,7 +164,7 @@ The content `<div>` is where all your content goes.
     margin: 0 auto;
     padding: 0 2em;
     max-width: 800px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     line-height: 1.6em;
 }
 

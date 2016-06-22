@@ -90,7 +90,7 @@ public class AuswahlMapper {
 				a.setName(rs1.getString("Name"));
 				a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
 				ResultSet rs2 = stmt2.executeQuery("SELECT Text FROM Alternative WHERE Auswahl_id=" + rs1.getInt("id"));
-				ArrayList<String> al = new ArrayList<>();
+				ArrayList<String> al = new ArrayList<String>();
 				while (rs2.next()) {
 					al.add(rs2.getString("Text"));
 				}
@@ -140,7 +140,7 @@ public class AuswahlMapper {
 				a.setName(rs1.getString("Name"));
 				a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
 				ResultSet rs2 = stmt2.executeQuery("SELECT Text FROM Alternative WHERE Auswahl_id=" + rs1.getInt("id"));
-				ArrayList<String> al = new ArrayList<>();
+				ArrayList<String> al = new ArrayList<String>();
 				while (rs2.next()) {
 					al.add(rs2.getString("Text"));
 				}
@@ -187,7 +187,7 @@ public class AuswahlMapper {
 				ResultSet rs2 = stmt2
 						.executeQuery("SELECT Text FROM Alternative WHERE" 
 								+ " Auswahl_id=" + rs1.getInt("id"));
-				ArrayList<String> al = new ArrayList<>();
+				ArrayList<String> al = new ArrayList<String>();
 				while (rs2.next()) {
 					al.add(rs2.getString("Text"));
 				}
@@ -238,7 +238,7 @@ public class AuswahlMapper {
 				a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
 				ResultSet rs2 = stmt2.executeQuery("SELECT Text FROM Alternative "
 						+ "WHERE Auswahl_id=" + rs1.getInt("id"));
-				ArrayList<String> al = new ArrayList<>();
+				ArrayList<String> al = new ArrayList<String>();
 				while (rs2.next()) {
 					al.add(rs2.getString("Text"));
 				}

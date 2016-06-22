@@ -76,7 +76,7 @@ public class MerkzettelMapper {
 		Connection con = DBConnection.connection();
 		// Ergebnisvektor vorbereiten
 		Merkzettel result = new Merkzettel();
-		ArrayList<Profil> profile = new ArrayList<>();
+		ArrayList<Profil> profile = new ArrayList<Profil>();
 
 		try {
 			Statement stmt = con.createStatement();
