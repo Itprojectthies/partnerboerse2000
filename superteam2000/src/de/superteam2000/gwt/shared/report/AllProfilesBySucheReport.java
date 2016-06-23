@@ -11,7 +11,7 @@ import java.io.Serializable;
  * 
  * @author Thies
  */
-public class AllProfileBySuche extends CompositeReport implements Serializable {
+public class AllProfilesBySucheReport extends CompositeReport implements Serializable {
 
     /**
      * 

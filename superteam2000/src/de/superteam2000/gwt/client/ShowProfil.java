@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.superteam2000.gwt.client.gui.BoxPanel;
+import de.superteam2000.gwt.client.gui.CustomButton;
 import de.superteam2000.gwt.client.gui.DateTimeFormat;
 import de.superteam2000.gwt.client.gui.EigenschaftListBox;
 import de.superteam2000.gwt.client.gui.Notification;
@@ -43,7 +44,10 @@ public class ShowProfil extends BasicFrame {
   ProfilAttributListbox groesse = null;
   FlowPanel fPanel = new FlowPanel();
   FlowPanel fPanel2 = new FlowPanel();
-  Button saveButton = new Button("Speichern");
+  
+  CustomButton saveButton = new CustomButton();
+  CustomButton editButton = new CustomButton();
+  CustomButton deleteBtn = new CustomButton();
 
   BoxPanel clb = null;
   FlowPanel buttonsPanel = new FlowPanel();
@@ -64,24 +68,31 @@ public class ShowProfil extends BasicFrame {
   public void run() {
     fPanel.setStyleName("pure-form pure-form-aligned");
     fPanel2.setStyleName("content");
+    buttonsPanel.setStyleName("pure-controls-group");
+
+    HTML legend = new HTML();
+//    String aenhnlickeit = "";
+    legend.setHTML("<legend></legend>");
     
-    buttonsPanel.setStyleName("pure-controls");
     
-    Button editButton = new Button("Bearbeiten");
-    editButton.setStyleName("pure-button pure-button-primary");
+    
+    editButton.setIcon("fa fa-pencil");
     editButton.addClickHandler(new EditButtonClickHandler());
     
-    saveButton.setStyleName("pure-button pure-button-primary");
+    saveButton.setIcon("fa fa-floppy-o");
     saveButton.addClickHandler(new SaveButtonClickHandler());
     saveButton.setEnabled(false);
 
-    Button deleteBtn = new Button("Profil löschen");
-    deleteBtn.setStyleName("pure-button pure-button-primary");
+    
+    deleteBtn.setIcon("fa fa-trash"); 
     deleteBtn.addClickHandler(new DeleteClickHandler());
+    
     buttonsPanel.add(deleteBtn);
     buttonsPanel.add(editButton);
     buttonsPanel.add(saveButton);
+    buttonsPanel.add(legend);
     
+    fPanel.add(buttonsPanel);
 
     gebTag = new ProfilAttributListbox();
     gebTag.createGebtaListobx();
@@ -113,6 +124,8 @@ public class ShowProfil extends BasicFrame {
     public void onClick(ClickEvent event) {
       // Save Button klickbar machen
       saveButton.setEnabled(true);
+      editButton.setEnabled(false);
+      deleteBtn.setEnabled(false);
       for (Widget child : fPanel) {
         FlowPanel childPanel = (FlowPanel) child;
         for (Widget box : childPanel) {
@@ -134,7 +147,9 @@ public class ShowProfil extends BasicFrame {
 
     @Override
     public void onClick(ClickEvent event) {
-
+      editButton.setEnabled(true);
+      deleteBtn.setEnabled(true);
+      
       Profil p = new Profil();
 
       int geburtsTag = 1;
@@ -202,9 +217,9 @@ public class ShowProfil extends BasicFrame {
 
       Date gebTagDate = DateTimeFormat.getFormat("yyyy-MM-dd")
           .parse(geburtsJahr + "-" + geburtsMonat + "-" + geburtsTag);
-
+      gebTagDate.setHours(20);
       java.sql.Date gebTagMySqlDate = new java.sql.Date(gebTagDate.getTime());
-
+      
       p.setGeburtsdatum(gebTagMySqlDate);
       p.setEmail(currentProfil.getEmail());
       p.setId(currentProfil.getId());
@@ -273,21 +288,25 @@ public class ShowProfil extends BasicFrame {
           case "Religion":
             clb = new BoxPanel(a, currentProfil.getReligion(), true);
             clb.setEnable(false);
+            clb.setStyleName("pure-control-group");
             fPanel.add(clb);
             break;
           case "Haarfarbe":
             clb = new BoxPanel(a, currentProfil.getHaarfarbe(), true);
             clb.setEnable(false);
+            clb.setStyleName("pure-control-group");
             fPanel.add(clb);
             break;
           case "Geschlecht":
             clb = new BoxPanel(a, currentProfil.getGeschlecht(), true);
             clb.setEnable(false);
+            clb.setStyleName("pure-control-group");
             fPanel.add(clb);
             break;
           case "Raucher":
             clb = new BoxPanel(a, currentProfil.getRaucher(), true);
             clb.setEnable(false);
+            clb.setStyleName("pure-control-group");
             fPanel.add(clb);
             break;
 
@@ -300,7 +319,7 @@ public class ShowProfil extends BasicFrame {
       // AuswahlProfilAttributen zum Panel hinzugefügt
       fPanel.add(groesse);
       fPanel.add(gebTag);
-      fPanel.add(buttonsPanel);
+      
     }
 
     @Override
@@ -324,11 +343,13 @@ public class ShowProfil extends BasicFrame {
           case "Vorname":
             clb = new BoxPanel(b, currentProfil.getVorname(), true);
             clb.setEnable(false);
+            clb.setStyleName("pure-control-group");
             fPanel.add(clb);
             break;
           case "Nachname":
             clb = new BoxPanel(b, currentProfil.getNachname(), true);
             clb.setEnable(false);
+            clb.setStyleName("pure-control-group");
             fPanel.add(clb);
             break;
           

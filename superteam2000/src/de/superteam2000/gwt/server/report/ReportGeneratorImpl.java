@@ -14,7 +14,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.bo.Suchprofil;
 import de.superteam2000.gwt.shared.report.AllNewProfileReport;
 import de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport;
-import de.superteam2000.gwt.shared.report.AllProfileBySuche;
+import de.superteam2000.gwt.shared.report.AllProfilesBySucheReport;
 import de.superteam2000.gwt.shared.report.AllProfilesReport;
 import de.superteam2000.gwt.shared.report.Column;
 import de.superteam2000.gwt.shared.report.CompositeParagraph;
@@ -26,8 +26,8 @@ import de.superteam2000.gwt.shared.report.SimpleParagraph;
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator {
 
   private static final long serialVersionUID = 1L;
-  private PartnerboerseAdministration administration = null;
-
+  private PartnerboerseAdministrationImpl administration = null;
+  private Profil user = ClientsideSettings.getCurrentUser();
   public ReportGeneratorImpl() throws IllegalArgumentException {}
 
   @Override
@@ -40,7 +40,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     a.init();
     this.administration = a;
   }
-
+  
   @Override
   public ProfilReport createProfilReport(Profil p) throws IllegalArgumentException {
     if (this.administration == null) {
@@ -53,6 +53,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
     // ab hier result mit Inhalten befüllen
     result.setTitle("Mein Profil");
+    
+    
     SimpleParagraph aehnlickeit = new SimpleParagraph(String.valueOf(p.getAehnlichkeit()));
     result.setAehnlichekit(aehnlickeit);
 
@@ -103,7 +105,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
   }
 
   @Override
-  public AllProfileBySuche createSuchreportBySuchprofil(Suchprofil sp, Profil p) {
+  public AllProfilesBySucheReport createSuchreportBySuchprofil(Suchprofil sp, Profil p) {
 
     ClientsideSettings.getLogger().info("createSuchreport Methode in ReportGenerator aufgerufen");
     if (this.administration == null) {
@@ -112,7 +114,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 
     ArrayList<Profil> profilesList = administration.getProfilesBySuchprofil(sp, p);
-    AllProfileBySuche result = new AllProfileBySuche();
+    AllProfilesBySucheReport result = new AllProfilesBySucheReport();
     ArrayList<String> suchprofeilItems = administration.getItemsOfSuchprofil(sp);
 
     result.setTitle("Suche nach Suchprofilen");
@@ -133,7 +135,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
   }
 
   @Override
-  public AllProfilesReport createAllProfilesReport() throws IllegalArgumentException {
+  public AllProfilesReport createAllProfilesReport(Profil p) throws IllegalArgumentException {
     if (this.administration == null) {
       return null;
     }
@@ -150,10 +152,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     // result.addRow(headline);
 
     // alle Profile abfragen
-    ArrayList<Profil> profile = this.administration.getAllProfiles();
+    ArrayList<Profil> profile = this.administration.getProfilesByAehnlichkeitsmass(p);
 
-    for (Profil p : profile) {
-      result.addSubReport(this.createProfilReport(p));
+    for (Profil profil : profile) {
+      result.addSubReport(this.createProfilReport(profil));
 
     }
 

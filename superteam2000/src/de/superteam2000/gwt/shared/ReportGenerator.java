@@ -9,7 +9,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.bo.Suchprofil;
 import de.superteam2000.gwt.shared.report.AllNewProfileReport;
 import de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport;
-import de.superteam2000.gwt.shared.report.AllProfileBySuche;
+import de.superteam2000.gwt.shared.report.AllProfilesBySucheReport;
 import de.superteam2000.gwt.shared.report.AllProfilesReport;
 import de.superteam2000.gwt.shared.report.ProfilReport;
 
@@ -103,9 +103,9 @@ public interface ReportGenerator extends RemoteService {
 	 * @see AllAccountsOfCustomerReport
 	 */
 	
-	public abstract AllProfilesReport createAllProfilesReport() throws IllegalArgumentException;
+	public abstract AllProfilesReport createAllProfilesReport(Profil profil) throws IllegalArgumentException;
 
-	public abstract AllProfileBySuche createSuchreportBySuchprofil(Suchprofil sp, Profil p);
+	public abstract AllProfilesBySucheReport createSuchreportBySuchprofil(Suchprofil sp, Profil p);
 
 
 

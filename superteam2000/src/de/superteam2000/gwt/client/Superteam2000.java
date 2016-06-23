@@ -94,7 +94,7 @@ public class Superteam2000 implements EntryPoint {
 				splashSubhead.add(splahParagraph);
 				
 				Anchor loginAnchor = new Anchor("Los!");
-				loginAnchor.setStyleName("pure-button pure-button-primary");
+				loginAnchor.setStyleName("pure-button-login pure-button-primary-login");
 				loginAnchor.setHref(result.getLoginUrl());
 				
 				

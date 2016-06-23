@@ -8,7 +8,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.bo.Suchprofil;
 import de.superteam2000.gwt.shared.report.AllNewProfileReport;
 import de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport;
-import de.superteam2000.gwt.shared.report.AllProfileBySuche;
+import de.superteam2000.gwt.shared.report.AllProfilesBySucheReport;
 import de.superteam2000.gwt.shared.report.AllProfilesReport;
 import de.superteam2000.gwt.shared.report.ProfilReport;
 
@@ -34,9 +34,9 @@ public interface ReportGeneratorAsync {
 
 	void createAllNewProfilesReport(Profil p, AsyncCallback<AllNewProfileReport> callback);
 
-	void createAllProfilesReport( AsyncCallback<AllProfilesReport> callback);
+	void createAllProfilesReport(Profil profil, AsyncCallback<AllProfilesReport> callback);
 
-	void createSuchreportBySuchprofil(Suchprofil sp, Profil p, AsyncCallback<AllProfileBySuche> callback);
+	void createSuchreportBySuchprofil(Suchprofil sp, Profil p, AsyncCallback<AllProfilesBySucheReport> callback);
 
 
 

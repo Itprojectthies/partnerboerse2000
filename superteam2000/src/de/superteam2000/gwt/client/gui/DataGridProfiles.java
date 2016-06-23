@@ -61,7 +61,8 @@ public class DataGridProfiles {
 
   public FlowPanel start() {
     fPanel.setStyleName("content");
-
+    
+    table.setStyleName("pure-table pure-table-horizontal");
     TextColumn<Profil> vorname = new TextColumn<Profil>() {
       @Override
       public String getValue(Profil p) {
@@ -94,7 +95,7 @@ public class DataGridProfiles {
         return String.valueOf(p.getAehnlichkeit()) + "%";
       }
     };
-
+    aehnlichkeit.setCellStyleNames("test");
     table.addColumn(aehnlichkeit, "Ähnlichkeit");
 
     table.setRowCount(profilListe.size(), true);
@@ -102,7 +103,7 @@ public class DataGridProfiles {
     table.setWidth("80%");
 
     LayoutPanel panel = new LayoutPanel();
-    panel.setSize("40em", "50em");
+    panel.setSize("50em", "40em");
     panel.add(table);
     // panel.setStyleName("pure-controls");
     fPanel.add(panel);

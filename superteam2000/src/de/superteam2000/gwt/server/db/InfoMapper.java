@@ -148,6 +148,7 @@ public class InfoMapper {
 				i.setText(rs1.getString("Text"));
 				i.setProfilId(rs1.getInt("Profil_id"));
 				i.setEigenschaftId(rs1.getInt("Eigenschaft_id"));
+				ClientsideSettings.getLogger().severe("info " +i.getText());
 				return i;
 					
 			}
@@ -232,8 +233,8 @@ public class InfoMapper {
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM Info ");
-
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM Info");
+//			 i.setId(rs.getInt("maxid") + 1);
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
 				/*
@@ -245,15 +246,21 @@ public class InfoMapper {
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO Info (Text, Profil_id, Eigenschaft_id) VALUES ('"
-						+ i.getText() + "'," + i.getProfilId() + "," + i.getEigenschaftId() + ")");
+				stmt.executeUpdate("INSERT INTO Info (Text, Profil_id, Eigenschaft_id, id) VALUES ('"
+						+ i.getText() + "'," + i.getProfilId() + "," + i.getEigenschaftId() + "," +i.getId() + ")");
 			}
+//			ResultSet rs1 = stmt.executeQuery("SELECT MAX(id) AS maxid FROM Info");
+//			ClientsideSettings.getLogger().severe("maxid " +rs1.getInt("maxid"));
+//			if (rs1.next()) {
+             
+//            }
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ClientsideSettings.getLogger().severe("Fehler beim schreiben in die DB" + 
 					e.getMessage() + " " + e.getCause() + " ");
 		}
-
+		ClientsideSettings.getLogger().severe("info im mapper erstell " + i.getId() +" name" + i.getText());
 		return i;
 	}
 

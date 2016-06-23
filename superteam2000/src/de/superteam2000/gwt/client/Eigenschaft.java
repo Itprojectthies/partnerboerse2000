@@ -17,7 +17,7 @@ public class Eigenschaft extends BasicFrame {
 
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
   Profil profil = ClientsideSettings.getCurrentUser();
-  ArrayList<Info> infoListe;
+  ArrayList<Info> infoListe = new ArrayList<Info>();
   FlowPanel fPanel = new FlowPanel();
   FlowPanel fPanel2 = new FlowPanel();
 
@@ -26,6 +26,12 @@ public class Eigenschaft extends BasicFrame {
   protected String getHeadlineText() {
     return "Eigenschaften";
   }
+  
+  @Override
+  protected String getSubHeadlineText() {
+    return "Was passt zu Dir?";
+  }
+  
 
   @Override
   protected void run() {
@@ -100,11 +106,7 @@ public class Eigenschaft extends BasicFrame {
     }
   }
 
-  @Override
-  protected String getSubHeadlineText() {
-    // TODO Auto-generated method stub
-    return "Was passt zu Dir?";
-  }
+ 
 }
 
 

@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class Notification extends PopupPanel implements ClickHandler {
 
+  timer t1 = new timer();
+
   public Notification(String text, String alert) {
     super(false);
     setWidget(new Label(text));
@@ -19,8 +21,8 @@ public class Notification extends PopupPanel implements ClickHandler {
     setWidget(contents);
     this.setStyleName(getContainerElement(), "toast-message");
     setStyleName("toast toast-" + alert);
-    
-    //Clickhandler hanzufügen um Popup zu löschen
+
+    // Clickhandler hanzufügen um Popup zu löschen
     sinkEvents(Event.ONCLICK);
     addHandler(this, ClickEvent.getType());
 
@@ -31,26 +33,23 @@ public class Notification extends PopupPanel implements ClickHandler {
   @Override
   public void show() {
     RootPanel.get("toast-container").add(Notification.this);
-    Timer t = new Timer() {
-      @Override
-      public void run() {
-        Notification.this.hide();
-        RootPanel.get("toast-container").clear();
-      }
-    };
-
-    //Popups nach 7 sec löschen
-    
-    t.schedule(7000);
+    // Popups nach 7 sec löschen
+    t1.schedule(7000);
 
   }
 
   @Override
   public void onClick(ClickEvent event) {
     RootPanel.get("toast-container").clear();
-    
+    t1.schedule(0);
   }
 
+  public class timer extends Timer {
+    @Override
+    public void run() {
+      RootPanel.get("toast-container").clear();
+    }
 
+  }
 
 }

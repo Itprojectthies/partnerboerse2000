@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.superteam2000.gwt.client.gui.BoxPanel;
+import de.superteam2000.gwt.client.gui.DataGridProfiles;
 import de.superteam2000.gwt.client.gui.Notification;
 import de.superteam2000.gwt.client.gui.ProfilAttributTextBox;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
@@ -37,7 +38,7 @@ public class Suche extends BasicFrame {
   ArrayList<Auswahl> auswahlListe = null;
 
   Profil profil = null;
-  FlowPanel fPanel = null;
+  FlowPanel fPanel = new FlowPanel();
 
   Suchprofil sp = null;
   ProfilAttributTextBox suchProfilTextbox = null;
@@ -59,15 +60,56 @@ public class Suche extends BasicFrame {
   protected String getHeadlineText() {
     return "Suche und finde deine bessere Hälfte";
   }
-
+  
+  FlowPanel searchPanel = new FlowPanel();
+  FlowPanel searchBoxListBox = new FlowPanel();
+  FlowPanel searchBoxProfilAttribute = new FlowPanel();
+  FlowPanel searchBoxInfo = new FlowPanel();
+  
   @Override
   protected void run() {
-    fPanel = new FlowPanel();
-    fPanel.setStyleName("ProfilAttribute-Suche");
-
+    searchPanel.setStyleName("content");
+    searchBoxListBox.setStyleName("pure-u-1-3 pure-form");
+    searchBoxProfilAttribute.setStyleName("pure-u-1-3 l-box pure-form");
+    searchBoxInfo.setStyleName("pure-u-1-3 l-box pure-form");
+    
+    searchPanel.add(searchBoxListBox);
+    searchPanel.add(searchBoxProfilAttribute);
+    searchPanel.add(searchBoxInfo);
+    
+    fPanel.add(searchPanel);
+   
+    
     BoxPanel suchProfilName = new BoxPanel("Name des Suchprofils");
     suchProfilTextbox = new ProfilAttributTextBox();
     suchProfilTextbox.setName("suchProfilName");
+    
+    suchProfilName.add(suchProfilTextbox);
+    
+    suchprofilSpeichernButton = new Button("Suchprofil Speichern");
+    suchprofilSpeichernButton.setStyleName("pure-button button-success");
+    suchprofilLöschenButton = new Button("Suchprofil löschen");
+    suchprofilLöschenButton.setStyleName("pure-button button-warning");
+//    suchprofilLöschenButton.setStyleDependentName("button-warning", true);
+    
+    suchprofilErstellButton.setStyleName("pure-button pure-button-primary");
+    suchprofilLöschenButton.setEnabled(false);
+    sucheButton.setStyleName("pure-button pure-button-primary");
+    
+    searchBoxListBox.add(suchProfilListBox);
+    searchBoxListBox.add(suchProfilName);
+    searchBoxListBox.add(suchprofilErstellButton);
+    searchBoxListBox.add(suchprofilSpeichernButton);
+    searchBoxListBox.add(suchprofilLöschenButton);
+    searchBoxListBox.add(sucheButton);
+
+    
+    suchProfilListBox.setStyleName("search-box");
+//    suchProfilListBox.setSize("170px", "14em");
+
+    RootPanel.get("main").add(fPanel);
+    
+    
 
     pbVerwaltung.getAllAuswahl(new AsyncCallback<ArrayList<Auswahl>>() {
 
@@ -80,7 +122,7 @@ public class Suche extends BasicFrame {
           BoxPanel clb = new BoxPanel(a, false);
           clb.setId(a.getId());
           clb.addKeineAngabenItem();
-          fPanel.add(clb);
+          searchBoxInfo.add(clb);
         }
       }
 
@@ -91,7 +133,8 @@ public class Suche extends BasicFrame {
       }
     });
 
-    suchProfilListBox.setSize("8em", "14em");
+   
+    
     suchProfilListBox.addClickHandler(new ClickHandler() {
 
       // ClickHandler um die Listboxen mit den jeweiligen Daten zu aktualisieren,
@@ -113,18 +156,33 @@ public class Suche extends BasicFrame {
 
                 final HashMap<Integer, String> auswahlListeSp = sp.getAuswahlListe();
 
-
-                for (Widget child : fPanel) {
+                for (Widget child : searchBoxInfo) {
                   if (child instanceof BoxPanel) {
                     BoxPanel childPanel = (BoxPanel) child;
-
+                    
+                    //Infoobjekte des Suchporifls in die Listboxen schreiben
                     for (Auswahl a : auswahlListe) {
                       if (childPanel.getId() == a.getId()) {
                         childPanel.setSelectedItemForSP(
                             auswahlListeSp.get(childPanel.getAuswahl().getId()));
                       }
                     }
+                  }
+                }
+                
 
+                for (Widget child : searchBoxProfilAttribute) {
+                  if (child instanceof BoxPanel) {
+                    BoxPanel childPanel = (BoxPanel) child;
+                    
+                    //Infoobjekte des Suchporifls in die Listboxen schreiben
+                    for (Auswahl a : auswahlListe) {
+                      if (childPanel.getId() == a.getId()) {
+                        childPanel.setSelectedItemForSP(
+                            auswahlListeSp.get(childPanel.getAuswahl().getId()));
+                      }
+                    }
+                    // Profilattribute in die Listboxen schreiben
                     switch (childPanel.getName()) {
                       case "Raucher":
                         childPanel.setSelectedItemForSP(sp.getRaucher());
@@ -166,18 +224,7 @@ public class Suche extends BasicFrame {
       }
     });
 
-    suchProfilName.add(suchProfilTextbox);
-    fPanel.add(suchProfilName);
-    fPanel.add(suchprofilErstellButton);
-    fPanel.add(sucheButton);
-
-    suchprofilSpeichernButton = new Button("Suchprofil Speichern");
-    suchprofilLöschenButton = new Button("Suchprofil löschen");
-    suchprofilLöschenButton.setEnabled(false);
-
-    RootPanel.get("main").add(suchProfilListBox);
-    RootPanel.get("main").add(suchprofilSpeichernButton);
-    RootPanel.get("main").add(suchprofilLöschenButton);
+    
 
     sucheButton.addClickHandler(new ClickHandler() {
 
@@ -185,7 +232,7 @@ public class Suche extends BasicFrame {
       public void onClick(ClickEvent event) {
 //        RootPanel.get("main").clear();
         sp = createSP();
-        logger.info(sp.getRaucher());
+        
         ClientsideSettings.getPartnerboerseVerwaltung().getProfilesBySuchprofil(sp,
             user, new AsyncCallback<ArrayList<Profil>>() {
 
@@ -199,8 +246,12 @@ public class Suche extends BasicFrame {
                 if (result != null) {
                   profile = result;
 
-                  AllProfilesTable dgp = new AllProfilesTable(profile);
-                  RootPanel.get("main").add(dgp);
+                  DataGridProfiles dgp = new DataGridProfiles(profile);
+//                  FlowPanel searchDatatGrid = new FlowPanel();
+//                  searchDatatGrid.getElement().setId("search-table");
+//                  fPanel.add(searchDatatGrid);
+                  RootPanel.get("search-table").clear();
+                  RootPanel.get("search-table").add(dgp.start());
                 }
 
               }
@@ -292,7 +343,7 @@ public class Suche extends BasicFrame {
 
     suchprofilErstellButton.addClickHandler(new SuchButtonClickHandler());
 
-    RootPanel.get("main").add(fPanel);
+//    RootPanel.get("main").add(fPanel);
   }
 
   private class GetAllAuswahlProfilAttributeCallback implements AsyncCallback<ArrayList<Auswahl>> {
@@ -301,7 +352,7 @@ public class Suche extends BasicFrame {
       for (Auswahl a : result) {
         BoxPanel clb = new BoxPanel(a, true);
         clb.addKeineAngabenItem();
-        fPanel.add(clb);
+        searchBoxProfilAttribute.add(clb);
 
       }
 
@@ -328,10 +379,10 @@ public class Suche extends BasicFrame {
       // Körpergröße und Geburtstags Listboxen werden nach den
       // AuswahlProfilAttributen zum Panel hinzugefügt
 
-      fPanel.add(groesseMin);
-      fPanel.add(groesseMax);
-      fPanel.add(alterMin);
-      fPanel.add(alterMax);
+//      fPanel.add(groesseMin);
+//      fPanel.add(groesseMax);
+//      fPanel.add(alterMin);
+//      fPanel.add(alterMax);
 
     }
 
@@ -354,13 +405,13 @@ public class Suche extends BasicFrame {
       sp = createSP();
 //      RootPanel.get("main").clear();
 
-      RootPanel.get("main").add(suchProfilListBox);
-      RootPanel.get("main").add(suchprofilSpeichernButton);
-      RootPanel.get("main").add(suchprofilLöschenButton);
+//      RootPanel.get("main").add(suchProfilListBox);
+//      RootPanel.get("main").add(suchprofilSpeichernButton);
+//      RootPanel.get("main").add(suchprofilLöschenButton);
 
 
       if (suchProfilListe.contains(sp)) {
-        RootPanel.get("main").add(new HTML("suchprofil schon vorhanden"));
+        Notification n1 = new Notification("Suchprofilname " + sp.getName() + " exisitiert bereits", "info");
       } else {
         suchProfilListe.add(sp);
         suchProfilListBox.addItem(sp.getName());
@@ -389,8 +440,29 @@ public class Suche extends BasicFrame {
     sp.setName(suchProfilTextbox.getText());
 
     HashMap<Integer, String> auswahlListeSp = new HashMap<>();
+    
+    
+    
+    for (Widget child : searchBoxInfo) {
+      if (child instanceof BoxPanel) {
+        BoxPanel childPanel = (BoxPanel) child;
+        if (childPanel.getName() != null) {
 
-    for (Widget child : fPanel) {
+          // Auswahleigenschaftslistboxen dynamisch auslesen und in des Hashmap auswahlListeSp
+          // speichern
+          for (Auswahl a : auswahlListe) {
+            if (childPanel.getId() == a.getId()) {
+
+              if (!childPanel.getSelectedItem().equals("Keine Angabe")) {
+                auswahlListeSp.put(childPanel.getAuswahl().getId(), childPanel.getSelectedItem());
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    for (Widget child : searchBoxProfilAttribute) {
       if (child instanceof BoxPanel) {
         BoxPanel childPanel = (BoxPanel) child;
         if (childPanel.getName() != null) {
@@ -421,26 +493,26 @@ public class Suche extends BasicFrame {
             case "Geschlecht":
               sp.setGeschlecht(childPanel.getSelectedItem());
               break;
-            case "Körpergröße_min":
-              if (!childPanel.getSelectedItem().equals("Keine Angabe")) {
-                sp.setGroesse_min(Integer.valueOf(childPanel.getSelectedItem()));
-              }
-              break;
-            case "Körpergröße_max":
-              if (!childPanel.getSelectedItem().equals("Keine Angabe")) {
-                sp.setGroesse_max(Integer.valueOf(childPanel.getSelectedItem()));
-              }
-              break;
-            case "Alter_min":
-              if (!childPanel.getSelectedItem().equals("Keine Angabe")) {
-                sp.setAlter_min(Integer.valueOf(childPanel.getSelectedItem()));
-              }
-              break;
-            case "Alter_max":
-              if (!childPanel.getSelectedItem().equals("Keine Angabe")) {
-                sp.setAlter_max(Integer.valueOf(childPanel.getSelectedItem()));
-              }
-              break;
+//            case "Körpergröße_min":
+//              if (!childPanel.getSelectedItem().equals("Keine Angabe")) {
+//                sp.setGroesse_min(Integer.valueOf(childPanel.getSelectedItem()));
+//              }
+//              break;
+//            case "Körpergröße_max":
+//              if (!childPanel.getSelectedItem().equals("Keine Angabe")) {
+//                sp.setGroesse_max(Integer.valueOf(childPanel.getSelectedItem()));
+//              }
+//              break;
+//            case "Alter_min":
+//              if (!childPanel.getSelectedItem().equals("Keine Angabe")) {
+//                sp.setAlter_min(Integer.valueOf(childPanel.getSelectedItem()));
+//              }
+//              break;
+//            case "Alter_max":
+//              if (!childPanel.getSelectedItem().equals("Keine Angabe")) {
+//                sp.setAlter_max(Integer.valueOf(childPanel.getSelectedItem()));
+//              }
+//              break;
           }
         }
       }

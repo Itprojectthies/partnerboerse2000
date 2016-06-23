@@ -35,7 +35,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   /**
    * Referenz auf das zugehörige Bank-Objekt.
    */
-  
+
   private static final long serialVersionUID = 1L;
   private AuswahlMapper auswahlMapper = null;
   private BeschreibungMapper beschrMapper = null;
@@ -143,16 +143,30 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   @Override
-  public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException {
+  public ArrayList<Profil> getAllProfilesByAehnlichkeit(Profil p) throws IllegalArgumentException {
     ArrayList<Profil> profile = this.pMapper.findAll();
-    Profil p = ClientsideSettings.getCurrentUser();
-    
+
     for (Profil aktProfil : profile) {
       int f = this.berechneAehnlichkeit(p, aktProfil);
       aktProfil.setAehnlichkeit(f);
     }
-    
+    Collections.sort(profile, new Comparator<Profil>() {
+
+      @Override
+      public int compare(Profil p1, Profil p2) {
+
+        return p2.getAehnlichkeit() - p1.getAehnlichkeit();
+      }
+    });
+
+    profile.remove(p);
+
     return profile;
+  }
+
+  @Override
+  public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException {
+    return this.pMapper.findAll();
   }
 
   @Override
@@ -176,7 +190,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public ArrayList<String> getItemsOfSuchprofil(Suchprofil sp) {
     ArrayList<String> itemsList = new ArrayList<String>();
-    
+
     if (!sp.getReligion().equals("Keine Angabe"))
       itemsList.add("Religion: " + sp.getReligion());
     if (!sp.getHaarfarbe().equals("Keine Angabe"))
@@ -189,12 +203,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       itemsList.add("Minimales Alter: " + String.valueOf(sp.getAlter_min()));
       itemsList.add("Maximales Alter: " + String.valueOf(sp.getAlter_max()));
     }
-    
+
     if (sp.getGroesse_min() != 0 && sp.getGroesse_max() != 0) {
       itemsList.add("Minimale Größe: " + String.valueOf(sp.getGroesse_min()));
       itemsList.add("Maximale Größe: " + String.valueOf(sp.getGroesse_max()));
     }
-    
+
     HashMap<Integer, String> auswahlListe = sp.getAuswahlListe();
 
     for (Map.Entry<Integer, String> entry : auswahlListe.entrySet()) {
@@ -203,7 +217,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
         itemsList.add(this.getEigenschaftsNameById(entry.getKey()) + ": " + entry.getValue());
       }
     }
-    
+
     return itemsList;
   }
 
@@ -252,6 +266,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
         log("Info upgedatet");
         return this.iMapper.update(i);
+        
       } else if (info.getEigenschaftId() == i.getEigenschaftId()
           && info.getProfilId() == i.getProfilId() && info.getText().equals(i.getText())) {
         return null;
@@ -303,7 +318,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   public ArrayList<Info> getInfoByProfile(Profil profil) throws IllegalArgumentException {
     return this.iMapper.findAllByProfilId(profil.getId());
   }
-  
+
 
   @Override
   public Info getInfoByEigenschaftsId(int id) throws IllegalArgumentException {
@@ -462,6 +477,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
         alleProfile.remove(profil);
       }
     }
+
+
+
     for (Profil profil : alleProfile) {
       if (p.getErstelldatum().before(profil.getErstelldatum())) {
         neueProfile.add(profil);
@@ -483,6 +501,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       }
 
     });
+
+    neueProfile.remove(p);
 
     return neueProfile;
   }
@@ -514,6 +534,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
     }
 
+
     Collections.sort(alleProfile, new Comparator<Profil>() {
 
       @Override
@@ -523,6 +544,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       }
 
     });
+
+    alleProfile.remove(p);
 
     return alleProfile;
   }
@@ -550,11 +573,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
       @Override
       public int compare(Profil p1, Profil p2) {
-
         return p2.getAehnlichkeit() - p1.getAehnlichkeit();
       }
-
     });
+
+    alleProfile.remove(profil);
+
 
     return alleProfile;
   }
@@ -614,11 +638,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
         mListe.remove(p);
       }
     }
-    
+
     for (Profil p : mListe) {
       p.setAehnlichkeit(this.berechneAehnlichkeit(profil, p));
     }
-    
+
     return m;
   }
 
@@ -626,12 +650,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException {
     Kontaktsperre k = kMapper.findAllForProfil(profil);
     ArrayList<Profil> kListe = k.getGesperrteProfile();
-    
+
     for (Profil p : kListe) {
       p.setAehnlichkeit(this.berechneAehnlichkeit(profil, p));
     }
-    
-    
+
+
     return k;
   }
 
@@ -671,7 +695,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     }
     return null;
   }
-  
+
   @Override
   public String getEigenschaftsBeschreibungById(int id) throws IllegalArgumentException {
     if (this.beschrMapper.findByKey(id) != null) {
@@ -881,5 +905,5 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     // TODO Auto-generated method stub
     return null;
   }
-  
+
 }

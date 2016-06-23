@@ -29,6 +29,7 @@ public abstract class BasicFrame extends FlowPanel {
 	  
 		super.onLoad();
 		this.add(this.createHeadline(this.getHeadlineText(), this.getSubHeadlineText()));
+		RootPanel.get("search-table").clear();
 		/*
 		 * Als erstes geben wir stets die Headline des BasicFrame aus. Da
 		 * getHeadlineText() als abstrakte Methode bzw. als Einschubmethode

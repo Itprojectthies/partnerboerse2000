@@ -139,6 +139,8 @@ public interface PartnerboerseAdministrationAsync {
 
   void getInfoById(int id, AsyncCallback<Info> callback);
 
+  void getAllProfilesByAehnlichkeit(Profil p, AsyncCallback<ArrayList<Profil>> callback);
+
   // Suchprofil
 
 }

@@ -22,7 +22,7 @@ public class BoxPanel extends FlowPanel {
 		this.add(profilAttributListBox);
 
 		// set style name for entire widget
-		setStyleName("pure-control-group");
+		setStyleName("pure-control-group-1");
 
 		// set style name for text box
 		profilAttributListBox.setStyleName("pure-input-1-4");
@@ -35,7 +35,7 @@ public class BoxPanel extends FlowPanel {
 		this.add(profilAttributTextBox);
 
 		// set style name for entire widget
-		setStyleName("pure-control-group");
+		setStyleName("pure-control-group-1");
 
 		// set style name for text box
 		profilAttributTextBox.setStyleName("pure-input-1-4");
@@ -50,7 +50,7 @@ public class BoxPanel extends FlowPanel {
 		this.add(profilAttributListBox);
 
 		// set style name for entire widget
-		setStyleName("pure-control-group");
+		setStyleName("pure-control-group-1");
 
 		// set style name for text box
 
@@ -63,7 +63,7 @@ public class BoxPanel extends FlowPanel {
 		this.add(this.profilAttributTextBox);
 
 		// set style name for entire widget
-		setStyleName("pure-control-group");
+		setStyleName("pure-control-group-1");
 
 	}
 
@@ -74,7 +74,7 @@ public class BoxPanel extends FlowPanel {
 		this.add(this.profilAttributTextBox);
 
 		// set style name for entire widget
-		setStyleName("pure-control-group");
+		setStyleName("pure-control-group-1");
 
 	}
 
@@ -85,7 +85,7 @@ public class BoxPanel extends FlowPanel {
 		
 		// set style name for entire widget
 		this.add(profilAttributListBox);
-		setStyleName("pure-control-group");
+		setStyleName("pure-control-group-1");
 	}
 
 	public BoxPanel(String text) {

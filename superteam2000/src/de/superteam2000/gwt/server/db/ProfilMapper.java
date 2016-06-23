@@ -313,6 +313,8 @@ public class ProfilMapper {
 		try {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate("DELETE FROM Info WHERE Profil_id=" + p.getId());
+			stmt.executeUpdate("DELETE FROM Merkzettel WHERE Merker_id=" + p.getId()+ " OR Gemerkter_id=" +p.getId());
+			stmt.executeUpdate("DELETE FROM Kontaktsperre WHERE Sperrer_id=" + p.getId()+ " OR Gesperrter_id=" +p.getId());
 			stmt.executeUpdate("DELETE FROM Profil WHERE id=" + p.getId());
 			ClientsideSettings.getLogger().info("Profil " + p.getNachname() + "  aus DB gelöscht");
 

@@ -27,9 +27,13 @@ public class CustomButton extends Button {
       this.isPushed = isPushed;
     }
 
-    public CustomButton(){
-        super();
+    public CustomButton(String text){
+        super(text);
         this.setStyleName("pure-button");
+    }
+    public CustomButton(){
+      super();
+      this.setStyleName("pure-button");
     }
 
     public void setResource(ImageResource imageResource){

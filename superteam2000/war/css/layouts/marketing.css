@@ -1,4 +1,4 @@
-/*!
+/*! Aktuelle Version
 Pure v0.6.0
 Copyright 2014 Yahoo! Inc. All rights reserved.
 Licensed under the BSD License.
@@ -81,7 +81,7 @@ label {
  */
  
  
-/* .pure-button {
+ .pure-button-login {
     background-color: #1f8dd6;
     color: white;
     padding: 0.5em 2em;
@@ -92,13 +92,17 @@ label {
     width: 180px;
 }
 
-a.pure-button-primary {
+a.pure-button-primary-login {
     background: white;
     color: #E91E63;
     border-radius: 5px;
     font-size: 120%;
 }
-*/
+
+a:-webkit-any-link {
+    text-decoration: none;
+    cursor: auto;
+}
 
 
 /*
@@ -175,7 +179,7 @@ a.pure-button-primary {
     /* We decrease the width of the .splash, since we have more width
     to work with */
     .splash {
-        width: 50%;
+        width: 46%;
         height: 50%;
     }
 

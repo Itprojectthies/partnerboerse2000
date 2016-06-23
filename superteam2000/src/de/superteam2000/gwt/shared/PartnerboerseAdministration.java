@@ -139,6 +139,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 
   public Info getInfoById(int id) throws IllegalArgumentException;
 
+  public ArrayList<Profil> getAllProfilesByAehnlichkeit(Profil p) throws IllegalArgumentException;
+
 
 
   // Suchprofil

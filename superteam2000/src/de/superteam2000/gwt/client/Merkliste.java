@@ -104,51 +104,7 @@ public class Merkliste extends BasicFrame {
    * @author Christopher
    *
    */
-  public class ProfilAnzeigenButtonClickhandler implements ClickHandler {
-    @Override
-    public void onClick(ClickEvent event) {
-      if (selected != null) {
-
-        ClientsideSettings.getReportGenerator().createProfilReport(selected,
-            new AsyncCallback<ProfilReport>() {
-
-              @Override
-              public void onSuccess(ProfilReport result) {
-
-                RootPanel.get("main").clear();
-                FremdProfil fp = new FremdProfil(selected);
-                RootPanel.get("main").add(fp);
-
-                // Profil als besucht setzen
-                pbVerwaltung.setVisited(ClientsideSettings.getCurrentUser(), selected,
-                    new AsyncCallback<Void>() {
-
-                      @Override
-                      public void onSuccess(Void result) {
-                        ClientsideSettings.getLogger().info("User wurde als besucht markiert!");
-
-                      }
-
-                      @Override
-                      public void onFailure(Throwable caught) {
-                        // TODO Auto-generated method stub
-
-                      }
-                    });
-
-
-
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-                // TODO Auto-generated method stub
-
-              }
-            });
-      }
-    }
-  }
+  
 
   @Override
   protected String getSubHeadlineText() {

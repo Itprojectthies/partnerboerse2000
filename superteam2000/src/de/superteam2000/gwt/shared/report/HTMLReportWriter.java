@@ -332,7 +332,7 @@ public class HTMLReportWriter extends ReportWriter {
   }
 
   @Override
-  public void process(AllProfileBySuche r) {
+  public void process(AllProfilesBySucheReport r) {
     // Zun�chst l�schen wir das Ergebnis vorhergehender Prozessierungen.
     this.resetReportText();
 

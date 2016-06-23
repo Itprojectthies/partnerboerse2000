@@ -20,7 +20,7 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
   SimpleCheckBox check1 = new SimpleCheckBox();
   SimpleCheckBox check2 = new SimpleCheckBox();
   int infoId = 0;
-  
+  Info i = new Info();
   /**
    * @return the infoId
    */
@@ -76,7 +76,8 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
     for (Info info : infoListe) {
       if (a.getId() == info.getEigenschaftId()) {
         check1.setValue(true);
-        this.setInfoId(info.getId());
+        i = info;
+        setInfoId(info.getId());
         this.setSelectedItem(info.getText());
       }
     }
@@ -94,6 +95,7 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
   public void onClick(ClickEvent event) {
     if (this.check1.getValue()) {
       saveAuswahlSelection();
+      
 
     } else if (this.check2.getValue()) {
       saveBeschreibung();
@@ -101,6 +103,7 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
     } else {
       try {
         deleteAuswahlInfo();
+        ClientsideSettings.getLogger().info("Info " + i.getText());
 
       } catch (Exception e) {
         e.printStackTrace();
@@ -115,13 +118,14 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
   }
 
   private void deleteAuswahlInfo() {
+    
     ClientsideSettings.getPartnerboerseVerwaltung().getInfoById(getInfoId(),
         new AsyncCallback<Info>() {
-
           @Override
           public void onSuccess(Info result) {
             Notification n1 =
                 new Notification("Auswahl " + result.getText() + " gelöscht", "success");
+            ClientsideSettings.getLogger().info("name= "+ result.getText()+ " id= " +result.getId()+ "gelöscht");
             ClientsideSettings.getPartnerboerseVerwaltung().delete(result,
                 new AsyncCallback<Void>() {
 
@@ -133,7 +137,8 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
 
                   @Override
                   public void onFailure(Throwable caught) {
-                    ClientsideSettings.getLogger().severe("Fehler bei Auswahl Info löschen");
+                    Notification n1 =
+                        new Notification("Fehler beim Löschen der Eigenschaft", "error");
                   }
                 });
           }
@@ -166,7 +171,8 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
 
                   @Override
                   public void onFailure(Throwable caught) {
-                    ClientsideSettings.getLogger().severe("Fehler bei beschreibungs Info löschen");
+                    Notification n1 =
+                        new Notification("Fehler beim Löschen der Eigenschaft", "error");
                   }
                 });
           }
@@ -185,9 +191,12 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
 
           @Override
           public void onSuccess(Info result) {
+            i = result;
+            setInfoId(result.getId());
+            result.setId(getInfoId());
             Notification n1 =
                 new Notification("Auswahl " + result.getText() + " gespeichert", "success");
-            ClientsideSettings.getLogger().info("juhu auswahl");
+            ClientsideSettings.getLogger().info("name= "+ result.getText()+ " id= " +result.getId() + " erstellt");
           }
 
           @Override
@@ -220,7 +229,22 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
   @Override
   public void onChange(ChangeEvent event) {
     if (this.check1.getValue()) {
-      saveAuswahlSelection();
+      i.setText(this.getSelectedItem());
+      Notification n1 =
+          new Notification("Eigenschaft auf " + i.getText() + " geändert!", "success");
+      
+      ClientsideSettings.getPartnerboerseVerwaltung().save(i, new AsyncCallback<Void>() {
+        
+        @Override
+        public void onSuccess(Void result) {
+          
+        }
+        
+        @Override
+        public void onFailure(Throwable caught) {
+          
+        }
+      });
     }
   }
 

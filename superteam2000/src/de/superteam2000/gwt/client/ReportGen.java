@@ -22,7 +22,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.bo.Suchprofil;
 import de.superteam2000.gwt.shared.report.AllNewProfileReport;
 import de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport;
-import de.superteam2000.gwt.shared.report.AllProfileBySuche;
+import de.superteam2000.gwt.shared.report.AllProfilesBySucheReport;
 import de.superteam2000.gwt.shared.report.AllProfilesReport;
 import de.superteam2000.gwt.shared.report.HTMLReportWriter;
 import de.superteam2000.gwt.shared.report.ProfilReport;
@@ -37,7 +37,7 @@ public class ReportGen implements EntryPoint {
 
   @SuppressWarnings("deprecation")
   ListBox suchProfilListBox = new ListBox(true);
-
+  
 
   ArrayList<Profil> profile = new ArrayList<Profil>();
   ArrayList<Profil> profileForSuchprofil = new ArrayList<Profil>();
@@ -56,6 +56,10 @@ public class ReportGen implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
+    
+    
+    suchProfilListBox.setSize("11em", "8em");
+    
     RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#191818");
     Anchor anchor = new Anchor("PartnerBörse", GWT.getHostPageBaseURL() + "Superteam2000.html");
 
@@ -118,7 +122,8 @@ public class ReportGen implements EntryPoint {
         RootPanel.get("menu").add(loginAnchor);
       }
       p = result;
-
+      p.setAehnlichkeit(100);
+      
       pbVerwaltung.getAllSuchprofileForProfil(p, new SuchProfileCallback());
       pbVerwaltung.getAllProfiles(new AllProfilesCallback());
 
@@ -194,9 +199,9 @@ public class ReportGen implements EntryPoint {
     }
   }
   
-  private final class ProfileBySucheReportCallback implements AsyncCallback<AllProfileBySuche> {
+  private final class ProfileBySucheReportCallback implements AsyncCallback<AllProfilesBySucheReport> {
     @Override
-    public void onSuccess(AllProfileBySuche result) {
+    public void onSuccess(AllProfilesBySucheReport result) {
       addProfileToRootPanel(result);
     }
 
@@ -277,7 +282,7 @@ public class ReportGen implements EntryPoint {
     public void onClick(ClickEvent event) {
       ClientsideSettings.getLogger().info("onClick Methode aufgerufen");
 
-      reportGenerator.createAllProfilesReport(new AllProfilesReportCallback());
+      reportGenerator.createAllProfilesReport(p, new AllProfilesReportCallback());
     }
   }
 
@@ -318,7 +323,7 @@ public class ReportGen implements EntryPoint {
     RootPanel.get("main").add(report);
   }
 
-  private void addProfileToRootPanel(AllProfileBySuche result) {
+  private void addProfileToRootPanel(AllProfilesBySucheReport result) {
     RootPanel.get("main").clear();
     HTMLReportWriter writer = new HTMLReportWriter();
     writer.process(result);
