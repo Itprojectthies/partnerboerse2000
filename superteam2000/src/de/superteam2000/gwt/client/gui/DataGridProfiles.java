@@ -2,7 +2,6 @@ package de.superteam2000.gwt.client.gui;
 
 import java.util.ArrayList;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -37,7 +36,7 @@ public class DataGridProfiles {
 
 
   public ArrayList<Profil> getProfilListe() {
-    return profilListe;
+    return this.profilListe;
   }
 
   public void setProfilListe(ArrayList<Profil> profilListe) {
@@ -48,7 +47,7 @@ public class DataGridProfiles {
    * @return the table
    */
   public DataGrid<Profil> getTable() {
-    return table;
+    return this.table;
   }
 
   /**
@@ -57,19 +56,20 @@ public class DataGridProfiles {
   public void setTable(DataGrid<Profil> table) {
     this.table = table;
   }
+
   DataGrid<Profil> table = new DataGrid<Profil>();
 
   public FlowPanel start() {
-    fPanel.setStyleName("content");
-    
-    table.setStyleName("pure-table pure-table-horizontal");
+    this.fPanel.setStyleName("content");
+
+    this.table.setStyleName("pure-table pure-table-horizontal");
     TextColumn<Profil> vorname = new TextColumn<Profil>() {
       @Override
       public String getValue(Profil p) {
         return p.getVorname();
       }
     };
-    table.addColumn(vorname, "Vorname");
+    this.table.addColumn(vorname, "Vorname");
 
     TextColumn<Profil> nachname = new TextColumn<Profil>() {
       @Override
@@ -77,7 +77,7 @@ public class DataGridProfiles {
         return p.getNachname();
       }
     };
-    table.addColumn(nachname, "Nachname");
+    this.table.addColumn(nachname, "Nachname");
 
     TextColumn<Profil> alter = new TextColumn<Profil>() {
       @Override
@@ -85,7 +85,7 @@ public class DataGridProfiles {
         return String.valueOf(p.getAlter());
       }
     };
-    table.addColumn(alter, "Alter");
+    this.table.addColumn(alter, "Alter");
 
     TextColumn<Profil> aehnlichkeit = new TextColumn<Profil>() {
       @Override
@@ -96,37 +96,37 @@ public class DataGridProfiles {
       }
     };
     aehnlichkeit.setCellStyleNames("test");
-    table.addColumn(aehnlichkeit, "Ähnlichkeit");
+    this.table.addColumn(aehnlichkeit, "Ähnlichkeit");
 
-    table.setRowCount(profilListe.size(), true);
-    table.setRowData(0, profilListe);
-    table.setWidth("80%");
+    this.table.setRowCount(this.profilListe.size(), true);
+    this.table.setRowData(0, this.profilListe);
+    this.table.setWidth("80%");
 
     LayoutPanel panel = new LayoutPanel();
     panel.setSize("50em", "40em");
-    panel.add(table);
+    panel.add(this.table);
     // panel.setStyleName("pure-controls");
-    fPanel.add(panel);
-    return fPanel;
+    this.fPanel.add(panel);
+    return this.fPanel;
   }
 
   public void addClickFremdProfil() {
     // Add a selection model to handle user selection.
     final SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
-    table.setSelectionModel(selectionModel);
+    this.table.setSelectionModel(selectionModel);
     selectionModel.addSelectionChangeHandler(new Handler() {
 
       @Override
       public void onSelectionChange(SelectionChangeEvent event) {
-        selected = selectionModel.getSelectedObject();
+        DataGridProfiles.this.selected = selectionModel.getSelectedObject();
         // History.newItem(selected.getNachname());
-        ClientsideSettings.getLogger().info(selected.getNachname());
-        ShowFremdProfil fp = new ShowFremdProfil(selected);
+        ClientsideSettings.getLogger().info(DataGridProfiles.this.selected.getNachname());
+        ShowFremdProfil fp = new ShowFremdProfil(DataGridProfiles.this.selected);
         RootPanel.get("main").clear();
 
         // Profil als besucht setzen
-        pbVerwaltung.setVisited(ClientsideSettings.getCurrentUser(), selected,
-            new AsyncCallback<Void>() {
+        DataGridProfiles.this.pbVerwaltung.setVisited(ClientsideSettings.getCurrentUser(),
+            DataGridProfiles.this.selected, new AsyncCallback<Void>() {
 
               @Override
               public void onSuccess(Void result) {

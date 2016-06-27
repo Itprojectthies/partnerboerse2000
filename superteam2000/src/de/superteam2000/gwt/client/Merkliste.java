@@ -12,11 +12,10 @@ import de.superteam2000.gwt.client.gui.DataGridProfiles;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Merkzettel;
 import de.superteam2000.gwt.shared.bo.Profil;
-import de.superteam2000.gwt.shared.report.ProfilReport;
 
 /**
  * Diese Klasse ist zum Anzeigen sämtlicher vom Benutzer gemerkten Profile.
- * 
+ *
  * @author Christopher
  *
  */
@@ -25,6 +24,7 @@ public class Merkliste extends BasicFrame {
   // pb Verwaltung über ClientsideSettings holen
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
   Profil profil = ClientsideSettings.getCurrentUser();
+
   @Override
   public String getHeadlineText() {
 
@@ -40,13 +40,13 @@ public class Merkliste extends BasicFrame {
   public void run() {
 
     // Merkliste abfragen und anzeigen
-    pbVerwaltung.getMerkzettelForProfil(profil, new AsyncCallback<Merkzettel>() {
+    this.pbVerwaltung.getMerkzettelForProfil(this.profil, new AsyncCallback<Merkzettel>() {
 
       @Override
       public void onSuccess(Merkzettel result) {
 
-        profile = result.getGemerkteProfile();
-        DataGridProfiles dgp = new DataGridProfiles(profile);
+        Merkliste.this.profile = result.getGemerkteProfile();
+        DataGridProfiles dgp = new DataGridProfiles(Merkliste.this.profile);
         dgp.addClickFremdProfil();
 
         RootPanel.get("main").add(dgp.start());
@@ -66,16 +66,17 @@ public class Merkliste extends BasicFrame {
   /**
    * Clickhandler für den entfernenButton ausgewähltes Element wird von der Liste entfernt (auch aus
    * db)
-   * 
+   *
    * @author Christopher
    *
    */
   public class EntfernenButtonClickhandler implements ClickHandler {
     @Override
     public void onClick(ClickEvent event) {
-      if (selected != null) {
-        ClientsideSettings.getPartnerboerseVerwaltung()
-            .deleteMerken(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
+      if (Merkliste.this.selected != null) {
+        ClientsideSettings.getPartnerboerseVerwaltung().deleteMerken(
+            ClientsideSettings.getCurrentUser(), Merkliste.this.selected,
+            new AsyncCallback<Void>() {
 
               @Override
               public void onSuccess(Void result) {
@@ -98,13 +99,14 @@ public class Merkliste extends BasicFrame {
 
     }
   }
+
   /**
    * Clickhandler der das ausgewählte Profil anzeigt, und es als besucht markiert
-   * 
+   *
    * @author Christopher
    *
    */
-  
+
 
   @Override
   protected String getSubHeadlineText() {

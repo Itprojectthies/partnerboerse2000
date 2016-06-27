@@ -5,13 +5,8 @@ import java.util.ArrayList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 import de.superteam2000.gwt.client.gui.CustomButton;
 import de.superteam2000.gwt.client.gui.Label;
@@ -26,67 +21,67 @@ import de.superteam2000.gwt.shared.bo.Profil;
 public class ShowFremdProfil extends BasicFrame {
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
   Profil profil = ClientsideSettings.getCurrentUser();
-  
+
   CustomButton merkenBtn = new CustomButton();
   CustomButton sperrenBtn = new CustomButton();
-  
+
   Profil p = null;
   FlowPanel fPanel = new FlowPanel();
   FlowPanel buttonsPanel = new FlowPanel();
-  
-  
+
+
   public ShowFremdProfil(Profil p) {
     this.p = p;
   }
 
   @Override
   protected String getHeadlineText() {
-    return "Profil von " + p.getVorname();
+    return "Profil von " + this.p.getVorname();
   }
 
   @Override
   protected String getSubHeadlineText() {
     // TODO Auto-generated method stub
-    return "Wie gefällt dir " + p.getVorname() + " " + p.getNachname() + "?";
+    return "Wie gefällt dir " + this.p.getVorname() + " " + this.p.getNachname() + "?";
   }
-  
-  
+
+
   @Override
   protected void run() {
-    buttonsPanel.setStyleName("pure-controls-group");
-    
+    this.buttonsPanel.setStyleName("pure-controls-group");
+
     HTML legend = new HTML();
-    String aenhnlickeit = "Ähnlickeitsmaß " + String.valueOf(p.getAehnlichkeit()) + "%";
-    legend.setHTML("<legend>"+ aenhnlickeit + "</legend>");
-    
-    
-    
-    merkenBtn.setStyleName("pure-button");
-    merkenBtn.setIcon("fa fa-heart-o");
-    merkenBtn.setText("Like ");
-    merkenBtn.addClickHandler(new MerkenButtonClickhandler());
-     
-  
-    
-    sperrenBtn.setStyleName("pure-button");
-    sperrenBtn.setIcon("fa fa-ban");
-    sperrenBtn.setText("Block ");
-    sperrenBtn.addClickHandler(new SperrenButtonClickhandler());
-    
-    buttonsPanel.add(merkenBtn);
-    buttonsPanel.add(sperrenBtn);
-    buttonsPanel.add(legend);
-    fPanel.add(buttonsPanel);
-    
-    
+    String aenhnlickeit = "Ähnlickeitsmaß " + String.valueOf(this.p.getAehnlichkeit()) + "%";
+    legend.setHTML("<legend>" + aenhnlickeit + "</legend>");
+
+
+
+    this.merkenBtn.setStyleName("pure-button");
+    this.merkenBtn.setIcon("fa fa-heart-o");
+    this.merkenBtn.setText("Like ");
+    this.merkenBtn.addClickHandler(new MerkenButtonClickhandler());
+
+
+
+    this.sperrenBtn.setStyleName("pure-button");
+    this.sperrenBtn.setIcon("fa fa-ban");
+    this.sperrenBtn.setText("Block ");
+    this.sperrenBtn.addClickHandler(new SperrenButtonClickhandler());
+
+    this.buttonsPanel.add(this.merkenBtn);
+    this.buttonsPanel.add(this.sperrenBtn);
+    this.buttonsPanel.add(legend);
+    this.fPanel.add(this.buttonsPanel);
+
+
     this.setStyleName("pure-form pure-form-aligned");
-    fPanel.setStyleName("pure-controls-group content"); 
-    
-    pbVerwaltung.getMerkzettelForProfil(profil, new MerkzettelCallback());
-    
-    
-    pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
-    this.add(fPanel);
+    this.fPanel.setStyleName("pure-controls-group content");
+
+    this.pbVerwaltung.getMerkzettelForProfil(this.profil, new MerkzettelCallback());
+
+
+    this.pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
+    this.add(this.fPanel);
   }
 
   public void createProfileLabels(String eigenschaft, String text) {
@@ -97,53 +92,53 @@ public class ShowFremdProfil extends BasicFrame {
     l2.setStyleName("label-rechts");
     f.add(l1);
     f.add(l2);
-    
-    fPanel.add(f);
+
+    this.fPanel.add(f);
   }
-  
-  
+
+
   private final class MerkzettelCallback implements AsyncCallback<Merkzettel> {
     private ArrayList<Profil> profile;
 
     @Override
     public void onSuccess(Merkzettel result) {
-      profile = result.getGemerkteProfile();
-      for (Profil profil : profile) {
-        if(p.equals(profil)) {
-          merkenBtn.setIcon("fa fa-heart");
-          merkenBtn.setPushed(true);
-          }
+      this.profile = result.getGemerkteProfile();
+      for (Profil profil : this.profile) {
+        if (ShowFremdProfil.this.p.equals(profil)) {
+          ShowFremdProfil.this.merkenBtn.setIcon("fa fa-heart");
+          ShowFremdProfil.this.merkenBtn.setPushed(true);
+        }
       }
-      
-     
+
+
     }
 
     @Override
     public void onFailure(Throwable caught) {
-      
+
     }
   }
 
   public class SperrenButtonClickhandler implements ClickHandler {
     @Override
     public void onClick(ClickEvent event) {
-      Notification n1 = new Notification("Profil von "+ p.getVorname() +" gesperrt", "info");
-     
-      if (p != null) {
-        ClientsideSettings.getPartnerboerseVerwaltung()
-            .createSperre(ClientsideSettings.getCurrentUser(), p, new AsyncCallback<Void>() {
+      new Notification("Profil von " + ShowFremdProfil.this.p.getVorname() + " gesperrt", "info");
+
+      if (ShowFremdProfil.this.p != null) {
+        ClientsideSettings.getPartnerboerseVerwaltung().createSperre(
+            ClientsideSettings.getCurrentUser(), ShowFremdProfil.this.p, new AsyncCallback<Void>() {
 
               @Override
               public void onSuccess(Void result) {
-                sperrenBtn.setEnabled(false);
-                merkenBtn.setIcon("fa fa-heart-o");
-                merkenBtn.setEnabled(false);
+                ShowFremdProfil.this.sperrenBtn.setEnabled(false);
+                ShowFremdProfil.this.merkenBtn.setIcon("fa fa-heart-o");
+                ShowFremdProfil.this.merkenBtn.setEnabled(false);
               }
 
               @Override
               public void onFailure(Throwable caught) {
 
-              }
+            }
             });
       }
 
@@ -153,48 +148,51 @@ public class ShowFremdProfil extends BasicFrame {
   public class MerkenButtonClickhandler implements ClickHandler {
     @Override
     public void onClick(ClickEvent event) {
-     
-      
-      if (!merkenBtn.isPushed()) {
 
-        ClientsideSettings.getPartnerboerseVerwaltung()
-            .createMerken(ClientsideSettings.getCurrentUser(), p, new AsyncCallback<Void>() {
+
+      if (!ShowFremdProfil.this.merkenBtn.isPushed()) {
+
+        ClientsideSettings.getPartnerboerseVerwaltung().createMerken(
+            ClientsideSettings.getCurrentUser(), ShowFremdProfil.this.p, new AsyncCallback<Void>() {
 
               @Override
               public void onSuccess(Void result) {
-                Notification n1 = new Notification("Profil von "+ p.getVorname() +" gemerkt", "info");
-                  merkenBtn.setIcon("fa fa-heart");
-                  merkenBtn.setPushed(true);
-          }
+                new Notification("Profil von " + ShowFremdProfil.this.p.getVorname() + " gemerkt",
+                    "info");
+                ShowFremdProfil.this.merkenBtn.setIcon("fa fa-heart");
+                ShowFremdProfil.this.merkenBtn.setPushed(true);
+              }
 
               @Override
               public void onFailure(Throwable caught) {
 
 
-          }
+            }
             });
 
       } else {
-        pbVerwaltung.deleteMerken(ClientsideSettings.getCurrentUser(), p, new AsyncCallback<Void>() {
-          
-          @Override
-          public void onSuccess(Void result) {
-            Notification n1 = new Notification("Profil von "+ p.getVorname() +" entmerkt", "info");
-            merkenBtn.setIcon("fa fa-heart-o");
-            merkenBtn.setPushed(false);
-          }
-          
-          @Override
-          public void onFailure(Throwable caught) {
-            // TODO Auto-generated method stub
-            
-          }
-        });
+        ShowFremdProfil.this.pbVerwaltung.deleteMerken(ClientsideSettings.getCurrentUser(),
+            ShowFremdProfil.this.p, new AsyncCallback<Void>() {
+
+              @Override
+              public void onSuccess(Void result) {
+                new Notification("Profil von " + ShowFremdProfil.this.p.getVorname() + " entmerkt",
+                    "info");
+                ShowFremdProfil.this.merkenBtn.setIcon("fa fa-heart-o");
+                ShowFremdProfil.this.merkenBtn.setPushed(false);
+              }
+
+              @Override
+              public void onFailure(Throwable caught) {
+                // TODO Auto-generated method stub
+
+              }
+            });
       }
 
     }
   }
-  
+
   private class GetAllAuswahlProfilAttributeCallback implements AsyncCallback<ArrayList<Auswahl>> {
 
     @Override
@@ -202,26 +200,33 @@ public class ShowFremdProfil extends BasicFrame {
       for (Auswahl a : result) {
         switch (a.getName()) {
           case "Religion":
-            createProfileLabels(a.getName(), p.getReligion());
+            ShowFremdProfil.this.createProfileLabels(a.getName(),
+                ShowFremdProfil.this.p.getReligion());
             break;
           case "Haarfarbe":
-            createProfileLabels(a.getName(), p.getHaarfarbe());
+            ShowFremdProfil.this.createProfileLabels(a.getName(),
+                ShowFremdProfil.this.p.getHaarfarbe());
             break;
           case "Geschlecht":
-            createProfileLabels(a.getName(), p.getGeschlecht());
+            ShowFremdProfil.this.createProfileLabels(a.getName(),
+                ShowFremdProfil.this.p.getGeschlecht());
             break;
           case "Raucher":
-            createProfileLabels(a.getName(), p.getRaucher());
+            ShowFremdProfil.this.createProfileLabels(a.getName(),
+                ShowFremdProfil.this.p.getRaucher());
             break;
         }
       }
-      createProfileLabels("Alter", String.valueOf(p.getAlter()) + " Jahre ");
-      createProfileLabels("Größe", String.valueOf(p.getGroesse()) + " cm");
-     
+      ShowFremdProfil.this.createProfileLabels("Alter",
+          String.valueOf(ShowFremdProfil.this.p.getAlter()) + " Jahre ");
+      ShowFremdProfil.this.createProfileLabels("Größe",
+          String.valueOf(ShowFremdProfil.this.p.getGroesse()) + " cm");
 
-      
-      pbVerwaltung.getInfoByProfile(p, new InfoCallback());
-      
+
+
+      ShowFremdProfil.this.pbVerwaltung.getInfoByProfile(ShowFremdProfil.this.p,
+          new InfoCallback());
+
     }
 
     @Override
@@ -233,78 +238,79 @@ public class ShowFremdProfil extends BasicFrame {
 
   private class InfoCallback implements AsyncCallback<ArrayList<Info>> {
 
-//    private BasicFrame b = null;
-//
-//    public InfoCallback(BasicFrame b) {
-//        this.b = b;
-//    }
+    // private BasicFrame b = null;
+    //
+    // public InfoCallback(BasicFrame b) {
+    // this.b = b;
+    // }
 
     @Override
-    public void onFailure(Throwable caught) {
-    }
+    public void onFailure(Throwable caught) {}
 
     @Override
     public void onSuccess(ArrayList<Info> result) {
-        for (Info i : result) {
-            if (i != null) {
-            // table.setText(rowCounter, 1, i.getText());
+      for (Info i : result) {
+        if (i != null) {
+          // table.setText(rowCounter, 1, i.getText());
 
-            pbVerwaltung.getAuswahlById(i.getEigenschaftId(), new GetAuswahlCallback(i));
-            pbVerwaltung.getBeschreibungById(i.getEigenschaftId(), new GetBeschreibungCallback(i));
-            
-            }
-           
+          ShowFremdProfil.this.pbVerwaltung.getAuswahlById(i.getEigenschaftId(),
+              new GetAuswahlCallback(i));
+          ShowFremdProfil.this.pbVerwaltung.getBeschreibungById(i.getEigenschaftId(),
+              new GetBeschreibungCallback(i));
+
         }
 
-        
-        
+      }
+
+
+
     }
   }
 
-    private class GetAuswahlCallback implements AsyncCallback<Auswahl> {
+  private class GetAuswahlCallback implements AsyncCallback<Auswahl> {
 
-//      private BasicFrame b = null;
-      private Info i = null;
-//      HTML html = new HTML();
+    // private BasicFrame b = null;
+    private Info i = null;
+    // HTML html = new HTML();
 
-      public GetAuswahlCallback(Info i) {
-          this.i = i;
-      }
+    public GetAuswahlCallback(Info i) {
+      this.i = i;
+    }
 
-      @Override
-      public void onFailure(Throwable caught) {
+    @Override
+    public void onFailure(Throwable caught) {
 
-      }
+    }
 
-      @Override
-      public void onSuccess(Auswahl result) {
+    @Override
+    public void onSuccess(Auswahl result) {
 
-        createProfileLabels(result.getName(), i.getText());
-      }
+      ShowFremdProfil.this.createProfileLabels(result.getName(), this.i.getText());
+    }
 
-      }
+  }
 
-      private class GetBeschreibungCallback implements AsyncCallback<Beschreibung> {
+  private class GetBeschreibungCallback implements AsyncCallback<Beschreibung> {
 
-//      private BasicFrame b = null;
-      private Info i = null;
-//      HTML html = new HTML();
+    // private BasicFrame b = null;
+    private Info i = null;
+    // HTML html = new HTML();
 
-      public GetBeschreibungCallback(Info i) {
-//          this.b = b;
-          this.i = i;
-      }
+    public GetBeschreibungCallback(Info i) {
+      // this.b = b;
+      this.i = i;
+    }
 
-      @Override
-      public void onFailure(Throwable caught) {
+    @Override
+    public void onFailure(Throwable caught) {
 
-      }
+    }
 
-      @Override
-      public void onSuccess(Beschreibung result) {
-        createProfileLabels(result.getName(), i.getText());
-      }
+    @Override
+    public void onSuccess(Beschreibung result) {
+      ShowFremdProfil.this.createProfileLabels(result.getName(), this.i.getText());
+    }
 
-      }
-  
+  }
+
 }

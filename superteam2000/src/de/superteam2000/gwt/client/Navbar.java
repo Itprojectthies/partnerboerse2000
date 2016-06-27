@@ -20,15 +20,16 @@ import de.superteam2000.gwt.shared.bo.Profil;
 
 public class Navbar extends VerticalPanel {
 
-  
+
   Profil profil = ClientsideSettings.getCurrentUser();
 
 
+  @Override
   protected void onLoad() {
     RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#191818");
-    
-    if (profil != null && profil.isLoggedIn()) {
-      
+
+    if ((this.profil != null) && this.profil.isLoggedIn()) {
+
       FlowPanel menu = new FlowPanel();
       UnorderedListWidget menuList = new UnorderedListWidget();
       FlowPanel pureMenu = new FlowPanel();
@@ -47,15 +48,15 @@ public class Navbar extends VerticalPanel {
       Anchor eigenschaftenBtn = new Anchor("Eigenschaften");
       Anchor dataGridBtn = new Anchor("Alle Profile");
       Anchor reportButton = new Anchor("Report");
-//      Anchor edit = new Anchor("edit");
-//      edit.setStyleName("pure-menu-link");
+      // Anchor edit = new Anchor("edit");
+      // edit.setStyleName("pure-menu-link");
 
       FlowPanel test = new FlowPanel(DivElement.TAG);
       menuList.add(test);
-      
+
       profilBtn.setStyleName("pure-menu-link");
       menuList.add(new ListItemWidget(profilBtn));
-      
+
       eigenschaftenBtn.setStyleName("pure-menu-link");
       menuList.add(new ListItemWidget(eigenschaftenBtn));
 
@@ -64,48 +65,48 @@ public class Navbar extends VerticalPanel {
 
       sperrlisteBtn.setStyleName("pure-menu-link");
       menuList.add(new ListItemWidget(sperrlisteBtn));
-      
+
       suchprofilBtn.setStyleName("pure-menu-link");
       menuList.add(new ListItemWidget(suchprofilBtn));
-      
+
       dataGridBtn.setStyleName("pure-menu-link");
       menuList.add(new ListItemWidget(dataGridBtn));
-      
+
       reportButton.setStyleName("pure-menu-link");
       menuList.add(new ListItemWidget(reportButton));
-      
+
       logoutBtn.setStyleName("pure-menu-link");
       menuList.add(new ListItemWidget(logoutBtn));
 
-//      Label profilLabel = new Label();
+      // Label profilLabel = new Label();
       profilBtn.setText("Profil");
       profilBtn.setFor("accordion-button");
       profilBtn.setStyleName("pure-menu-link accordion-label");
-      
-//      final SimpleCheckBox profilCheck = new SimpleCheckBox();
-//      profilCheck.setStyleName("accordion-button");
-//      profilCheck.getElement().setAttribute("id", "accordion-button");
-      
-//      edit.getElement().setAttribute("id", "1");
-      
+
+      // final SimpleCheckBox profilCheck = new SimpleCheckBox();
+      // profilCheck.setStyleName("accordion-button");
+      // profilCheck.getElement().setAttribute("id", "accordion-button");
+
+      // edit.getElement().setAttribute("id", "1");
+
       FlowPanel contentDiv = new FlowPanel(DivElement.TAG);
       contentDiv.setStyleName("subLink");
-    
+
       test.setStyleName("pure-menu-item");
-      
+
       test.add(profilBtn);
-//      test.add(profilCheck);
-      
-//      contentDiv.add(edit);
-      
+      // test.add(profilCheck);
+
+      // contentDiv.add(edit);
+
       test.add(contentDiv);
-      
-      
+
+
       pureMenu.add(anchor);
       pureMenu.add(menuList);
       menu.add(pureMenu);
-      
-      
+
+
       RootPanel.get("menu").add(menu);
 
 
@@ -113,7 +114,7 @@ public class Navbar extends VerticalPanel {
 
         @Override
         public void onClick(ClickEvent event) {
-          Window.open(profil.getLogoutUrl(), "_self", "");
+          Window.open(Navbar.this.profil.getLogoutUrl(), "_self", "");
         }
       });
 
@@ -184,8 +185,8 @@ public class Navbar extends VerticalPanel {
 
         @Override
         public void onClick(ClickEvent event) {
-          ClientsideSettings.getPartnerboerseVerwaltung().getProfilesByAehnlichkeitsmass(profil,
-              new AsyncCallback<ArrayList<Profil>>() {
+          ClientsideSettings.getPartnerboerseVerwaltung().getProfilesByAehnlichkeitsmass(
+              Navbar.this.profil, new AsyncCallback<ArrayList<Profil>>() {
 
                 @Override
                 public void onSuccess(ArrayList<Profil> result) {

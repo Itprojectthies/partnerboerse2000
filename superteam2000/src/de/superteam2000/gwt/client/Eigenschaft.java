@@ -26,25 +26,25 @@ public class Eigenschaft extends BasicFrame {
   protected String getHeadlineText() {
     return "Eigenschaften";
   }
-  
+
   @Override
   protected String getSubHeadlineText() {
     return "Was passt zu Dir?";
   }
-  
+
 
   @Override
   protected void run() {
-    fPanel.setStyleName("pure-form pure-form-aligned");
-    fPanel2.setStyleName("content");
+    this.fPanel.setStyleName("pure-form pure-form-aligned");
+    this.fPanel2.setStyleName("content");
 
-    fPanel2.add(fPanel);
-    RootPanel.get("main").add(fPanel2);
-    pbVerwaltung.getInfoByProfile(profil, new AsyncCallback<ArrayList<Info>>() {
+    this.fPanel2.add(this.fPanel);
+    RootPanel.get("main").add(this.fPanel2);
+    this.pbVerwaltung.getInfoByProfile(this.profil, new AsyncCallback<ArrayList<Info>>() {
 
       @Override
       public void onSuccess(ArrayList<Info> result) {
-        infoListe = result;
+        Eigenschaft.this.infoListe = result;
 
       }
 
@@ -55,7 +55,7 @@ public class Eigenschaft extends BasicFrame {
       }
     });
 
-    pbVerwaltung.getAllAuswahl(new AuswahlCallback());
+    this.pbVerwaltung.getAllAuswahl(new AuswahlCallback());
 
 
   }
@@ -70,12 +70,12 @@ public class Eigenschaft extends BasicFrame {
       if (result != null) {
         for (Auswahl a : result) {
           // Befülle die Zeilen der Tabelle mit Auswahlobjektinformationen und der Checkbox
-          EigenschaftPanel ePanel = new EigenschaftPanel(a, false, infoListe);
-          fPanel.add(ePanel);
+          EigenschaftPanel ePanel = new EigenschaftPanel(a, false, Eigenschaft.this.infoListe);
+          Eigenschaft.this.fPanel.add(ePanel);
 
 
         }
-        pbVerwaltung.getAllBeschreibung(new BeschreibungCallback());
+        Eigenschaft.this.pbVerwaltung.getAllBeschreibung(new BeschreibungCallback());
       } else {
         ClientsideSettings.getLogger().info("result == null");
       }
@@ -96,8 +96,8 @@ public class Eigenschaft extends BasicFrame {
     public void onSuccess(ArrayList<Beschreibung> result) {
       if (result != null) {
         for (Beschreibung b : result) {
-          EigenschaftPanel ePanel = new EigenschaftPanel(b, false, infoListe);
-          fPanel.add(ePanel);
+          EigenschaftPanel ePanel = new EigenschaftPanel(b, false, Eigenschaft.this.infoListe);
+          Eigenschaft.this.fPanel.add(ePanel);
         }
 
       } else {
@@ -106,7 +106,7 @@ public class Eigenschaft extends BasicFrame {
     }
   }
 
- 
+
 }
 
 

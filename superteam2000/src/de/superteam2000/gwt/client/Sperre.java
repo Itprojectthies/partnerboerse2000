@@ -4,18 +4,11 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.cellview.client.DataGrid;
-import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
-import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
-import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.superteam2000.gwt.client.gui.CustomButton;
@@ -38,7 +31,7 @@ public class Sperre extends BasicFrame {
     // TODO Auto-generated method stub
     return "Hier findest du deine gesperrten Profile";
   }
-  
+
   CustomButton profilEntfernenButton = new CustomButton("Entfernen ");
   ArrayList<Profil> profile = new ArrayList<>();
 
@@ -54,53 +47,53 @@ public class Sperre extends BasicFrame {
 
   @Override
   public void run() {
-    
-    profilEntfernenButton.setEnabled(false);
-    profilEntfernenButton.setIcon("fa fa-times");
-    profilEntfernenButton.setStyleName("pure-button");
+
+    this.profilEntfernenButton.setEnabled(false);
+    this.profilEntfernenButton.setIcon("fa fa-times");
+    this.profilEntfernenButton.setStyleName("pure-button");
 
 
     FlowPanel fPanel = new FlowPanel();
 
     fPanel.setStyleName("pure-form pure-form-aligned content");
-     fPanel2.setStyleName("content");
+    this.fPanel2.setStyleName("content");
 
 
-    fPanel.add(profilEntfernenButton);
-    fPanel2.add(fPanel);
+    fPanel.add(this.profilEntfernenButton);
+    this.fPanel2.add(fPanel);
 
-    profilEntfernenButton.addClickHandler(new EntfernenButtonClickhandler());
+    this.profilEntfernenButton.addClickHandler(new EntfernenButtonClickhandler());
 
-    selectionModel.addSelectionChangeHandler(new Handler() {
+    this.selectionModel.addSelectionChangeHandler(new Handler() {
       @Override
       public void onSelectionChange(SelectionChangeEvent event) {
-        profilEntfernenButton.setEnabled(true);
+        Sperre.this.profilEntfernenButton.setEnabled(true);
         // ausgewähltes Profil setzen
-        selected = selectionModel.getSelectedObject();
+        Sperre.this.selected = Sperre.this.selectionModel.getSelectedObject();
       }
     });
 
     // Hole alle gesperrte Kontakte, um damit die Tabelle zu füllen und um diese anzuzeigen
-    pbVerwaltung.getKontaktsperreForProfil(profil, new AsyncCallback<Kontaktsperre>() {
+    this.pbVerwaltung.getKontaktsperreForProfil(this.profil, new AsyncCallback<Kontaktsperre>() {
 
-          @Override
-          public void onSuccess(Kontaktsperre result) {
+      @Override
+      public void onSuccess(Kontaktsperre result) {
 
-            profile = result.getGesperrteProfile();
-            DataGridProfiles dgp = new DataGridProfiles(profile);
+        Sperre.this.profile = result.getGesperrteProfile();
+        DataGridProfiles dgp = new DataGridProfiles(Sperre.this.profile);
 
-            fPanel2.add(dgp.start());
-            RootPanel.get("main").add(fPanel2);
+        Sperre.this.fPanel2.add(dgp.start());
+        RootPanel.get("main").add(Sperre.this.fPanel2);
 
-            dgp.getTable().setSelectionModel(selectionModel);
-          }
+        dgp.getTable().setSelectionModel(Sperre.this.selectionModel);
+      }
 
-          @Override
-          public void onFailure(Throwable caught) {
-            ClientsideSettings.getLogger().info("Fehler !!");
+      @Override
+      public void onFailure(Throwable caught) {
+        ClientsideSettings.getLogger().info("Fehler !!");
 
-          }
-        });
+      }
+    });
 
 
 
@@ -109,7 +102,7 @@ public class Sperre extends BasicFrame {
   /**
    * Clickhandler für den entfernenButton ausgewähltes Element wird von der Liste entfernt (auch aus
    * db)
-   * 
+   *
    * @author Christopher
    *
    */
@@ -117,15 +110,15 @@ public class Sperre extends BasicFrame {
 
     @Override
     public void onClick(ClickEvent event) {
-     
-      if (selected != null) {
-        ClientsideSettings.getPartnerboerseVerwaltung()
-            .deleteSperre(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
+
+      if (Sperre.this.selected != null) {
+        ClientsideSettings.getPartnerboerseVerwaltung().deleteSperre(
+            ClientsideSettings.getCurrentUser(), Sperre.this.selected, new AsyncCallback<Void>() {
 
               @Override
               public void onSuccess(Void result) {
-                Notification n1 =
-                    new Notification("Sperre für " + selected.getVorname() + " entfernt", "info");
+                new Notification("Sperre für " + Sperre.this.selected.getVorname() + " entfernt",
+                    "info");
                 RootPanel.get("main").clear();
                 Sperre s = new Sperre();
                 RootPanel.get("main").add(s);

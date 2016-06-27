@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -29,7 +28,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
  * Formular für die Darstellung des selektierten Kunden
- * 
+ *
  * @author Rathke, Volz
  */
 public class ShowProfil extends BasicFrame {
@@ -44,7 +43,7 @@ public class ShowProfil extends BasicFrame {
   ProfilAttributListbox groesse = null;
   FlowPanel fPanel = new FlowPanel();
   FlowPanel fPanel2 = new FlowPanel();
-  
+
   CustomButton saveButton = new CustomButton();
   CustomButton editButton = new CustomButton();
   CustomButton deleteBtn = new CustomButton();
@@ -56,63 +55,64 @@ public class ShowProfil extends BasicFrame {
 
   @Override
   public String getHeadlineText() {
-    return "Hallo " + currentProfil.getVorname() +"!";
+    return "Hallo " + this.currentProfil.getVorname() + "!";
   }
-  
+
   @Override
   protected String getSubHeadlineText() {
     return "Hier kannst du deine Profileinstellungen bearbeiten";
   }
-  
+
   @Override
   public void run() {
-    fPanel.setStyleName("pure-form pure-form-aligned");
-    fPanel2.setStyleName("content");
-    buttonsPanel.setStyleName("pure-controls-group");
+    this.fPanel.setStyleName("pure-form pure-form-aligned");
+    this.fPanel2.setStyleName("content");
+    this.buttonsPanel.setStyleName("pure-controls-group");
 
     HTML legend = new HTML();
-//    String aenhnlickeit = "";
+    // String aenhnlickeit = "";
     legend.setHTML("<legend></legend>");
-    
-    
-    
-    editButton.setIcon("fa fa-pencil");
-    editButton.addClickHandler(new EditButtonClickHandler());
-    
-    saveButton.setIcon("fa fa-floppy-o");
-    saveButton.addClickHandler(new SaveButtonClickHandler());
-    saveButton.setEnabled(false);
 
-    
-    deleteBtn.setIcon("fa fa-trash"); 
-    deleteBtn.addClickHandler(new DeleteClickHandler());
-    
-    buttonsPanel.add(deleteBtn);
-    buttonsPanel.add(editButton);
-    buttonsPanel.add(saveButton);
-    buttonsPanel.add(legend);
-    
-    fPanel.add(buttonsPanel);
 
-    gebTag = new ProfilAttributListbox();
-    gebTag.createGebtaListobx("Geburtstag");
-    gebTag.setGebtag(currentProfil.getGeburtsdatum());
-    
-    groesse = new ProfilAttributListbox();
-    groesse.createGroesseListBox("Körpergröße");
-    groesse.setGroesse(currentProfil.getGroesse());
+
+    this.editButton.setIcon("fa fa-pencil");
+    this.editButton.addClickHandler(new EditButtonClickHandler());
+
+    this.saveButton.setIcon("fa fa-floppy-o");
+    this.saveButton.addClickHandler(new SaveButtonClickHandler());
+    this.saveButton.setEnabled(false);
+
+
+    this.deleteBtn.setIcon("fa fa-trash");
+    this.deleteBtn.addClickHandler(new DeleteClickHandler());
+
+    this.buttonsPanel.add(this.deleteBtn);
+    this.buttonsPanel.add(this.editButton);
+    this.buttonsPanel.add(this.saveButton);
+    this.buttonsPanel.add(legend);
+
+    this.fPanel.add(this.buttonsPanel);
+
+    this.gebTag = new ProfilAttributListbox();
+    this.gebTag.createGebtaListobx("Geburtstag");
+    this.gebTag.setGebtag(this.currentProfil.getGeburtsdatum());
+
+    this.groesse = new ProfilAttributListbox();
+    this.groesse.createGroesseListBox("Körpergröße");
+    this.groesse.setGroesse(this.currentProfil.getGroesse());
 
     // Profilbeschreibungsattribute (Vorname, Nachname) werden vom Server
     // abgefragt, damit sie als Textboxen
     // dargestellt werden können
 
-    pbVerwaltung.getAllBeschreibungProfilAttribute(new GetAllBeschreibungProfilAttributeCallback());
-    pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
+    this.pbVerwaltung
+        .getAllBeschreibungProfilAttribute(new GetAllBeschreibungProfilAttributeCallback());
+    this.pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
 
-    
 
-    fPanel2.add(fPanel);
-    RootPanel.get("main").add(fPanel2);
+
+    this.fPanel2.add(this.fPanel);
+    RootPanel.get("main").add(this.fPanel2);
 
   }
 
@@ -123,10 +123,10 @@ public class ShowProfil extends BasicFrame {
     @Override
     public void onClick(ClickEvent event) {
       // Save Button klickbar machen
-      saveButton.setEnabled(true);
-      editButton.setEnabled(false);
-      deleteBtn.setEnabled(false);
-      for (Widget child : fPanel) {
+      ShowProfil.this.saveButton.setEnabled(true);
+      ShowProfil.this.editButton.setEnabled(false);
+      ShowProfil.this.deleteBtn.setEnabled(false);
+      for (Widget child : ShowProfil.this.fPanel) {
         FlowPanel childPanel = (FlowPanel) child;
         for (Widget box : childPanel) {
           if (box instanceof EigenschaftListBox) {
@@ -145,11 +145,12 @@ public class ShowProfil extends BasicFrame {
 
   private class SaveButtonClickHandler implements ClickHandler {
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onClick(ClickEvent event) {
-      editButton.setEnabled(true);
-      deleteBtn.setEnabled(true);
-      
+      ShowProfil.this.editButton.setEnabled(true);
+      ShowProfil.this.deleteBtn.setEnabled(true);
+
       Profil p = new Profil();
 
       int geburtsTag = 1;
@@ -159,7 +160,7 @@ public class ShowProfil extends BasicFrame {
       // Schleifen zum Auslesen der Listboxen, welche in 2 Panels
       // verschachtelt sind
 
-      for (Widget child : fPanel) {
+      for (Widget child : ShowProfil.this.fPanel) {
         FlowPanel childPanel = (FlowPanel) child;
         for (Widget box : childPanel) {
           if (box instanceof EigenschaftListBox) {
@@ -219,14 +220,14 @@ public class ShowProfil extends BasicFrame {
           .parse(geburtsJahr + "-" + geburtsMonat + "-" + geburtsTag);
       gebTagDate.setHours(20);
       java.sql.Date gebTagMySqlDate = new java.sql.Date(gebTagDate.getTime());
-      
+
       p.setGeburtsdatum(gebTagMySqlDate);
-      p.setEmail(currentProfil.getEmail());
-      p.setId(currentProfil.getId());
+      p.setEmail(ShowProfil.this.currentProfil.getEmail());
+      p.setId(ShowProfil.this.currentProfil.getId());
 
       ClientsideSettings.setCurrentUser(p);
 
-      pbVerwaltung.save(p, new SaveProfilCallBack());
+      ShowProfil.this.pbVerwaltung.save(p, new SaveProfilCallBack());
 
     }
   }
@@ -238,23 +239,24 @@ public class ShowProfil extends BasicFrame {
     public void onClick(ClickEvent event) {
 
       if (Window.confirm("Möchtest du dein Profil wirklich löschen?")) {
-        pbVerwaltung.delete(currentProfil, new AsyncCallback<Void>() {
+        ShowProfil.this.pbVerwaltung.delete(ShowProfil.this.currentProfil,
+            new AsyncCallback<Void>() {
 
-          @Override
-          public void onSuccess(Void result) {
-            logger.severe("Profil gelöscht");
+              @Override
+              public void onSuccess(Void result) {
+                ShowProfil.this.logger.severe("Profil gelöscht");
 
-            VerticalPanel detailsPanel = new VerticalPanel();
-            RootPanel.get("main").clear();
-            detailsPanel.add(new HTML("Profil erflogreich gelöscht"));
-            RootPanel.get("main").add(detailsPanel);
-          }
+                VerticalPanel detailsPanel = new VerticalPanel();
+                RootPanel.get("main").clear();
+                detailsPanel.add(new HTML("Profil erflogreich gelöscht"));
+                RootPanel.get("main").add(detailsPanel);
+              }
 
-          @Override
-          public void onFailure(Throwable caught) {
-            logger.severe("Fehler beim löschen des Profils");
-          }
-        });
+              @Override
+              public void onFailure(Throwable caught) {
+                ShowProfil.this.logger.severe("Fehler beim löschen des Profils");
+              }
+            });
       }
     }
   }
@@ -263,8 +265,8 @@ public class ShowProfil extends BasicFrame {
 
     @Override
     public void onSuccess(Void result) {
-      Notification n1 = new Notification("Profiländerung gespeichert", "success");
-      logger.severe("Ändern der Profildaten hat funktioniert");
+      new Notification("Profiländerung gespeichert", "success");
+      ShowProfil.this.logger.severe("Ändern der Profildaten hat funktioniert");
 
       ShowProfil sp = new ShowProfil();
 
@@ -274,45 +276,45 @@ public class ShowProfil extends BasicFrame {
 
     @Override
     public void onFailure(Throwable caught) {
-      logger.severe("Ändern der Profildaten hat nicht funktioniert");
+      ShowProfil.this.logger.severe("Ändern der Profildaten hat nicht funktioniert");
     }
 
   }
 
   private class GetAllAuswahlProfilAttributeCallback implements AsyncCallback<ArrayList<Auswahl>> {
-    
+
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
       for (Auswahl a : result) {
         String boxPanelValue = "";
         switch (a.getName()) {
           case "Religion":
-            boxPanelValue = currentProfil.getReligion();
+            boxPanelValue = ShowProfil.this.currentProfil.getReligion();
             break;
           case "Haarfarbe":
-            boxPanelValue = currentProfil.getHaarfarbe();
+            boxPanelValue = ShowProfil.this.currentProfil.getHaarfarbe();
             break;
           case "Geschlecht":
-            boxPanelValue = currentProfil.getGeschlecht();
+            boxPanelValue = ShowProfil.this.currentProfil.getGeschlecht();
             break;
           case "Raucher":
-            boxPanelValue = currentProfil.getRaucher();
+            boxPanelValue = ShowProfil.this.currentProfil.getRaucher();
             break;
           default:
             continue;
         }
-        
-        clb = new BoxPanel(a, boxPanelValue, true);
-        clb.setEnable(false);
-        clb.setStyleName("pure-control-group");
-        fPanel.add(clb);
+
+        ShowProfil.this.clb = new BoxPanel(a, boxPanelValue, true);
+        ShowProfil.this.clb.setEnable(false);
+        ShowProfil.this.clb.setStyleName("pure-control-group");
+        ShowProfil.this.fPanel.add(ShowProfil.this.clb);
       }
 
       // Körpergröße und Geburtstags Listboxen werden nach den
       // AuswahlProfilAttributen zum Panel hinzugefügt
-      fPanel.add(groesse);
-      fPanel.add(gebTag);
-      
+      ShowProfil.this.fPanel.add(ShowProfil.this.groesse);
+      ShowProfil.this.fPanel.add(ShowProfil.this.gebTag);
+
     }
 
     @Override
@@ -331,31 +333,33 @@ public class ShowProfil extends BasicFrame {
         // Für die Beschreibung Vorname und Nachname wird eine
         // Textbox erstellt und mit den Werten des aktuellen Nutzers
         // befüllt
-        
+
         switch (b.getName()) {
           case "Vorname":
-            clb = new BoxPanel(b, currentProfil.getVorname(), true);
-            clb.setEnable(false);
-            clb.setStyleName("pure-control-group");
-            fPanel.add(clb);
+            ShowProfil.this.clb = new BoxPanel(b, ShowProfil.this.currentProfil.getVorname(), true);
+            ShowProfil.this.clb.setEnable(false);
+            ShowProfil.this.clb.setStyleName("pure-control-group");
+            ShowProfil.this.fPanel.add(ShowProfil.this.clb);
             break;
           case "Nachname":
-            clb = new BoxPanel(b, currentProfil.getNachname(), true);
-            clb.setEnable(false);
-            clb.setStyleName("pure-control-group");
-            fPanel.add(clb);
+            ShowProfil.this.clb =
+                new BoxPanel(b, ShowProfil.this.currentProfil.getNachname(), true);
+            ShowProfil.this.clb.setEnable(false);
+            ShowProfil.this.clb.setStyleName("pure-control-group");
+            ShowProfil.this.fPanel.add(ShowProfil.this.clb);
             break;
-          
+
         }
       }
     }
 
     @Override
     public void onFailure(Throwable caught) {
-      logger.severe("Erstellen der Beschreibungstextboxen (z.B. Vorname) fehlgeschlagen!");
+      ShowProfil.this.logger
+          .severe("Erstellen der Beschreibungstextboxen (z.B. Vorname) fehlgeschlagen!");
     }
   }
 
-  
+
 
 }

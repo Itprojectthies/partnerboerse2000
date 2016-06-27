@@ -11,7 +11,7 @@ import de.superteam2000.gwt.client.ClientsideSettings;
  * Ein <code>ReportWriter</code>, der Reports mittels HTML formatiert. Das im Zielformat vorliegende
  * Ergebnis wird in der Variable <code>reportText</code> abgelegt und kann nach Aufruf der
  * entsprechenden Prozessierungsmethode mit <code>getReportText()</code> ausgelesen werden.
- * 
+ *
  * @author Thies
  */
 public class HTMLReportWriter extends ReportWriter {
@@ -31,7 +31,7 @@ public class HTMLReportWriter extends ReportWriter {
 
   /**
    * Umwandeln eines <code>Paragraph</code>-Objekts in HTML.
-   * 
+   *
    * @param p der Paragraph
    * @return HTML-Text
    */
@@ -45,7 +45,7 @@ public class HTMLReportWriter extends ReportWriter {
 
   /**
    * Umwandeln eines <code>CompositeParagraph</code>-Objekts in HTML.
-   * 
+   *
    * @param p der CompositeParagraph
    * @return HTML-Text
    */
@@ -61,7 +61,7 @@ public class HTMLReportWriter extends ReportWriter {
 
   /**
    * Umwandeln eines <code>SimpleParagraph</code>-Objekts in HTML.
-   * 
+   *
    * @param p der SimpleParagraph
    * @return HTML-Text
    */
@@ -71,7 +71,7 @@ public class HTMLReportWriter extends ReportWriter {
 
   /**
    * HTML-Header-Text produzieren.
-   * 
+   *
    * @return HTML-Text
    */
   public String getHeader() {
@@ -83,7 +83,7 @@ public class HTMLReportWriter extends ReportWriter {
 
   /**
    * HTML-Trailer-Text produzieren.
-   * 
+   *
    * @return HTML-Text
    */
   public String getTrailer() {
@@ -93,7 +93,7 @@ public class HTMLReportWriter extends ReportWriter {
   /**
    * Prozessieren des übergebenen Reports und Ablage im Zielformat. Ein Auslesen des Ergebnisses
    * kann später mittels <code>getReportText()</code> erfolgen.
-   * 
+   *
    * @param r der zu prozessierende Report
    */
   @Override
@@ -113,7 +113,7 @@ public class HTMLReportWriter extends ReportWriter {
     HTML titel = new HTML("<h1>" + r.getTitle() + "</h1>");
     titel.setStyleName("header");
     RootPanel.get("main").add(titel);
-    
+
     /*
      * Da AllAccountsOfAllCustomersReport ein CompositeReport ist, enth�lt r eine Menge von
      * Teil-Reports des Typs AllAccountsOfCustomerReport. F�r jeden dieser Teil-Reports rufen wir
@@ -150,7 +150,7 @@ public class HTMLReportWriter extends ReportWriter {
   /**
    * Prozessieren des übergebenen Reports und Ablage im Zielformat. Ein Auslesen des Ergebnisses
    * kann später mittels <code>getReportText()</code> erfolgen.
-   * 
+   *
    * @param r der zu prozessierende Report
    */
   @Override
@@ -208,7 +208,7 @@ public class HTMLReportWriter extends ReportWriter {
 
   /**
    * Auslesen des Ergebnisses der zuletzt aufgerufenen Prozessierungsmethode.
-   * 
+   *
    * @return ein String im HTML-Format
    */
   public String getReportText() {
@@ -228,21 +228,21 @@ public class HTMLReportWriter extends ReportWriter {
      * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports ausgelesen und in
      * HTML-Form übersetzt.
      */
-   
+
     result.append("<div class=\"container\">");
     result.append("<div class=\"avatar-flip\">");
     result.append("<img src=\"http://lorempixel.com/200/200/cats/\" height=\"150\" width=\"150\">");
     result.append("<img src=\"http://lorempixel.com/200/200/cats/\" height=\"150\" width=\"150\">");
     result.append("</div>");
     result.append("<h4> Ähnlichkeit " + r.getAehnlichkeit() + "%</h4>");
-    
+
     result.append("<h2>" + r.getName() + "</h2>");
     result.append("<div class=\"profil-attribute\">");
     result.append("<p>" + r.getProfilAttributeBez().toString() + "</p>");
     result.append("<p>" + r.getProfilAttribute().toString() + "</p>");
     result.append("</div>");
-    
-//    result.append(this.paragraph2HTML(r.getProfilAttribute()));
+
+    // result.append(this.paragraph2HTML(r.getProfilAttribute()));
     result.append("<h3>Interessen</h3>");
 
 
@@ -256,11 +256,11 @@ public class HTMLReportWriter extends ReportWriter {
       Row row = rows.elementAt(i);
       result.append("<div>");
       for (int k = 0; k < row.getNumColumns(); k++) {
-        
+
         result.append("<p>");
         result.append(" " + row.getColumnAt(k));
         result.append("</p>");
-       
+
       }
       result.append("</div>");
     }
@@ -275,7 +275,7 @@ public class HTMLReportWriter extends ReportWriter {
     this.reportText = result.toString();
 
   }
- 
+
 
   @Override
   public void process(AllProfilesReport r) {
@@ -352,12 +352,12 @@ public class HTMLReportWriter extends ReportWriter {
     HTML titel = new HTML("<h1>" + r.getTitle() + "</h1>");
     titel.setStyleName("header");
     RootPanel.get("main").add(titel);
-    
+
     HTML subTitel = new HTML("<h2>" + r.getSubTitle() + "</h2>");
     subTitel.setStyleName("header");
     RootPanel.get("main").add(subTitel);
-    
-    
+
+
     for (int i = 0; i < r.getNumSubReports(); i++) {
       /*
        * AllAccountsOfCustomerReport wird als Typ der SubReports vorausgesetzt. Sollte dies in einer

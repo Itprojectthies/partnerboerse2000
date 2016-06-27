@@ -20,7 +20,9 @@ import de.superteam2000.gwt.server.db.KontaktsperreMapper;
 import de.superteam2000.gwt.server.db.MerkzettelMapper;
 import de.superteam2000.gwt.server.db.ProfilMapper;
 import de.superteam2000.gwt.server.db.SuchprofilMapper;
+import de.superteam2000.gwt.server.report.ReportGeneratorImpl;
 import de.superteam2000.gwt.shared.PartnerboerseAdministration;
+import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
 import de.superteam2000.gwt.shared.bo.Info;
@@ -39,7 +41,7 @@ import de.superteam2000.gwt.shared.bo.Suchprofil;
  * durchgeführt, die das System von einem konsistenten Zustand in einen anderen, auch wieder
  * konsistenten Zustand überführen. Wenn dies zwischenzeitig scheitern sollte, dann ist das
  * jeweilige Transaction Script dafür verwantwortlich, eine Fehlerbehandlung durchzuführen.
- * 
+ *
  * Diese Klasse steht mit einer Reihe weiterer Datentypen in Verbindung. Dies sind:
  * {@link PartnerboerseAdministration}: Dies ist das lokale - also Server-seitige - Interface, das
  * die im System zur Verfügung gestellten Funktionen deklariert.
@@ -54,7 +56,7 @@ import de.superteam2000.gwt.shared.bo.Suchprofil;
  * instantiierbare und Client-seitig über GWT RPC nutzbare Klasse muss die Klasse
  * RemoteServiceServlet implementieren. Sie legt die funktionale Basis für die Anbindung von
  * PartnerboerseAdministrationImpl an die Runtime des GWT RPC-Mechanismus.
- * 
+ *
  * @see PartnerboerseAdministration
  * @see PartnerboerseAdministrationAsync
  * @see RemoteServiceServlet
@@ -82,8 +84,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
    * nach derzeitigem Stand nicht möglich. Es bietet sich also an, eine separate Instanzenmethode zu
    * erstellen, die Client-seitig direkt nach GWT.create(Klassenname.class) aufgerufen wird, um eine
    * Initialisierung der Instanz vorzunehmen.
-   * 
-   * 
+   *
+   *
    * @see #init()
    */
 
@@ -94,7 +96,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
    * Initialsierungsmethode. Siehe dazu Anmerkungen zum No-Argument-Konstruktor
    * {@link #ReportGeneratorImpl()}. Diese Methode muss für jede Instanz von
    * PartnerboerseAdministrationImpl aufgerufen werden.
-   * 
+   *
    * @see #ReportGeneratorImpl()
    */
 
@@ -262,9 +264,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     return this.pMapper.findByEmail(email);
 
   }
-  
+
   /**
-   * Auslesen eines Profils anhand des Suchprofils    
+   * Auslesen eines Profils anhand des Suchprofils
    */
 
   @Override
@@ -295,22 +297,23 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       // (suchprofilInfoListe) des
       // Suchprofils vergleichen wird
 
-      ArrayList<Info> profilInfoListe = getInfoByProfile(p);
+      ArrayList<Info> profilInfoListe = this.getInfoByProfile(p);
       // Abfragen nach welchen Prfoilattributen gesucht wird
       if ((sp.getHaarfarbe().equals("Keine Angabe") || p.getHaarfarbe().equals(sp.getHaarfarbe()))
           && (sp.getRaucher().equals("Keine Angabe") || p.getRaucher().equals(sp.getRaucher()))
           && (sp.getReligion().equals("Keine Angabe") || p.getReligion().equals(sp.getReligion()))
           && (sp.getGeschlecht().equals("Keine Angabe")
               || p.getGeschlecht().equals(sp.getGeschlecht()))
-          && (suchprofilInfoListe.size() == 0 || compare(suchprofilInfoListe, profilInfoListe))) {
+          && ((suchprofilInfoListe.size() == 0)
+              || this.compare(suchprofilInfoListe, profilInfoListe))) {
 
         // abfragen on nach Größe oder Alter gesucht wird
-        if ((sp.getGroesse_min() != 0 && sp.getGroesse_max() != 0)
-            || (sp.getAlter_min() != 0 && sp.getAlter_max() != 0)) {
+        if (((sp.getGroesse_min() != 0) && (sp.getGroesse_max() != 0))
+            || ((sp.getAlter_min() != 0) && (sp.getAlter_max() != 0))) {
 
           // abfragen on nach Größe und Alter gesucht wird
-          if ((sp.getGroesse_min() != 0 && sp.getGroesse_max() != 0)
-              && (sp.getAlter_min() != 0 && sp.getAlter_max() != 0)) {
+          if (((sp.getGroesse_min() != 0) && (sp.getGroesse_max() != 0))
+              && ((sp.getAlter_min() != 0) && (sp.getAlter_max() != 0))) {
 
             // gehe den angegeben Größebereich durch und adde das
             // Profil, wenn es im Bereich liegt
@@ -326,8 +329,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
             }
           }
           // Abfragen on nur nach Größe gesucht wird
-          if ((sp.getGroesse_min() != 0 && sp.getGroesse_max() != 0)
-              && (sp.getAlter_min() == 0 && sp.getAlter_max() == 0)) {
+          if (((sp.getGroesse_min() != 0) && (sp.getGroesse_max() != 0))
+              && ((sp.getAlter_min() == 0) && (sp.getAlter_max() == 0))) {
             // gehe den angegeben Größebereich durch und adde das
             // Profil, wenn es im Bereich liegt
             for (int i = sp.getGroesse_min(); i <= sp.getGroesse_max(); i++) {
@@ -338,8 +341,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
             }
           }
           // Abfragen on nur nach Alter gesucht wird
-          if ((sp.getAlter_min() != 0 && sp.getAlter_max() != 0)
-              && (sp.getGroesse_min() == 0 && sp.getGroesse_max() == 0)) {
+          if (((sp.getAlter_min() != 0) && (sp.getAlter_max() != 0))
+              && ((sp.getGroesse_min() == 0) && (sp.getGroesse_max() == 0))) {
 
             // gehe den angegeben Alters durch und adde das Profil,
             // wenn es im Bereich liegt
@@ -371,21 +374,21 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       }
 
     });
-    
+
     // das eigene Profil entfernen
     result.remove(user);
     return result;
   }
-  
+
   /**
    * Auslesen aller neuen Profile sortiert anhand des Ähnlichkeitsmaß
    */
 
   @Override
   public ArrayList<Profil> getAllNewProfilesByAehnlichkeitsmass(Profil p) {
-    ArrayList<Profil> alleProfile = pMapper.findAll();
+    ArrayList<Profil> alleProfile = this.pMapper.findAll();
     ArrayList<Profil> neueProfile = new ArrayList<Profil>();
-    Kontaktsperre kontaktsperreforProfil = kMapper.findAllForProfil(p);
+    Kontaktsperre kontaktsperreforProfil = this.kMapper.findAllForProfil(p);
     ArrayList<Profil> gesperrteProfile = kontaktsperreforProfil.getGesperrteProfile();
 
     for (Profil profil : gesperrteProfile) {
@@ -425,10 +428,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public ArrayList<Profil> getAllNotVisitedProfilesByAehnlichkeitsmass(Profil p) {
 
-    ArrayList<Profil> alleBesuchtenProfile = getVisitedProfiles(p);
-    ArrayList<Profil> alleProfile = pMapper.findAll();
+    ArrayList<Profil> alleBesuchtenProfile = this.getVisitedProfiles(p);
+    ArrayList<Profil> alleProfile = this.pMapper.findAll();
 
-    Kontaktsperre kontaktsperreforProfil = kMapper.findAllForProfil(p);
+    Kontaktsperre kontaktsperreforProfil = this.kMapper.findAllForProfil(p);
     ArrayList<Profil> gesperrteProfile = kontaktsperreforProfil.getGesperrteProfile();
 
     for (Profil profil : gesperrteProfile) {
@@ -472,8 +475,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil profil)
       throws IllegalArgumentException {
-    ArrayList<Profil> alleProfile = pMapper.findAll();
-    Kontaktsperre kontaktsperreforProfil = kMapper.findAllForProfil(profil);
+    ArrayList<Profil> alleProfile = this.pMapper.findAll();
+    Kontaktsperre kontaktsperreforProfil = this.kMapper.findAllForProfil(profil);
     ArrayList<Profil> gesperrteProfile = kontaktsperreforProfil.getGesperrteProfile();
 
     for (Profil p : gesperrteProfile) {
@@ -532,11 +535,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
    * ABSCHNITT, Beginn: Methoden für Suchprofil-Objekte
    * **************************************************************************************
    */
-  
+
   /**
    * Speichern eines Suchprofils
    */
-  
+
   @Override
   public void save(Suchprofil sp) throws IllegalArgumentException {
     this.sMapper.update(sp);
@@ -546,26 +549,26 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   /**
    * Löschen eines Suchprofils
    */
-  
+
   @Override
   public void deleteSuchprofil(Suchprofil sp) {
     this.sMapper.delete(sp);
   }
-  
+
   /**
    * Erstellen eines Suchprofils
    */
-  
+
   @Override
   public void createSuchprofil(Suchprofil sp) throws IllegalArgumentException {
     this.sMapper.insert(sp);
   }
-  
-  
+
+
   /**
    * Auslesen aller Suchprofile eines Profils
    */
-  
+
   @Override
   public ArrayList<Suchprofil> getAllSuchprofileForProfil(Profil p)
       throws IllegalArgumentException {
@@ -575,7 +578,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   /**
    * Auslesen aller Suchprofileinträge und sie in einer Arrayliste zurückgeben
    */
-  
+
   @Override
   public ArrayList<String> getItemsOfSuchprofil(Suchprofil sp) {
     ArrayList<String> itemsList = new ArrayList<String>();
@@ -588,12 +591,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       itemsList.add("Raucher: " + sp.getRaucher());
     if (!sp.getGeschlecht().equals("Keine Angabe"))
       itemsList.add("Geschlecht: " + sp.getGeschlecht());
-    if (sp.getAlter_min() != 0 && sp.getAlter_max() != 0) {
+    if ((sp.getAlter_min() != 0) && (sp.getAlter_max() != 0)) {
       itemsList.add("Minimales Alter: " + String.valueOf(sp.getAlter_min()));
       itemsList.add("Maximales Alter: " + String.valueOf(sp.getAlter_max()));
     }
 
-    if (sp.getGroesse_min() != 0 && sp.getGroesse_max() != 0) {
+    if ((sp.getGroesse_min() != 0) && (sp.getGroesse_max() != 0)) {
       itemsList.add("Minimale Größe: " + String.valueOf(sp.getGroesse_min()));
       itemsList.add("Maximale Größe: " + String.valueOf(sp.getGroesse_max()));
     }
@@ -619,7 +622,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   /**
    * Auslesen aller Suchprofile eines Profils mit einem bestimmten Namen
    */
-  
+
   @Override
   public Suchprofil getSuchprofileForProfilByName(Profil p, String name)
       throws IllegalArgumentException {
@@ -627,10 +630,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   /**
-   *  Gibt true zurück, wenn die Elemente des SuchprofilListe
-   *  auch in einer Profilliste vorkommen
+   * Gibt true zurück, wenn die Elemente des SuchprofilListe auch in einer Profilliste vorkommen
    */
-  
+
   public boolean compare(ArrayList<Info> suchprofilListe, ArrayList<Info> profilListe) {
     int i = suchprofilListe.size();
     int j = 0;
@@ -646,7 +648,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     }
     return false;
   }
-  
+
 
   /*
    * *************************************************************************** ABSCHNITT, Ende:
@@ -663,7 +665,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   /**
    * Auslesen der gesamten Auswahlmöglichkeiten
    */
-  
+
   @Override
   public ArrayList<Auswahl> getAllAuswahl() throws IllegalArgumentException {
     return this.auswahlMapper.findAll();
@@ -672,25 +674,25 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   /**
    * Auslesen der Auswahl mit einer bestimmten Id
    */
-  
+
   @Override
   public Auswahl getAuswahlById(int id) throws IllegalArgumentException {
     return this.auswahlMapper.findByKey(id);
   }
 
   /**
-   * Auslesen der Auswahl von Profilattributen mit einem bestimmten Namen 
+   * Auslesen der Auswahl von Profilattributen mit einem bestimmten Namen
    */
-  
+
   @Override
   public Auswahl getAuswahlProfilAttributByName(String name) throws IllegalArgumentException {
     return this.auswahlMapper.findByName(name);
   }
-  
+
   /**
-   * Löschen eines Auswahl-Objekts    
+   * Löschen eines Auswahl-Objekts
    */
-  
+
   @Override
   public void delete(Auswahl auswahl) throws IllegalArgumentException {
     // TODO Auto-generated method stub
@@ -698,130 +700,130 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   /**
-   * Speichern eines Auswahl-Objekts  
+   * Speichern eines Auswahl-Objekts
    */
-  
+
   @Override
   public void save(Auswahl auswahl) throws IllegalArgumentException {
     // TODO Auto-generated method stub
 
   }
-  
+
   /**
-   * Erstellen der Auswahl-Objekte    
+   * Erstellen der Auswahl-Objekte
    */
-  
+
   @Override
   public Auswahl createAuswahl(String name, String beschreibungstext,
       ArrayList<String> alternativen) throws IllegalArgumentException {
     // TODO Auto-generated method stub
     return null;
   }
-  
+
   /**
    * Auslesen der Auswahl-Objekte eines Profilattributs
    */
-  
+
   @Override
   public ArrayList<Auswahl> getAllAuswahlProfilAttribute() {
     return this.auswahlMapper.findAllProfilAtrribute();
   }
-  
-  /*
-   * ***************************************************************************
-   * ABSCHNITT, Ende: Methoden für Auswahl-Objekte
-   * ***************************************************************************
- */      
 
- /*
+  /*
+   * *************************************************************************** ABSCHNITT, Ende:
+   * Methoden für Auswahl-Objekte
    * ***************************************************************************
-   * ABSCHNITT, Beginn: Methoden für Beschreibungs-Objekte
+   */
+
+  /*
+   * *************************************************************************** ABSCHNITT, Beginn:
+   * Methoden für Beschreibungs-Objekte
    * ***************************************************************************
- */  
-  
+   */
+
   /**
    * Auslesen der Beschreibungs-Objekte von Profilattributen mit einem bestimmten Namen
    */
-  
+
   @Override
   public Beschreibung getBeschreibungProfilAttributByName(String name)
       throws IllegalArgumentException {
     return this.beschrMapper.findByName(name);
   }
-  
+
   /**
-   * Auslesen der Beschreibung mit einer bestimmten Id    
+   * Auslesen der Beschreibung mit einer bestimmten Id
    */
-  
+
   @Override
   public Beschreibung getBeschreibungById(int id) throws IllegalArgumentException {
     return this.beschrMapper.findByKey(id);
   }
-  
+
   /**
    * Auslesen aller Beschreibungs-Objekte
    */
-  
+
   @Override
   public ArrayList<Beschreibung> getAllBeschreibung() throws IllegalArgumentException {
     return this.beschrMapper.findAll();
   }
-  
+
   /**
-   * Löschen eines Beschreibungs-Objekt   
+   * Löschen eines Beschreibungs-Objekt
    */
-  
+
   @Override
   public void delete(Beschreibung beschreibung) throws IllegalArgumentException {
     // TODO Auto-generated method stub
   }
 
   /**
-   * Speichern eines Beschreibungs-Objekt 
+   * Speichern eines Beschreibungs-Objekt
    */
-  
+
   @Override
   public void save(Beschreibung beschreibung) throws IllegalArgumentException {
     // TODO Auto-generated method stub
 
   }
-  
+
   /**
-   * Erstellen eines Beschreibungs-Objekt 
+   * Erstellen eines Beschreibungs-Objekt
    */
-  
+
   @Override
   public Beschreibung createBeschreibung(String name, String beschreibungstext)
       throws IllegalArgumentException {
     // TODO Auto-generated method stub
     return null;
   }
-  
+
   /**
-   * Auslesen aller Beschreibungs-Objekte eines Profils   
+   * Auslesen aller Beschreibungs-Objekte eines Profils
    */
-  
+
   @Override
   public ArrayList<Beschreibung> getAllBeschreibungProfilAttribute() {
     return this.beschrMapper.findAllProfilAttribute();
   }
-  
+
   /*
+   * *************************************************************************** ABSCHNITT, Ende:
+   * Methoden für Beschreibungs-Objekte
    * ***************************************************************************
-   * ABSCHNITT, Ende: Methoden für Beschreibungs-Objekte
-   * ***************************************************************************
- */      
- 
- /*
-   * ***************************************************************************
-   * ABSCHNITT, Beginn: Methoden für Info-Objekte
-   * ***************************************************************************
- */      
-  
-  /**
-   * Erstellen von Info-Objekte für ein Profil mit vorgegebener Auswahl   
    */
-  
+
+  /*
+   * *************************************************************************** ABSCHNITT, Beginn:
+   * Methoden für Info-Objekte
+   * ***************************************************************************
+   */
+
+  /**
+   * Erstellen von Info-Objekte für ein Profil mit vorgegebener Auswahl
+   */
+
   @Override
   public Info createInfoFor(Profil profil, Auswahl auswahl, String text)
       throws IllegalArgumentException {
@@ -835,26 +837,26 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     ArrayList<Info> infoListe = this.iMapper.findAllByProfilId(profil.getId());
 
     for (Info info : infoListe) {
-      if (info.getEigenschaftId() == i.getEigenschaftId() && info.getProfilId() == i.getProfilId()
-          && !info.getText().equals(i.getText())) {
+      if ((info.getEigenschaftId() == i.getEigenschaftId())
+          && (info.getProfilId() == i.getProfilId()) && !info.getText().equals(i.getText())) {
 
-        log("Info upgedatet");
+        this.log("Info upgedatet");
         return this.iMapper.update(i);
 
-      } else if (info.getEigenschaftId() == i.getEigenschaftId()
-          && info.getProfilId() == i.getProfilId() && info.getText().equals(i.getText())) {
+      } else if ((info.getEigenschaftId() == i.getEigenschaftId())
+          && (info.getProfilId() == i.getProfilId()) && info.getText().equals(i.getText())) {
         return null;
       }
     }
-    log("Info neuangelegt");
+    this.log("Info neuangelegt");
     return this.iMapper.insert(i);
 
   }
 
   /**
-   * Erstellen von Info-Objekten für ein Profil mit Freitext  
+   * Erstellen von Info-Objekten für ein Profil mit Freitext
    */
-  
+
   @Override
   public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text)
       throws IllegalArgumentException {
@@ -866,33 +868,33 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     ArrayList<Info> infoListe = this.iMapper.findAllByProfilId(profil.getId());
 
     for (Info info : infoListe) {
-      if (info.getEigenschaftId() == i.getEigenschaftId() && info.getProfilId() == i.getProfilId()
-          && !info.getText().equals(i.getText())) {
+      if ((info.getEigenschaftId() == i.getEigenschaftId())
+          && (info.getProfilId() == i.getProfilId()) && !info.getText().equals(i.getText())) {
 
-        log("Info upgedatet");
+        this.log("Info upgedatet");
         return this.iMapper.update(i);
-      } else if (info.getEigenschaftId() == i.getEigenschaftId()
-          && info.getProfilId() == i.getProfilId() && info.getText().equals(i.getText())) {
+      } else if ((info.getEigenschaftId() == i.getEigenschaftId())
+          && (info.getProfilId() == i.getProfilId()) && info.getText().equals(i.getText())) {
         return null;
       }
     }
-    log("Info neuangelegt");
+    this.log("Info neuangelegt");
     return this.iMapper.insert(i);
   }
 
   /**
-   * Speichern von Info-Objekten  
+   * Speichern von Info-Objekten
    */
-  
+
   @Override
   public void save(Info info) throws IllegalArgumentException {
     this.iMapper.update(info);
   }
 
   /**
-   * Löschen von Info-Objekten    
+   * Löschen von Info-Objekten
    */
-  
+
   @Override
   public void delete(Info info) throws IllegalArgumentException {
     if (info != null) {
@@ -901,18 +903,18 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   /**
-   * Auslesen von Info-Objekten eines Profils 
+   * Auslesen von Info-Objekten eines Profils
    */
-  
+
   @Override
   public ArrayList<Info> getInfoByProfile(Profil profil) throws IllegalArgumentException {
     return this.iMapper.findAllByProfilId(profil.getId());
   }
 
   /**
-   * Auslesen von Info-Objekten mit einer bestimmten Eigenschafts-Id  
+   * Auslesen von Info-Objekten mit einer bestimmten Eigenschafts-Id
    */
-  
+
   @Override
   public Info getInfoByEigenschaftsId(int id) throws IllegalArgumentException {
     return this.iMapper.findByKey(id);
@@ -921,32 +923,33 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   /**
    * Auslesen eines Infoobjekts über seine ID
    */
-  
+
   @Override
   public Info getInfoById(int id) throws IllegalArgumentException {
     return this.iMapper.findByKey(id);
   }
-  
+
   /*
+   * *************************************************************************** ABSCHNITT, Ende:
+   * Methoden für Info-Objekte
    * ***************************************************************************
-   * ABSCHNITT, Ende: Methoden für Info-Objekte
+   */
+
+  /*
+   * *************************************************************************** ABSCHNITT, Beginn:
+   * Methoden für Ähnlichkeitsmaß
    * ***************************************************************************
- */  
- 
- /*
-   * ***************************************************************************
-   * ABSCHNITT, Beginn: Methoden für Ähnlichkeitsmaß
-   * ***************************************************************************
- */  
-  
+   */
+
   /**
-   * Berechnen des Ähnlichkeitsmaß für ein Suchprofil 
+   * Berechnen des Ähnlichkeitsmaß für ein Suchprofil
+   * 
    * @param p1
    * @param p2
    * @param sp
    * @return result (Ähnlichkeitsmaß zwischen zwei Profilen)
    */
-  
+
   public int berechneAehnlichkeitforSuchprofil(Profil p1, Profil p2, Suchprofil sp) {
     Profil pNeu = p1;
     float i = 4;
@@ -1005,22 +1008,22 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       aehnlichkeit++;
     }
 
-    if (sp.getGroesse_min() != 0 && sp.getGroesse_min() < p2.getGroesse()) {
+    if ((sp.getGroesse_min() != 0) && (sp.getGroesse_min() < p2.getGroesse())) {
       aehnlichkeit++;
       i++;
     }
 
-    if (sp.getGroesse_max() != 0 && p2.getGroesse() < sp.getGroesse_max()) {
+    if ((sp.getGroesse_max() != 0) && (p2.getGroesse() < sp.getGroesse_max())) {
       aehnlichkeit++;
       i++;
     }
 
-    if (sp.getAlter_min() != 0 && sp.getAlter_min() < p2.getAlter()) {
+    if ((sp.getAlter_min() != 0) && (sp.getAlter_min() < p2.getAlter())) {
       aehnlichkeit++;
       i++;
     }
 
-    if (sp.getAlter_max() != 0 && p2.getAlter() < sp.getAlter_max()) {
+    if ((sp.getAlter_max() != 0) && (p2.getAlter() < sp.getAlter_max())) {
       aehnlichkeit++;
       i++;
     }
@@ -1042,12 +1045,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   /**
-   * Berechnung des Ähnlichkeitsmaßes zwischen zwei Profilen  
+   * Berechnung des Ähnlichkeitsmaßes zwischen zwei Profilen
+   * 
    * @param p1
    * @param p2
    * @return result (Ähnlichkeitsmaß zwischen zwei Profilen)
    */
-  
+
   public int berechneAehnlichkeit(Profil user, Profil refernz) {
     // 6 Profilattribute: Geb, Geschlecht, Groesse, Haarfarbe, Raucher, Religion
     float i = 6;
@@ -1072,8 +1076,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       aehnlichkeit++;
     }
 
-    ArrayList<Info> infoP1 = iMapper.findAllByProfilId(user.getId());
-    ArrayList<Info> infoP2 = iMapper.findAllByProfilId(refernz.getId());
+    ArrayList<Info> infoP1 = this.iMapper.findAllByProfilId(user.getId());
+    ArrayList<Info> infoP2 = this.iMapper.findAllByProfilId(refernz.getId());
 
     for (Info meineInfo : infoP1) {
       for (Info referenzInfo : infoP2) {
@@ -1090,43 +1094,43 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   /*
+   * *************************************************************************** ABSCHNITT, Ende:
+   * Methoden für Ähnlichkeitsmaß
    * ***************************************************************************
-   * ABSCHNITT, Ende: Methoden für Ähnlichkeitsmaß
-   * ***************************************************************************
- */  
+   */
 
   /*
+   * *************************************************************************** ABSCHNITT, Beginn:
+   * Methoden für Kontaktsperre
    * ***************************************************************************
-   * ABSCHNITT, Beginn: Methoden für Kontaktsperre
-   * ***************************************************************************
- */  
+   */
 
   /**
-   * Erstellen einer Kontaktsperre    
+   * Erstellen einer Kontaktsperre
    */
-  
+
   @Override
   public void createSperre(Profil a, Profil b) throws IllegalArgumentException {
-    kMapper.insertForProfil(a, b);
+    this.kMapper.insertForProfil(a, b);
 
   }
 
   /**
-   * Löschen einer Kontaktsperre    
+   * Löschen einer Kontaktsperre
    */
-  
+
   @Override
   public void deleteSperre(Profil entferner, Profil entfernter) {
-    kMapper.deleteSperreFor(entferner, entfernter);
+    this.kMapper.deleteSperreFor(entferner, entfernter);
   }
 
   /**
-   * Auslesen der gesamten gesperrten Profile eines Profils   
+   * Auslesen der gesamten gesperrten Profile eines Profils
    */
-  
+
   @Override
   public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException {
-    Kontaktsperre k = kMapper.findAllForProfil(profil);
+    Kontaktsperre k = this.kMapper.findAllForProfil(profil);
     ArrayList<Profil> kListe = k.getGesperrteProfile();
 
     for (Profil p : kListe) {
@@ -1137,49 +1141,49 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   /*
+   * *************************************************************************** ABSCHNITT, Ende:
+   * Methoden für Kontaktsperre
    * ***************************************************************************
-   * ABSCHNITT, Ende: Methoden für Kontaktsperre
-   * ***************************************************************************
- */          
+   */
 
- /*
+  /*
+   * *************************************************************************** ABSCHNITT, Beginn:
+   * Methoden für Merkzettel
    * ***************************************************************************
-   * ABSCHNITT, Beginn: Methoden für Merkzettel
-   * ***************************************************************************
- */  
-  
+   */
+
   /**
    * Erstellen einer Sperre für einen Kontakt
    */
-  
+
   @Override
   public void createMerken(Profil a, Profil b) throws IllegalArgumentException {
-    Merkzettel m = mMapper.findAllForProfil(a);
+    Merkzettel m = this.mMapper.findAllForProfil(a);
     ArrayList<Profil> profile = m.getGemerkteProfile();
     if (!profile.contains(b)) {
-      mMapper.insertMerkenForProfil(a, b);
+      this.mMapper.insertMerkenForProfil(a, b);
     }
 
   }
-  
+
   /**
    * Löschen einer Sperre für einen Kontakt
    */
-  
+
   @Override
   public void deleteMerken(Profil entferner, Profil entfernter) throws IllegalArgumentException {
-    mMapper.deleteMerkenFor(entferner, entfernter);
+    this.mMapper.deleteMerkenFor(entferner, entfernter);
   }
 
   /**
-   * Auslesen des Merkzettels für ein Profil  
+   * Auslesen des Merkzettels für ein Profil
    */
-  
+
   @Override
   public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException {
 
-    Merkzettel m = mMapper.findAllForProfil(profil);
-    Kontaktsperre k = kMapper.findAllForProfil(profil);
+    Merkzettel m = this.mMapper.findAllForProfil(profil);
+    Kontaktsperre k = this.kMapper.findAllForProfil(profil);
     ArrayList<Profil> mListe = m.getGemerkteProfile();
     ArrayList<Profil> kListe = k.getGesperrteProfile();
 
@@ -1197,19 +1201,19 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   /*
+   * *************************************************************************** ABSCHNITT, Ende:
+   * Methoden für Merkzettel
    * ***************************************************************************
-   * ABSCHNITT, Ende: Methoden für Merkzettel
-   * ***************************************************************************
- */          
+   */
 
- /*
+  /*
+   * *************************************************************************** ABSCHNITT, Beginn:
+   * Methoden für Eigenschafts-Objekte
    * ***************************************************************************
-   * ABSCHNITT, Beginn: Methoden für Eigenschafts-Objekte
-   * ***************************************************************************
- */  
-  
+   */
+
   /**
-   * Auslesen der Eigenschaftsnamen mit einer bestimmten Id   
+   * Auslesen der Eigenschaftsnamen mit einer bestimmten Id
    */
 
   @Override
@@ -1227,9 +1231,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   /**
-   * Auslesen der Eigenschaftsbeschreibung mit einer bestimmten Id   
+   * Auslesen der Eigenschaftsbeschreibung mit einer bestimmten Id
    */
-  
+
   @Override
   public String getEigenschaftsBeschreibungById(int id) throws IllegalArgumentException {
     if (this.beschrMapper.findByKey(id) != null) {

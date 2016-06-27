@@ -2,7 +2,6 @@ package de.superteam2000.gwt.shared;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;

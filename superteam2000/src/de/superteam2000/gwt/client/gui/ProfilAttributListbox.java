@@ -2,8 +2,6 @@ package de.superteam2000.gwt.client.gui;
 
 import java.util.Date;
 
-import de.superteam2000.gwt.client.ClientsideSettings;
-
 public class ProfilAttributListbox extends BoxPanel {
 
 
@@ -33,7 +31,7 @@ public class ProfilAttributListbox extends BoxPanel {
     this.profilAttributListBox.setName("Körpergröße");
     this.add(this.profilAttributListBox);
     this.profilAttributListBox.setEnabled(false);
-    setStyleName("pure-control-group-1");
+    this.setStyleName("pure-control-group-1");
   }
 
   public void createAlterListbox() {
@@ -43,7 +41,7 @@ public class ProfilAttributListbox extends BoxPanel {
     this.profilAttributListBox.setStyleName("pure-input-1-4");
     this.profilAttributListBox.setName("Alter");
     this.add(this.profilAttributListBox);
-    setStyleName("pure-control-group-1");
+    this.setStyleName("pure-control-group-1");
   }
 
   public void createGebtaListobx(String name) {
@@ -71,7 +69,7 @@ public class ProfilAttributListbox extends BoxPanel {
     this.add(this.gebDatumMonatListBox);
     this.add(this.gebDatumJahrListBox);
 
-    setStyleName("pure-control-group-1");
+    this.setStyleName("pure-control-group-1");
   }
 
   public void setGebtag(Date date) {
@@ -82,6 +80,7 @@ public class ProfilAttributListbox extends BoxPanel {
     this.gebDatumJahrListBox.setItemSelected(Integer.valueOf(gebDaten[0]) - 1900, true);
   }
 
+  @Override
   public void setGroesse(int groesse) {
     if (groesse == 1) {
       this.profilAttributListBox.setSelectedItemByIndex(0);
@@ -90,6 +89,7 @@ public class ProfilAttributListbox extends BoxPanel {
     }
   }
 
+  @Override
   public void setAlter(int alter) {
     if (alter == 0) {
       this.profilAttributListBox.setSelectedItemByIndex(0);
@@ -98,6 +98,7 @@ public class ProfilAttributListbox extends BoxPanel {
     }
   }
 
+  @Override
   public void setEnable(boolean isEnabled) {
     this.profilAttributListBox.setEnabled(isEnabled);
     this.gebDatumTagListBox.setEnabled(isEnabled);
@@ -105,6 +106,7 @@ public class ProfilAttributListbox extends BoxPanel {
     this.gebDatumJahrListBox.setEnabled(isEnabled);
   }
 
+  @Override
   public void addKeineAngabenItem() {
     this.profilAttributListBox.insertItem("Keine Angabe", 0);
     this.profilAttributListBox.setSelectedIndex(0);

@@ -2,7 +2,6 @@ package de.superteam2000.gwt.shared;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -18,7 +17,7 @@ import de.superteam2000.gwt.shared.bo.Suchprofil;
  * Das asynchrone Gegenstück des Interface {@link Administration}. Es wird semiautomatisch durch das
  * Google Plugin erstellt und gepflegt. Daher erfolgt hier keine weitere Dokumentation. Für weitere
  * Informationen siehe das synchrone Interface {@link Administration}.
- * 
+ *
  * @author thies, volz, funke
  */
 public interface PartnerboerseAdministrationAsync {
@@ -92,7 +91,8 @@ public interface PartnerboerseAdministrationAsync {
 
   void createInfoFor(Profil profil, Auswahl auswahl, String text, AsyncCallback<Info> callback);
 
-  void createInfoFor(Profil profil, Beschreibung beschreibung, String text, AsyncCallback<Info> callback);
+  void createInfoFor(Profil profil, Beschreibung beschreibung, String text,
+      AsyncCallback<Info> callback);
 
   void getProfilByMail(String email, AsyncCallback<Profil> callback);
 

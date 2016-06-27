@@ -7,7 +7,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.server.PartnerboerseAdministrationImpl;
-import de.superteam2000.gwt.shared.PartnerboerseAdministration;
 import de.superteam2000.gwt.shared.ReportGenerator;
 import de.superteam2000.gwt.shared.bo.Info;
 import de.superteam2000.gwt.shared.bo.Profil;
@@ -18,7 +17,6 @@ import de.superteam2000.gwt.shared.report.AllProfilesBySucheReport;
 import de.superteam2000.gwt.shared.report.AllProfilesReport;
 import de.superteam2000.gwt.shared.report.Column;
 import de.superteam2000.gwt.shared.report.CompositeParagraph;
-import de.superteam2000.gwt.shared.report.Paragraph;
 import de.superteam2000.gwt.shared.report.ProfilReport;
 import de.superteam2000.gwt.shared.report.Row;
 import de.superteam2000.gwt.shared.report.SimpleParagraph;
@@ -27,7 +25,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
   private static final long serialVersionUID = 1L;
   private PartnerboerseAdministrationImpl administration = null;
-  private Profil user = ClientsideSettings.getCurrentUser();
+
   public ReportGeneratorImpl() throws IllegalArgumentException {}
 
   @Override
@@ -40,7 +38,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     a.init();
     this.administration = a;
   }
-  
+
   @Override
   public ProfilReport createProfilReport(Profil p) throws IllegalArgumentException {
     if (this.administration == null) {
@@ -53,8 +51,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
     // ab hier result mit Inhalten befüllen
     result.setTitle("Mein Profil");
-    
-    
+
+
     SimpleParagraph aehnlickeit = new SimpleParagraph(String.valueOf(p.getAehnlichkeit()));
     result.setAehnlichekit(aehnlickeit);
 
@@ -73,13 +71,13 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     CompositeParagraph profilAttribute = new CompositeParagraph();
     profilAttribute.addSubParagraph(new SimpleParagraph(p.getEmail()));
     profilAttribute.addSubParagraph(new SimpleParagraph(p.getGeschlecht()));
-    profilAttribute.addSubParagraph(new SimpleParagraph(""+p.getAlter()));
+    profilAttribute.addSubParagraph(new SimpleParagraph("" + p.getAlter()));
     profilAttribute.addSubParagraph(new SimpleParagraph(p.getRaucher()));
     profilAttribute.addSubParagraph(new SimpleParagraph(p.getReligion()));
     profilAttribute.addSubParagraph(new SimpleParagraph(p.getHaarfarbe()));
     result.setProfilAttribute(profilAttribute);
-    
-    
+
+
     // Eigenschaften anhängen als Tabelle mit zwei Spalten
     // TODO ggf Info anpassen für besseres auslesen
 
@@ -93,7 +91,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
         Row infoRow = new Row();
 
 
-        infoRow.addColumn(new Column(administration.getEigenschaftsBeschreibungById(i.getEigenschaftId())));
+        infoRow.addColumn(
+            new Column(this.administration.getEigenschaftsBeschreibungById(i.getEigenschaftId())));
         infoRow.addColumn(new Column(i.getText()));
         result.addRow(infoRow);
 
@@ -113,25 +112,25 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     }
 
 
-    ArrayList<Profil> profilesList = administration.getProfilesBySuchprofil(sp, p);
+    ArrayList<Profil> profilesList = this.administration.getProfilesBySuchprofil(sp, p);
     AllProfilesBySucheReport result = new AllProfilesBySucheReport();
-    ArrayList<String> suchprofilItems = administration.getItemsOfSuchprofil(sp);
+    ArrayList<String> suchprofilItems = this.administration.getItemsOfSuchprofil(sp);
 
     result.setTitle("Suche nach Suchprofilen");
     StringBuilder items = new StringBuilder();
-    
+
     for (String string : suchprofilItems) {
       items.append(string + " <br>");
     }
-    
-    result.setSubTitle("Die Suche ergab: " + profilesList.size()
-        + " Treffer" + "<p>Suchkritierien: <br>" + items.toString() + "</p>");
+
+    result.setSubTitle("Die Suche ergab: " + profilesList.size() + " Treffer"
+        + "<p>Suchkritierien: <br>" + items.toString() + "</p>");
 
     for (Profil profil : profilesList) {
       result.addSubReport(this.createProfilReport(profil));
 
     }
-    
+
     return result;
 
   }
@@ -218,7 +217,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
     return result;
   }
-
 
 
 

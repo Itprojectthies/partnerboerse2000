@@ -25,7 +25,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
  * Formular für die Darstellung des selektierten Kunden
- * 
+ *
  * @author Christian Rathke
  */
 public class CreateProfil extends BasicFrame {
@@ -44,6 +44,7 @@ public class CreateProfil extends BasicFrame {
   ProfilAttributListbox gebTag = null;
   ProfilAttributListbox groesse = null;
   Button confirmBtn = null;
+
   @Override
   public String getHeadlineText() {
     return "Profil erstellen";
@@ -56,41 +57,41 @@ public class CreateProfil extends BasicFrame {
 
   @Override
   public void run() {
-    fPanel.setStyleName("pure-form pure-form-aligned");
-    fPanel2.setStyleName("content");
-    gebTag = new ProfilAttributListbox();
-    gebTag.createGebtaListobx("Was ist dein Geburtstag");
-    gebTag.setEnable(true);
-    
-    groesse = new ProfilAttributListbox();
-    groesse.createGroesseListBox("Was ist deine Körpergröße");
-    groesse.setEnable(true);
-    
-    pbVerwaltung
-        .getAllBeschreibungProfilAttribute(new GetAllBeschreibungProfilAttributeCallBack());
-    pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallBack());
+    this.fPanel.setStyleName("pure-form pure-form-aligned");
+    this.fPanel2.setStyleName("content");
+    this.gebTag = new ProfilAttributListbox();
+    this.gebTag.createGebtaListobx("Was ist dein Geburtstag");
+    this.gebTag.setEnable(true);
 
-    
-    confirmBtn = new Button("Weiter");
-    confirmBtn.setStyleName("pure-button pure-button-primary");
-    
-    confirmBtn.addClickHandler(new ConfirmClickHandler());
-    fPanel2.add(fPanel);
-    RootPanel.get("main").add(fPanel2);
+    this.groesse = new ProfilAttributListbox();
+    this.groesse.createGroesseListBox("Was ist deine Körpergröße");
+    this.groesse.setEnable(true);
+
+    this.pbVerwaltung
+        .getAllBeschreibungProfilAttribute(new GetAllBeschreibungProfilAttributeCallBack());
+    this.pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallBack());
+
+
+    this.confirmBtn = new Button("Weiter");
+    this.confirmBtn.setStyleName("pure-button pure-button-primary");
+
+    this.confirmBtn.addClickHandler(new ConfirmClickHandler());
+    this.fPanel2.add(this.fPanel);
+    RootPanel.get("main").add(this.fPanel2);
 
   }
 
   private class GetAllBeschreibungProfilAttributeCallBack
       implements AsyncCallback<ArrayList<Beschreibung>> {
-    
+
     @Override
     public void onSuccess(ArrayList<Beschreibung> result) {
       for (Beschreibung b : result) {
 
         BoxPanel clb = new BoxPanel(b, false);
-        fPanel.add(clb);
+        CreateProfil.this.fPanel.add(clb);
       }
-      
+
     }
 
     @Override
@@ -106,12 +107,12 @@ public class CreateProfil extends BasicFrame {
       for (Auswahl a : result) {
 
         BoxPanel clb = new BoxPanel(a, false);
-        fPanel.add(clb);
+        CreateProfil.this.fPanel.add(clb);
       }
 
-      fPanel.add(groesse);
-      fPanel.add(gebTag);
-      fPanel.add(confirmBtn);
+      CreateProfil.this.fPanel.add(CreateProfil.this.groesse);
+      CreateProfil.this.fPanel.add(CreateProfil.this.gebTag);
+      CreateProfil.this.fPanel.add(CreateProfil.this.confirmBtn);
     }
 
     @Override
@@ -121,7 +122,7 @@ public class CreateProfil extends BasicFrame {
   }
 
   private class ConfirmClickHandler implements ClickHandler {
-  
+
     @Override
     public void onClick(ClickEvent event) {
 
@@ -132,7 +133,7 @@ public class CreateProfil extends BasicFrame {
       String raucher = "";
       String religion = "";
       String geschlecht = "";
-      String email = user.getEmail();
+      String email = CreateProfil.this.user.getEmail();
 
       int groesse = 141;
 
@@ -143,13 +144,13 @@ public class CreateProfil extends BasicFrame {
       // Schleifen zum Auslesen der Listboxen, welche in 2 Panels
       // verschachtelt sind
 
-      for (Widget child : fPanel) {
+      for (Widget child : CreateProfil.this.fPanel) {
         if (child instanceof FlowPanel) {
-        FlowPanel childPanel = (FlowPanel) child;
-        for (Widget box : childPanel) {
-          if (box instanceof EigenschaftListBox) {
-            EigenschaftListBox lb = (EigenschaftListBox) box;
-              logger.severe("test " + lb.getName());
+          FlowPanel childPanel = (FlowPanel) child;
+          for (Widget box : childPanel) {
+            if (box instanceof EigenschaftListBox) {
+              EigenschaftListBox lb = (EigenschaftListBox) box;
+              CreateProfil.this.logger.severe("test " + lb.getName());
 
               switch (lb.getName()) {
 
@@ -180,10 +181,9 @@ public class CreateProfil extends BasicFrame {
 
               }
 
-            } 
-              else if (box instanceof TextBox) {
+            } else if (box instanceof TextBox) {
               TextBox tb = (TextBox) box;
-              logger.severe("test " + tb.getName());
+              CreateProfil.this.logger.severe("test " + tb.getName());
               switch (tb.getName()) {
                 case "Vorname":
                   firstName = tb.getText();
@@ -195,7 +195,7 @@ public class CreateProfil extends BasicFrame {
               }
             }
 
-        }
+          }
         }
 
       }
@@ -206,13 +206,13 @@ public class CreateProfil extends BasicFrame {
 
       Date gebTag2 = DateTimeFormat.getFormat("yyyy-MM-dd")
           .parse(geburtsJahr + "-" + geburtsMonat + "-" + geburtsTag);
-      java.sql.Date gebTag =  new java.sql.Date(gebTag2.getTime());
+      java.sql.Date gebTag = new java.sql.Date(gebTag2.getTime());
 
       if (!firstName.isEmpty() && !lastName.isEmpty()) {
-        pbVerwaltung.createProfil(lastName, firstName, email, gebTag, haarfarbe, raucher, religion,
-            groesse, geschlecht, new CreateCustomerCallback());
+        CreateProfil.this.pbVerwaltung.createProfil(lastName, firstName, email, gebTag, haarfarbe,
+            raucher, religion, groesse, geschlecht, new CreateCustomerCallback());
       } else {
-        Notification n1 = new Notification("Bitte füllen sie alle Felder aus", "warning");
+        new Notification("Bitte füllen sie alle Felder aus", "warning");
       }
 
     }
@@ -222,13 +222,13 @@ public class CreateProfil extends BasicFrame {
 
     @Override
     public void onFailure(Throwable caught) {
-      logger.severe("Erstellen des useres hat nicht funktioniert");
+      CreateProfil.this.logger.severe("Erstellen des useres hat nicht funktioniert");
 
     }
 
     @Override
     public void onSuccess(Profil p) {
-      p.setLogoutUrl(user.getLogoutUrl());
+      p.setLogoutUrl(CreateProfil.this.user.getLogoutUrl());
       ClientsideSettings.setCurrentUser(p);
       p.setLoggedIn(true);
       ShowProfil sp = new ShowProfil();

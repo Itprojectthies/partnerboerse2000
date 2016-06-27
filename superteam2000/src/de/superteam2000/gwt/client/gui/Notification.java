@@ -2,13 +2,12 @@ package de.superteam2000.gwt.client.gui;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.UIObject;
 
 public class Notification extends PopupPanel implements ClickHandler {
 
@@ -16,32 +15,32 @@ public class Notification extends PopupPanel implements ClickHandler {
 
   public Notification(String text, String alert) {
     super(false);
-    setWidget(new Label(text));
+    this.setWidget(new Label(text));
     HTML contents = new HTML(text);
-    setWidget(contents);
-    this.setStyleName(getContainerElement(), "toast-message");
-    setStyleName("toast toast-" + alert);
+    this.setWidget(contents);
+    UIObject.setStyleName(this.getContainerElement(), "toast-message");
+    this.setStyleName("toast toast-" + alert);
 
     // Clickhandler hanzufügen um Popup zu löschen
-    sinkEvents(Event.ONCLICK);
-    addHandler(this, ClickEvent.getType());
+    this.sinkEvents(Event.ONCLICK);
+    this.addHandler(this, ClickEvent.getType());
 
-    getElement().setAttribute("style", "display: block;");
-    show();
+    this.getElement().setAttribute("style", "display: block;");
+    this.show();
   }
 
   @Override
   public void show() {
     RootPanel.get("toast-container").add(Notification.this);
     // Popups nach 7 sec löschen
-    t1.schedule(7000);
+    this.t1.schedule(7000);
 
   }
 
   @Override
   public void onClick(ClickEvent event) {
     RootPanel.get("toast-container").clear();
-    t1.schedule(0);
+    this.t1.schedule(0);
   }
 
   public class timer extends Timer {

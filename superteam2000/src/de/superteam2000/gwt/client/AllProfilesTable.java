@@ -4,20 +4,10 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.cellview.client.DataGrid;
-import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
-import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SelectionChangeEvent.Handler;
-import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.superteam2000.gwt.client.gui.DataGridProfiles;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
@@ -32,7 +22,7 @@ public class AllProfilesTable extends BasicFrame {
   }
 
   public ArrayList<Profil> getProfilListe() {
-    return profilListe;
+    return this.profilListe;
   }
 
   public void setProfilListe(ArrayList<Profil> profilListe) {
@@ -72,7 +62,7 @@ public class AllProfilesTable extends BasicFrame {
     FlowPanel buttonsPanel = new FlowPanel();
 
     fPanel.setStyleName("pure-form pure-form-aligned content");
-//    fPanel2.setStyleName("content");
+    // fPanel2.setStyleName("content");
 
 
 
@@ -84,18 +74,18 @@ public class AllProfilesTable extends BasicFrame {
 
     fPanel.add(buttonsPanel);
     fPanel2.add(fPanel);
-    DataGridProfiles dgp = new DataGridProfiles(profilListe);
+    DataGridProfiles dgp = new DataGridProfiles(this.profilListe);
     dgp.addClickFremdProfil();
     fPanel2.add(dgp.start());
     RootPanel.get("main").add(fPanel2);
-    
+
 
     neueProfilAnzeigenButton.addClickHandler(new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
-        pbVerwaltung.getAllNewProfilesByAehnlichkeitsmass(profil,
-            new AsyncCallback<ArrayList<Profil>>() {
+        AllProfilesTable.this.pbVerwaltung.getAllNewProfilesByAehnlichkeitsmass(
+            AllProfilesTable.this.profil, new AsyncCallback<ArrayList<Profil>>() {
 
               @Override
               public void onSuccess(ArrayList<Profil> result) {
@@ -120,8 +110,8 @@ public class AllProfilesTable extends BasicFrame {
 
       @Override
       public void onClick(ClickEvent event) {
-        pbVerwaltung.getAllNotVisitedProfilesByAehnlichkeitsmass(profil,
-            new AsyncCallback<ArrayList<Profil>>() {
+        AllProfilesTable.this.pbVerwaltung.getAllNotVisitedProfilesByAehnlichkeitsmass(
+            AllProfilesTable.this.profil, new AsyncCallback<ArrayList<Profil>>() {
 
               @Override
               public void onSuccess(ArrayList<Profil> result) {
@@ -146,29 +136,30 @@ public class AllProfilesTable extends BasicFrame {
 
       @Override
       public void onClick(ClickEvent event) {
-        pbVerwaltung.getProfilesByAehnlichkeitsmass(profil, new AsyncCallback<ArrayList<Profil>>() {
+        AllProfilesTable.this.pbVerwaltung.getProfilesByAehnlichkeitsmass(
+            AllProfilesTable.this.profil, new AsyncCallback<ArrayList<Profil>>() {
 
-          @Override
-          public void onSuccess(ArrayList<Profil> result) {
-            profilListe = result;
-            AllProfilesTable dgt = new AllProfilesTable(result);
-            RootPanel.get("main").clear();
-            RootPanel.get("main").add(dgt);
+              @Override
+              public void onSuccess(ArrayList<Profil> result) {
+                AllProfilesTable.this.profilListe = result;
+                AllProfilesTable dgt = new AllProfilesTable(result);
+                RootPanel.get("main").clear();
+                RootPanel.get("main").add(dgt);
 
-          }
+              }
 
-          @Override
-          public void onFailure(Throwable caught) {
-            // TODO Auto-generated method stub
+              @Override
+              public void onFailure(Throwable caught) {
+                // TODO Auto-generated method stub
 
-          }
-        });
+              }
+            });
 
 
       }
     });
 
-   
+
 
     // eigenes Profil aus der Liste entfernen
     // if(profile.contains(ClientsideSettings.getCurrentUser())){
