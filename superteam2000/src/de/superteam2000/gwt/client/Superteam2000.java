@@ -56,20 +56,6 @@ public class Superteam2000 implements EntryPoint {
 
 				// User exisitiert in der db und loggt sich ein.
 			} else if (result.isLoggedIn()) {
-//			    pbVerwaltung.setProfil(result, new AsyncCallback<Void>() {
-//                  
-//                  @Override
-//                  public void onSuccess(Void result) {
-//                    // TODO Auto-generated method stub
-//                    
-//                  }
-//                  
-//                  @Override
-//                  public void onFailure(Throwable caught) {
-//                    // TODO Auto-generated method stub
-//                    
-//                  }
-//                });
                 
 				ClientsideSettings.setCurrentUser(result);
 				loadProfil();
@@ -102,6 +88,7 @@ public class Superteam2000 implements EntryPoint {
 				splash.add(splashSubhead);
 				splash.add(loginAnchor);
 				splashContaiern.add(splash);
+				ClientsideSettings.setCurrentUser(result);
 				
 				RootPanel.get("menu").getElement().getStyle().setZIndex(0);
 				RootPanel.get("main").add(splashContaiern);
@@ -110,11 +97,6 @@ public class Superteam2000 implements EntryPoint {
 
 		private void profilErstellen() {
 
-//			Navbar nb = new Navbar();
-//			RootPanel.get("menu").clear();
-//			RootPanel.get("menu").add(nb);
-			
-//			RootPanel.get("main").add(new Home());
 
 			BasicFrame cf = new CreateProfil();
 			RootPanel.get("main").clear();
@@ -128,8 +110,6 @@ public class Superteam2000 implements EntryPoint {
 			
 			RootPanel.get("menu").clear();
 			RootPanel.get("menu").add(nb);
-//			RootPanel.get("Details").clear();
-//			RootPanel.get("Details").add(new Home());
 			
 			ShowProfil sp = new ShowProfil();
 			RootPanel.get("main").add(sp);

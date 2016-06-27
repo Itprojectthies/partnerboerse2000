@@ -128,7 +128,10 @@ a:-webkit-any-link {
     height: 50%;
     margin: auto;
     position: absolute;
-    top: 100px; left: 0; bottom: 0; right: 0;
+    top: 100px;
+    left: 0;
+    bottom: 0;
+    right: 0;
     text-align: center;
     text-transform: uppercase;
 }
@@ -179,7 +182,7 @@ a:-webkit-any-link {
     /* We decrease the width of the .splash, since we have more width
     to work with */
     .splash {
-        width: 46%;
+        width: 45%;
         height: 50%;
     }
 

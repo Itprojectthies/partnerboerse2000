@@ -11,8 +11,6 @@ public class BoxPanel extends FlowPanel {
 	Auswahl auswahl = null;
 	Beschreibung beschreibung = null;
 
-	
-
 	EigenschaftListBox profilAttributListBox = new EigenschaftListBox();
 	ProfilAttributTextBox profilAttributTextBox = new ProfilAttributTextBox();
 
@@ -111,8 +109,6 @@ public class BoxPanel extends FlowPanel {
 		}
 	}
 
-	
-
 	public void setEnable(boolean isEnabled) {
 		this.profilAttributTextBox.setEnabled(isEnabled);
 		this.profilAttributListBox.setEnabled(isEnabled);
@@ -158,6 +154,7 @@ public class BoxPanel extends FlowPanel {
 	public String getSelectedItem() {
 		return this.profilAttributListBox.getSelectedItemText();
 	}
+	
 
 	public void setSelectedItem(String text) {
 		this.profilAttributListBox.setSelectedItemByText(text);
@@ -170,4 +167,12 @@ public class BoxPanel extends FlowPanel {
 	public void setSelectedItemByIndex(int i) {
 		this.profilAttributListBox.setSelectedItemByIndex(i);
 	}
+	
+	public void setGroesse(int groesse) {
+	  }
+	
+	public void setAlter(int alter) {
+	  }
+	  
+	  
 }

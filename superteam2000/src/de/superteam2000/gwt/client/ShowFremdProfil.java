@@ -71,7 +71,6 @@ public class ShowFremdProfil extends BasicFrame {
     sperrenBtn.setStyleName("pure-button");
     sperrenBtn.setIcon("fa fa-ban");
     sperrenBtn.setText("Block ");
-    sperrenBtn.setToast("alert", "gesperrt");
     sperrenBtn.addClickHandler(new SperrenButtonClickhandler());
     
     buttonsPanel.add(merkenBtn);

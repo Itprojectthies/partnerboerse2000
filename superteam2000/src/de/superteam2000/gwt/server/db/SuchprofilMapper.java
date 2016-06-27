@@ -41,13 +41,12 @@ public class SuchprofilMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-
 			ResultSet rs = stmt.executeQuery(
 					"SELECT id, Name, Profil_id, Haarfarbe, Raucher, Religion, Geschlecht, "
 					+ "Koerpergroesse_min, Koerpergroesse_max, Alter_min, Alter_max, "
 					+ "Auswahl_text_1, Auswahl_id_1, Auswahl_text_2, Auswahl_id_2, Auswahl_text_3, "
 					+ "Auswahl_id_3, Auswahl_text_4, Auswahl_id_4, Auswahl_text_5, Auswahl_id_5 "
-					+ "FROM Suchprofil WHERE Profil_id="+ p.getId()+" AND Name='"+name+"'");
+					+ "FROM Suchprofil WHERE Profil_id="+p.getId()+" AND Name='"+name+"'");
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Profil-Objekt
 			// erstellt.

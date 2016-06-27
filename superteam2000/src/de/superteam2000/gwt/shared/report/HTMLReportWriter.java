@@ -237,7 +237,7 @@ public class HTMLReportWriter extends ReportWriter {
     result.append("<h4> Ähnlichkeit " + r.getAehnlichkeit() + "%</h4>");
     
     result.append("<h2>" + r.getName() + "</h2>");
-    result.append("<div>");
+    result.append("<div class=\"profil-attribute\">");
     result.append("<p>" + r.getProfilAttributeBez().toString() + "</p>");
     result.append("<p>" + r.getProfilAttribute().toString() + "</p>");
     result.append("</div>");
@@ -251,16 +251,20 @@ public class HTMLReportWriter extends ReportWriter {
     if (rows != null) {
       ClientsideSettings.getLogger().info("Vector an Rows im HTMLWriter ungleich null");
     }
+    result.append("<div>");
     for (int i = 0; i < rows.size(); i++) {
       Row row = rows.elementAt(i);
-     
+      result.append("<div>");
       for (int k = 0; k < row.getNumColumns(); k++) {
+        
         result.append("<p>");
         result.append(" " + row.getColumnAt(k));
         result.append("</p>");
+       
       }
-      
+      result.append("</div>");
     }
+    result.append("</div>");
     result.append("</div>");
 
     /*

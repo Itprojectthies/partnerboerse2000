@@ -95,11 +95,11 @@ public class ShowProfil extends BasicFrame {
     fPanel.add(buttonsPanel);
 
     gebTag = new ProfilAttributListbox();
-    gebTag.createGebtaListobx();
+    gebTag.createGebtaListobx("Geburtstag");
     gebTag.setGebtag(currentProfil.getGeburtsdatum());
     
     groesse = new ProfilAttributListbox();
-    groesse.createGroesseListBox();
+    groesse.createGroesseListBox("Körpergröße");
     groesse.setGroesse(currentProfil.getGroesse());
 
     // Profilbeschreibungsattribute (Vorname, Nachname) werden vom Server
@@ -284,35 +284,28 @@ public class ShowProfil extends BasicFrame {
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
       for (Auswahl a : result) {
+        String boxPanelValue = "";
         switch (a.getName()) {
           case "Religion":
-            clb = new BoxPanel(a, currentProfil.getReligion(), true);
-            clb.setEnable(false);
-            clb.setStyleName("pure-control-group");
-            fPanel.add(clb);
+            boxPanelValue = currentProfil.getReligion();
             break;
           case "Haarfarbe":
-            clb = new BoxPanel(a, currentProfil.getHaarfarbe(), true);
-            clb.setEnable(false);
-            clb.setStyleName("pure-control-group");
-            fPanel.add(clb);
+            boxPanelValue = currentProfil.getHaarfarbe();
             break;
           case "Geschlecht":
-            clb = new BoxPanel(a, currentProfil.getGeschlecht(), true);
-            clb.setEnable(false);
-            clb.setStyleName("pure-control-group");
-            fPanel.add(clb);
+            boxPanelValue = currentProfil.getGeschlecht();
             break;
           case "Raucher":
-            clb = new BoxPanel(a, currentProfil.getRaucher(), true);
-            clb.setEnable(false);
-            clb.setStyleName("pure-control-group");
-            fPanel.add(clb);
+            boxPanelValue = currentProfil.getRaucher();
             break;
-
           default:
-            break;
+            continue;
         }
+        
+        clb = new BoxPanel(a, boxPanelValue, true);
+        clb.setEnable(false);
+        clb.setStyleName("pure-control-group");
+        fPanel.add(clb);
       }
 
       // Körpergröße und Geburtstags Listboxen werden nach den

@@ -18,6 +18,7 @@ import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 import com.google.gwt.view.client.SingleSelectionModel;
 
+import de.superteam2000.gwt.client.gui.CustomButton;
 import de.superteam2000.gwt.client.gui.DataGridProfiles;
 import de.superteam2000.gwt.client.gui.Notification;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
@@ -35,9 +36,10 @@ public class Sperre extends BasicFrame {
   @Override
   protected String getSubHeadlineText() {
     // TODO Auto-generated method stub
-    return "Hier findest du deine gemerkten Profile";
+    return "Hier findest du deine gesperrten Profile";
   }
-
+  
+  CustomButton profilEntfernenButton = new CustomButton("Entfernen ");
   ArrayList<Profil> profile = new ArrayList<>();
 
   // pbVerwaltung über ClientsideSettings holen
@@ -52,19 +54,19 @@ public class Sperre extends BasicFrame {
 
   @Override
   public void run() {
-    final Button profilEntfernenButton = new Button("Entfernen");
+    
+    profilEntfernenButton.setEnabled(false);
+    profilEntfernenButton.setIcon("fa fa-times");
     profilEntfernenButton.setStyleName("pure-button");
 
 
     FlowPanel fPanel = new FlowPanel();
-    FlowPanel buttonsPanel = new FlowPanel();
 
     fPanel.setStyleName("pure-form pure-form-aligned content");
-    // fPanel2.setStyleName("content");
+     fPanel2.setStyleName("content");
 
-    buttonsPanel.add(profilEntfernenButton);
 
-    fPanel.add(buttonsPanel);
+    fPanel.add(profilEntfernenButton);
     fPanel2.add(fPanel);
 
     profilEntfernenButton.addClickHandler(new EntfernenButtonClickhandler());
@@ -72,6 +74,7 @@ public class Sperre extends BasicFrame {
     selectionModel.addSelectionChangeHandler(new Handler() {
       @Override
       public void onSelectionChange(SelectionChangeEvent event) {
+        profilEntfernenButton.setEnabled(true);
         // ausgewähltes Profil setzen
         selected = selectionModel.getSelectedObject();
       }
@@ -114,6 +117,7 @@ public class Sperre extends BasicFrame {
 
     @Override
     public void onClick(ClickEvent event) {
+     
       if (selected != null) {
         ClientsideSettings.getPartnerboerseVerwaltung()
             .deleteSperre(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {

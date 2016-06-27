@@ -2,9 +2,9 @@ package de.superteam2000.gwt.client.gui;
 
 import java.util.Date;
 
-import com.google.gwt.user.client.ui.FlowPanel;
+import de.superteam2000.gwt.client.ClientsideSettings;
 
-public class ProfilAttributListbox extends FlowPanel {
+public class ProfilAttributListbox extends BoxPanel {
 
 
 
@@ -16,30 +16,38 @@ public class ProfilAttributListbox extends FlowPanel {
   EigenschaftListBox alterListBox = new EigenschaftListBox();
 
 
-  public void createGroesseListBox() {
-    this.add(new Label("Körpergröße"));
-    for (int i = 140; i < 210; i++) {
-      this.koerpergroesseListBox.addItem(String.valueOf(i));
-    }
 
-    this.koerpergroesseListBox.setName("Körpergröße");
-    this.add(this.koerpergroesseListBox);
-    this.koerpergroesseListBox.setEnabled(false);
-    setStyleName("pure-control-group");
+  public ProfilAttributListbox(String name) {
+    this.add(new Label(name));
+
+  }
+
+  public ProfilAttributListbox() {}
+
+  public void createGroesseListBox(String name) {
+    this.add(new Label(name));
+    for (int i = 140; i < 210; i++) {
+      this.profilAttributListBox.addItem(String.valueOf(i));
+    }
+    this.profilAttributListBox.setStyleName("pure-input-1-4");
+    this.profilAttributListBox.setName("Körpergröße");
+    this.add(this.profilAttributListBox);
+    this.profilAttributListBox.setEnabled(false);
+    setStyleName("pure-control-group-1");
   }
 
   public void createAlterListbox() {
     for (int i = 18; i < 100; i++) {
-      this.alterListBox.addItem(String.valueOf(i));
+      this.profilAttributListBox.addItem(String.valueOf(i));
     }
-
-    this.alterListBox.setName("Alter");
-    this.add(this.alterListBox);
-    setStyleName("pure-control-group");
+    this.profilAttributListBox.setStyleName("pure-input-1-4");
+    this.profilAttributListBox.setName("Alter");
+    this.add(this.profilAttributListBox);
+    setStyleName("pure-control-group-1");
   }
 
-  public void createGebtaListobx() {
-    this.add(new Label("Geburtstag"));
+  public void createGebtaListobx(String name) {
+    this.add(new Label(name));
     for (int i = 1; i <= 31; i++) {
       this.gebDatumTagListBox.addItem(String.valueOf(i));
     }
@@ -51,9 +59,9 @@ public class ProfilAttributListbox extends FlowPanel {
     for (int i = 1900; i <= 2000; i++) {
       this.gebDatumJahrListBox.addItem(String.valueOf(i));
     }
-     this.gebDatumTagListBox.setEnabled(false);
-     this.gebDatumMonatListBox.setEnabled(false);
-     this.gebDatumJahrListBox.setEnabled(false);
+    this.gebDatumTagListBox.setEnabled(false);
+    this.gebDatumMonatListBox.setEnabled(false);
+    this.gebDatumJahrListBox.setEnabled(false);
 
     this.gebDatumTagListBox.setName("GeburtstagTag");
     this.gebDatumMonatListBox.setName("GeburtstagMonat");
@@ -62,8 +70,8 @@ public class ProfilAttributListbox extends FlowPanel {
     this.add(this.gebDatumTagListBox);
     this.add(this.gebDatumMonatListBox);
     this.add(this.gebDatumJahrListBox);
-    
-    setStyleName("pure-control-group");
+
+    setStyleName("pure-control-group-1");
   }
 
   public void setGebtag(Date date) {
@@ -76,25 +84,30 @@ public class ProfilAttributListbox extends FlowPanel {
 
   public void setGroesse(int groesse) {
     if (groesse == 1) {
-      this.koerpergroesseListBox.setSelectedItemByIndex(0);
+      this.profilAttributListBox.setSelectedItemByIndex(0);
     } else {
-      this.koerpergroesseListBox.setItemSelected(groesse - 140, true);
+      this.profilAttributListBox.setItemSelected(groesse - 140, true);
     }
   }
 
   public void setAlter(int alter) {
     if (alter == 0) {
-      this.koerpergroesseListBox.setSelectedItemByIndex(0);
+      this.profilAttributListBox.setSelectedItemByIndex(0);
     } else {
-      this.koerpergroesseListBox.setItemSelected(alter - 17, true);
+      this.profilAttributListBox.setItemSelected(alter - 17, true);
     }
   }
 
   public void setEnable(boolean isEnabled) {
-    this.koerpergroesseListBox.setEnabled(isEnabled);
+    this.profilAttributListBox.setEnabled(isEnabled);
     this.gebDatumTagListBox.setEnabled(isEnabled);
     this.gebDatumMonatListBox.setEnabled(isEnabled);
     this.gebDatumJahrListBox.setEnabled(isEnabled);
   }
 
+  public void addKeineAngabenItem() {
+    this.profilAttributListBox.insertItem("Keine Angabe", 0);
+    this.profilAttributListBox.setSelectedIndex(0);
+
+  }
 }

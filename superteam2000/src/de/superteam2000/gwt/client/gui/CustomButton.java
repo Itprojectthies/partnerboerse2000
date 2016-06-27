@@ -16,14 +16,14 @@ public class CustomButton extends Button {
     /**
      * @return the isPushed
      */
-    public synchronized boolean isPushed() {
+    public boolean isPushed() {
       return isPushed;
     }
 
     /**
      * @param isPushed the isPushed to set
      */
-    public synchronized void setPushed(boolean isPushed) {
+    public void setPushed(boolean isPushed) {
       this.isPushed = isPushed;
     }
 
@@ -44,15 +44,10 @@ public class CustomButton extends Button {
     }
     
     public void setIcon(String iconText){
-      iHeading.setHTML("<i></i>");     
       iHeading.setStyleName(iconText);
       DOM.insertChild(getElement(), iHeading.getElement(), 2);
     }
     
-    public void setToast(String alert, String msg){
-      getElement().setAttribute("onclick", alert+"('"+msg+"')");
-//      DOM.insertBefore(getElement(), iHeading.getElement(), DOM.getFirstChild(getElement()));
-    }
 
     @Override
     public void setText(String text) {

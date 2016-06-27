@@ -115,14 +115,15 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
     ArrayList<Profil> profilesList = administration.getProfilesBySuchprofil(sp, p);
     AllProfilesBySucheReport result = new AllProfilesBySucheReport();
-    ArrayList<String> suchprofeilItems = administration.getItemsOfSuchprofil(sp);
+    ArrayList<String> suchprofilItems = administration.getItemsOfSuchprofil(sp);
 
     result.setTitle("Suche nach Suchprofilen");
     StringBuilder items = new StringBuilder();
     
-    for (String string : suchprofeilItems) {
+    for (String string : suchprofilItems) {
       items.append(string + " <br>");
     }
+    
     result.setSubTitle("Die Suche ergab: " + profilesList.size()
         + " Treffer" + "<p>Suchkritierien: <br>" + items.toString() + "</p>");
 
@@ -130,6 +131,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
       result.addSubReport(this.createProfilReport(profil));
 
     }
+    
     return result;
 
   }

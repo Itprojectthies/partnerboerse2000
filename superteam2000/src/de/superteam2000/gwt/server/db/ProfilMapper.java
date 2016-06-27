@@ -236,16 +236,16 @@ public class ProfilMapper {
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM Profil");
-
+			ResultSet rs1 = stmt.executeQuery("SELECT MAX(id) AS maxid FROM Profil");
+			
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
-			if (rs.next()) {
+			if (rs1.next()) {
 				/*
 				 * p erhält den bisher maximalen, nun um 1 inkrementierten
 				 * Primärschlüssel.
 				 */
-				p.setId(rs.getInt("maxid") + 1);
-
+				p.setId(rs1.getInt("maxid") + 1);
+				
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
@@ -258,7 +258,16 @@ public class ProfilMapper {
 						+ "','" + p.getGeschlecht() + "','" + p.getGeburtsdatum() + "')");
 
 				ClientsideSettings.getLogger().info("Profil " + p.getNachname() + "  in DB geschrieben");
+				
+				//Setzte das Erstelldatum
+				ResultSet rs2 = stmt.executeQuery("SELECT Erstelldatum FROM Profil WHERE id =" +p.getId());
+	            if (rs2.next()) {
+                  p.setErstelldatum(rs2.getTimestamp("Erstelldatum"));
+                }
+	            
 			}
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ClientsideSettings.getLogger()

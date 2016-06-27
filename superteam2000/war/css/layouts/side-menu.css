@@ -97,14 +97,14 @@ h4 {
   margin-bottom: 25px
 }
 p {
-  display: inline-block;
+  /*display: inline-block;
   text-align: left;
   /*width: 40%;*/
-  padding: 0em 0 0 0em;
+  /*padding: 0em 0 0 0em;
   font-size: 16px;
   line-height: 26px;
   margin-bottom: 20px;
-  color: #666;
+  color: #666;*/
 }
 /*
  * ------------------------------------------- eigen css stlye

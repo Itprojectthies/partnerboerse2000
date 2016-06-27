@@ -17,14 +17,14 @@ public class EigenschaftListBox extends ListBox {
 	public EigenschaftListBox(Auswahl a, String name) {
 		this(a);
 		this.setSelectedItemByText(name);
-		setStyleName(CLASSNAME);
+		this.setStyleName(CLASSNAME);
 		
 	}
 
 	public EigenschaftListBox(Auswahl a) {
 		this.setName(a.getName());
 		this.addAuswahlAlternativen(a);
-		setStyleName(CLASSNAME);
+		this.setStyleName(CLASSNAME);
 	}
 	
 	public EigenschaftListBox() {

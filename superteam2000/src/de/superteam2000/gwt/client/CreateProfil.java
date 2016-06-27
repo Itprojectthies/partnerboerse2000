@@ -59,11 +59,11 @@ public class CreateProfil extends BasicFrame {
     fPanel.setStyleName("pure-form pure-form-aligned");
     fPanel2.setStyleName("content");
     gebTag = new ProfilAttributListbox();
-    gebTag.createGebtaListobx();
+    gebTag.createGebtaListobx("Was ist dein Geburtstag");
     gebTag.setEnable(true);
     
     groesse = new ProfilAttributListbox();
-    groesse.createGroesseListBox();
+    groesse.createGroesseListBox("Was ist deine Körpergröße");
     groesse.setEnable(true);
     
     pbVerwaltung
@@ -82,10 +82,6 @@ public class CreateProfil extends BasicFrame {
 
   private class GetAllBeschreibungProfilAttributeCallBack
       implements AsyncCallback<ArrayList<Beschreibung>> {
-//    CreateProfil panel = null;
-//    public GetAllBeschreibungProfilAttributeCallBack (CreateProfil panel) {
-//      this.panel = panel;
-//    }
     
     @Override
     public void onSuccess(ArrayList<Beschreibung> result) {
@@ -99,16 +95,12 @@ public class CreateProfil extends BasicFrame {
 
     @Override
     public void onFailure(Throwable caught) {
-      // TODO Auto-generated method stub
 
     }
   }
 
   private class GetAllAuswahlProfilAttributeCallBack implements AsyncCallback<ArrayList<Auswahl>> {
-//    CreateProfil panel = null;
-//    public GetAllAuswahlProfilAttributeCallBack (CreateProfil panel) {
-//      this.panel = panel;
-//    }
+
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
       for (Auswahl a : result) {
@@ -124,7 +116,6 @@ public class CreateProfil extends BasicFrame {
 
     @Override
     public void onFailure(Throwable caught) {
-      // TODO Auto-generated method stub
 
     }
   }
@@ -237,12 +228,12 @@ public class CreateProfil extends BasicFrame {
 
     @Override
     public void onSuccess(Profil p) {
-
+      p.setLogoutUrl(user.getLogoutUrl());
       ClientsideSettings.setCurrentUser(p);
       p.setLoggedIn(true);
       ShowProfil sp = new ShowProfil();
       Navbar nb = new Navbar();
-      RootPanel.get("menu").clear();
+      RootPanel.get("main").clear();
       RootPanel.get("menu").add(nb);
       RootPanel.get("main").add(sp);
     }

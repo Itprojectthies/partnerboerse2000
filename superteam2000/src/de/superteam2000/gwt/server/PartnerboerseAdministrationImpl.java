@@ -75,8 +75,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       Profil bestehendesProfil = this.pMapper.findByEmail(user.getEmail());
 
       if (bestehendesProfil != null) {
-        ClientsideSettings.getLogger().severe("Userobjekt E-Mail =" + user.getEmail()
-            + ". Bestehender User E-Mail  =" + bestehendesProfil.getEmail());
+        ClientsideSettings.getLogger().severe("Userobjekt E-Mail = " + user.getEmail()
+            + "  Bestehender User: E-Mail  =" + bestehendesProfil.getEmail());
         bestehendesProfil.setLoggedIn(true);
         bestehendesProfil.setLogoutUrl(userService.createLogoutURL(requestUri));
 
@@ -90,6 +90,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     } else {
       profil.setLoggedIn(false);
       profil.setLoginUrl(userService.createLoginURL(requestUri));
+      profil.setLogoutUrl(userService.createLogoutURL(requestUri));
     }
 
     return profil;
@@ -118,7 +119,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
      */
     p.setId(1);
     ClientsideSettings.setCurrentUser(p);
-    ClientsideSettings.getLogger().info("user \"" + p.getNachname() + "\" erstellt");
+    ClientsideSettings.getLogger().info("user " + p.getNachname() + " erstellt");
 
     // Objekt in der DB speichern.
     return this.pMapper.insert(p);
@@ -198,7 +199,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     if (!sp.getRaucher().equals("Keine Angabe"))
       itemsList.add("Raucher: " + sp.getRaucher());
     if (!sp.getGeschlecht().equals("Keine Angabe"))
-      itemsList.add(sp.getGeschlecht());
+      itemsList.add("Geschlecht: " + sp.getGeschlecht());
     if (sp.getAlter_min() != 0 && sp.getAlter_max() != 0) {
       itemsList.add("Minimales Alter: " + String.valueOf(sp.getAlter_min()));
       itemsList.add("Maximales Alter: " + String.valueOf(sp.getAlter_max()));
@@ -218,6 +219,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       }
     }
 
+    //Keine Suchkriterien im Suhprofil
+    if (itemsList.size() == 0) {
+      itemsList.add("Keine");
+      
+    }
+    
     return itemsList;
   }
 
@@ -885,7 +892,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       }
 
     });
-
+    //das eigene Profil entfernen
+    result.remove(user);
     return result;
   }
 
