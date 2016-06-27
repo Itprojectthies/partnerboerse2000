@@ -18,15 +18,23 @@ import de.superteam2000.gwt.shared.bo.Info;
 import de.superteam2000.gwt.shared.bo.Merkzettel;
 import de.superteam2000.gwt.shared.bo.Profil;
 
+/**
+ * Klasse zum anzeigen eines Fremdprofils
+ * 
+ * @author Volz, Funke
+ */
 public class ShowFremdProfil extends BasicFrame {
+  /*
+   * Alle notwendigen Instanzvariablen werden deklariert
+   */
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
-  Profil profil = ClientsideSettings.getCurrentUser();
+  Profil user = ClientsideSettings.getCurrentUser();
 
   CustomButton merkenBtn = new CustomButton();
   CustomButton sperrenBtn = new CustomButton();
 
   Profil p = null;
-  FlowPanel fPanel = new FlowPanel();
+  FlowPanel contentPanel = new FlowPanel();
   FlowPanel buttonsPanel = new FlowPanel();
 
 
@@ -41,7 +49,6 @@ public class ShowFremdProfil extends BasicFrame {
 
   @Override
   protected String getSubHeadlineText() {
-    // TODO Auto-generated method stub
     return "Wie gefällt dir " + p.getVorname() + " " + p.getNachname() + "?";
   }
 
@@ -54,14 +61,10 @@ public class ShowFremdProfil extends BasicFrame {
     String aenhnlickeit = "Ähnlickeitsmaß " + String.valueOf(p.getAehnlichkeit()) + "%";
     legend.setHTML("<legend>" + aenhnlickeit + "</legend>");
 
-
-
     merkenBtn.setStyleName("pure-button");
     merkenBtn.setIcon("fa fa-heart-o");
     merkenBtn.setText("Like ");
     merkenBtn.addClickHandler(new MerkenButtonClickhandler());
-
-
 
     sperrenBtn.setStyleName("pure-button");
     sperrenBtn.setIcon("fa fa-ban");
@@ -71,124 +74,115 @@ public class ShowFremdProfil extends BasicFrame {
     buttonsPanel.add(merkenBtn);
     buttonsPanel.add(sperrenBtn);
     buttonsPanel.add(legend);
-    fPanel.add(buttonsPanel);
-
+    contentPanel.add(buttonsPanel);
 
     this.setStyleName("pure-form pure-form-aligned");
-    fPanel.setStyleName("pure-controls-group content");
+    contentPanel.setStyleName("pure-controls-group content");
 
-    pbVerwaltung.getMerkzettelForProfil(profil, new MerkzettelCallback());
-
-
+    pbVerwaltung.getMerkzettelForProfil(user, new MerkzettelCallback());
     pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
-    this.add(fPanel);
+
+    this.add(contentPanel);
   }
 
+  /*
+   * Methode zum Darstellen der Fremdprofil-Eigenschaften (z.B. Raucher: ja)
+   */
   public void createProfileLabels(String eigenschaft, String text) {
-    FlowPanel f = new FlowPanel();
-    f.setStyleName("pure-control-group");
-    Label l1 = new Label(eigenschaft);
-    Label l2 = new Label(text);
-    l2.setStyleName("label-rechts");
-    f.add(l1);
-    f.add(l2);
+    FlowPanel fremdProfilEigenschaftenPanel = new FlowPanel();
+    fremdProfilEigenschaftenPanel.setStyleName("pure-control-group");
 
-    fPanel.add(f);
+    Label eigenschaftName = new Label(eigenschaft);
+    Label eigenschaftText = new Label(text);
+    eigenschaftText.setStyleName("label-rechts");
+
+    fremdProfilEigenschaftenPanel.add(eigenschaftName);
+    fremdProfilEigenschaftenPanel.add(eigenschaftText);
+
+    contentPanel.add(fremdProfilEigenschaftenPanel);
   }
 
 
-  private final class MerkzettelCallback implements AsyncCallback<Merkzettel> {
+  private class MerkzettelCallback implements AsyncCallback<Merkzettel> {
     private ArrayList<Profil> profile;
 
     @Override
     public void onSuccess(Merkzettel result) {
       profile = result.getGemerkteProfile();
+      
+      // Wenn Fremdprofil auf dem Merkzettel ist, soll der MerkButton gesetzt sein (Herz ausgefüllt)
       for (Profil profil : profile) {
         if (p.equals(profil)) {
           merkenBtn.setIcon("fa fa-heart");
           merkenBtn.setPushed(true);
         }
       }
-
-
     }
 
     @Override
-    public void onFailure(Throwable caught) {
-
-    }
+    public void onFailure(Throwable caught) {}
   }
 
   public class SperrenButtonClickhandler implements ClickHandler {
+
+
     @Override
     public void onClick(ClickEvent event) {
       new Notification("Profil von " + p.getVorname() + " gesperrt", "info");
-
-      if (p != null) {
-        ClientsideSettings.getPartnerboerseVerwaltung()
-            .createSperre(ClientsideSettings.getCurrentUser(), p, new AsyncCallback<Void>() {
-
-              @Override
-              public void onSuccess(Void result) {
-                sperrenBtn.setEnabled(false);
-                merkenBtn.setIcon("fa fa-heart-o");
-                merkenBtn.setEnabled(false);
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-
-          }
-            });
-      }
-
+      pbVerwaltung.createSperre(user, p, new CreateSperreCallback());
     }
   }
 
+  private class CreateSperreCallback implements AsyncCallback<Void> {
+    @Override
+    public void onSuccess(Void result) {
+      sperrenBtn.setEnabled(false);
+
+      merkenBtn.setIcon("fa fa-heart-o");
+      merkenBtn.setEnabled(false);
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {}
+  }
+
+
   public class MerkenButtonClickhandler implements ClickHandler {
+
     @Override
     public void onClick(ClickEvent event) {
 
-
       if (!merkenBtn.isPushed()) {
-
-        ClientsideSettings.getPartnerboerseVerwaltung()
-            .createMerken(ClientsideSettings.getCurrentUser(), p, new AsyncCallback<Void>() {
-
-              @Override
-              public void onSuccess(Void result) {
-                new Notification("Profil von " + p.getVorname() + " gemerkt", "info");
-                merkenBtn.setIcon("fa fa-heart");
-                merkenBtn.setPushed(true);
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-
-
-          }
-            });
+        pbVerwaltung.createMerken(user, p, new CreateMerkenCallback());
 
       } else {
-        pbVerwaltung.deleteMerken(ClientsideSettings.getCurrentUser(), p,
-            new AsyncCallback<Void>() {
-
-              @Override
-              public void onSuccess(Void result) {
-                new Notification("Profil von " + p.getVorname() + " entmerkt", "info");
-                merkenBtn.setIcon("fa fa-heart-o");
-                merkenBtn.setPushed(false);
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-                // TODO Auto-generated method stub
-
-              }
-            });
+        pbVerwaltung.deleteMerken(user, p, new DeleteMerkenCallback());
       }
-
     }
+  }
+
+  private class DeleteMerkenCallback implements AsyncCallback<Void> {
+    @Override
+    public void onSuccess(Void result) {
+      new Notification("Profil von " + p.getVorname() + " entmerkt", "info");
+      merkenBtn.setIcon("fa fa-heart-o");
+      merkenBtn.setPushed(false);
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {}
+  }
+
+  private class CreateMerkenCallback implements AsyncCallback<Void> {
+    @Override
+    public void onSuccess(Void result) {
+      new Notification("Profil von " + p.getVorname() + " gemerkt", "info");
+      merkenBtn.setIcon("fa fa-heart");
+      merkenBtn.setPushed(true);
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {}
   }
 
   private class GetAllAuswahlProfilAttributeCallback implements AsyncCallback<ArrayList<Auswahl>> {
@@ -214,26 +208,15 @@ public class ShowFremdProfil extends BasicFrame {
       createProfileLabels("Alter", String.valueOf(p.getAlter()) + " Jahre ");
       createProfileLabels("Größe", String.valueOf(p.getGroesse()) + " cm");
 
-
-
       pbVerwaltung.getInfoByProfile(p, new InfoCallback());
 
     }
 
     @Override
-    public void onFailure(Throwable caught) {
-      // TODO Auto-generated method stub
-
-    }
+    public void onFailure(Throwable caught) {}
   }
 
   private class InfoCallback implements AsyncCallback<ArrayList<Info>> {
-
-    // private BasicFrame b = null;
-    //
-    // public InfoCallback(BasicFrame b) {
-    // this.b = b;
-    // }
 
     @Override
     public void onFailure(Throwable caught) {}
@@ -242,25 +225,16 @@ public class ShowFremdProfil extends BasicFrame {
     public void onSuccess(ArrayList<Info> result) {
       for (Info i : result) {
         if (i != null) {
-          // table.setText(rowCounter, 1, i.getText());
-
           pbVerwaltung.getAuswahlById(i.getEigenschaftId(), new GetAuswahlCallback(i));
           pbVerwaltung.getBeschreibungById(i.getEigenschaftId(), new GetBeschreibungCallback(i));
-
         }
-
       }
-
-
-
     }
   }
 
   private class GetAuswahlCallback implements AsyncCallback<Auswahl> {
 
-    // private BasicFrame b = null;
     private Info i = null;
-    // HTML html = new HTML();
 
     public GetAuswahlCallback(Info i) {
       this.i = i;
@@ -268,12 +242,10 @@ public class ShowFremdProfil extends BasicFrame {
 
     @Override
     public void onFailure(Throwable caught) {
-
     }
 
     @Override
     public void onSuccess(Auswahl result) {
-
       createProfileLabels(result.getName(), i.getText());
     }
 
@@ -281,18 +253,14 @@ public class ShowFremdProfil extends BasicFrame {
 
   private class GetBeschreibungCallback implements AsyncCallback<Beschreibung> {
 
-    // private BasicFrame b = null;
     private Info i = null;
-    // HTML html = new HTML();
 
     public GetBeschreibungCallback(Info i) {
-      // this.b = b;
       this.i = i;
     }
 
     @Override
     public void onFailure(Throwable caught) {
-
     }
 
     @Override
