@@ -83,10 +83,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 
   // Kontaktsperre
-  public void createKontaktsperre(Profil sperrer, Profil gesperrter)
-      throws IllegalArgumentException;
-
-  public void deleteKontaktsperre(Kontaktsperre kontaktsperre) throws IllegalArgumentException;
 
   public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException;
 

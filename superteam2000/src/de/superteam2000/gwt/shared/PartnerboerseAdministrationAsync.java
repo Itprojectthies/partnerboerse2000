@@ -88,11 +88,6 @@ public interface PartnerboerseAdministrationAsync {
 
   void getMerkzettelForProfil(Profil profil, AsyncCallback<Merkzettel> callback);
 
-  // Kontaktsperre
-  void createKontaktsperre(Profil sperrer, Profil gesperrter, AsyncCallback<Void> callback);
-
-  void deleteKontaktsperre(Kontaktsperre kontaktsperre, AsyncCallback<Void> callback);
-
   void getKontaktsperreForProfil(Profil profil, AsyncCallback<Kontaktsperre> callback);
 
   void createInfoFor(Profil profil, Auswahl auswahl, String text, AsyncCallback<Info> callback);

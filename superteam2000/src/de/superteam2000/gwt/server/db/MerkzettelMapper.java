@@ -9,54 +9,47 @@ import java.util.ArrayList;
 import de.superteam2000.gwt.shared.bo.Merkzettel;
 import de.superteam2000.gwt.shared.bo.Profil;
 
-/**
- * Mapper-Klasse, die <code>Merkzettel</code>-Objekte auf eine relationale
- * Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur VerfÃ¼gung
- * gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
- * gelÃ¶scht werden kÃ¶nnen. Das Mapping ist bidirektional. D.h., Objekte kÃ¶nnen
- * in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
- * <p>
- * 
- * 
- * @see
- * @author Thies
- */
+	/**
+	 * Klasse, die die Aufgabe erfüllt, die Objekte einer persistenten Klasse auf die Datenbank abzubilden und dort zu speichern.
+	 * Die zu speichernden Objekte werden dematerialisiert und zu gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird
+	 * als indirektes Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende Methoden zur Suche, zum Speichern, Löschen und 
+ 	 * Modifizieren von Objekten. 
+	 * @see AehnlichkeitsMapper
+	 * @see AuswahlMapper
+	 * @see BeschreibungMapper
+	 * @see DBConnection
+	 * @see InfoMapper
+	 * @see KontaktsperreMapper
+	 * @see ProfilMapper
+	 * @see SuchprofilMapper
+	 * @author 
+	 */
+
 
 public class MerkzettelMapper {
 
 	/**
-	 * Die Klasse MerkzettelMapper wird nur einmal instantiiert. Man spricht
-	 * hierbei von einem sogenannten <b>Singleton</b>.
-	 * <p>
-	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal
-	 * fÃ¼r sÃ¤mtliche eventuellen Instanzen dieser Klasse vorhanden. Sie
-	 * speichert die einzige Instanz dieser Klasse.
+	 * Von der Klasse MerkzettelMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die Singleton-Eigenschaft.
+	 * Dies geschieht mittels eines private default-Konstruktors und genau einer statischen Variablen vom 
+	 * Typ MerkzettelMapper, die die einzige Instanz der Klasse darstellt.
 	 * 
 	 */
 	private static MerkzettelMapper merkzettelMapper = null;
 
+
 	/**
-	 * GeschÃ¼tzter Konstruktor - verhindert die MÃ¶glichkeit, mit new neue
-	 * Instanzen dieser Klasse zu erzeugen.
-	 * 
+	 * Durch den Modifier "private" geschützter Konstruktor, der verhindert das weiter Instanzen der Klasse erzeugt werden können
+	 *  
 	 */
 	protected MerkzettelMapper() {
 	}
 
 	/**
-	 * Diese statische Methode kann aufgrufen werden durch
-	 * <code>MerkzettelMapper.MerkzettelMapper()</code>. Sie stellt die
-	 * Singleton-Merkzettel sicher, indem Sie dafÃ¼r sorgt, dass nur eine einzige
-	 * Instanz von <code>MerkzettelMapper</code> existiert.
-	 * <p>
-	 * 
-	 * <b>Fazit:</b> MerkzettelMapper sollte nicht mittels <code>new</code>
-	 * instantiiert werden, sondern stets durch Aufruf dieser statischen
-	 * Methode.
-	 * 
-	 * @return DAS <code>MerkzettelMapper</code>-Objekt.
-	 * @see MerkzettelMapper
+	 * Von der Klasse MerkzettelMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die Singleton-Eigenschaft.
+	 * Dies geschieht mittels eines private default-Konstruktors und genau einer statischen Variablen vom 
+	 * Typ MerkzettelMapper, die die einzige Instanz der Klasse darstellt.
 	 */
+	
 	public static MerkzettelMapper merkzettelMapper() {
 		if (merkzettelMapper == null) {
 			merkzettelMapper = new MerkzettelMapper();
@@ -68,10 +61,14 @@ public class MerkzettelMapper {
 
 
 	/**
-	 * Auslesen aller MerkzetteleintrÃ¤ge fÃ¼r ein Profil.
+	 * Auslesen aller Merkzetteleintäge aus der Datenbank für ein Profil.
 	 *
+	 * @param p  - Profil p
 	 * @return Merkzettel des Profils
+	 * 
 	 */
+	
+	
 	public Merkzettel findAllForProfil(Profil p) {
 		Connection con = DBConnection.connection();
 		// Ergebnisvektor vorbereiten
@@ -85,7 +82,7 @@ public class MerkzettelMapper {
 					+ "FROM Merkzettel WHERE Merker_id=" + p.getId());
 			result.setMerkerId(p.getId());
 
-			// FÃ¼r jeden Eintrag im Suchergebnis wird nun ein Merkzettel-Objekt
+			// Für jeden Eintrag im Suchergebnis wird nun ein Merkzettel-Objekt
 			// erstellt.
 			while (rs.next()) {
 				Profil profil = ProfilMapper.profilMapper().findByKey(rs.getInt("Gemerkter_id"));
@@ -106,15 +103,11 @@ public class MerkzettelMapper {
 
 
 	/**
-	 * EinfÃ¼gen eines <code>Merkzettel</code>-Objekts in die Datenbank. Dabei
-	 wird
-	 * auch der PrimÃ¤rschlÃ¼ssel des Ã¼bergebenen Objekts geprÃ¼ft und ggf.
-	 * berichtigt.
-	 *
-	 * @param m das zu speichernde Objekt
+	 * Einfügen eines Merkzettel-Objekts in die Datenbank. 
+	 * @param m das zu speichernde Objekt 
 	 * 
 	 */
-	public Merkzettel insertMerkenForProfil(Profil merker, Profil gemerkter) {
+	public void insertMerkenForProfil(Profil merker, Profil gemerkter) {
 
 		Connection con = DBConnection.connection();
 		try {
@@ -126,12 +119,10 @@ public class MerkzettelMapper {
 			Merkzettel m = new Merkzettel();
 
 			m.setMerkerId(merker.getId());
-			return m;
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
 
 		
 	}
@@ -139,10 +130,10 @@ public class MerkzettelMapper {
 
 
 	/**
-	 * LÃ¶schen der Daten eines Merkzettel-Eintrags aus der
+	 * Löschen der Daten eines Merkzettel-Eintrags aus der
 	 Datenbank.
 	 *
-	 * @param zwei Profile, der zu lÃ¶schende und der "lÃ¶schende"
+	 * @param zwei Profile, der zu löschende und der "löschende"
 	 */
 	public void deleteMerkenFor(Profil entferner, Profil entfernter) {
 		Connection con = DBConnection.connection();
