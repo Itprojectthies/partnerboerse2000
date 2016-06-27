@@ -522,6 +522,12 @@ public class Suche extends BasicFrame {
     return sp;
   }
 
+  private boolean isKeineAngabeSelected (BoxPanel box) {
+    if (box.getSelectedItem().equals("Keine Angabe")) {
+      return true;
+    }
+    return false;
+  }
 
 }
 
