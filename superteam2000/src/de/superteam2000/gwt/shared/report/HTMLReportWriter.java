@@ -254,7 +254,7 @@ public class HTMLReportWriter extends ReportWriter {
     result.append("<div>");
     for (int i = 0; i < rows.size(); i++) {
       Row row = rows.elementAt(i);
-      result.append("<div>");
+      result.append("<div class=\"profil-attribute-combo\">");
       for (int k = 0; k < row.getNumColumns(); k++) {
 
         result.append("<p>");

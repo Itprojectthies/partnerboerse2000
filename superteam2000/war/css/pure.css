@@ -27,6 +27,9 @@ Copyright (c) Nicolas Gallagher and Jonathan Neal
     color: #666;
  }
  
+ .profil-attribute-combo {
+ 	padding-bottom: 1em;
+ }
  
  .search-box {
  	width: 12em;
