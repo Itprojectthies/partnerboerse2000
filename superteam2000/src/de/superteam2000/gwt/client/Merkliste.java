@@ -13,7 +13,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
 /**
  * Diese Klasse ist zum Anzeigen sämtlicher vom Benutzer gemerkten Profile.
  *
- * @author Christopher Funke, Volz Daniel
+ * @author Volz, Funke
  *
  */
 public class Merkliste extends BasicFrame {

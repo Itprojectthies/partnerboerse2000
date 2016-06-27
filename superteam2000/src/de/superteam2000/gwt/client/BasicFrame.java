@@ -3,7 +3,6 @@ package de.superteam2000.gwt.client;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Diese Klasse ist die Basisklasse aller BasicFrames. Jeder BasicFrame ist ein FlowPanel
@@ -20,13 +19,13 @@ public abstract class BasicFrame extends FlowPanel {
     /*
      * Die Super-Klasse initialisiert das Widget
      */
-
     super.onLoad();
     
     /*
      * Füge die jeweilige Implementation der Headline und der Subheadline zum FlowPanel hinzu
      */
     this.add(createHeadline(getHeadlineText(), getSubHeadlineText()));
+    
     /*
      * Lösche die Datagrid für jede konkretisierte Klasse 
      */

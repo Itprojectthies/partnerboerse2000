@@ -3,7 +3,6 @@ package de.superteam2000.gwt.client;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -13,7 +12,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.superteam2000.gwt.client.gui.Label;
 import de.superteam2000.gwt.client.gui.ListItemWidget;
 import de.superteam2000.gwt.client.gui.UnorderedListWidget;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
@@ -26,6 +24,9 @@ import de.superteam2000.gwt.shared.bo.Profil;
  *
  */
 public class Navbar extends VerticalPanel {
+  /*
+   * Alle notwendigen Instanzvariablen werden deklariert
+   */
 
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
