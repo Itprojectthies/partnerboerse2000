@@ -30,11 +30,11 @@ import de.superteam2000.gwt.shared.bo.Profil;
  */
 public class CreateProfil extends BasicFrame {
 
-  PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
-
   /*
    * Alle notwendigen Instanzvariablen werden deklariert
    */
+
+  PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
   Profil user = ClientsideSettings.getCurrentUser();
   Logger logger = ClientsideSettings.getLogger();

@@ -13,13 +13,25 @@ import de.superteam2000.gwt.shared.bo.Beschreibung;
 import de.superteam2000.gwt.shared.bo.Info;
 import de.superteam2000.gwt.shared.bo.Profil;
 
+/**
+ * Klasse zum Anzeigen, Hinzufügen und Löschen von Eigenschaften
+ *
+ * @author Volz Daniel
+ */
+
 public class Eigenschaft extends BasicFrame {
+  /*
+   * Alle notwendigen Instanzvariablen werden deklariert
+   */
 
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+
   Profil profil = ClientsideSettings.getCurrentUser();
+
   ArrayList<Info> infoListe = new ArrayList<Info>();
-  FlowPanel fPanel = new FlowPanel();
-  FlowPanel fPanel2 = new FlowPanel();
+
+  FlowPanel alignPanel = new FlowPanel();
+  FlowPanel contentPanel = new FlowPanel();
 
 
   @Override
@@ -35,29 +47,28 @@ public class Eigenschaft extends BasicFrame {
 
   @Override
   protected void run() {
-    fPanel.setStyleName("pure-form pure-form-aligned");
-    fPanel2.setStyleName("content");
+    alignPanel.setStyleName("pure-form pure-form-aligned");
+    contentPanel.setStyleName("content");
 
-    fPanel2.add(fPanel);
-    RootPanel.get("main").add(fPanel2);
-    pbVerwaltung.getInfoByProfile(profil, new AsyncCallback<ArrayList<Info>>() {
+    contentPanel.add(alignPanel);
 
-      @Override
-      public void onSuccess(ArrayList<Info> result) {
-        infoListe = result;
+    RootPanel.get("main").add(contentPanel);
 
-      }
-
-      @Override
-      public void onFailure(Throwable caught) {
-        // TODO Auto-generated method stub
-
-      }
-    });
+    pbVerwaltung.getInfoByProfile(profil, new InfoByProfileCallback());
 
     pbVerwaltung.getAllAuswahl(new AuswahlCallback());
 
 
+  }
+
+  private class InfoByProfileCallback implements AsyncCallback<ArrayList<Info>> {
+    @Override
+    public void onSuccess(ArrayList<Info> result) {
+      infoListe = result;
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {}
   }
 
   class AuswahlCallback implements AsyncCallback<ArrayList<Auswahl>> {
@@ -69,35 +80,29 @@ public class Eigenschaft extends BasicFrame {
     public void onSuccess(ArrayList<Auswahl> result) {
       if (result != null) {
         for (Auswahl a : result) {
+
           // Befülle die Zeilen der Tabelle mit Auswahlobjektinformationen und der Checkbox
           EigenschaftPanel ePanel = new EigenschaftPanel(a, false, infoListe);
-          fPanel.add(ePanel);
-
-
+          alignPanel.add(ePanel);
         }
         pbVerwaltung.getAllBeschreibung(new BeschreibungCallback());
       } else {
         ClientsideSettings.getLogger().info("result == null");
       }
     }
-
-
   }
 
   class BeschreibungCallback implements AsyncCallback<ArrayList<Beschreibung>> {
 
     @Override
-    public void onFailure(Throwable caught) {
-      // TODO Auto-generated method stub
-
-    }
+    public void onFailure(Throwable caught) {}
 
     @Override
     public void onSuccess(ArrayList<Beschreibung> result) {
       if (result != null) {
         for (Beschreibung b : result) {
           EigenschaftPanel ePanel = new EigenschaftPanel(b, false, infoListe);
-          fPanel.add(ePanel);
+          alignPanel.add(ePanel);
         }
 
       } else {
@@ -105,8 +110,6 @@ public class Eigenschaft extends BasicFrame {
       }
     }
   }
-
-
 }
 
 
