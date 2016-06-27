@@ -8,14 +8,14 @@ import java.io.Serializable;
 public class ProfilReport extends SimpleReport implements Serializable {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
 
   private int profilId;
 
   public int getProfilId() {
-    return this.profilId;
+    return profilId;
   }
 
   public void setProfilId(int profilId) {

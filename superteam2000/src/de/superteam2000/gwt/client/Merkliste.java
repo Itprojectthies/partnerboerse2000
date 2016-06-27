@@ -40,13 +40,13 @@ public class Merkliste extends BasicFrame {
   public void run() {
 
     // Merkliste abfragen und anzeigen
-    this.pbVerwaltung.getMerkzettelForProfil(this.profil, new AsyncCallback<Merkzettel>() {
+    pbVerwaltung.getMerkzettelForProfil(profil, new AsyncCallback<Merkzettel>() {
 
       @Override
       public void onSuccess(Merkzettel result) {
 
-        Merkliste.this.profile = result.getGemerkteProfile();
-        DataGridProfiles dgp = new DataGridProfiles(Merkliste.this.profile);
+        profile = result.getGemerkteProfile();
+        DataGridProfiles dgp = new DataGridProfiles(profile);
         dgp.addClickFremdProfil();
 
         RootPanel.get("main").add(dgp.start());
@@ -73,10 +73,9 @@ public class Merkliste extends BasicFrame {
   public class EntfernenButtonClickhandler implements ClickHandler {
     @Override
     public void onClick(ClickEvent event) {
-      if (Merkliste.this.selected != null) {
-        ClientsideSettings.getPartnerboerseVerwaltung().deleteMerken(
-            ClientsideSettings.getCurrentUser(), Merkliste.this.selected,
-            new AsyncCallback<Void>() {
+      if (selected != null) {
+        ClientsideSettings.getPartnerboerseVerwaltung()
+            .deleteMerken(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
 
               @Override
               public void onSuccess(Void result) {

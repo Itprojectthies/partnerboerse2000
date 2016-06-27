@@ -26,7 +26,7 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
    * @return the infoId
    */
   public synchronized int getInfoId() {
-    return this.infoId;
+    return infoId;
   }
 
   /**
@@ -46,7 +46,7 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
 
   public EigenschaftPanel(Auswahl a, String selectedItem, boolean isNameListbox) {
     super(a, selectedItem, isNameListbox);
-    this.check1.setStyleName("pure-checkbox");
+    check1.setStyleName("pure-checkbox");
   }
 
   public EigenschaftPanel(Beschreibung b, String text, boolean isNameTextbox) {
@@ -55,35 +55,35 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
 
   public EigenschaftPanel(Beschreibung b, boolean isNameTextbox, ArrayList<Info> infoListe) {
     super(b, isNameTextbox);
-    this.add(this.check2);
-    this.check2.addClickHandler(this);
+    this.add(check2);
+    check2.addClickHandler(this);
 
     for (Info info : infoListe) {
       if (b.getId() == info.getEigenschaftId()) {
-        this.check2.setValue(true);
-        this.setText(info.getText());
+        check2.setValue(true);
+        setText(info.getText());
       }
     }
 
-    this.check2.setStyleName("pure-checkbox");
+    check2.setStyleName("pure-checkbox");
   }
 
   public EigenschaftPanel(Auswahl a, boolean isNameListbox, ArrayList<Info> infoListe) {
     super(a, isNameListbox);
-    this.add(this.check1);
-    this.check1.addClickHandler(this);
-    this.profilAttributListBox.addChangeHandler(this);
+    this.add(check1);
+    check1.addClickHandler(this);
+    profilAttributListBox.addChangeHandler(this);
 
     for (Info info : infoListe) {
       if (a.getId() == info.getEigenschaftId()) {
-        this.check1.setValue(true);
-        this.i = info;
-        this.setInfoId(info.getId());
-        this.setSelectedItem(info.getText());
+        check1.setValue(true);
+        i = info;
+        setInfoId(info.getId());
+        setSelectedItem(info.getText());
       }
     }
 
-    this.check1.setStyleName("pure-checkbox");
+    check1.setStyleName("pure-checkbox");
   }
 
   public EigenschaftPanel(String text) {
@@ -94,23 +94,23 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
 
   @Override
   public void onClick(ClickEvent event) {
-    if (this.check1.getValue()) {
-      this.saveAuswahlSelection();
+    if (check1.getValue()) {
+      saveAuswahlSelection();
 
 
-    } else if (this.check2.getValue()) {
-      this.saveBeschreibung();
+    } else if (check2.getValue()) {
+      saveBeschreibung();
 
     } else {
       try {
-        this.deleteAuswahlInfo();
-        ClientsideSettings.getLogger().info("Info " + this.i.getText());
+        deleteAuswahlInfo();
+        ClientsideSettings.getLogger().info("Info " + i.getText());
 
       } catch (Exception e) {
         e.printStackTrace();
       }
       try {
-        this.deleteBeschreibungInfo();
+        deleteBeschreibungInfo();
 
       } catch (Exception e) {
         e.printStackTrace();
@@ -120,7 +120,7 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
 
   private void deleteAuswahlInfo() {
 
-    ClientsideSettings.getPartnerboerseVerwaltung().getInfoById(this.getInfoId(),
+    ClientsideSettings.getPartnerboerseVerwaltung().getInfoById(getInfoId(),
         new AsyncCallback<Info>() {
           @Override
           public void onSuccess(Info result) {
@@ -152,9 +152,9 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
   }
 
   private void deleteBeschreibungInfo() {
-    this.profilAttributTextBox.setText("");
-    ClientsideSettings.getPartnerboerseVerwaltung()
-        .getInfoByEigenschaftsId(this.beschreibung.getId(), new AsyncCallback<Info>() {
+    profilAttributTextBox.setText("");
+    ClientsideSettings.getPartnerboerseVerwaltung().getInfoByEigenschaftsId(beschreibung.getId(),
+        new AsyncCallback<Info>() {
 
           @Override
           public void onSuccess(Info result) {
@@ -184,12 +184,12 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
   }
 
   private void saveAuswahlSelection() {
-    ClientsideSettings.getPartnerboerseVerwaltung().createInfoFor(this.profil, this.auswahl,
-        this.getSelectedItem(), new AsyncCallback<Info>() {
+    ClientsideSettings.getPartnerboerseVerwaltung().createInfoFor(profil, auswahl,
+        getSelectedItem(), new AsyncCallback<Info>() {
 
           @Override
           public void onSuccess(Info result) {
-            EigenschaftPanel.this.i = result;
+            i = result;
             EigenschaftPanel.this.setInfoId(result.getId());
             result.setId(EigenschaftPanel.this.getInfoId());
             new Notification("Auswahl " + result.getText() + " gespeichert", "success");
@@ -206,8 +206,8 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
   }
 
   private void saveBeschreibung() {
-    ClientsideSettings.getPartnerboerseVerwaltung().createInfoFor(this.profil, this.beschreibung,
-        this.profilAttributTextBox.getText(), new AsyncCallback<Info>() {
+    ClientsideSettings.getPartnerboerseVerwaltung().createInfoFor(profil, beschreibung,
+        profilAttributTextBox.getText(), new AsyncCallback<Info>() {
 
           @Override
           public void onSuccess(Info result) {
@@ -225,11 +225,11 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
 
   @Override
   public void onChange(ChangeEvent event) {
-    if (this.check1.getValue()) {
-      this.i.setText(this.getSelectedItem());
-      new Notification("Eigenschaft auf " + this.i.getText() + " geändert!", "success");
+    if (check1.getValue()) {
+      i.setText(getSelectedItem());
+      new Notification("Eigenschaft auf " + i.getText() + " geändert!", "success");
 
-      ClientsideSettings.getPartnerboerseVerwaltung().save(this.i, new AsyncCallback<Void>() {
+      ClientsideSettings.getPartnerboerseVerwaltung().save(i, new AsyncCallback<Void>() {
 
         @Override
         public void onSuccess(Void result) {

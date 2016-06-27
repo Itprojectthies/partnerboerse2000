@@ -13,21 +13,21 @@ public class Label extends FocusWidget implements HasText {
 
   public Label(String text) {
     this();
-    this.getElement().setInnerText((text == null) ? "" : text);
+    getElement().setInnerText((text == null) ? "" : text);
   }
 
   @Override
   public String getText() {
-    return this.getElement().getInnerText();
+    return getElement().getInnerText();
   }
 
   @Override
   public void setText(String text) {
-    this.getElement().setInnerText((text == null) ? "" : text);
+    getElement().setInnerText((text == null) ? "" : text);
   }
 
   public void setFor(String forWho) {
-    this.getElement().setAttribute("for", forWho);
+    getElement().setAttribute("for", forWho);
   }
 
 }

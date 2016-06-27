@@ -423,9 +423,9 @@ public class DateTimeFormat {
     public boolean abutStart;
 
     public PatternPart(String txt, int cnt) {
-      this.text = txt;
-      this.count = cnt;
-      this.abutStart = false;
+      text = txt;
+      count = cnt;
+      abutStart = false;
     }
   }
 
@@ -645,7 +645,7 @@ public class DateTimeFormat {
    * <p>
    * This should be a method on PredefinedFormat, but that would defeat the enum optimizations GWT
    * is currently capable of.
-   * 
+   *
    * @param predef
    * @return true if the specified format requires English names/separators
    */
@@ -684,14 +684,14 @@ public class DateTimeFormat {
    */
   protected DateTimeFormat(String pattern, DateTimeFormatInfo dtfi) {
     this.pattern = pattern;
-    this.dateTimeFormatInfo = dtfi;
+    dateTimeFormatInfo = dtfi;
 
     /*
      * Even though the pattern is only compiled for use in parsing and parsing is far less common
      * than formatting, the pattern is still parsed eagerly here to fail fast in case the pattern
      * itself is malformed.
      */
-    this.parsePattern(pattern);
+    parsePattern(pattern);
   }
 
   /**
@@ -742,7 +742,7 @@ public class DateTimeFormat {
     // actual time zone offset.
 
     if (timeZone == null) {
-      timeZone = this.createTimeZone(date.getTimezoneOffset());
+      timeZone = createTimeZone(date.getTimezoneOffset());
     }
     int diff = (date.getTimezoneOffset() - timeZone.getOffset(date)) * 60000;
     Date keepDate = new Date(date.getTime() + diff);
@@ -757,15 +757,15 @@ public class DateTimeFormat {
     }
 
     StringBuilder toAppendTo = new StringBuilder(64);
-    int j, n = this.pattern.length();
+    int j, n = pattern.length();
     for (int i = 0; i < n;) {
-      char ch = this.pattern.charAt(i);
+      char ch = pattern.charAt(i);
       if (((ch >= 'a') && (ch <= 'z')) || ((ch >= 'A') && (ch <= 'Z'))) {
         // ch is a date-time pattern character to be interpreted by subFormat().
         // Count the number of times it is repeated.
-        for (j = i + 1; (j < n) && (this.pattern.charAt(j) == ch); ++j) {
+        for (j = i + 1; (j < n) && (pattern.charAt(j) == ch); ++j) {
         }
-        this.subFormat(toAppendTo, ch, j - i, date, keepDate, keepTime, timeZone);
+        subFormat(toAppendTo, ch, j - i, date, keepDate, keepTime, timeZone);
         i = j;
       } else if (ch == '\'') {
         // Handle an entire quoted string, included embedded
@@ -775,7 +775,7 @@ public class DateTimeFormat {
         ++i;
 
         // If start with '', just add ' and continue.
-        if ((i < n) && (this.pattern.charAt(i) == '\'')) {
+        if ((i < n) && (pattern.charAt(i) == '\'')) {
           toAppendTo.append('\'');
           ++i;
           continue;
@@ -786,7 +786,7 @@ public class DateTimeFormat {
         while (!trailQuote) {
           // j points to next ' or EOS.
           j = i;
-          while ((j < n) && (this.pattern.charAt(j) != '\'')) {
+          while ((j < n) && (pattern.charAt(j) != '\'')) {
             ++j;
           }
 
@@ -796,12 +796,12 @@ public class DateTimeFormat {
           }
 
           // Look ahead to detect '' within quotes.
-          if (((j + 1) < n) && (this.pattern.charAt(j + 1) == '\'')) {
+          if (((j + 1) < n) && (pattern.charAt(j + 1) == '\'')) {
             ++j;
           } else {
             trailQuote = true;
           }
-          toAppendTo.append(this.pattern.substring(i, j));
+          toAppendTo.append(pattern.substring(i, j));
           i = j + 1;
         }
       } else {
@@ -820,7 +820,7 @@ public class DateTimeFormat {
    * @return pattern string
    */
   public String getPattern() {
-    return this.pattern;
+    return pattern;
   }
 
   /**
@@ -904,7 +904,7 @@ public class DateTimeFormat {
    */
   private void addPart(StringBuilder buf, int count) {
     if (buf.length() > 0) {
-      this.patternParts.add((new PatternPart(buf.toString(), count)));
+      patternParts.add((new PatternPart(buf.toString(), count)));
       buf.setLength(0);
     }
   }
@@ -919,7 +919,7 @@ public class DateTimeFormat {
   @SuppressWarnings("deprecation")
   private void format0To11Hours(StringBuilder buf, int count, Date date) {
     int value = date.getHours() % 12;
-    this.zeroPaddingNumber(buf, value, count);
+    zeroPaddingNumber(buf, value, count);
   }
 
   /**
@@ -932,7 +932,7 @@ public class DateTimeFormat {
   @SuppressWarnings("deprecation")
   private void format0To23Hours(StringBuilder buf, int count, Date date) {
     int value = date.getHours();
-    this.zeroPaddingNumber(buf, value, count);
+    zeroPaddingNumber(buf, value, count);
   }
 
   /**
@@ -946,9 +946,9 @@ public class DateTimeFormat {
   private void format1To12Hours(StringBuilder buf, int count, Date date) {
     int value = date.getHours() % 12;
     if (value == 0) {
-      this.zeroPaddingNumber(buf, 12, count);
+      zeroPaddingNumber(buf, 12, count);
     } else {
-      this.zeroPaddingNumber(buf, value, count);
+      zeroPaddingNumber(buf, value, count);
     }
   }
 
@@ -963,9 +963,9 @@ public class DateTimeFormat {
   private void format24Hours(StringBuilder buf, int count, Date date) {
     int value = date.getHours();
     if (value == 0) {
-      this.zeroPaddingNumber(buf, 24, count);
+      zeroPaddingNumber(buf, 24, count);
     } else {
-      this.zeroPaddingNumber(buf, value, count);
+      zeroPaddingNumber(buf, value, count);
     }
   }
 
@@ -978,9 +978,9 @@ public class DateTimeFormat {
   @SuppressWarnings("deprecation")
   private void formatAmPm(StringBuilder buf, Date date) {
     if ((date.getHours() >= 12) && (date.getHours() < 24)) {
-      buf.append(this.dateTimeFormatInfo.ampms()[1]);
+      buf.append(dateTimeFormatInfo.ampms()[1]);
     } else {
-      buf.append(this.dateTimeFormatInfo.ampms()[0]);
+      buf.append(dateTimeFormatInfo.ampms()[0]);
     }
   }
 
@@ -994,7 +994,7 @@ public class DateTimeFormat {
   private void formatDate(StringBuilder buf, int count, Date date) {
     @SuppressWarnings("deprecation")
     int value = date.getDate();
-    this.zeroPaddingNumber(buf, value, count);
+    zeroPaddingNumber(buf, value, count);
   }
 
   /**
@@ -1008,11 +1008,11 @@ public class DateTimeFormat {
     @SuppressWarnings("deprecation")
     int value = date.getDay();
     if (count == 5) {
-      buf.append(this.dateTimeFormatInfo.weekdaysNarrow()[value]);
+      buf.append(dateTimeFormatInfo.weekdaysNarrow()[value]);
     } else if (count == 4) {
-      buf.append(this.dateTimeFormatInfo.weekdaysFull()[value]);
+      buf.append(dateTimeFormatInfo.weekdaysFull()[value]);
     } else {
-      buf.append(this.dateTimeFormatInfo.weekdaysShort()[value]);
+      buf.append(dateTimeFormatInfo.weekdaysShort()[value]);
     }
   }
 
@@ -1027,9 +1027,9 @@ public class DateTimeFormat {
     @SuppressWarnings("deprecation")
     int value = date.getYear() >= -JS_START_YEAR ? 1 : 0;
     if (count >= 4) {
-      buf.append(this.dateTimeFormatInfo.erasFull()[value]);
+      buf.append(dateTimeFormatInfo.erasFull()[value]);
     } else {
-      buf.append(this.dateTimeFormatInfo.erasShort()[value]);
+      buf.append(dateTimeFormatInfo.erasShort()[value]);
     }
   }
 
@@ -1063,12 +1063,12 @@ public class DateTimeFormat {
       buf.append((char) ('0' + value));
     } else if (count == 2) {
       value = Math.min((value + 5) / 10, 99); // Round to 10ms, clamp to 99
-      this.zeroPaddingNumber(buf, value, 2);
+      zeroPaddingNumber(buf, value, 2);
     } else {
-      this.zeroPaddingNumber(buf, value, 3);
+      zeroPaddingNumber(buf, value, 3);
 
       if (count > 3) {
-        this.zeroPaddingNumber(buf, 0, count - 3);
+        zeroPaddingNumber(buf, 0, count - 3);
       }
     }
   }
@@ -1083,7 +1083,7 @@ public class DateTimeFormat {
   private void formatMinutes(StringBuilder buf, int count, Date date) {
     @SuppressWarnings("deprecation")
     int value = date.getMinutes();
-    this.zeroPaddingNumber(buf, value, count);
+    zeroPaddingNumber(buf, value, count);
   }
 
   /**
@@ -1098,16 +1098,16 @@ public class DateTimeFormat {
     int value = date.getMonth();
     switch (count) {
       case 5:
-        buf.append(this.dateTimeFormatInfo.monthsNarrow()[value]);
+        buf.append(dateTimeFormatInfo.monthsNarrow()[value]);
         break;
       case 4:
-        buf.append(this.dateTimeFormatInfo.monthsFull()[value]);
+        buf.append(dateTimeFormatInfo.monthsFull()[value]);
         break;
       case 3:
-        buf.append(this.dateTimeFormatInfo.monthsShort()[value]);
+        buf.append(dateTimeFormatInfo.monthsShort()[value]);
         break;
       default:
-        this.zeroPaddingNumber(buf, value + 1, count);
+        zeroPaddingNumber(buf, value + 1, count);
     }
   }
 
@@ -1122,9 +1122,9 @@ public class DateTimeFormat {
     @SuppressWarnings("deprecation")
     int value = date.getMonth() / 3;
     if (count < 4) {
-      buf.append(this.dateTimeFormatInfo.quartersShort()[value]);
+      buf.append(dateTimeFormatInfo.quartersShort()[value]);
     } else {
-      buf.append(this.dateTimeFormatInfo.quartersFull()[value]);
+      buf.append(dateTimeFormatInfo.quartersFull()[value]);
     }
   }
 
@@ -1138,7 +1138,7 @@ public class DateTimeFormat {
   private void formatSeconds(StringBuilder buf, int count, Date date) {
     @SuppressWarnings("deprecation")
     int value = date.getSeconds();
-    this.zeroPaddingNumber(buf, value, count);
+    zeroPaddingNumber(buf, value, count);
   }
 
   /**
@@ -1152,13 +1152,13 @@ public class DateTimeFormat {
     @SuppressWarnings("deprecation")
     int value = date.getDay();
     if (count == 5) {
-      buf.append(this.dateTimeFormatInfo.weekdaysNarrowStandalone()[value]);
+      buf.append(dateTimeFormatInfo.weekdaysNarrowStandalone()[value]);
     } else if (count == 4) {
-      buf.append(this.dateTimeFormatInfo.weekdaysFullStandalone()[value]);
+      buf.append(dateTimeFormatInfo.weekdaysFullStandalone()[value]);
     } else if (count == 3) {
-      buf.append(this.dateTimeFormatInfo.weekdaysShortStandalone()[value]);
+      buf.append(dateTimeFormatInfo.weekdaysShortStandalone()[value]);
     } else {
-      this.zeroPaddingNumber(buf, value, 1);
+      zeroPaddingNumber(buf, value, 1);
     }
   }
 
@@ -1173,13 +1173,13 @@ public class DateTimeFormat {
     @SuppressWarnings("deprecation")
     int value = date.getMonth();
     if (count == 5) {
-      buf.append(this.dateTimeFormatInfo.monthsNarrowStandalone()[value]);
+      buf.append(dateTimeFormatInfo.monthsNarrowStandalone()[value]);
     } else if (count == 4) {
-      buf.append(this.dateTimeFormatInfo.monthsFullStandalone()[value]);
+      buf.append(dateTimeFormatInfo.monthsFullStandalone()[value]);
     } else if (count == 3) {
-      buf.append(this.dateTimeFormatInfo.monthsShortStandalone()[value]);
+      buf.append(dateTimeFormatInfo.monthsShortStandalone()[value]);
     } else {
-      this.zeroPaddingNumber(buf, value + 1, count);
+      zeroPaddingNumber(buf, value + 1, count);
     }
   }
 
@@ -1238,10 +1238,10 @@ public class DateTimeFormat {
         buf.append(value);
         break;
       case 2: // last 2 digits of year, zero-padded
-        this.zeroPaddingNumber(buf, value % 100, 2);
+        zeroPaddingNumber(buf, value % 100, 2);
         break;
       default: // anything else is zero-padded
-        this.zeroPaddingNumber(buf, value, count);
+        zeroPaddingNumber(buf, value, count);
         break;
     }
   }
@@ -1275,13 +1275,13 @@ public class DateTimeFormat {
     // point from non-abut to abut.
     boolean abut = false;
 
-    int len = this.patternParts.size();
+    int len = patternParts.size();
     for (int i = 0; i < len; i++) {
-      if (this.isNumeric(this.patternParts.get(i))) {
+      if (isNumeric(patternParts.get(i))) {
         // If next part is not following abut sequence, and isNumeric.
-        if (!abut && ((i + 1) < len) && this.isNumeric(this.patternParts.get(i + 1))) {
+        if (!abut && ((i + 1) < len) && isNumeric(patternParts.get(i + 1))) {
           abut = true;
-          this.patternParts.get(i).abutStart = true;
+          patternParts.get(i).abutStart = true;
         }
       } else {
         abut = false;
@@ -1390,8 +1390,8 @@ public class DateTimeFormat {
     int abutStart = 0;
     int abutPass = 0;
 
-    for (int i = 0; i < this.patternParts.size(); ++i) {
-      PatternPart part = this.patternParts.get(i);
+    for (int i = 0; i < patternParts.size(); ++i) {
+      PatternPart part = patternParts.get(i);
 
       if (part.count > 0) {
         if ((abutPat < 0) && part.abutStart) {
@@ -1420,7 +1420,7 @@ public class DateTimeFormat {
             }
           }
 
-          if (!this.subParse(text, parsePos, part, count, cal)) {
+          if (!subParse(text, parsePos, part, count, cal)) {
             // If the parse fails anywhere in the run, back up to the
             // start of the run and retry.
             i = abutPat - 1;
@@ -1430,7 +1430,7 @@ public class DateTimeFormat {
         } else {
           // Handle non-numeric fields and non-abutting numeric fields.
           abutPat = -1;
-          if (!this.subParse(text, parsePos, part, 0, cal)) {
+          if (!subParse(text, parsePos, part, 0, cal)) {
             return 0;
           }
         }
@@ -1443,7 +1443,7 @@ public class DateTimeFormat {
         if (part.text.charAt(0) == ' ') {
           // Advance over run in input text.
           int s = parsePos[0];
-          this.skipSpace(text, parsePos);
+          skipSpace(text, parsePos);
 
           // Must see at least one white space char in input.
           if (parsePos[0] > s) {
@@ -1513,9 +1513,9 @@ public class DateTimeFormat {
 
       // Handle space, add literal part (if exist), and add space part.
       if (ch == ' ') {
-        this.addPart(buf, 0);
+        addPart(buf, 0);
         buf.append(' ');
-        this.addPart(buf, 0);
+        addPart(buf, 0);
         while (((i + 1) < pattern.length()) && (pattern.charAt(i + 1) == ' ')) {
           i++;
         }
@@ -1541,10 +1541,10 @@ public class DateTimeFormat {
 
       // Outside quote now.
       if (PATTERN_CHARS.indexOf(ch) > 0) {
-        this.addPart(buf, 0);
+        addPart(buf, 0);
         buf.append(ch);
-        int count = this.getNextCharCountInPattern(pattern, i);
-        this.addPart(buf, count);
+        int count = getNextCharCountInPattern(pattern, i);
+        addPart(buf, count);
         i += count - 1;
         continue;
       }
@@ -1562,9 +1562,9 @@ public class DateTimeFormat {
       }
     }
 
-    this.addPart(buf, 0);
+    addPart(buf, 0);
 
-    this.identifyAbutStart();
+    identifyAbutStart();
   }
 
   /**
@@ -1598,7 +1598,7 @@ public class DateTimeFormat {
 
     // Look for hours:minutes or hhmm.
     int st = pos[0];
-    int value = this.parseInt(text, pos);
+    int value = parseInt(text, pos);
     if ((value == 0) && (pos[0] == st)) {
       return false;
     }
@@ -1609,7 +1609,7 @@ public class DateTimeFormat {
       offset = value * MINUTES_PER_HOUR;
       ++(pos[0]);
       st = pos[0];
-      value = this.parseInt(text, pos);
+      value = parseInt(text, pos);
       if ((value == 0) && (pos[0] == st)) {
         return false;
       }
@@ -1658,61 +1658,61 @@ public class DateTimeFormat {
       Date adjustedTime, TimeZone timezone) {
     switch (ch) {
       case 'G':
-        this.formatEra(buf, count, adjustedDate);
+        formatEra(buf, count, adjustedDate);
         break;
       case 'y':
-        this.formatYear(buf, count, adjustedDate);
+        formatYear(buf, count, adjustedDate);
         break;
       case 'M':
-        this.formatMonth(buf, count, adjustedDate);
+        formatMonth(buf, count, adjustedDate);
         break;
       case 'k':
-        this.format24Hours(buf, count, adjustedTime);
+        format24Hours(buf, count, adjustedTime);
         break;
       case 'S':
-        this.formatFractionalSeconds(buf, count, adjustedTime);
+        formatFractionalSeconds(buf, count, adjustedTime);
         break;
       case 'E':
-        this.formatDayOfWeek(buf, count, adjustedDate);
+        formatDayOfWeek(buf, count, adjustedDate);
         break;
       case 'a':
-        this.formatAmPm(buf, adjustedTime);
+        formatAmPm(buf, adjustedTime);
         break;
       case 'h':
-        this.format1To12Hours(buf, count, adjustedTime);
+        format1To12Hours(buf, count, adjustedTime);
         break;
       case 'K':
-        this.format0To11Hours(buf, count, adjustedTime);
+        format0To11Hours(buf, count, adjustedTime);
         break;
       case 'H':
-        this.format0To23Hours(buf, count, adjustedTime);
+        format0To23Hours(buf, count, adjustedTime);
         break;
       case 'c':
-        this.formatStandaloneDay(buf, count, adjustedDate);
+        formatStandaloneDay(buf, count, adjustedDate);
         break;
       case 'L':
-        this.formatStandaloneMonth(buf, count, adjustedDate);
+        formatStandaloneMonth(buf, count, adjustedDate);
         break;
       case 'Q':
-        this.formatQuarter(buf, count, adjustedDate);
+        formatQuarter(buf, count, adjustedDate);
         break;
       case 'd':
-        this.formatDate(buf, count, adjustedDate);
+        formatDate(buf, count, adjustedDate);
         break;
       case 'm':
-        this.formatMinutes(buf, count, adjustedTime);
+        formatMinutes(buf, count, adjustedTime);
         break;
       case 's':
-        this.formatSeconds(buf, count, adjustedTime);
+        formatSeconds(buf, count, adjustedTime);
         break;
       case 'z':
-        this.formatTimeZone(buf, count, date, timezone);
+        formatTimeZone(buf, count, date, timezone);
         break;
       case 'v':
         buf.append(timezone.getID());
         break;
       case 'Z':
-        this.formatTimeZoneRFC(buf, count, date, timezone);
+        formatTimeZoneRFC(buf, count, date, timezone);
         break;
       default:
         return false;
@@ -1736,43 +1736,43 @@ public class DateTimeFormat {
   private boolean subParse(String text, int[] pos, PatternPart part, int digitCount,
       DateRecord cal) {
 
-    this.skipSpace(text, pos);
+    skipSpace(text, pos);
 
     int start = pos[0];
     char ch = part.text.charAt(0);
 
     // Parse integer value if it is a numeric field.
     int value = -1; // initialize value to be -1,
-    if (this.isNumeric(part)) {
+    if (isNumeric(part)) {
       if (digitCount > 0) {
         if ((start + digitCount) > text.length()) {
           return false;
         }
-        value = this.parseInt(text.substring(0, start + digitCount), pos);
+        value = parseInt(text.substring(0, start + digitCount), pos);
       } else {
-        value = this.parseInt(text, pos);
+        value = parseInt(text, pos);
       }
     }
 
     switch (ch) {
       case 'G': // era
-        value = this.matchString(text, start, this.dateTimeFormatInfo.erasFull(), pos);
+        value = matchString(text, start, dateTimeFormatInfo.erasFull(), pos);
         cal.setEra(value);
         return true;
       case 'M': // month
-        return this.subParseMonth(text, pos, cal, value, start);
+        return subParseMonth(text, pos, cal, value, start);
       case 'L': // standalone month
-        return this.subParseStandaloneMonth(text, pos, cal, value, start);
+        return subParseStandaloneMonth(text, pos, cal, value, start);
       case 'E': // day of week
-        return this.subParseDayOfWeek(text, pos, start, cal);
+        return subParseDayOfWeek(text, pos, start, cal);
       case 'c': // standalone day of week
-        return this.subParseStandaloneDay(text, pos, start, cal);
+        return subParseStandaloneDay(text, pos, start, cal);
       case 'a': // AM/PM
-        value = this.matchString(text, start, this.dateTimeFormatInfo.ampms(), pos);
+        value = matchString(text, start, dateTimeFormatInfo.ampms(), pos);
         cal.setAmpm(value);
         return true;
       case 'y': // year
-        return this.subParseYear(text, pos, start, value, part, cal);
+        return subParseYear(text, pos, start, value, part, cal);
       case 'd': // day of month
         if (value <= 0) {
           return false;
@@ -1783,7 +1783,7 @@ public class DateTimeFormat {
         if (value < 0) {
           return false;
         }
-        return this.subParseFractionalSeconds(value, start, pos[0], cal);
+        return subParseFractionalSeconds(value, start, pos[0], cal);
       case 'h': // hour (1..12)
         if (value == 12) {
           value = 0;
@@ -1827,7 +1827,7 @@ public class DateTimeFormat {
         // $FALL-THROUGH$
       case 'z': // time zone offset
       case 'v': // time zone generic
-        return this.subParseTimeZoneInGMT(text, start, pos, cal);
+        return subParseTimeZoneInGMT(text, start, pos, cal);
       default:
         return false;
     }
@@ -1848,9 +1848,9 @@ public class DateTimeFormat {
     // 'E' - DAY_OF_WEEK
     // Want to be able to parse both short and long forms.
     // Try count == 4 (DDDD) first:
-    value = this.matchString(text, start, this.dateTimeFormatInfo.weekdaysFull(), pos);
+    value = matchString(text, start, dateTimeFormatInfo.weekdaysFull(), pos);
     if (value < 0) {
-      value = this.matchString(text, start, this.dateTimeFormatInfo.weekdaysShort(), pos);
+      value = matchString(text, start, dateTimeFormatInfo.weekdaysShort(), pos);
     }
     if (value < 0) {
       return false;
@@ -1904,9 +1904,9 @@ public class DateTimeFormat {
     if (value < 0) {
       // Want to be able to parse both short and long forms.
       // Try count == 4 first:
-      value = this.matchString(text, start, this.dateTimeFormatInfo.monthsFull(), pos);
+      value = matchString(text, start, dateTimeFormatInfo.monthsFull(), pos);
       if (value < 0) { // count == 4 failed, now try count == 3.
-        value = this.matchString(text, start, this.dateTimeFormatInfo.monthsShort(), pos);
+        value = matchString(text, start, dateTimeFormatInfo.monthsShort(), pos);
       }
       if (value < 0) {
         return false;
@@ -1935,9 +1935,9 @@ public class DateTimeFormat {
     // 'c' - DAY_OF_WEEK
     // Want to be able to parse both short and long forms.
     // Try count == 4 (cccc) first:
-    value = this.matchString(text, start, this.dateTimeFormatInfo.weekdaysFullStandalone(), pos);
+    value = matchString(text, start, dateTimeFormatInfo.weekdaysFullStandalone(), pos);
     if (value < 0) {
-      value = this.matchString(text, start, this.dateTimeFormatInfo.weekdaysShortStandalone(), pos);
+      value = matchString(text, start, dateTimeFormatInfo.weekdaysShortStandalone(), pos);
     }
     if (value < 0) {
       return false;
@@ -1963,9 +1963,9 @@ public class DateTimeFormat {
     if (value < 0) {
       // Want to be able to parse both short and long forms.
       // Try count == 4 first:
-      value = this.matchString(text, start, this.dateTimeFormatInfo.monthsFullStandalone(), pos);
+      value = matchString(text, start, dateTimeFormatInfo.monthsFullStandalone(), pos);
       if (value < 0) { // count == 4 failed, now try count == 3.
-        value = this.matchString(text, start, this.dateTimeFormatInfo.monthsShortStandalone(), pos);
+        value = matchString(text, start, dateTimeFormatInfo.monthsShortStandalone(), pos);
       }
       if (value < 0) {
         return false;
@@ -2002,12 +2002,12 @@ public class DateTimeFormat {
     // GMT.
     if (text.startsWith(GMT, start)) {
       pos[0] = start + GMT.length();
-      return this.parseTimeZoneOffset(text, pos, cal);
+      return parseTimeZoneOffset(text, pos, cal);
     }
     // Likewise for UTC.
     if (text.startsWith(UTC, start)) {
       pos[0] = start + UTC.length();
-      return this.parseTimeZoneOffset(text, pos, cal);
+      return parseTimeZoneOffset(text, pos, cal);
     }
 
     // At this point, check for named time zones by looking through
@@ -2021,7 +2021,7 @@ public class DateTimeFormat {
     // [+-]hhmm as specified by RFC 822. This code is actually
     // a little more permissive than RFC 822. It will try to do
     // its best with numbers that aren't strictly 4 digits long.
-    return this.parseTimeZoneOffset(text, pos, cal);
+    return parseTimeZoneOffset(text, pos, cal);
   }
 
   /**
@@ -2053,7 +2053,7 @@ public class DateTimeFormat {
         return false;
       }
       ++(pos[0]);
-      value = this.parseInt(text, pos);
+      value = parseInt(text, pos);
       if (value < 0) {
         return false;
       }

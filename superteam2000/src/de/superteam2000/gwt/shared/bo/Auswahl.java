@@ -15,7 +15,7 @@ public class Auswahl extends Eigenschaft {
 
   /**
    * Deklaration des Parameters alternativen
-   * 
+   *
    * @param alternativen Dieser Parameter ist eine ArrayList vom Typ String. In dieser ArrayList
    *        werden alle vorgegebenen Werte für eine Eigenschaft gespeichert.
    */
@@ -23,16 +23,16 @@ public class Auswahl extends Eigenschaft {
 
   /**
    * Auslesen der Alternativen
-   * 
+   *
    * @return alternativen
    */
   public ArrayList<String> getAlternativen() {
-    return this.alternativen;
+    return alternativen;
   }
 
   /**
    * Setzen der Alternativen
-   * 
+   *
    * @param alternativen
    */
   public void setAlternativen(ArrayList<String> alternativen) {

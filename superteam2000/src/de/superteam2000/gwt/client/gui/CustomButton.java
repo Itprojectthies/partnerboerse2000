@@ -17,7 +17,7 @@ public class CustomButton extends Button {
    * @return the isPushed
    */
   public boolean isPushed() {
-    return this.isPushed;
+    return isPushed;
   }
 
   /**
@@ -41,12 +41,12 @@ public class CustomButton extends Button {
     Image img = new Image(imageResource);
     String definedStyles = img.getElement().getAttribute("style");
     img.getElement().setAttribute("style", definedStyles + "; vertical-align:middle;");
-    DOM.insertBefore(this.getElement(), img.getElement(), DOM.getFirstChild(this.getElement()));
+    DOM.insertBefore(getElement(), img.getElement(), DOM.getFirstChild(getElement()));
   }
 
   public void setIcon(String iconText) {
-    this.iHeading.setStyleName(iconText);
-    DOM.insertChild(this.getElement(), this.iHeading.getElement(), 2);
+    iHeading.setStyleName(iconText);
+    DOM.insertChild(getElement(), iHeading.getElement(), 2);
   }
 
 
@@ -57,11 +57,11 @@ public class CustomButton extends Button {
     span.setInnerText(text);
     span.setAttribute("style", "padding-left:3px; vertical-align:middle;");
 
-    DOM.insertChild(this.getElement(), span, 0);
+    DOM.insertChild(getElement(), span, 0);
   }
 
   @Override
   public String getText() {
-    return this.text;
+    return text;
   }
 }

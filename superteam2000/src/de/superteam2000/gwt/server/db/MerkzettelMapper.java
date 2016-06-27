@@ -15,7 +15,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
  * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
  * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
  * Methoden zur Suche, zum Speichern, L�schen und Modifizieren von Objekten.
- * 
+ *
  * @see AehnlichkeitsMapper
  * @see AuswahlMapper
  * @see BeschreibungMapper
@@ -35,7 +35,7 @@ public class MerkzettelMapper {
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ MerkzettelMapper, die die einzige Instanz der Klasse
    * darstellt.
-   * 
+   *
    */
   private static MerkzettelMapper merkzettelMapper = null;
 
@@ -43,7 +43,7 @@ public class MerkzettelMapper {
   /**
    * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der
    * Klasse erzeugt werden k�nnen
-   * 
+   *
    */
   protected MerkzettelMapper() {}
 
@@ -69,7 +69,7 @@ public class MerkzettelMapper {
    *
    * @param p - Profil p
    * @return Merkzettel des Profils
-   * 
+   *
    */
 
 
@@ -107,9 +107,9 @@ public class MerkzettelMapper {
 
   /**
    * Einf�gen eines Merkzettel-Objekts in die Datenbank.
-   * 
+   *
    * @param m das zu speichernde Objekt
-   * 
+   *
    */
   public void insertMerkenForProfil(Profil merker, Profil gemerkter) {
 

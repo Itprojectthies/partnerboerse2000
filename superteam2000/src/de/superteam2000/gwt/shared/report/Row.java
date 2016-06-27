@@ -15,7 +15,7 @@ import java.util.Vector;
 public class Row implements Serializable {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
   /**
@@ -25,47 +25,47 @@ public class Row implements Serializable {
 
   /**
    * Hinzufügen einer Spalte.
-   * 
+   *
    * @param c das Spaltenobjekt
    */
   public void addColumn(Column c) {
-    this.columns.addElement(c);
+    columns.addElement(c);
   }
 
   /**
    * Entfernen einer benannten Spalte
-   * 
+   *
    * @param c das zu entfernende Spaltenobjekt
    */
   public void removeColumn(Column c) {
-    this.columns.removeElement(c);
+    columns.removeElement(c);
   }
 
   /**
    * Auslesen sämtlicher Spalten.
-   * 
+   *
    * @return <code>Vector</code>-Objekts mit sämtlichen Spalten
    */
   public Vector<Column> getColumns() {
-    return this.columns;
+    return columns;
   }
 
   /**
    * Auslesen der Anzahl sämtlicher Spalten.
-   * 
+   *
    * @return int Anzahl der Spalten
    */
   public int getNumColumns() {
-    return this.columns.size();
+    return columns.size();
   }
 
   /**
    * Auslesen eines einzelnen Spalten-Objekts.
-   * 
+   *
    * @param i der Index der auszulesenden Spalte (0 <= i < n), mit n = Anzahl der Spalten.
    * @return das gewünschte Spaltenobjekt.
    */
   public Column getColumnAt(int i) {
-    return this.columns.elementAt(i);
+    return columns.elementAt(i);
   }
 }

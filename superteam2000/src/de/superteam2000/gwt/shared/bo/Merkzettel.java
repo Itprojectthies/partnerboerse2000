@@ -15,7 +15,7 @@ public class Merkzettel extends BusinessObject {
 
   /**
    * Deklaration der Parameter eines Merkzettels
-   * 
+   *
    * @param gemerkteProfile Dieser Parameter ist eine ArrayList vom Typ Profil. In dieser ArrayList
    *        werden alle gemerkten Profile gespeichert.
    * @param gemerkterId Die Id des Profils, welches gemerkt wurde.
@@ -28,16 +28,16 @@ public class Merkzettel extends BusinessObject {
 
   /**
    * Aulesen der MerkerId
-   * 
+   *
    * @return merkerId
    */
   public int getMerkerId() {
-    return this.merkerId;
+    return merkerId;
   }
 
   /**
    * Setzen der MerkerId
-   * 
+   *
    * @param merkerId
    */
   public void setMerkerId(int merkerId) {
@@ -46,17 +46,17 @@ public class Merkzettel extends BusinessObject {
 
   /**
    * Auslesen der gemerkten Profile
-   * 
+   *
    * @return gemerkteProfile
    */
   public ArrayList<Profil> getGemerkteProfile() {
-    return this.gemerkteProfile;
+    return gemerkteProfile;
   }
 
 
   /**
    * Setzen der gemerkten Profile
-   * 
+   *
    * @param gemerkteProfile
    */
   public void setGemerkteProfile(ArrayList<Profil> gemerkteProfile) {
@@ -65,25 +65,25 @@ public class Merkzettel extends BusinessObject {
 
   /**
    * Ein neues gemerktes Profil hinzufügen
-   * 
+   *
    * @param p
    */
   public void addGemerktesProfil(Profil p) {
-    this.gemerkteProfile.add(p);
+    gemerkteProfile.add(p);
   }
 
   /**
    * Auslesen der Gemerkter-Id
-   * 
+   *
    * @return gemerkterId
    */
   public int getGemerkterId() {
-    return this.gemerkterId;
+    return gemerkterId;
   }
 
   /**
    * Setzen der Gemerkter-Id
-   * 
+   *
    * @param gemerkterId
    */
   public void setGemerkterId(int gemerkterId) {

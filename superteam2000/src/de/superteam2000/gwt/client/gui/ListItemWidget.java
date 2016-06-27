@@ -12,7 +12,7 @@ public class ListItemWidget extends SimplePanel {
 
   public ListItemWidget(String s) {
     this();
-    this.getElement().setInnerText(s);
+    getElement().setInnerText(s);
   }
 
   public ListItemWidget(Widget w) {

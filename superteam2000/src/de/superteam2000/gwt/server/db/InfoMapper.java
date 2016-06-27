@@ -15,7 +15,7 @@ import de.superteam2000.gwt.shared.bo.Info;
  * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
  * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
  * Methoden zur Suche, zum Speichern, L�schen und Modifizieren von Objekten.
- * 
+ *
  * @see AehnlichkeitsMapper
  * @see AuswahlMapper
  * @see BeschreibungMapper
@@ -24,7 +24,7 @@ import de.superteam2000.gwt.shared.bo.Info;
  * @see MerkzettelMapper
  * @see ProfilMapper
  * @see SuchprofilMapper
- * 
+ *
  * @author
  */
 
@@ -35,14 +35,14 @@ public class InfoMapper {
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ InfoMapper, die die einzige Instanz der Klasse darstellt.
    *
-   * 
+   *
    */
   private static InfoMapper infoMapper = null;
 
   /**
    * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der
    * Klasse erzeugt werden k�nnen
-   * 
+   *
    */
   protected InfoMapper() {}
 
@@ -63,9 +63,9 @@ public class InfoMapper {
   /**
    * Suchen eines Info-Objekts mittels der profil-id. Da diese eindeutig ist, wird genau ein Objekt
    * zur�ckgegeben.
-   * 
+   *
    * @param id - vom Datentyp int
-   * 
+   *
    * @return Info-Objekt, das dem �bergebenen Schl�ssel entspricht, bzw. null bei nicht vorhandenem
    *         DB-Tupel.
    */
@@ -113,9 +113,9 @@ public class InfoMapper {
   /**
    * Die Methode findByKey implementiert die Suche nach genau einer id aus der Datenbank,
    * entsprechend wird genau ein Objekt zur�ckgegeben.
-   * 
+   *
    * @param id
-   * 
+   *
    * @return Info, Info-Objekt, das der �bergegebenen id entspricht, bzw. null bei nicht vorhandenem
    *         DB-Tupel.
    */
@@ -213,7 +213,7 @@ public class InfoMapper {
    * Hinzuf�gen eines Info-Objekts in die Datenbank.
    *
    * @param a - das zu speichernde Objekt
-   * 
+   *
    * @return das an die Datenbank �bergebene Objekt
    */
   public Info insert(Info i) {
@@ -260,7 +260,7 @@ public class InfoMapper {
 
   /**
    * Die Methode update modifiziert ein auf die Datenbank abgebildetes Info-Objekt.
-   * 
+   *
    * @param a - das Objekt, welches in der Datenbank ge�ndert wird
    * @return das als Parameter �bergebene Objekt
    */

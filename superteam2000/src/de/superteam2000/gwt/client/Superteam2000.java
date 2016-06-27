@@ -21,13 +21,13 @@ public class Superteam2000 implements EntryPoint {
   @Override
   public void onModuleLoad() {
     // RootPanel.get("menu").getElemen
-    this.pbVerwaltung.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback());
+    pbVerwaltung.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback());
 
   }
 
   /**
    * Asynchrone Anmelde-Klasse. Showcase in dem die Antwort des Callbacks eingefügt wird.
-   * 
+   *
    * @author Volz, Funke
    *
    */
@@ -47,13 +47,13 @@ public class Superteam2000 implements EntryPoint {
       if (result.isLoggedIn() && !result.isCreated()) {
         ClientsideSettings.setCurrentUser(result);
         ClientsideSettings.getLogger().info("Erstelle profil für " + result.getEmail());
-        this.profilErstellen();
+        profilErstellen();
 
         // User exisitiert in der db und loggt sich ein.
       } else if (result.isLoggedIn()) {
 
         ClientsideSettings.setCurrentUser(result);
-        this.loadProfil();
+        loadProfil();
         ClientsideSettings.getLogger().info("Lade vorhandenes Profil");
 
         // signup link für login anzeigen

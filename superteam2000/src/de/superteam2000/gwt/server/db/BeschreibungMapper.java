@@ -15,7 +15,7 @@ import de.superteam2000.gwt.shared.bo.Beschreibung;
  * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
  * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
  * Methoden zur Suche, zum Speichern, L�schen und Modifizieren von Objekten.
- * 
+ *
  * @see AehnlichkeitsMapper
  * @see AuswahlMapper
  * @see DBConnection
@@ -24,7 +24,7 @@ import de.superteam2000.gwt.shared.bo.Beschreibung;
  * @see MerkzettelMapper
  * @see ProfilMapper
  * @see SuchprofilMapper
- * 
+ *
  * @author
  */
 
@@ -36,14 +36,14 @@ public class BeschreibungMapper {
    * einer statischen Variablen vom Typ BeschreibungMapper, die die einzige Instanz der Klasse
    * darstellt.
    *
-   * 
+   *
    */
   private static BeschreibungMapper BeschreibungMapper = null;
 
   /**
    * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der
    * Klasse erzeugt werden k�nnen
-   * 
+   *
    */
   protected BeschreibungMapper() {}
 
@@ -65,7 +65,7 @@ public class BeschreibungMapper {
   /**
    * Die Methode findByName erf�llt eine Suchfunktion und liefert Objekte des Typs Beschreibung aus
    * der Datenbank zur�ck
-   * 
+   *
    * @param name
    * @return Beschreibung - Ein Beschreibungs-Objekt, in dem Informationen des Objekts Beschreibung
    *         aus der Datenbank gespeichert werden
@@ -112,9 +112,9 @@ public class BeschreibungMapper {
   /**
    * Die Methode findByKey implementiert die Suche nach genau einer id aus der Datenbank,
    * entsprechend wird genau ein Objekt zur�ckgegeben.
-   * 
+   *
    * @param id
-   * 
+   *
    * @return Beschreibung, Beschreibungs-Objekt, das der �bergegebenen id entspricht, bzw. null bei
    *         nicht vorhandenem DB-Tupel.
    */
@@ -236,7 +236,7 @@ public class BeschreibungMapper {
    * Hinzuf�gen eines Beschreibungs-Objekts in die Datenbank.
    *
    * @param a - das zu speichernde Objekt
-   * 
+   *
    * @return das an die Datenbank �bergebene Objekt
    */
   public Beschreibung insert(Beschreibung b) {
@@ -281,7 +281,7 @@ public class BeschreibungMapper {
 
   /**
    * Die Methode update modifiziert ein auf die Datenbank abgebildetes Beschreibungs-Objekt.
-   * 
+   *
    * @param a - das Objekt, welches in der Datenbank ge�ndert wird
    * @return das als Parameter �bergebene Objekt
    */

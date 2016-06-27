@@ -16,44 +16,44 @@ public class EigenschaftListBox extends ListBox {
 
   public EigenschaftListBox(Auswahl a, String name) {
     this(a);
-    this.setSelectedItemByText(name);
+    setSelectedItemByText(name);
     this.setStyleName(CLASSNAME);
 
   }
 
   public EigenschaftListBox(Auswahl a) {
-    this.setName(a.getName());
-    this.addAuswahlAlternativen(a);
+    setName(a.getName());
+    addAuswahlAlternativen(a);
     this.setStyleName(CLASSNAME);
   }
 
   public EigenschaftListBox() {}
 
   public void addAuswahlAlternativen(Auswahl a) {
-    this.alternativenListe = a.getAlternativen();
-    for (String string : this.alternativenListe) {
+    alternativenListe = a.getAlternativen();
+    for (String string : alternativenListe) {
       this.addItem(string);
     }
   }
 
   public void setSelectedItemByText(String name) {
-    int i = this.alternativenListe.indexOf(name);
-    this.setItemSelected(i, true);
+    int i = alternativenListe.indexOf(name);
+    setItemSelected(i, true);
   }
 
   public void setSelectedItemByTextForSPLB(String name) {
-    int i = this.alternativenListe.indexOf(name);
+    int i = alternativenListe.indexOf(name);
     // Plus 1, weil dies SuchprofilListboxen in ihrer Auswahl auch "Keine Angabe" entahlten
-    this.setItemSelected(i + 1, true);
+    setItemSelected(i + 1, true);
   }
 
   public void setSelectedItemByIndex(int i) {
-    this.setItemSelected(i, true);
+    setItemSelected(i, true);
   }
 
 
   public int getListBoxAuswahlId() {
-    return this.listBoxAuswahlId;
+    return listBoxAuswahlId;
   }
 
   public void setListBoxAuswahlId(int listBoxAuswahlId) {

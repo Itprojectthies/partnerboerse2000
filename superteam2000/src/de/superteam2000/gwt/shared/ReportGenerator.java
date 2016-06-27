@@ -44,7 +44,7 @@ public interface ReportGenerator extends RemoteService {
    * TODO: überarbeiten Initialisierung des Objekts. Diese Methode ist vor dem Hintergrund von GWT
    * RPC zusätzlich zum No Argument Constructor der implementierenden Klasse Impl} notwendig. Bitte
    * diese Methode direkt nach der Instantiierung aufrufen.
-   * 
+   *
    * @throws IllegalArgumentException
    */
   public void init() throws IllegalArgumentException;
@@ -55,7 +55,7 @@ public interface ReportGenerator extends RemoteService {
   /**
    * TODO: überarbeiten Erstellen eines <code>AllAccountsOfCustomerReport</code>-Reports. Dieser
    * Report-Typ stellt sämtliche Konten eines Kunden dar.
-   * 
+   *
    * @param c eine Referenz auf das Kundenobjekt bzgl. dessen der Report erstellt werden soll.
    * @return das fertige Reportobjekt
    * @throws IllegalArgumentException
@@ -71,7 +71,7 @@ public interface ReportGenerator extends RemoteService {
   /**
    * TODO: überarbeiten Erstellen eines <code>AllAccountsOfCustomerReport</code>-Reports. Dieser
    * Report-Typ stellt sämtliche Konten eines Kunden dar.
-   * 
+   *
    * @param c eine Referenz auf das Kundenobjekt bzgl. dessen der Report erstellt werden soll.
    * @return das fertige Reportobjekt
    * @throws IllegalArgumentException
@@ -82,7 +82,7 @@ public interface ReportGenerator extends RemoteService {
   /**
    * TODO: überarbeiten Erstellen eines <code>AllAccountsOfCustomerReport</code>-Reports. Dieser
    * Report-Typ stellt sämtliche Konten eines Kunden dar.
-   * 
+   *
    * @param c eine Referenz auf das Kundenobjekt bzgl. dessen der Report erstellt werden soll.
    * @return das fertige Reportobjekt
    * @throws IllegalArgumentException

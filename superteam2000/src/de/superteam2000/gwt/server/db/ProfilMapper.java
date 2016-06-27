@@ -16,7 +16,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
  * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
  * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
  * Methoden zur Suche, zum Speichern, L�schen und Modifizieren von Objekten.
- * 
+ *
  * @see AehnlichkeitsMapper
  * @see AuswahlMapper
  * @see BeschreibungMapper
@@ -35,7 +35,7 @@ public class ProfilMapper {
    * Von der Klasse ProfilMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ ProfilMapper, die die einzige Instanz der Klasse darstellt.
-   * 
+   *
    */
   private static ProfilMapper ProfilMapper = null;
 
@@ -43,7 +43,7 @@ public class ProfilMapper {
   /**
    * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der
    * Klasse erzeugt werden k�nnen
-   * 
+   *
    */
   protected ProfilMapper() {}
 
@@ -64,8 +64,8 @@ public class ProfilMapper {
 
   /**
    * Die Methode findByKey sucht auf die Datenbank abgebildete Profile �ber die Profil-id
-   * 
-   * 
+   *
+   *
    * @param id
    * @return Profil p
    */
@@ -114,9 +114,9 @@ public class ProfilMapper {
 
   /**
    * Suchen eines Kunden anhand der E-Mail Adresse
-   * 
+   *
    * @param email
-   * 
+   *
    * @return Profil p
    */
   public Profil findByEmail(String email) {
@@ -162,7 +162,7 @@ public class ProfilMapper {
 
   /**
    * Ausgabe aller Profile.
-   * 
+   *
    * @return Eine ArrayList mit Profil-Objekten
    */
   public ArrayList<Profil> findAll() {
@@ -209,13 +209,13 @@ public class ProfilMapper {
   }
 
   /**
-   * 
+   *
    * Abbilden eines Profil-Objektes auf die Datenbank
-   * 
-   * 
+   *
+   *
    * @param p - vom Typ Profil
    * @return Profil p
-   * 
+   *
    */
   public Profil insert(Profil p) {
     Connection con = DBConnection.connection();
@@ -266,7 +266,7 @@ public class ProfilMapper {
 
   /**
    * �ndern eines auf die Datenbank abgebildeten Profil-Objekts
-   * 
+   *
    * @param Profil p
    * @return Profil
    */
@@ -297,7 +297,7 @@ public class ProfilMapper {
 
   /**
    * L�schen eines Profil-Objektes aus der Datenbank
-   * 
+   *
    * @param Profil p
    */
   public void delete(Profil p) {
@@ -324,9 +324,9 @@ public class ProfilMapper {
 
   /**
    * Bildet einen Profilbesuch zwischen zwei Profilen auf die Datenbank ab
-   * 
    *
-   * 
+   *
+   *
    * @param besucher
    * @param besuchter
    */
@@ -352,7 +352,7 @@ public class ProfilMapper {
 
   /**
    * Holt Informationen �ber m�glicherweise erfolgten Profilbesuch aus der Datenbank
-   * 
+   *
    * @param a
    * @return Profil - ArrayList
    */

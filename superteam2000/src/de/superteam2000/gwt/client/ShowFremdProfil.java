@@ -36,52 +36,52 @@ public class ShowFremdProfil extends BasicFrame {
 
   @Override
   protected String getHeadlineText() {
-    return "Profil von " + this.p.getVorname();
+    return "Profil von " + p.getVorname();
   }
 
   @Override
   protected String getSubHeadlineText() {
     // TODO Auto-generated method stub
-    return "Wie gefällt dir " + this.p.getVorname() + " " + this.p.getNachname() + "?";
+    return "Wie gefällt dir " + p.getVorname() + " " + p.getNachname() + "?";
   }
 
 
   @Override
   protected void run() {
-    this.buttonsPanel.setStyleName("pure-controls-group");
+    buttonsPanel.setStyleName("pure-controls-group");
 
     HTML legend = new HTML();
-    String aenhnlickeit = "Ähnlickeitsmaß " + String.valueOf(this.p.getAehnlichkeit()) + "%";
+    String aenhnlickeit = "Ähnlickeitsmaß " + String.valueOf(p.getAehnlichkeit()) + "%";
     legend.setHTML("<legend>" + aenhnlickeit + "</legend>");
 
 
 
-    this.merkenBtn.setStyleName("pure-button");
-    this.merkenBtn.setIcon("fa fa-heart-o");
-    this.merkenBtn.setText("Like ");
-    this.merkenBtn.addClickHandler(new MerkenButtonClickhandler());
+    merkenBtn.setStyleName("pure-button");
+    merkenBtn.setIcon("fa fa-heart-o");
+    merkenBtn.setText("Like ");
+    merkenBtn.addClickHandler(new MerkenButtonClickhandler());
 
 
 
-    this.sperrenBtn.setStyleName("pure-button");
-    this.sperrenBtn.setIcon("fa fa-ban");
-    this.sperrenBtn.setText("Block ");
-    this.sperrenBtn.addClickHandler(new SperrenButtonClickhandler());
+    sperrenBtn.setStyleName("pure-button");
+    sperrenBtn.setIcon("fa fa-ban");
+    sperrenBtn.setText("Block ");
+    sperrenBtn.addClickHandler(new SperrenButtonClickhandler());
 
-    this.buttonsPanel.add(this.merkenBtn);
-    this.buttonsPanel.add(this.sperrenBtn);
-    this.buttonsPanel.add(legend);
-    this.fPanel.add(this.buttonsPanel);
+    buttonsPanel.add(merkenBtn);
+    buttonsPanel.add(sperrenBtn);
+    buttonsPanel.add(legend);
+    fPanel.add(buttonsPanel);
 
 
     this.setStyleName("pure-form pure-form-aligned");
-    this.fPanel.setStyleName("pure-controls-group content");
+    fPanel.setStyleName("pure-controls-group content");
 
-    this.pbVerwaltung.getMerkzettelForProfil(this.profil, new MerkzettelCallback());
+    pbVerwaltung.getMerkzettelForProfil(profil, new MerkzettelCallback());
 
 
-    this.pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
-    this.add(this.fPanel);
+    pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
+    this.add(fPanel);
   }
 
   public void createProfileLabels(String eigenschaft, String text) {
@@ -93,7 +93,7 @@ public class ShowFremdProfil extends BasicFrame {
     f.add(l1);
     f.add(l2);
 
-    this.fPanel.add(f);
+    fPanel.add(f);
   }
 
 
@@ -102,11 +102,11 @@ public class ShowFremdProfil extends BasicFrame {
 
     @Override
     public void onSuccess(Merkzettel result) {
-      this.profile = result.getGemerkteProfile();
-      for (Profil profil : this.profile) {
-        if (ShowFremdProfil.this.p.equals(profil)) {
-          ShowFremdProfil.this.merkenBtn.setIcon("fa fa-heart");
-          ShowFremdProfil.this.merkenBtn.setPushed(true);
+      profile = result.getGemerkteProfile();
+      for (Profil profil : profile) {
+        if (p.equals(profil)) {
+          merkenBtn.setIcon("fa fa-heart");
+          merkenBtn.setPushed(true);
         }
       }
 
@@ -122,23 +122,23 @@ public class ShowFremdProfil extends BasicFrame {
   public class SperrenButtonClickhandler implements ClickHandler {
     @Override
     public void onClick(ClickEvent event) {
-      new Notification("Profil von " + ShowFremdProfil.this.p.getVorname() + " gesperrt", "info");
+      new Notification("Profil von " + p.getVorname() + " gesperrt", "info");
 
-      if (ShowFremdProfil.this.p != null) {
-        ClientsideSettings.getPartnerboerseVerwaltung().createSperre(
-            ClientsideSettings.getCurrentUser(), ShowFremdProfil.this.p, new AsyncCallback<Void>() {
+      if (p != null) {
+        ClientsideSettings.getPartnerboerseVerwaltung()
+            .createSperre(ClientsideSettings.getCurrentUser(), p, new AsyncCallback<Void>() {
 
               @Override
               public void onSuccess(Void result) {
-                ShowFremdProfil.this.sperrenBtn.setEnabled(false);
-                ShowFremdProfil.this.merkenBtn.setIcon("fa fa-heart-o");
-                ShowFremdProfil.this.merkenBtn.setEnabled(false);
+                sperrenBtn.setEnabled(false);
+                merkenBtn.setIcon("fa fa-heart-o");
+                merkenBtn.setEnabled(false);
               }
 
               @Override
               public void onFailure(Throwable caught) {
 
-            }
+          }
             });
       }
 
@@ -150,36 +150,34 @@ public class ShowFremdProfil extends BasicFrame {
     public void onClick(ClickEvent event) {
 
 
-      if (!ShowFremdProfil.this.merkenBtn.isPushed()) {
+      if (!merkenBtn.isPushed()) {
 
-        ClientsideSettings.getPartnerboerseVerwaltung().createMerken(
-            ClientsideSettings.getCurrentUser(), ShowFremdProfil.this.p, new AsyncCallback<Void>() {
+        ClientsideSettings.getPartnerboerseVerwaltung()
+            .createMerken(ClientsideSettings.getCurrentUser(), p, new AsyncCallback<Void>() {
 
               @Override
               public void onSuccess(Void result) {
-                new Notification("Profil von " + ShowFremdProfil.this.p.getVorname() + " gemerkt",
-                    "info");
-                ShowFremdProfil.this.merkenBtn.setIcon("fa fa-heart");
-                ShowFremdProfil.this.merkenBtn.setPushed(true);
+                new Notification("Profil von " + p.getVorname() + " gemerkt", "info");
+                merkenBtn.setIcon("fa fa-heart");
+                merkenBtn.setPushed(true);
               }
 
               @Override
               public void onFailure(Throwable caught) {
 
 
-            }
+          }
             });
 
       } else {
-        ShowFremdProfil.this.pbVerwaltung.deleteMerken(ClientsideSettings.getCurrentUser(),
-            ShowFremdProfil.this.p, new AsyncCallback<Void>() {
+        pbVerwaltung.deleteMerken(ClientsideSettings.getCurrentUser(), p,
+            new AsyncCallback<Void>() {
 
               @Override
               public void onSuccess(Void result) {
-                new Notification("Profil von " + ShowFremdProfil.this.p.getVorname() + " entmerkt",
-                    "info");
-                ShowFremdProfil.this.merkenBtn.setIcon("fa fa-heart-o");
-                ShowFremdProfil.this.merkenBtn.setPushed(false);
+                new Notification("Profil von " + p.getVorname() + " entmerkt", "info");
+                merkenBtn.setIcon("fa fa-heart-o");
+                merkenBtn.setPushed(false);
               }
 
               @Override
@@ -200,32 +198,25 @@ public class ShowFremdProfil extends BasicFrame {
       for (Auswahl a : result) {
         switch (a.getName()) {
           case "Religion":
-            ShowFremdProfil.this.createProfileLabels(a.getName(),
-                ShowFremdProfil.this.p.getReligion());
+            createProfileLabels(a.getName(), p.getReligion());
             break;
           case "Haarfarbe":
-            ShowFremdProfil.this.createProfileLabels(a.getName(),
-                ShowFremdProfil.this.p.getHaarfarbe());
+            createProfileLabels(a.getName(), p.getHaarfarbe());
             break;
           case "Geschlecht":
-            ShowFremdProfil.this.createProfileLabels(a.getName(),
-                ShowFremdProfil.this.p.getGeschlecht());
+            createProfileLabels(a.getName(), p.getGeschlecht());
             break;
           case "Raucher":
-            ShowFremdProfil.this.createProfileLabels(a.getName(),
-                ShowFremdProfil.this.p.getRaucher());
+            createProfileLabels(a.getName(), p.getRaucher());
             break;
         }
       }
-      ShowFremdProfil.this.createProfileLabels("Alter",
-          String.valueOf(ShowFremdProfil.this.p.getAlter()) + " Jahre ");
-      ShowFremdProfil.this.createProfileLabels("Größe",
-          String.valueOf(ShowFremdProfil.this.p.getGroesse()) + " cm");
+      createProfileLabels("Alter", String.valueOf(p.getAlter()) + " Jahre ");
+      createProfileLabels("Größe", String.valueOf(p.getGroesse()) + " cm");
 
 
 
-      ShowFremdProfil.this.pbVerwaltung.getInfoByProfile(ShowFremdProfil.this.p,
-          new InfoCallback());
+      pbVerwaltung.getInfoByProfile(p, new InfoCallback());
 
     }
 
@@ -253,10 +244,8 @@ public class ShowFremdProfil extends BasicFrame {
         if (i != null) {
           // table.setText(rowCounter, 1, i.getText());
 
-          ShowFremdProfil.this.pbVerwaltung.getAuswahlById(i.getEigenschaftId(),
-              new GetAuswahlCallback(i));
-          ShowFremdProfil.this.pbVerwaltung.getBeschreibungById(i.getEigenschaftId(),
-              new GetBeschreibungCallback(i));
+          pbVerwaltung.getAuswahlById(i.getEigenschaftId(), new GetAuswahlCallback(i));
+          pbVerwaltung.getBeschreibungById(i.getEigenschaftId(), new GetBeschreibungCallback(i));
 
         }
 
@@ -285,7 +274,7 @@ public class ShowFremdProfil extends BasicFrame {
     @Override
     public void onSuccess(Auswahl result) {
 
-      ShowFremdProfil.this.createProfileLabels(result.getName(), this.i.getText());
+      createProfileLabels(result.getName(), i.getText());
     }
 
   }
@@ -308,7 +297,7 @@ public class ShowFremdProfil extends BasicFrame {
 
     @Override
     public void onSuccess(Beschreibung result) {
-      ShowFremdProfil.this.createProfileLabels(result.getName(), this.i.getText());
+      createProfileLabels(result.getName(), i.getText());
     }
 
   }

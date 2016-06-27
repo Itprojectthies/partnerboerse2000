@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class Column implements Serializable {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
 
@@ -35,7 +35,7 @@ public class Column implements Serializable {
    * einer solchen Situation aber dennoch einen No-Argument-Konstruktor benötigen, müssen wir diesen
    * wie in diesem Beispiel explizit implementieren.
    * </p>
-   * 
+   *
    * @see #Column(String)
    * @see SimpleParagraph#SimpleParagraph()
    */
@@ -43,26 +43,26 @@ public class Column implements Serializable {
 
   /**
    * Konstruktor, der die Angabe eines Werts (Spalteneintrag) erzwingt.
-   * 
+   *
    * @param s der Wert, der durch das Column-Objekt dargestellt werden soll.
    * @see #Column()
    */
   public Column(String s) {
-    this.value = s;
+    value = s;
   }
 
   /**
    * Auslesen des Spaltenwerts.
-   * 
+   *
    * @return der Eintrag als String
    */
   public String getValue() {
-    return this.value;
+    return value;
   }
 
   /**
    * Überschreiben des aktuellen Spaltenwerts.
-   * 
+   *
    * @param value neuer Spaltenwert
    */
   public void setValue(String value) {
@@ -71,11 +71,11 @@ public class Column implements Serializable {
 
   /**
    * Umwandeln des <code>Column</code>-Objekts in einen String.
-   * 
+   *
    * @see java.lang.Object
    */
   @Override
   public String toString() {
-    return this.value;
+    return value;
   }
 }

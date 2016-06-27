@@ -15,14 +15,16 @@ import de.superteam2000.gwt.shared.bo.Profil;
 
 public class AllProfilesTable extends BasicFrame {
 
+
+
   private ArrayList<Profil> profilListe;
 
   public AllProfilesTable(ArrayList<Profil> list) {
-    this.profilListe = list;
+    profilListe = list;
   }
 
   public ArrayList<Profil> getProfilListe() {
-    return this.profilListe;
+    return profilListe;
   }
 
   public void setProfilListe(ArrayList<Profil> profilListe) {
@@ -62,111 +64,91 @@ public class AllProfilesTable extends BasicFrame {
     FlowPanel buttonsPanel = new FlowPanel();
 
     fPanel.setStyleName("pure-form pure-form-aligned content");
-    // fPanel2.setStyleName("content");
 
-
-
-    // buttonsPanel.setStyleName("pure-controls");
     buttonsPanel.add(profileAnzeigenButton);
     buttonsPanel.add(nichtBesuchteProfilAnzeigenButton);
     buttonsPanel.add(neueProfilAnzeigenButton);
 
-
     fPanel.add(buttonsPanel);
     fPanel2.add(fPanel);
-    DataGridProfiles dgp = new DataGridProfiles(this.profilListe);
+    DataGridProfiles dgp = new DataGridProfiles(profilListe);
     dgp.addClickFremdProfil();
     fPanel2.add(dgp.start());
     RootPanel.get("main").add(fPanel2);
 
+    neueProfilAnzeigenButton.addClickHandler(new NeueProfilAnzeigeClickHandler());
 
-    neueProfilAnzeigenButton.addClickHandler(new ClickHandler() {
+    nichtBesuchteProfilAnzeigenButton.addClickHandler(new NichtBesuchteProfileClickHandler());
 
-      @Override
-      public void onClick(ClickEvent event) {
-        AllProfilesTable.this.pbVerwaltung.getAllNewProfilesByAehnlichkeitsmass(
-            AllProfilesTable.this.profil, new AsyncCallback<ArrayList<Profil>>() {
-
-              @Override
-              public void onSuccess(ArrayList<Profil> result) {
-                AllProfilesTable dgt = new AllProfilesTable(result);
-                RootPanel.get("main").clear();
-                RootPanel.get("main").add(dgt);
-
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-                // TODO Auto-generated method stub
-
-              }
-            });
-
-
-      }
-    });
-
-    nichtBesuchteProfilAnzeigenButton.addClickHandler(new ClickHandler() {
-
-      @Override
-      public void onClick(ClickEvent event) {
-        AllProfilesTable.this.pbVerwaltung.getAllNotVisitedProfilesByAehnlichkeitsmass(
-            AllProfilesTable.this.profil, new AsyncCallback<ArrayList<Profil>>() {
-
-              @Override
-              public void onSuccess(ArrayList<Profil> result) {
-                AllProfilesTable dgt = new AllProfilesTable(result);
-                RootPanel.get("main").clear();
-                RootPanel.get("main").add(dgt);
-
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-                // TODO Auto-generated method stub
-
-              }
-            });
-
-
-      }
-    });
-
-    profileAnzeigenButton.addClickHandler(new ClickHandler() {
-
-      @Override
-      public void onClick(ClickEvent event) {
-        AllProfilesTable.this.pbVerwaltung.getProfilesByAehnlichkeitsmass(
-            AllProfilesTable.this.profil, new AsyncCallback<ArrayList<Profil>>() {
-
-              @Override
-              public void onSuccess(ArrayList<Profil> result) {
-                AllProfilesTable.this.profilListe = result;
-                AllProfilesTable dgt = new AllProfilesTable(result);
-                RootPanel.get("main").clear();
-                RootPanel.get("main").add(dgt);
-
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-                // TODO Auto-generated method stub
-
-              }
-            });
-
-
-      }
-    });
-
-
-
-    // eigenes Profil aus der Liste entfernen
-    // if(profile.contains(ClientsideSettings.getCurrentUser())){
-    // profile.remove(ClientsideSettings.getCurrentUser());
-    // }
-
+    profileAnzeigenButton.addClickHandler(new AlleProfileClickHandler());
 
   }
 
+  private class AlleProfileClickHandler implements ClickHandler {
+    @Override
+    public void onClick(ClickEvent event) {
+      pbVerwaltung.getProfilesByAehnlichkeitsmass(profil,
+          new ProfileProfilesByAehnlichkeitsmassCallback());
+    }
+  }
+
+  private class ProfileProfilesByAehnlichkeitsmassCallback
+      implements AsyncCallback<ArrayList<Profil>> {
+    @Override
+    public void onSuccess(ArrayList<Profil> result) {
+      profilListe = result;
+      AllProfilesTable dgt = new AllProfilesTable(result);
+      RootPanel.get("main").clear();
+      RootPanel.get("main").add(dgt);
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {}
+  }
+
+  private class NichtBesuchteProfileClickHandler implements ClickHandler {
+
+    @Override
+    public void onClick(ClickEvent event) {
+      pbVerwaltung.getAllNotVisitedProfilesByAehnlichkeitsmass(profil,
+          new AllNotVisitedProfilesByAehnlichkeitsmassCallback());
+    }
+  }
+
+  private class AllNotVisitedProfilesByAehnlichkeitsmassCallback
+      implements AsyncCallback<ArrayList<Profil>> {
+    @Override
+    public void onSuccess(ArrayList<Profil> result) {
+      AllProfilesTable dgt = new AllProfilesTable(result);
+      RootPanel.get("main").clear();
+      RootPanel.get("main").add(dgt);
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {
+    }
+  }
+
+  private class NeueProfilAnzeigeClickHandler implements ClickHandler {
+
+
+    @Override
+    public void onClick(ClickEvent event) {
+      pbVerwaltung.getAllNewProfilesByAehnlichkeitsmass(profil,
+          new AllNewProfilesByAehnlichkeitsmassCallback());
+    }
+  }
+  private class AllNewProfilesByAehnlichkeitsmassCallback
+      implements AsyncCallback<ArrayList<Profil>> {
+    @Override
+    public void onSuccess(ArrayList<Profil> result) {
+      AllProfilesTable dgt = new AllProfilesTable(result);
+      RootPanel.get("main").clear();
+      RootPanel.get("main").add(dgt);
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {
+    }
+  }
 }

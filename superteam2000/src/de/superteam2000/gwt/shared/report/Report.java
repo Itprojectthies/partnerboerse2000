@@ -22,7 +22,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
 public abstract class Report implements Serializable {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
 
@@ -57,11 +57,11 @@ public abstract class Report implements Serializable {
 
   /**
    * Auslesen des Impressums.
-   * 
+   *
    * @return Text des Impressums
    */
   public Paragraph getName() {
-    return this.name;
+    return name;
   }
 
   public void setName(Paragraph name) {
@@ -70,7 +70,7 @@ public abstract class Report implements Serializable {
 
   /**
    * Setzen des Impressums.
-   * 
+   *
    * @param attribute Text des Impressums
    */
   public void setProfilAttribute(CompositeParagraph attribute) {
@@ -78,7 +78,7 @@ public abstract class Report implements Serializable {
   }
 
   public CompositeParagraph getProfilAttribute() {
-    return this.attribute;
+    return attribute;
   }
 
   public void setProfilAttributeBez(CompositeParagraph attributeBez) {
@@ -86,21 +86,21 @@ public abstract class Report implements Serializable {
   }
 
   public CompositeParagraph getProfilAttributeBez() {
-    return this.attributeBez;
+    return attributeBez;
   }
 
   /**
    * Auslesen der Kopfdaten.
-   * 
+   *
    * @return Text der Kopfdaten.
    */
   public Paragraph getAehnlichkeit() {
-    return this.aehnlichkeit;
+    return aehnlichkeit;
   }
 
   /**
    * Setzen der Kopfdaten.
-   * 
+   *
    * @param aehnlichkeit Text der Kopfdaten.
    */
   public void setAehnlichekit(Paragraph aehnlichkeit) {
@@ -109,16 +109,16 @@ public abstract class Report implements Serializable {
 
   /**
    * Auslesen des Berichtstitels.
-   * 
+   *
    * @return Titeltext
    */
   public String getTitle() {
-    return this.title;
+    return title;
   }
 
   /**
    * Setzen des Berichtstitels.
-   * 
+   *
    * @param title Titeltext
    */
   public void setSubTitle(String subtitle) {
@@ -126,7 +126,7 @@ public abstract class Report implements Serializable {
   }
 
   public String getSubTitle() {
-    return this.subtitle;
+    return subtitle;
   }
 
   /**
@@ -140,18 +140,18 @@ public abstract class Report implements Serializable {
 
   /**
    * Auslesen des Erstellungsdatums.
-   * 
+   *
    * @return Datum der Erstellung des Berichts
    */
   public Date getCreated() {
-    return this.created;
+    return created;
   }
 
   /**
    * Setzen des Erstellungsdatums. <b>Hinweis:</b> Der Aufruf dieser Methoden ist nicht unbedingt
    * erforderlich, da jeder Report bei seiner Erstellung automatisch den aktuellen Zeitpunkt
    * festhält.
-   * 
+   *
    * @param created Zeitpunkt der Erstellung
    */
   public void setCreated(Date created) {
@@ -159,7 +159,7 @@ public abstract class Report implements Serializable {
   }
 
   public Profil getProfil() {
-    return this.profil;
+    return profil;
   }
 
   public void setProfil(Profil profil) {

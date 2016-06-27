@@ -16,7 +16,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
  * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
  * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
  * Methoden zur Suche, zum Speichern, L�schen und Modifizieren von Objekten.
- * 
+ *
  * @see AehnlichkeitsMapper
  * @see AuswahlMapper
  * @see BeschreibungMapper
@@ -36,14 +36,14 @@ public class KontaktsperreMapper {
    * einer statischen Variablen vom Typ KontaktsperreMapper, die die einzige Instanz der Klasse
    * darstellt.
    *
-   * 
+   *
    */
   private static KontaktsperreMapper kontaktsperreMapper = null;
 
   /**
    * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der
    * Klasse erzeugt werden k�nnen
-   * 
+   *
    */
   protected KontaktsperreMapper() {}
 
@@ -65,7 +65,7 @@ public class KontaktsperreMapper {
   /**
    * Die Methode insertForProfil bietet die M�glichkeit die Kontaktsperre auf die Datenbank
    * abzubilden
-   * 
+   *
    * @param sperrer - sperrendes Profil
    * @param gesperrter - gesperrtes Profil
    * @return
@@ -97,8 +97,8 @@ public class KontaktsperreMapper {
 
   /**
    * Die Methode deleteSperreFor l�scht die Kontaktsperre zwischen zwei Profil-Objekten.
-   * 
-   * 
+   *
+   *
    * @param entferner
    * @param entfernter
    */

@@ -7,7 +7,7 @@ package de.superteam2000.gwt.server.db;
  * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
  * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
  * Methoden zur Suche, zum Speichern, L�schen und Modifizieren von Objekten.
- * 
+ *
  * @see AuswahlMapper
  * @see BeschreibungsMapper
  * @see DBConnection
@@ -16,7 +16,7 @@ package de.superteam2000.gwt.server.db;
  * @see MerkzettelMapper
  * @see ProfilMapper
  * @see SuchprofilMapper
- * 
+ *
  * @author
  */
 public class AehnlichkeitsmassMapper {
@@ -26,14 +26,14 @@ public class AehnlichkeitsmassMapper {
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ AuswahlMapper, die die einzige Instanz der Klasse darstellt.
    *
-   * 
+   *
    */
   private static AehnlichkeitsmassMapper aehnlichkeitsmassMapper = null;
 
   /**
    * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der
    * Klasse erzeugt werden k�nnen
-   * 
+   *
    */
   protected AehnlichkeitsmassMapper() {}
 

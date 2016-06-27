@@ -13,7 +13,7 @@ public abstract class Eigenschaft extends BusinessObject {
   private static final long serialVersionUID = 1L;
   /**
    * Deklaration der Parameter
-   * 
+   *
    * @param name Überbegriff, d. h. Begriffsbezeichnung eines Hobbies
    * @param beschreibungstext Der eigentliche Name eines Hobbies
    */
@@ -22,17 +22,17 @@ public abstract class Eigenschaft extends BusinessObject {
 
   /**
    * Auslesen des Parameters Name
-   * 
+   *
    * @return name
    */
   public String getName() {
-    return this.name;
+    return name;
   }
 
 
   /**
    * Setzen des Parameters Name
-   * 
+   *
    * @param name
    */
   public void setName(String name) {
@@ -41,16 +41,16 @@ public abstract class Eigenschaft extends BusinessObject {
 
   /**
    * Auslesen des Beschreibungstextes
-   * 
+   *
    * @return beschreibungstext
    */
   public String getBeschreibungstext() {
-    return this.beschreibungstext;
+    return beschreibungstext;
   }
 
   /**
    * Setzen des Beschreibungstextes
-   * 
+   *
    * @param beschreibungstext
    */
   public void setBeschreibungstext(String beschreibungstext) {

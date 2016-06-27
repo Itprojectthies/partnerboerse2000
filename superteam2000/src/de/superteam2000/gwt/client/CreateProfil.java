@@ -57,27 +57,26 @@ public class CreateProfil extends BasicFrame {
 
   @Override
   public void run() {
-    this.fPanel.setStyleName("pure-form pure-form-aligned");
-    this.fPanel2.setStyleName("content");
-    this.gebTag = new ProfilAttributListbox();
-    this.gebTag.createGebtaListobx("Was ist dein Geburtstag");
-    this.gebTag.setEnable(true);
+    fPanel.setStyleName("pure-form pure-form-aligned");
+    fPanel2.setStyleName("content");
+    gebTag = new ProfilAttributListbox();
+    gebTag.createGebtaListobx("Was ist dein Geburtstag");
+    gebTag.setEnable(true);
 
-    this.groesse = new ProfilAttributListbox();
-    this.groesse.createGroesseListBox("Was ist deine Körpergröße");
-    this.groesse.setEnable(true);
+    groesse = new ProfilAttributListbox();
+    groesse.createGroesseListBox("Was ist deine Körpergröße");
+    groesse.setEnable(true);
 
-    this.pbVerwaltung
-        .getAllBeschreibungProfilAttribute(new GetAllBeschreibungProfilAttributeCallBack());
-    this.pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallBack());
+    pbVerwaltung.getAllBeschreibungProfilAttribute(new GetAllBeschreibungProfilAttributeCallBack());
+    pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallBack());
 
 
-    this.confirmBtn = new Button("Weiter");
-    this.confirmBtn.setStyleName("pure-button pure-button-primary");
+    confirmBtn = new Button("Weiter");
+    confirmBtn.setStyleName("pure-button pure-button-primary");
 
-    this.confirmBtn.addClickHandler(new ConfirmClickHandler());
-    this.fPanel2.add(this.fPanel);
-    RootPanel.get("main").add(this.fPanel2);
+    confirmBtn.addClickHandler(new ConfirmClickHandler());
+    fPanel2.add(fPanel);
+    RootPanel.get("main").add(fPanel2);
 
   }
 
@@ -89,7 +88,7 @@ public class CreateProfil extends BasicFrame {
       for (Beschreibung b : result) {
 
         BoxPanel clb = new BoxPanel(b, false);
-        CreateProfil.this.fPanel.add(clb);
+        fPanel.add(clb);
       }
 
     }
@@ -107,12 +106,12 @@ public class CreateProfil extends BasicFrame {
       for (Auswahl a : result) {
 
         BoxPanel clb = new BoxPanel(a, false);
-        CreateProfil.this.fPanel.add(clb);
+        fPanel.add(clb);
       }
 
-      CreateProfil.this.fPanel.add(CreateProfil.this.groesse);
-      CreateProfil.this.fPanel.add(CreateProfil.this.gebTag);
-      CreateProfil.this.fPanel.add(CreateProfil.this.confirmBtn);
+      fPanel.add(groesse);
+      fPanel.add(gebTag);
+      fPanel.add(confirmBtn);
     }
 
     @Override
@@ -133,7 +132,7 @@ public class CreateProfil extends BasicFrame {
       String raucher = "";
       String religion = "";
       String geschlecht = "";
-      String email = CreateProfil.this.user.getEmail();
+      String email = user.getEmail();
 
       int groesse = 141;
 
@@ -144,13 +143,13 @@ public class CreateProfil extends BasicFrame {
       // Schleifen zum Auslesen der Listboxen, welche in 2 Panels
       // verschachtelt sind
 
-      for (Widget child : CreateProfil.this.fPanel) {
+      for (Widget child : fPanel) {
         if (child instanceof FlowPanel) {
           FlowPanel childPanel = (FlowPanel) child;
           for (Widget box : childPanel) {
             if (box instanceof EigenschaftListBox) {
               EigenschaftListBox lb = (EigenschaftListBox) box;
-              CreateProfil.this.logger.severe("test " + lb.getName());
+              logger.severe("test " + lb.getName());
 
               switch (lb.getName()) {
 
@@ -183,7 +182,7 @@ public class CreateProfil extends BasicFrame {
 
             } else if (box instanceof TextBox) {
               TextBox tb = (TextBox) box;
-              CreateProfil.this.logger.severe("test " + tb.getName());
+              logger.severe("test " + tb.getName());
               switch (tb.getName()) {
                 case "Vorname":
                   firstName = tb.getText();
@@ -209,8 +208,8 @@ public class CreateProfil extends BasicFrame {
       java.sql.Date gebTag = new java.sql.Date(gebTag2.getTime());
 
       if (!firstName.isEmpty() && !lastName.isEmpty()) {
-        CreateProfil.this.pbVerwaltung.createProfil(lastName, firstName, email, gebTag, haarfarbe,
-            raucher, religion, groesse, geschlecht, new CreateCustomerCallback());
+        pbVerwaltung.createProfil(lastName, firstName, email, gebTag, haarfarbe, raucher, religion,
+            groesse, geschlecht, new CreateCustomerCallback());
       } else {
         new Notification("Bitte füllen sie alle Felder aus", "warning");
       }
@@ -222,13 +221,13 @@ public class CreateProfil extends BasicFrame {
 
     @Override
     public void onFailure(Throwable caught) {
-      CreateProfil.this.logger.severe("Erstellen des useres hat nicht funktioniert");
+      logger.severe("Erstellen des useres hat nicht funktioniert");
 
     }
 
     @Override
     public void onSuccess(Profil p) {
-      p.setLogoutUrl(CreateProfil.this.user.getLogoutUrl());
+      p.setLogoutUrl(user.getLogoutUrl());
       ClientsideSettings.setCurrentUser(p);
       p.setLoggedIn(true);
       ShowProfil sp = new ShowProfil();

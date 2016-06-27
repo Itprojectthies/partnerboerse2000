@@ -28,7 +28,7 @@ public class Navbar extends VerticalPanel {
   protected void onLoad() {
     RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#191818");
 
-    if ((this.profil != null) && this.profil.isLoggedIn()) {
+    if ((profil != null) && profil.isLoggedIn()) {
 
       FlowPanel menu = new FlowPanel();
       UnorderedListWidget menuList = new UnorderedListWidget();
@@ -114,7 +114,7 @@ public class Navbar extends VerticalPanel {
 
         @Override
         public void onClick(ClickEvent event) {
-          Window.open(Navbar.this.profil.getLogoutUrl(), "_self", "");
+          Window.open(profil.getLogoutUrl(), "_self", "");
         }
       });
 
@@ -185,8 +185,8 @@ public class Navbar extends VerticalPanel {
 
         @Override
         public void onClick(ClickEvent event) {
-          ClientsideSettings.getPartnerboerseVerwaltung().getProfilesByAehnlichkeitsmass(
-              Navbar.this.profil, new AsyncCallback<ArrayList<Profil>>() {
+          ClientsideSettings.getPartnerboerseVerwaltung().getProfilesByAehnlichkeitsmass(profil,
+              new AsyncCallback<ArrayList<Profil>>() {
 
                 @Override
                 public void onSuccess(ArrayList<Profil> result) {

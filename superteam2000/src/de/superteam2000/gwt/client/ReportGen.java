@@ -58,40 +58,40 @@ public class ReportGen implements EntryPoint {
   public void onModuleLoad() {
 
 
-    this.suchProfilListBox.setSize("11em", "8em");
+    suchProfilListBox.setSize("11em", "8em");
 
     RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#191818");
     Anchor anchor = new Anchor("PartnerBörse", GWT.getHostPageBaseURL() + "Superteam2000.html");
 
-    this.menuList.setStyleName("pure-menu-list");
+    menuList.setStyleName("pure-menu-list");
     anchor.setStyleName("pure-menu-heading");
-    this.pureMenu.setStyleName("pure-menu");
+    pureMenu.setStyleName("pure-menu");
 
-    this.profilAnzeigenButton.setStyleName("pure-menu-link");
-    this.menuList.add(new ListItemWidget(this.profilAnzeigenButton));
+    profilAnzeigenButton.setStyleName("pure-menu-link");
+    menuList.add(new ListItemWidget(profilAnzeigenButton));
 
-    this.alleProfileAnzeigenButton.setStyleName("pure-menu-link");
-    this.menuList.add(new ListItemWidget(this.alleProfileAnzeigenButton));
+    alleProfileAnzeigenButton.setStyleName("pure-menu-link");
+    menuList.add(new ListItemWidget(alleProfileAnzeigenButton));
 
-    this.alleNeuenProfileAnzeigenButton.setStyleName("pure-menu-link");
-    this.menuList.add(new ListItemWidget(this.alleNeuenProfileAnzeigenButton));
+    alleNeuenProfileAnzeigenButton.setStyleName("pure-menu-link");
+    menuList.add(new ListItemWidget(alleNeuenProfileAnzeigenButton));
 
-    this.alleNichtBesuchtProfileAnzeigenButton.setStyleName("pure-menu-link");
-    this.menuList.add(new ListItemWidget(this.alleNichtBesuchtProfileAnzeigenButton));
+    alleNichtBesuchtProfileAnzeigenButton.setStyleName("pure-menu-link");
+    menuList.add(new ListItemWidget(alleNichtBesuchtProfileAnzeigenButton));
 
-    this.sucheBtn.setStyleName("pure-menu-link");
+    sucheBtn.setStyleName("pure-menu-link");
 
-    this.suchProfilListBox.setStyleName("suchprofilListbox");
-    this.suchProfilListBox.setStyleName("pure-menu-link");
+    suchProfilListBox.setStyleName("suchprofilListbox");
+    suchProfilListBox.setStyleName("pure-menu-link");
 
-    this.menuList.add(new ListItemWidget(this.suchProfilListBox));
-    this.menuList.add(new ListItemWidget(this.sucheBtn));
+    menuList.add(new ListItemWidget(suchProfilListBox));
+    menuList.add(new ListItemWidget(sucheBtn));
 
-    this.menu.add(this.pureMenu);
-    this.pureMenu.add(anchor);
-    this.pureMenu.add(this.menuList);
+    menu.add(pureMenu);
+    pureMenu.add(anchor);
+    pureMenu.add(menuList);
 
-    this.pbVerwaltung.login(GWT.getHostPageBaseURL() + "Reportgen.html", new LoginCallback());
+    pbVerwaltung.login(GWT.getHostPageBaseURL() + "Reportgen.html", new LoginCallback());
 
   }
 
@@ -112,7 +112,7 @@ public class ReportGen implements EntryPoint {
     @Override
     public void onSuccess(Profil result) {
       if (result.isLoggedIn()) {
-        RootPanel.get("menu").add(ReportGen.this.menu);
+        RootPanel.get("menu").add(menu);
       } else {
 
         Anchor loginAnchor = new Anchor("Login");
@@ -121,20 +121,18 @@ public class ReportGen implements EntryPoint {
 
         RootPanel.get("menu").add(loginAnchor);
       }
-      ReportGen.this.p = result;
-      ReportGen.this.p.setAehnlichkeit(100);
+      p = result;
+      p.setAehnlichkeit(100);
 
-      ReportGen.this.pbVerwaltung.getAllSuchprofileForProfil(ReportGen.this.p,
-          new SuchProfileCallback());
-      ReportGen.this.pbVerwaltung.getAllProfiles(new AllProfilesCallback());
+      pbVerwaltung.getAllSuchprofileForProfil(p, new SuchProfileCallback());
+      pbVerwaltung.getAllProfiles(new AllProfilesCallback());
 
-      ReportGen.this.sucheBtn.addClickHandler(new SucheBtnClickHandeler());
-      ReportGen.this.suchProfilListBox.addClickHandler(new SuchProfilClickhandler());
-      ReportGen.this.alleProfileAnzeigenButton.addClickHandler(new AlleProfileClickhandler());
-      ReportGen.this.alleNeuenProfileAnzeigenButton.addClickHandler(new NeueProfileClickHandler());
-      ReportGen.this.alleNichtBesuchtProfileAnzeigenButton
-          .addClickHandler(new NichtBesuchteProfileClickHandler());
-      ReportGen.this.profilAnzeigenButton.addClickHandler(new ProfilClickHandler());
+      sucheBtn.addClickHandler(new SucheBtnClickHandeler());
+      suchProfilListBox.addClickHandler(new SuchProfilClickhandler());
+      alleProfileAnzeigenButton.addClickHandler(new AlleProfileClickhandler());
+      alleNeuenProfileAnzeigenButton.addClickHandler(new NeueProfileClickHandler());
+      alleNichtBesuchtProfileAnzeigenButton.addClickHandler(new NichtBesuchteProfileClickHandler());
+      profilAnzeigenButton.addClickHandler(new ProfilClickHandler());
 
     }
 
@@ -158,7 +156,7 @@ public class ReportGen implements EntryPoint {
   private class AllProfilesCallback implements AsyncCallback<ArrayList<Profil>> {
     @Override
     public void onSuccess(ArrayList<Profil> result) {
-      ReportGen.this.profile = result;
+      profile = result;
       ClientsideSettings.getLogger().info("async callback get all profiles");
     }
 
@@ -176,7 +174,7 @@ public class ReportGen implements EntryPoint {
       if (result == null) {
         ClientsideSettings.getLogger().info("Result == null");
       }
-      ReportGen.this.sp = result;
+      sp = result;
     }
 
     @Override
@@ -188,12 +186,11 @@ public class ReportGen implements EntryPoint {
   private class SuchProfileCallback implements AsyncCallback<ArrayList<Suchprofil>> {
     @Override
     public void onSuccess(ArrayList<Suchprofil> result) {
-      ReportGen.this.suchProfilListe = result;
-      for (Suchprofil sp : ReportGen.this.suchProfilListe) {
-        ReportGen.this.suchProfilListBox.addItem(sp.getName());
+      suchProfilListe = result;
+      for (Suchprofil sp : suchProfilListe) {
+        suchProfilListBox.addItem(sp.getName());
       }
-      ReportGen.this.reportGenerator.createProfilReport(ReportGen.this.p,
-          new createProfilReportCallback());
+      reportGenerator.createProfilReport(p, new createProfilReportCallback());
     }
 
     @Override
@@ -247,8 +244,8 @@ public class ReportGen implements EntryPoint {
 
       ListBox clickedLb = (ListBox) event.getSource();
 
-      ReportGen.this.pbVerwaltung.getSuchprofileForProfilByName(ReportGen.this.p,
-          clickedLb.getSelectedItemText(), new SuchProfilCallback());
+      pbVerwaltung.getSuchprofileForProfilByName(p, clickedLb.getSelectedItemText(),
+          new SuchProfilCallback());
 
     }
   }
@@ -257,8 +254,7 @@ public class ReportGen implements EntryPoint {
     @Override
     public void onClick(ClickEvent event) {
       ClientsideSettings.getLogger().info("onClick profilAnzeigenButton");
-      ReportGen.this.reportGenerator.createProfilReport(ReportGen.this.p,
-          new createProfilReportCallback());
+      reportGenerator.createProfilReport(p, new createProfilReportCallback());
 
     }
   }
@@ -268,8 +264,7 @@ public class ReportGen implements EntryPoint {
 
     @Override
     public void onClick(ClickEvent event) {
-      ReportGen.this.reportGenerator.createAllNotVisitedProfileReport(ReportGen.this.p,
-          new NotVIsitedCallback());
+      reportGenerator.createAllNotVisitedProfileReport(p, new NotVIsitedCallback());
     }
   }
 
@@ -277,8 +272,7 @@ public class ReportGen implements EntryPoint {
 
     @Override
     public void onClick(ClickEvent event) {
-      ReportGen.this.reportGenerator.createAllNewProfilesReport(ReportGen.this.p,
-          new NewProfilesCallback());
+      reportGenerator.createAllNewProfilesReport(p, new NewProfilesCallback());
     }
   }
 
@@ -289,8 +283,7 @@ public class ReportGen implements EntryPoint {
     public void onClick(ClickEvent event) {
       ClientsideSettings.getLogger().info("onClick Methode aufgerufen");
 
-      ReportGen.this.reportGenerator.createAllProfilesReport(ReportGen.this.p,
-          new AllProfilesReportCallback());
+      reportGenerator.createAllProfilesReport(p, new AllProfilesReportCallback());
     }
   }
 
@@ -310,8 +303,7 @@ public class ReportGen implements EntryPoint {
 
     @Override
     public void onClick(ClickEvent event) {
-      ReportGen.this.reportGenerator.createSuchreportBySuchprofil(ReportGen.this.sp,
-          ReportGen.this.p, new ProfileBySucheReportCallback());
+      reportGenerator.createSuchreportBySuchprofil(sp, p, new ProfileBySucheReportCallback());
     }
   }
 

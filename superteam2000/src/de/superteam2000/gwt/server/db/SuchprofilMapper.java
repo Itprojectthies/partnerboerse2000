@@ -18,7 +18,7 @@ import de.superteam2000.gwt.shared.bo.Suchprofil;
  * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
  * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
  * Methoden zur Suche, zum Speichern, L�schen und Modifizieren von Objekten.
- * 
+ *
  * @see AehnlichkeitsMapper
  * @see AuswahlMapper
  * @see BeschreibungMapper
@@ -37,7 +37,7 @@ public class SuchprofilMapper {
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ SuchprofilMapper, die die einzige Instanz der Klasse
    * darstellt.
-   * 
+   *
    */
 
   private static SuchprofilMapper suchprofilMapper = null;
@@ -45,7 +45,7 @@ public class SuchprofilMapper {
   /**
    * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der
    * Klasse erzeugt werden k�nnen
-   * 
+   *
    */
 
 
@@ -68,11 +68,11 @@ public class SuchprofilMapper {
 
   /**
    * Die Methode liefert die Suchprofile, die genau einem Profil zugeordet sind
-   * 
+   *
    * @param Profil p
    * @param String name
    * @return Suchprofil
-   * 
+   *
    */
   public Suchprofil findSuchprofilForProfilByName(Profil p, String name) {
     Connection con = DBConnection.connection();
@@ -127,7 +127,7 @@ public class SuchprofilMapper {
 
   /**
    * Liefert alle Suchprofile von Profilen und gibt diese als ArrayList zur�ck
-   * 
+   *
    * @param p
    * @return ArrayList mit Suchprofilen
    */
@@ -187,7 +187,7 @@ public class SuchprofilMapper {
 
   /**
    * Abbilden eines Suchprofils auf die Datenbank
-   * 
+   *
    * @param sp
    * @return Suchprofil
    */
@@ -247,9 +247,9 @@ public class SuchprofilMapper {
 
   /**
    * L�schen eines Suchprofils aus der Datenbank
-   * 
+   *
    * @param Suchprofil sp
-   * 
+   *
    */
   public void delete(Suchprofil sp) {
     // TODO: alle FK beziehnungen löschen bevor profil löschen
@@ -269,7 +269,7 @@ public class SuchprofilMapper {
 
   /**
    * Modifizieren eines bereits auf die Datenbank abgebildeteten Suchprofils
-   * 
+   *
    * @param sp
    * @return Suchprofil
    */

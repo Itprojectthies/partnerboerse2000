@@ -11,11 +11,11 @@ import com.google.appengine.api.utils.SystemProperty;
 import de.superteam2000.gwt.client.ClientsideSettings;
 
 /**
- * 
+ *
  * Die Klasse DBConnection verwaltet die Verbindung zu einer relationalen Datenbank. Dabei wird auf
  * den jdbc-Treiber zur�ckgegriffen, der eine Verbindung von JAVA zu verschiedenen Datenbank-Typen
  * realisiert.
- * 
+ *
  * @see AehnlichkeitsMapper
  * @see AuswahlMapper,
  * @see InfoMapper
@@ -23,7 +23,7 @@ import de.superteam2000.gwt.client.ClientsideSettings;
  * @see MerkzettelMapper
  * @see ProfilMapper
  * @see SuchprofilMapper
- * 
+ *
  * @author Benjamin Henn
  *
  */
@@ -32,7 +32,7 @@ public class DBConnection {
    * Von der Klasse DBConnection kann nur eine Instanz erzeugt werden. Sie erfüllt die
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ Connection, die die einzige Instanz der Klasse darstellt.
-   * 
+   *
    */
   private static Connection con = null;
 
@@ -85,7 +85,7 @@ public class DBConnection {
         /*
          * Dann erst kann uns der DriverManager eine Verbindung mit den oben in der Variable url
          * angegebenen Verbindungsinformationen aufbauen.
-         * 
+         *
          * Diese Verbindung wird dann in der statischen Variable con abgespeichert und fortan
          * verwendet.
          */

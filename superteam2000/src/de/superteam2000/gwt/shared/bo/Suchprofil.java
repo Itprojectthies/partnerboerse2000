@@ -15,7 +15,7 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Deklarationen der Parameter eines Suchprofils
-   * 
+   *
    * @param name
    * @param text
    * @param haarfarbe
@@ -44,7 +44,7 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Deklaration des Parameters AuswahlListe
-   * 
+   *
    * @param auswahlListe Dieser Parameter ist eine HashMap vom Typ Integer und String. In dieser
    *        HashMap werden alle angelegten Suchprofile gespeichert.
    */
@@ -52,16 +52,16 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Auslesen der Minimalgröße
-   * 
+   *
    * @return groesse_min
    */
   public int getGroesse_min() {
-    return this.groesse_min;
+    return groesse_min;
   }
 
   /**
    * Setzen der Minimalgröße
-   * 
+   *
    * @param groesse_min
    */
   public void setGroesse_min(int groesse_min) {
@@ -70,16 +70,16 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Auslesen der Maximalgröße
-   * 
+   *
    * @return groesse_max
    */
   public int getGroesse_max() {
-    return this.groesse_max;
+    return groesse_max;
   }
 
   /**
    * Setzen der Maximalgröße
-   * 
+   *
    * @param groesse_max
    */
   public void setGroesse_max(int groesse_max) {
@@ -88,16 +88,16 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Auslesen des Mindestalters
-   * 
+   *
    * @return alter_min
    */
   public int getAlter_min() {
-    return this.alter_min;
+    return alter_min;
   }
 
   /**
    * Setzen des Mindestalters
-   * 
+   *
    * @param alter_min
    */
   public void setAlter_min(int alter_min) {
@@ -106,16 +106,16 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Auslesen des Maximalalters
-   * 
+   *
    * @return alter_max
    */
   public int getAlter_max() {
-    return this.alter_max;
+    return alter_max;
   }
 
   /**
    * Setzen des Maximalalters
-   * 
+   *
    * @param alter_max
    */
   public void setAlter_max(int alter_max) {
@@ -124,16 +124,16 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Auslesen der Haarfarbe
-   * 
+   *
    * @return haarfarbe
    */
   public String getHaarfarbe() {
-    return this.haarfarbe;
+    return haarfarbe;
   }
 
   /**
    * Setzen der Haarfarbe
-   * 
+   *
    * @param haarfarbe
    */
   public void setHaarfarbe(String haarfarbe) {
@@ -142,16 +142,16 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Auslesen des Parameters Raucher
-   * 
+   *
    * @return raucher
    */
   public String getRaucher() {
-    return this.raucher;
+    return raucher;
   }
 
   /**
    * Setzen des Parameters Raucher
-   * 
+   *
    * @param raucher
    */
   public void setRaucher(String raucher) {
@@ -160,16 +160,16 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Auslesen der Religion
-   * 
+   *
    * @return religion
    */
   public String getReligion() {
-    return this.religion;
+    return religion;
   }
 
   /**
    * Setzen der Religion
-   * 
+   *
    * @param religion
    */
   public void setReligion(String religion) {
@@ -178,16 +178,16 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Auslesen des Namens
-   * 
+   *
    * @return name
    */
   public String getName() {
-    return this.name;
+    return name;
   }
 
   /**
    * Setzen des Namens
-   * 
+   *
    * @param name
    */
   public void setName(String name) {
@@ -196,16 +196,16 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Auslesen des Parameters Text
-   * 
+   *
    * @return text
    */
   public String getText() {
-    return this.text;
+    return text;
   }
 
   /**
    * Setzen des Parameters Text
-   * 
+   *
    * @param text
    */
   public void setText(String text) {
@@ -214,16 +214,16 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Auslesen der Profil-ID
-   * 
+   *
    * @return profilId
    */
   public int getProfilId() {
-    return this.profilId;
+    return profilId;
   }
 
   /**
    * Setzen der Profil-ID
-   * 
+   *
    * @param profilId
    */
   public void setProfilId(int profilId) {
@@ -232,31 +232,31 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Auslesen des Geschlechts
-   * 
+   *
    * @return geschlecht
    */
   public String getGeschlecht() {
-    return this.geschlecht;
+    return geschlecht;
   }
 
   /**
    * Erzeugen einer ganzen Zahl, die das Suchprofil-Objekt charakterisiert.
-   * 
+   *
    * @see java.lang.Object#hashCode()
    */
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = super.hashCode();
-    result = (prime * result) + ((this.name == null) ? 0 : this.name.hashCode());
-    result = (prime * result) + this.profilId;
+    result = (prime * result) + ((name == null) ? 0 : name.hashCode());
+    result = (prime * result) + profilId;
     return result;
   }
 
   /**
    * Feststellen der inhaltlichen Gleichheit zweier Suchprofil-Objekte anhand der eindeutigen
    * Profil-ID eines Suchprofils.
-   * 
+   *
    * @see java.lang.Object#equals(Object)
    */
   @Override
@@ -266,7 +266,7 @@ public class Suchprofil extends BusinessObject {
       result = false;
     } else {
       Suchprofil sp = (Suchprofil) object;
-      if ((this.getName() == sp.getName()) && (this.getProfilId() == sp.getProfilId())) {
+      if ((getName() == sp.getName()) && (getProfilId() == sp.getProfilId())) {
         result = true;
       }
     }
@@ -275,7 +275,7 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Setzen des Geschlechts
-   * 
+   *
    * @param geschlecht
    */
   public void setGeschlecht(String geschlecht) {
@@ -284,16 +284,16 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Auslesen der Auswahlliste der gesuchten Profile anhand eines bestimmten Suchprofils
-   * 
+   *
    * @return auswahlListe
    */
   public HashMap<Integer, String> getAuswahlListe() {
-    return this.auswahlListe;
+    return auswahlListe;
   }
 
   /**
    * Setzen der Auswhalliste der gesuchten Profile anhand eines bestimmten Suchprofils
-   * 
+   *
    * @param auswahlListe
    */
   public void setAuswahlListe(HashMap<Integer, String> auswahlListe) {

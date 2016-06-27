@@ -26,7 +26,7 @@ public class HTMLReportWriter extends ReportWriter {
    * Zurücksetzen der Variable <code>reportText</code>.
    */
   public void resetReportText() {
-    this.reportText = "";
+    reportText = "";
   }
 
   /**
@@ -99,7 +99,7 @@ public class HTMLReportWriter extends ReportWriter {
   @Override
   public void process(AllNotVisitedProfileReport r) {
     // Zunächst löschen wir das Ergebnis vorhergehender Prozessierungen.
-    this.resetReportText();
+    resetReportText();
 
     /*
      * In diesen Buffer schreiben wir während der Prozessierung sukzessive unsere Ergebnisse.
@@ -130,13 +130,13 @@ public class HTMLReportWriter extends ReportWriter {
 
       this.process(subReport);
 
-      result.append(this.reportText + "\n");
+      result.append(reportText + "\n");
 
       /*
        * Nach jeder �bersetzung eines Teilreports und anschlie�endem Auslesen sollte die
        * Ergebnisvariable zur�ckgesetzt werden.
        */
-      this.resetReportText();
+      resetReportText();
     }
 
     /*
@@ -144,7 +144,7 @@ public class HTMLReportWriter extends ReportWriter {
      * zugewiesen. Dadurch wird es m�glich, anschlie�end das Ergebnis mittels getReportText()
      * auszulesen.
      */
-    this.reportText = result.toString();
+    reportText = result.toString();
   }
 
   /**
@@ -156,7 +156,7 @@ public class HTMLReportWriter extends ReportWriter {
   @Override
   public void process(AllNewProfileReport r) {
     // Zunächst löschen wir das Ergebnis vorhergehender Prozessierungen.
-    this.resetReportText();
+    resetReportText();
 
     /*
      * In diesen Buffer schreiben wir während der Prozessierung sukzessive unsere Ergebnisse.
@@ -188,13 +188,13 @@ public class HTMLReportWriter extends ReportWriter {
 
       this.process(subReport);
 
-      result.append(this.reportText + "\n");
+      result.append(reportText + "\n");
 
       /*
        * Nach jeder �bersetzung eines Teilreports und anschlie�endem Auslesen sollte die
        * Ergebnisvariable zur�ckgesetzt werden.
        */
-      this.resetReportText();
+      resetReportText();
     }
 
     /*
@@ -202,7 +202,7 @@ public class HTMLReportWriter extends ReportWriter {
      * zugewiesen. Dadurch wird es m�glich, anschlie�end das Ergebnis mittels getReportText()
      * auszulesen.
      */
-    this.reportText = result.toString();
+    reportText = result.toString();
 
   }
 
@@ -212,12 +212,12 @@ public class HTMLReportWriter extends ReportWriter {
    * @return ein String im HTML-Format
    */
   public String getReportText() {
-    return this.getHeader() + this.reportText + this.getTrailer();
+    return getHeader() + reportText + getTrailer();
   }
 
   @Override
   public void process(ProfilReport r) {
-    this.resetReportText();
+    resetReportText();
 
     /*
      * In diesen Buffer schreiben wir während der Prozessierung sukzessive unsere Ergebnisse.
@@ -272,7 +272,7 @@ public class HTMLReportWriter extends ReportWriter {
      * zugewiesen. Dadurch wird es möglich, anschließend das Ergebnis mittels getReportText()
      * auszulesen.
      */
-    this.reportText = result.toString();
+    reportText = result.toString();
 
   }
 
@@ -280,7 +280,7 @@ public class HTMLReportWriter extends ReportWriter {
   @Override
   public void process(AllProfilesReport r) {
     // Zunächst löschen wir das Ergebnis vorhergehender Prozessierungen.
-    this.resetReportText();
+    resetReportText();
 
     /*
      * In diesen Buffer schreiben wir während der Prozessierung sukzessive unsere Ergebnisse.
@@ -317,13 +317,13 @@ public class HTMLReportWriter extends ReportWriter {
 
       this.process(subReport);
 
-      result.append(this.reportText + "\n");
+      result.append(reportText + "\n");
 
       /*
        * Nach jeder �bersetzung eines Teilreports und anschlie�endem Auslesen sollte die
        * Ergebnisvariable zur�ckgesetzt werden.
        */
-      this.resetReportText();
+      resetReportText();
     }
     result.append("</div>");
     /*
@@ -331,14 +331,14 @@ public class HTMLReportWriter extends ReportWriter {
      * zugewiesen. Dadurch wird es m�glich, anschlie�end das Ergebnis mittels getReportText()
      * auszulesen.
      */
-    this.reportText = result.toString();
+    reportText = result.toString();
 
   }
 
   @Override
   public void process(AllProfilesBySucheReport r) {
     // Zun�chst l�schen wir das Ergebnis vorhergehender Prozessierungen.
-    this.resetReportText();
+    resetReportText();
 
     /*
      * In diesen Buffer schreiben wir w�hrend der Prozessierung sukzessive unsere Ergebnisse.
@@ -368,13 +368,13 @@ public class HTMLReportWriter extends ReportWriter {
 
       this.process(subReport);
 
-      result.append(this.reportText + "\n");
+      result.append(reportText + "\n");
 
       /*
        * Nach jeder �bersetzung eines Teilreports und anschlie�endem Auslesen sollte die
        * Ergebnisvariable zur�ckgesetzt werden.
        */
-      this.resetReportText();
+      resetReportText();
     }
 
     /*
@@ -382,7 +382,7 @@ public class HTMLReportWriter extends ReportWriter {
      * zugewiesen. Dadurch wird es m�glich, anschlie�end das Ergebnis mittels getReportText()
      * auszulesen.
      */
-    this.reportText = result.toString();
+    reportText = result.toString();
 
   }
 

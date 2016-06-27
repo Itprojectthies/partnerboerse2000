@@ -103,13 +103,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public void init() throws IllegalArgumentException {
 
-    this.auswahlMapper = AuswahlMapper.auswahlMapper();
-    this.beschrMapper = BeschreibungMapper.beschreibungMapper();
-    this.iMapper = InfoMapper.infoMapper();
-    this.kMapper = KontaktsperreMapper.kontaktsperreMapper();
-    this.mMapper = MerkzettelMapper.merkzettelMapper();
-    this.pMapper = ProfilMapper.profilMapper();
-    this.sMapper = SuchprofilMapper.suchprofilMapper();
+    auswahlMapper = AuswahlMapper.auswahlMapper();
+    beschrMapper = BeschreibungMapper.beschreibungMapper();
+    iMapper = InfoMapper.infoMapper();
+    kMapper = KontaktsperreMapper.kontaktsperreMapper();
+    mMapper = MerkzettelMapper.merkzettelMapper();
+    pMapper = ProfilMapper.profilMapper();
+    sMapper = SuchprofilMapper.suchprofilMapper();
 
   }
 
@@ -128,7 +128,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     Profil profil = new Profil();
 
     if (user != null) {
-      Profil bestehendesProfil = this.pMapper.findByEmail(user.getEmail());
+      Profil bestehendesProfil = pMapper.findByEmail(user.getEmail());
 
       if (bestehendesProfil != null) {
         ClientsideSettings.getLogger().severe("Userobjekt E-Mail = " + user.getEmail()
@@ -191,7 +191,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     ClientsideSettings.getLogger().info("user " + p.getNachname() + " erstellt");
 
     // Objekt in der DB speichern.
-    return this.pMapper.insert(p);
+    return pMapper.insert(p);
 
   }
 
@@ -200,7 +200,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
    */
   @Override
   public void delete(Profil profil) throws IllegalArgumentException {
-    this.pMapper.delete(profil);
+    pMapper.delete(profil);
   }
 
   /**
@@ -208,7 +208,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
    */
   @Override
   public void save(Profil profil) throws IllegalArgumentException {
-    this.pMapper.update(profil);
+    pMapper.update(profil);
 
   }
 
@@ -217,10 +217,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
    */
   @Override
   public ArrayList<Profil> getAllProfilesByAehnlichkeit(Profil p) throws IllegalArgumentException {
-    ArrayList<Profil> profile = this.pMapper.findAll();
+    ArrayList<Profil> profile = pMapper.findAll();
 
     for (Profil aktProfil : profile) {
-      int f = this.berechneAehnlichkeit(p, aktProfil);
+      int f = berechneAehnlichkeit(p, aktProfil);
       aktProfil.setAehnlichkeit(f);
     }
     Collections.sort(profile, new Comparator<Profil>() {
@@ -243,7 +243,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException {
-    return this.pMapper.findAll();
+    return pMapper.findAll();
   }
 
   /**
@@ -252,7 +252,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public Profil getProfilById(int id) {
-    return this.pMapper.findByKey(id);
+    return pMapper.findByKey(id);
   }
 
   /**
@@ -261,7 +261,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public Profil getProfilByMail(String email) {
-    return this.pMapper.findByEmail(email);
+    return pMapper.findByEmail(email);
 
   }
 
@@ -273,7 +273,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   public ArrayList<Profil> getProfilesBySuchprofil(Suchprofil sp, Profil user)
       throws IllegalArgumentException {
 
-    ArrayList<Profil> profile = this.pMapper.findAll();
+    ArrayList<Profil> profile = pMapper.findAll();
     ArrayList<Profil> result = new ArrayList<Profil>();
 
     ArrayList<Info> suchprofilInfoListe = new ArrayList<Info>();
@@ -297,15 +297,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       // (suchprofilInfoListe) des
       // Suchprofils vergleichen wird
 
-      ArrayList<Info> profilInfoListe = this.getInfoByProfile(p);
+      ArrayList<Info> profilInfoListe = getInfoByProfile(p);
       // Abfragen nach welchen Prfoilattributen gesucht wird
       if ((sp.getHaarfarbe().equals("Keine Angabe") || p.getHaarfarbe().equals(sp.getHaarfarbe()))
           && (sp.getRaucher().equals("Keine Angabe") || p.getRaucher().equals(sp.getRaucher()))
           && (sp.getReligion().equals("Keine Angabe") || p.getReligion().equals(sp.getReligion()))
           && (sp.getGeschlecht().equals("Keine Angabe")
               || p.getGeschlecht().equals(sp.getGeschlecht()))
-          && ((suchprofilInfoListe.size() == 0)
-              || this.compare(suchprofilInfoListe, profilInfoListe))) {
+          && ((suchprofilInfoListe.size() == 0) || compare(suchprofilInfoListe, profilInfoListe))) {
 
         // abfragen on nach Größe oder Alter gesucht wird
         if (((sp.getGroesse_min() != 0) && (sp.getGroesse_max() != 0))
@@ -363,7 +362,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     }
 
     for (Profil akt : result) {
-      akt.setAehnlichkeit(this.berechneAehnlichkeitforSuchprofil(user, akt, sp));
+      akt.setAehnlichkeit(berechneAehnlichkeitforSuchprofil(user, akt, sp));
     }
     Collections.sort(result, new Comparator<Profil>() {
 
@@ -386,9 +385,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public ArrayList<Profil> getAllNewProfilesByAehnlichkeitsmass(Profil p) {
-    ArrayList<Profil> alleProfile = this.pMapper.findAll();
+    ArrayList<Profil> alleProfile = pMapper.findAll();
     ArrayList<Profil> neueProfile = new ArrayList<Profil>();
-    Kontaktsperre kontaktsperreforProfil = this.kMapper.findAllForProfil(p);
+    Kontaktsperre kontaktsperreforProfil = kMapper.findAllForProfil(p);
     ArrayList<Profil> gesperrteProfile = kontaktsperreforProfil.getGesperrteProfile();
 
     for (Profil profil : gesperrteProfile) {
@@ -404,7 +403,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     }
 
     for (Profil aktProfil : neueProfile) {
-      int f = this.berechneAehnlichkeit(p, aktProfil);
+      int f = berechneAehnlichkeit(p, aktProfil);
       aktProfil.setAehnlichkeit(f);
     }
 
@@ -428,10 +427,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public ArrayList<Profil> getAllNotVisitedProfilesByAehnlichkeitsmass(Profil p) {
 
-    ArrayList<Profil> alleBesuchtenProfile = this.getVisitedProfiles(p);
-    ArrayList<Profil> alleProfile = this.pMapper.findAll();
+    ArrayList<Profil> alleBesuchtenProfile = getVisitedProfiles(p);
+    ArrayList<Profil> alleProfile = pMapper.findAll();
 
-    Kontaktsperre kontaktsperreforProfil = this.kMapper.findAllForProfil(p);
+    Kontaktsperre kontaktsperreforProfil = kMapper.findAllForProfil(p);
     ArrayList<Profil> gesperrteProfile = kontaktsperreforProfil.getGesperrteProfile();
 
     for (Profil profil : gesperrteProfile) {
@@ -447,7 +446,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     }
 
     for (Profil aktProfil : alleProfile) {
-      int f = this.berechneAehnlichkeit(p, aktProfil);
+      int f = berechneAehnlichkeit(p, aktProfil);
       aktProfil.setAehnlichkeit(f);
 
     }
@@ -475,8 +474,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil profil)
       throws IllegalArgumentException {
-    ArrayList<Profil> alleProfile = this.pMapper.findAll();
-    Kontaktsperre kontaktsperreforProfil = this.kMapper.findAllForProfil(profil);
+    ArrayList<Profil> alleProfile = pMapper.findAll();
+    Kontaktsperre kontaktsperreforProfil = kMapper.findAllForProfil(profil);
     ArrayList<Profil> gesperrteProfile = kontaktsperreforProfil.getGesperrteProfile();
 
     for (Profil p : gesperrteProfile) {
@@ -486,7 +485,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     }
 
     for (Profil aktProfil : alleProfile) {
-      int f = this.berechneAehnlichkeit(profil, aktProfil);
+      int f = berechneAehnlichkeit(profil, aktProfil);
       aktProfil.setAehnlichkeit(f);
 
     }
@@ -511,7 +510,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public void setVisited(Profil besucher, Profil besuchter) throws IllegalArgumentException {
-    this.pMapper.setVisited(besucher, besuchter);
+    pMapper.setVisited(besucher, besuchter);
 
   }
 
@@ -521,7 +520,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public ArrayList<Profil> getVisitedProfiles(Profil profil) throws IllegalArgumentException {
-    return this.pMapper.getVisitedProfiles(profil);
+    return pMapper.getVisitedProfiles(profil);
   }
 
   /*
@@ -542,7 +541,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public void save(Suchprofil sp) throws IllegalArgumentException {
-    this.sMapper.update(sp);
+    sMapper.update(sp);
 
   }
 
@@ -552,7 +551,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public void deleteSuchprofil(Suchprofil sp) {
-    this.sMapper.delete(sp);
+    sMapper.delete(sp);
   }
 
   /**
@@ -561,7 +560,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public void createSuchprofil(Suchprofil sp) throws IllegalArgumentException {
-    this.sMapper.insert(sp);
+    sMapper.insert(sp);
   }
 
 
@@ -572,7 +571,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public ArrayList<Suchprofil> getAllSuchprofileForProfil(Profil p)
       throws IllegalArgumentException {
-    return this.sMapper.findAllForProfil(p);
+    return sMapper.findAllForProfil(p);
   }
 
   /**
@@ -604,9 +603,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     HashMap<Integer, String> auswahlListe = sp.getAuswahlListe();
 
     for (Map.Entry<Integer, String> entry : auswahlListe.entrySet()) {
-      this.getEigenschaftsNameById(entry.getKey());
-      if (this.getEigenschaftsNameById(entry.getKey()) != null) {
-        itemsList.add(this.getEigenschaftsNameById(entry.getKey()) + ": " + entry.getValue());
+      getEigenschaftsNameById(entry.getKey());
+      if (getEigenschaftsNameById(entry.getKey()) != null) {
+        itemsList.add(getEigenschaftsNameById(entry.getKey()) + ": " + entry.getValue());
       }
     }
 
@@ -626,7 +625,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public Suchprofil getSuchprofileForProfilByName(Profil p, String name)
       throws IllegalArgumentException {
-    return this.sMapper.findSuchprofilForProfilByName(p, name);
+    return sMapper.findSuchprofilForProfilByName(p, name);
   }
 
   /**
@@ -668,7 +667,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public ArrayList<Auswahl> getAllAuswahl() throws IllegalArgumentException {
-    return this.auswahlMapper.findAll();
+    return auswahlMapper.findAll();
   }
 
   /**
@@ -677,7 +676,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public Auswahl getAuswahlById(int id) throws IllegalArgumentException {
-    return this.auswahlMapper.findByKey(id);
+    return auswahlMapper.findByKey(id);
   }
 
   /**
@@ -686,7 +685,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public Auswahl getAuswahlProfilAttributByName(String name) throws IllegalArgumentException {
-    return this.auswahlMapper.findByName(name);
+    return auswahlMapper.findByName(name);
   }
 
   /**
@@ -726,7 +725,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public ArrayList<Auswahl> getAllAuswahlProfilAttribute() {
-    return this.auswahlMapper.findAllProfilAtrribute();
+    return auswahlMapper.findAllProfilAtrribute();
   }
 
   /*
@@ -748,7 +747,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public Beschreibung getBeschreibungProfilAttributByName(String name)
       throws IllegalArgumentException {
-    return this.beschrMapper.findByName(name);
+    return beschrMapper.findByName(name);
   }
 
   /**
@@ -757,7 +756,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public Beschreibung getBeschreibungById(int id) throws IllegalArgumentException {
-    return this.beschrMapper.findByKey(id);
+    return beschrMapper.findByKey(id);
   }
 
   /**
@@ -766,7 +765,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public ArrayList<Beschreibung> getAllBeschreibung() throws IllegalArgumentException {
-    return this.beschrMapper.findAll();
+    return beschrMapper.findAll();
   }
 
   /**
@@ -805,7 +804,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public ArrayList<Beschreibung> getAllBeschreibungProfilAttribute() {
-    return this.beschrMapper.findAllProfilAttribute();
+    return beschrMapper.findAllProfilAttribute();
   }
 
   /*
@@ -834,14 +833,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     i.setEigenschaftId(auswahl.getId());
     i.setProfilId(profil.getId());
 
-    ArrayList<Info> infoListe = this.iMapper.findAllByProfilId(profil.getId());
+    ArrayList<Info> infoListe = iMapper.findAllByProfilId(profil.getId());
 
     for (Info info : infoListe) {
       if ((info.getEigenschaftId() == i.getEigenschaftId())
           && (info.getProfilId() == i.getProfilId()) && !info.getText().equals(i.getText())) {
 
         this.log("Info upgedatet");
-        return this.iMapper.update(i);
+        return iMapper.update(i);
 
       } else if ((info.getEigenschaftId() == i.getEigenschaftId())
           && (info.getProfilId() == i.getProfilId()) && info.getText().equals(i.getText())) {
@@ -849,7 +848,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       }
     }
     this.log("Info neuangelegt");
-    return this.iMapper.insert(i);
+    return iMapper.insert(i);
 
   }
 
@@ -865,21 +864,21 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     i.setEigenschaftId(beschreibung.getId());
     i.setProfilId(profil.getId());
 
-    ArrayList<Info> infoListe = this.iMapper.findAllByProfilId(profil.getId());
+    ArrayList<Info> infoListe = iMapper.findAllByProfilId(profil.getId());
 
     for (Info info : infoListe) {
       if ((info.getEigenschaftId() == i.getEigenschaftId())
           && (info.getProfilId() == i.getProfilId()) && !info.getText().equals(i.getText())) {
 
         this.log("Info upgedatet");
-        return this.iMapper.update(i);
+        return iMapper.update(i);
       } else if ((info.getEigenschaftId() == i.getEigenschaftId())
           && (info.getProfilId() == i.getProfilId()) && info.getText().equals(i.getText())) {
         return null;
       }
     }
     this.log("Info neuangelegt");
-    return this.iMapper.insert(i);
+    return iMapper.insert(i);
   }
 
   /**
@@ -888,7 +887,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public void save(Info info) throws IllegalArgumentException {
-    this.iMapper.update(info);
+    iMapper.update(info);
   }
 
   /**
@@ -898,7 +897,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public void delete(Info info) throws IllegalArgumentException {
     if (info != null) {
-      this.iMapper.delete(info);
+      iMapper.delete(info);
     }
   }
 
@@ -908,7 +907,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public ArrayList<Info> getInfoByProfile(Profil profil) throws IllegalArgumentException {
-    return this.iMapper.findAllByProfilId(profil.getId());
+    return iMapper.findAllByProfilId(profil.getId());
   }
 
   /**
@@ -917,7 +916,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public Info getInfoByEigenschaftsId(int id) throws IllegalArgumentException {
-    return this.iMapper.findByKey(id);
+    return iMapper.findByKey(id);
   }
 
   /**
@@ -926,7 +925,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public Info getInfoById(int id) throws IllegalArgumentException {
-    return this.iMapper.findByKey(id);
+    return iMapper.findByKey(id);
   }
 
   /*
@@ -943,7 +942,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   /**
    * Berechnen des Ähnlichkeitsmaß für ein Suchprofil
-   * 
+   *
    * @param p1
    * @param p2
    * @param sp
@@ -984,7 +983,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       info.setText(entry.getValue());
       suchprofilInfoListe.add(info);
     }
-    ArrayList<Info> neuesProfiInfoListe = this.getInfoByProfile(p1);
+    ArrayList<Info> neuesProfiInfoListe = getInfoByProfile(p1);
 
     for (Info spInfo : suchprofilInfoListe) {
       if (!(neuesProfiInfoListe.contains(spInfo))) {
@@ -1029,7 +1028,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     }
 
 
-    ArrayList<Info> infoP2 = this.getInfoByProfile(p2);
+    ArrayList<Info> infoP2 = getInfoByProfile(p2);
 
     for (Info meineInfo : neuesProfiInfoListe) {
       for (Info referenzInfo : infoP2) {
@@ -1046,7 +1045,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   /**
    * Berechnung des Ähnlichkeitsmaßes zwischen zwei Profilen
-   * 
+   *
    * @param p1
    * @param p2
    * @return result (Ähnlichkeitsmaß zwischen zwei Profilen)
@@ -1076,8 +1075,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       aehnlichkeit++;
     }
 
-    ArrayList<Info> infoP1 = this.iMapper.findAllByProfilId(user.getId());
-    ArrayList<Info> infoP2 = this.iMapper.findAllByProfilId(refernz.getId());
+    ArrayList<Info> infoP1 = iMapper.findAllByProfilId(user.getId());
+    ArrayList<Info> infoP2 = iMapper.findAllByProfilId(refernz.getId());
 
     for (Info meineInfo : infoP1) {
       for (Info referenzInfo : infoP2) {
@@ -1111,7 +1110,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public void createSperre(Profil a, Profil b) throws IllegalArgumentException {
-    this.kMapper.insertForProfil(a, b);
+    kMapper.insertForProfil(a, b);
 
   }
 
@@ -1121,7 +1120,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public void deleteSperre(Profil entferner, Profil entfernter) {
-    this.kMapper.deleteSperreFor(entferner, entfernter);
+    kMapper.deleteSperreFor(entferner, entfernter);
   }
 
   /**
@@ -1130,11 +1129,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException {
-    Kontaktsperre k = this.kMapper.findAllForProfil(profil);
+    Kontaktsperre k = kMapper.findAllForProfil(profil);
     ArrayList<Profil> kListe = k.getGesperrteProfile();
 
     for (Profil p : kListe) {
-      p.setAehnlichkeit(this.berechneAehnlichkeit(profil, p));
+      p.setAehnlichkeit(berechneAehnlichkeit(profil, p));
     }
 
     return k;
@@ -1158,10 +1157,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public void createMerken(Profil a, Profil b) throws IllegalArgumentException {
-    Merkzettel m = this.mMapper.findAllForProfil(a);
+    Merkzettel m = mMapper.findAllForProfil(a);
     ArrayList<Profil> profile = m.getGemerkteProfile();
     if (!profile.contains(b)) {
-      this.mMapper.insertMerkenForProfil(a, b);
+      mMapper.insertMerkenForProfil(a, b);
     }
 
   }
@@ -1172,7 +1171,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public void deleteMerken(Profil entferner, Profil entfernter) throws IllegalArgumentException {
-    this.mMapper.deleteMerkenFor(entferner, entfernter);
+    mMapper.deleteMerkenFor(entferner, entfernter);
   }
 
   /**
@@ -1182,8 +1181,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public Merkzettel getMerkzettelForProfil(Profil profil) throws IllegalArgumentException {
 
-    Merkzettel m = this.mMapper.findAllForProfil(profil);
-    Kontaktsperre k = this.kMapper.findAllForProfil(profil);
+    Merkzettel m = mMapper.findAllForProfil(profil);
+    Kontaktsperre k = kMapper.findAllForProfil(profil);
     ArrayList<Profil> mListe = m.getGemerkteProfile();
     ArrayList<Profil> kListe = k.getGesperrteProfile();
 
@@ -1194,7 +1193,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     }
 
     for (Profil p : mListe) {
-      p.setAehnlichkeit(this.berechneAehnlichkeit(profil, p));
+      p.setAehnlichkeit(berechneAehnlichkeit(profil, p));
     }
 
     return m;
@@ -1218,12 +1217,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public String getEigenschaftsNameById(int id) throws IllegalArgumentException {
-    if (this.beschrMapper.findByKey(id) != null) {
-      Beschreibung b = this.beschrMapper.findByKey(id);
+    if (beschrMapper.findByKey(id) != null) {
+      Beschreibung b = beschrMapper.findByKey(id);
       String name = b.getName();
       return name;
-    } else if (this.auswahlMapper.findByKey(id) != null) {
-      Auswahl a = this.auswahlMapper.findByKey(id);
+    } else if (auswahlMapper.findByKey(id) != null) {
+      Auswahl a = auswahlMapper.findByKey(id);
       String name = a.getName();
       return name;
     }
@@ -1236,12 +1235,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   @Override
   public String getEigenschaftsBeschreibungById(int id) throws IllegalArgumentException {
-    if (this.beschrMapper.findByKey(id) != null) {
-      Beschreibung b = this.beschrMapper.findByKey(id);
+    if (beschrMapper.findByKey(id) != null) {
+      Beschreibung b = beschrMapper.findByKey(id);
       String name = b.getBeschreibungstext();
       return name;
-    } else if (this.auswahlMapper.findByKey(id) != null) {
-      Auswahl a = this.auswahlMapper.findByKey(id);
+    } else if (auswahlMapper.findByKey(id) != null) {
+      Auswahl a = auswahlMapper.findByKey(id);
       String name = a.getBeschreibungstext();
       return name;
     }

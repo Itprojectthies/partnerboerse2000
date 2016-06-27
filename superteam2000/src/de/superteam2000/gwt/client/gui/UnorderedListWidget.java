@@ -12,18 +12,18 @@ public class UnorderedListWidget extends ComplexPanel {
 
   public void setId(String id) {
     // Set an attribute common to all tags
-    this.getElement().setId(id);
+    getElement().setId(id);
   }
 
   public void setDir(String dir) {
     // Set an attribute specific to this tag
-    ((UListElement) this.getElement().cast()).setDir(dir);
+    ((UListElement) getElement().cast()).setDir(dir);
   }
 
   @Override
   @SuppressWarnings("deprecation")
   public void add(Widget w) {
     // ComplexPanel requires the two-arg add() method
-    super.add(w, this.getElement());
+    super.add(w, getElement());
   }
 }

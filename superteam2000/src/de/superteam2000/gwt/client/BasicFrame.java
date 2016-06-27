@@ -27,7 +27,7 @@ public abstract class BasicFrame extends FlowPanel {
      */
 
     super.onLoad();
-    this.add(this.createHeadline(this.getHeadlineText(), this.getSubHeadlineText()));
+    this.add(createHeadline(getHeadlineText(), getSubHeadlineText()));
     RootPanel.get("search-table").clear();
     /*
      * Als erstes geben wir stets die Headline des BasicFrame aus. Da getHeadlineText() als
@@ -41,7 +41,7 @@ public abstract class BasicFrame extends FlowPanel {
      * Methode bzw. als Einschubmethode realisiert. Auch hier ist es Aufgabe der Subklassen, für
      * deren Implementierung zu sorgen.
      */
-    this.run();
+    run();
 
   }
 
@@ -49,7 +49,7 @@ public abstract class BasicFrame extends FlowPanel {
    * Mit Hilfe dieser Methode erstellen wir aus einem String ein mittels CSS formatierbares
    * HTML-Element. Unter CSS lässt sich das Ergebnis über <code>.bankproject-headline</code>
    * referenzieren bzw. formatieren.
-   * 
+   *
    * @param text der String, den wir als andernorts HTML setzen wollen.
    * @return GWT HTML Widget.
    */
@@ -66,7 +66,7 @@ public abstract class BasicFrame extends FlowPanel {
    * HTML-Element, das an das Ende der bisherigen Ausgabe dieses BasicFrame angehängt wird. Unter
    * CSS lässt sich das Ergebnis über <code>.bankproject-simpletext</code> referenzieren bzw.
    * formatieren.
-   * 
+   *
    * @param text der String, den wir als HTML an die bisherige BasicFrame-Ausgabe anhängen wollen.
    */
   protected void append(String text) {
@@ -80,7 +80,7 @@ public abstract class BasicFrame extends FlowPanel {
    * HTML-Element, das an das Ende der bisherigen Ausgabe dieses BasicFrame angehängt wird. Unter
    * CSS lässt sich das Ergebnis über <code>.bankproject-simpletext</code> referenzieren bzw.
    * formatieren.
-   * 
+   *
    * @param text der String, den wir als HTML an die bisherige BasicFrame-Ausgabe anhängen wollen.
    */
   protected void append(Widget wi) {
@@ -89,7 +89,7 @@ public abstract class BasicFrame extends FlowPanel {
 
   /**
    * Abstrakte Einschubmethode, die in den Subklassen zu realisieren ist.
-   * 
+   *
    * @return der Text, den wir als Headline setzen wollen.
    */
   protected abstract String getHeadlineText();

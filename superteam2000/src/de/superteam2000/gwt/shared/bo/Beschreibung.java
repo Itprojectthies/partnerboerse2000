@@ -12,7 +12,7 @@ public class Beschreibung extends Eigenschaft {
   private static final long serialVersionUID = 1L;
   /**
    * Deklaration des Parameters alternativen
-   * 
+   *
    * @param alternativen Dieser Parameter ist eine ArrayList vom Typ String. In dieser ArrayList
    *        werden alle vorgegebenen Werte für eine Eigenschaft gespeichert.
    */
@@ -20,16 +20,16 @@ public class Beschreibung extends Eigenschaft {
 
   /**
    * Auslesen der Alternativen
-   * 
+   *
    * @return alternativen
    */
   public String getText() {
-    return this.text;
+    return text;
   }
 
   /**
    * Setzen der Alternativen
-   * 
+   *
    * @param alternativen
    */
   public void setText(String text) {

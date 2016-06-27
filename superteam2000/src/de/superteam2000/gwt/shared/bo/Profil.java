@@ -19,7 +19,7 @@ public class Profil extends BusinessObject {
 
   /**
    * Deklaration der Parameter eines Profils
-   * 
+   *
    * @param nickname
    * @param nachname
    * @mparam vorname
@@ -56,12 +56,12 @@ public class Profil extends BusinessObject {
 
   /**
    * Berechnung des Alters anhand des Geburtsdatums
-   * 
+   *
    * @return result Rückgabe des Alters
    */
   @SuppressWarnings("deprecation")
   public int getAlter() {
-    String dateString = DateTimeFormat.getFormat("yyyy-MM-dd").format(this.geburtsdatum);
+    String dateString = DateTimeFormat.getFormat("yyyy-MM-dd").format(geburtsdatum);
     String[] gebDaten = dateString.split("-");
     Date now = new Date();
     int nowMonth = now.getMonth() + 1;
@@ -86,16 +86,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Überprüfen ob User eingeloggt ist
-   * 
+   *
    * @return loggedIn Wert ob User eingeloggt ist
    */
   public boolean isLoggedIn() {
-    return this.loggedIn;
+    return loggedIn;
   }
 
   /**
    * Setzen des Parameters loggedIn
-   * 
+   *
    * @param loggedIn
    */
   public void setLoggedIn(boolean loggedIn) {
@@ -104,16 +104,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Auslesen des Logins
-   * 
+   *
    * @return loginUrl Wert mit welcher ID User eingeloggt ist
    */
   public String getLoginUrl() {
-    return this.loginUrl;
+    return loginUrl;
   }
 
   /**
    * Setzen des Logins
-   * 
+   *
    * @param loginUrl
    */
   public void setLoginUrl(String loginUrl) {
@@ -122,16 +122,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Auslesen des Logouts
-   * 
+   *
    * @return logoutUrl
    */
   public String getLogoutUrl() {
-    return this.logoutUrl;
+    return logoutUrl;
   }
 
   /**
    * Setzen des Logouts
-   * 
+   *
    * @param logoutUrl
    */
   public void setLogoutUrl(String logoutUrl) {
@@ -140,16 +140,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Auslesen des Nicknames
-   * 
+   *
    * @return nickname
    */
   public String getNickname() {
-    return this.nickname;
+    return nickname;
   }
 
   /**
    * Setzen des Nicknames
-   * 
+   *
    * @param nickname
    */
   public void setNickname(String nickname) {
@@ -158,16 +158,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Auslesen des Nachnamens
-   * 
+   *
    * @return nachname
    */
   public String getNachname() {
-    return this.nachname;
+    return nachname;
   }
 
   /**
    * Setzen des Nachnamens
-   * 
+   *
    * @param nachname
    */
   public void setNachname(String nachname) {
@@ -176,16 +176,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Auslesen des Vornamens
-   * 
+   *
    * @return vorname
    */
   public String getVorname() {
-    return this.vorname;
+    return vorname;
   }
 
   /**
    * Setzen des Vornames
-   * 
+   *
    * @param vorname
    */
   public void setVorname(String vorname) {
@@ -194,16 +194,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Auslesen der E-Mail-Adresse
-   * 
+   *
    * @return email
    */
   public String getEmail() {
-    return this.email;
+    return email;
   }
 
   /**
    * Setzen der E-Mail-Adresse
-   * 
+   *
    * @param email
    */
   public void setEmail(String email) {
@@ -212,16 +212,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Aulesen des Geburtsdatums
-   * 
+   *
    * @return geburtsdatum
    */
   public Date getGeburtsdatum() {
-    return this.geburtsdatum;
+    return geburtsdatum;
   }
 
   /**
    * Setzen des Geburtsdatum
-   * 
+   *
    * @param geburtsdatum
    */
   public void setGeburtsdatum(Date geburtsdatum) {
@@ -230,17 +230,17 @@ public class Profil extends BusinessObject {
 
   /**
    * Auslesen des Erstelldatums
-   * 
+   *
    * @return erstelldatum
    */
   public Timestamp getErstelldatum() {
     // Date date = new Date(stamp.getTime());
-    return this.erstelldatum;
+    return erstelldatum;
   }
 
   /**
    * Setzen des Erstelldatums
-   * 
+   *
    * @param erstelldatum
    */
   public void setErstelldatum(Timestamp erstelldatum) {
@@ -249,16 +249,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Auslesen der Haarfarbe
-   * 
+   *
    * @return haarfarbe
    */
   public String getHaarfarbe() {
-    return this.haarfarbe;
+    return haarfarbe;
   }
 
   /**
    * Setzen der Haarfarbe
-   * 
+   *
    * @param haarfarbe
    */
   public void setHaarfarbe(String haarfarbe) {
@@ -267,16 +267,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Auslesen des Parameter Raucher
-   * 
+   *
    * @return raucher
    */
   public String getRaucher() {
-    return this.raucher;
+    return raucher;
   }
 
   /**
    * Setzen des Parameters Raucher
-   * 
+   *
    * @param raucher
    */
   public void setRaucher(String raucher) {
@@ -285,16 +285,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Auslesen der Religion
-   * 
+   *
    * @return religion
    */
   public String getReligion() {
-    return this.religion;
+    return religion;
   }
 
   /**
    * Setzen der Religion
-   * 
+   *
    * @param religion
    */
   public void setReligion(String religion) {
@@ -303,16 +303,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Auslesen der Größe
-   * 
+   *
    * @return groesse
    */
   public int getGroesse() {
-    return this.groesse;
+    return groesse;
   }
 
   /**
    * Setzen der Größe
-   * 
+   *
    * @param groesse
    */
   public void setGroesse(int groesse) {
@@ -321,16 +321,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Auslesen des Geschlechts
-   * 
+   *
    * @return geschlecht
    */
   public String getGeschlecht() {
-    return this.geschlecht;
+    return geschlecht;
   }
 
   /**
    * Setzen des Parameters Geschlecht
-   * 
+   *
    * @param geschlecht
    */
   public void setGeschlecht(String geschlecht) {
@@ -339,16 +339,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Überprüfung, ob Profil angelegt wurde
-   * 
+   *
    * @return isCreated
    */
   public boolean isCreated() {
-    return this.isCreated;
+    return isCreated;
   }
 
   /**
    * Setzen des Parameters isCreated
-   * 
+   *
    * @param isCreated
    */
   public void setCreated(boolean isCreated) {
@@ -357,16 +357,16 @@ public class Profil extends BusinessObject {
 
   /**
    * Auslesen der Ähnlichkeit zu einem anderen Profil
-   * 
+   *
    * @return aehnlichkeit
    */
   public int getAehnlichkeit() {
-    return this.aehnlichkeit;
+    return aehnlichkeit;
   }
 
   /**
    * Setzen des Parameter Ähnlichkeit
-   * 
+   *
    * @param aehnlichkeit
    */
   public void setAehnlichkeit(int aehnlichkeit) {

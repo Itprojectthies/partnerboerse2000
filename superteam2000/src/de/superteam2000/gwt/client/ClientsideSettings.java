@@ -56,29 +56,29 @@ public class ClientsideSettings extends CommonSettings {
    * <p>
    * Auslesen des applikationsweiten (Client-seitig!) zentralen Loggers.
    * </p>
-   * 
+   *
    * <h2>Anwendungsbeispiel:</h2> Zugriff auf den Logger herstellen durch:
-   * 
+   *
    * <pre>
    * Logger logger = ClientSideSettings.getLogger();
    * </pre>
-   * 
+   *
    * und dann Nachrichten schreiben etwa mittels
-   * 
+   *
    * <pre>
    * logger.severe(&quot;Sie sind nicht berechtigt, ...&quot;);
    * </pre>
-   * 
+   *
    * oder
-   * 
+   *
    * <pre>
    * logger.info(&quot;Lege neuen Kunden an.&quot;);
    * </pre>
-   * 
+   *
    * <p>
    * Bitte auf <em>angemessene Log Levels</em> achten! Severe und info sind nur Beispiele.
    * </p>
-   * 
+   *
    * <h2>HINWEIS:</h2>
    * <p>
    * Beachten Sie, dass Sie den auszugebenden Log nun nicht mehr durch bedarfsweise Einfügen und
@@ -91,9 +91,9 @@ public class ClientsideSettings extends CommonSettings {
    * Levels <code>INFO</code> wollten, müssten Sie in dieser Datei <code>.level = INFO</code>
    * setzen.
    * </p>
-   * 
+   *
    * Weitere Infos siehe Dokumentation zu Java Logging.
-   * 
+   *
    * @return die Logger-Instanz für die Server-Seite
    */
   public static Logger getLogger() {
@@ -106,12 +106,12 @@ public class ClientsideSettings extends CommonSettings {
    * erstellt die BankAdministration, sofern sie noch nicht existiert. Bei wiederholtem Aufruf
    * dieser Methode wird stets das bereits zuvor angelegte Objekt zurückgegeben.
    * </p>
-   * 
+   *
    * <p>
    * Der Aufruf dieser Methode erfolgt im Client z.B. durch
    * <code>BankAdministrationAsync bankVerwaltung = ClientSideSettings.getBankVerwaltung()</code> .
    * </p>
-   * 
+   *
    * @return eindeutige Instanz des Typs <code>PartnerboerseAdministrationAsync</code>
    * @author Peter Thies
    * @since 28.02.2012
@@ -133,12 +133,12 @@ public class ClientsideSettings extends CommonSettings {
    * den ReportGenerator, sofern dieser noch nicht existiert. Bei wiederholtem Aufruf dieser Methode
    * wird stets das bereits zuvor angelegte Objekt zurückgegeben.
    * </p>
-   * 
+   *
    * <p>
    * Der Aufruf dieser Methode erfolgt im Client z.B. durch
    * <code>ReportGeneratorAsync reportGenerator = ClientSideSettings.getReportGenerator()</code> .
    * </p>
-   * 
+   *
    * @return eindeutige Instanz des Typs <code>BankAdministrationAsync</code>
    * @author Peter Thies
    * @since 28.02.2012
@@ -171,7 +171,7 @@ public class ClientsideSettings extends CommonSettings {
 
   /**
    * Auslesen des momentanen Benutzers
-   * 
+   *
    * @return Momentaner Benutzer
    */
   public static Profil getCurrentUser() {
@@ -180,9 +180,9 @@ public class ClientsideSettings extends CommonSettings {
 
   /**
    * Setzen des momentanen Benutzers
-   * 
+   *
    * @param currentUser Momentaner Benutzer
-   * 
+   *
    */
   public static void setCurrentUser(Profil currentUser) {
     ClientsideSettings.currentUser = currentUser;

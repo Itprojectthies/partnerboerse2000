@@ -11,19 +11,19 @@ public class ProfilAttributTextBox extends TextBox {
 
   public ProfilAttributTextBox(Beschreibung b, String text) {
     this(b);
-    this.setSelectedItem(text);
+    setSelectedItem(text);
   }
 
   public ProfilAttributTextBox(Beschreibung b) {
-    this.setName(b.getName());
-    this.getElement().setAttribute("type", "text");
-    this.getElement().setAttribute("placeholder", b.getName());
+    setName(b.getName());
+    getElement().setAttribute("type", "text");
+    getElement().setAttribute("placeholder", b.getName());
     this.setStyleName(CLASSNAME);
   }
 
   public ProfilAttributTextBox() {}
 
   public void setSelectedItem(String name) {
-    this.setText(name);
+    setText(name);
   }
 }

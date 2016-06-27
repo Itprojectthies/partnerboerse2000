@@ -36,12 +36,12 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
      */
     PartnerboerseAdministrationImpl a = new PartnerboerseAdministrationImpl();
     a.init();
-    this.administration = a;
+    administration = a;
   }
 
   @Override
   public ProfilReport createProfilReport(Profil p) throws IllegalArgumentException {
-    if (this.administration == null) {
+    if (administration == null) {
       return null;
     }
 
@@ -81,7 +81,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     // Eigenschaften anhängen als Tabelle mit zwei Spalten
     // TODO ggf Info anpassen für besseres auslesen
 
-    ArrayList<Info> infos = this.administration.getInfoByProfile(p);
+    ArrayList<Info> infos = administration.getInfoByProfile(p);
 
 
 
@@ -92,7 +92,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 
         infoRow.addColumn(
-            new Column(this.administration.getEigenschaftsBeschreibungById(i.getEigenschaftId())));
+            new Column(administration.getEigenschaftsBeschreibungById(i.getEigenschaftId())));
         infoRow.addColumn(new Column(i.getText()));
         result.addRow(infoRow);
 
@@ -107,14 +107,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
   public AllProfilesBySucheReport createSuchreportBySuchprofil(Suchprofil sp, Profil p) {
 
     ClientsideSettings.getLogger().info("createSuchreport Methode in ReportGenerator aufgerufen");
-    if (this.administration == null) {
+    if (administration == null) {
       return null;
     }
 
 
-    ArrayList<Profil> profilesList = this.administration.getProfilesBySuchprofil(sp, p);
+    ArrayList<Profil> profilesList = administration.getProfilesBySuchprofil(sp, p);
     AllProfilesBySucheReport result = new AllProfilesBySucheReport();
-    ArrayList<String> suchprofilItems = this.administration.getItemsOfSuchprofil(sp);
+    ArrayList<String> suchprofilItems = administration.getItemsOfSuchprofil(sp);
 
     result.setTitle("Suche nach Suchprofilen");
     StringBuilder items = new StringBuilder();
@@ -127,7 +127,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
         + "<p>Suchkritierien: <br>" + items.toString() + "</p>");
 
     for (Profil profil : profilesList) {
-      result.addSubReport(this.createProfilReport(profil));
+      result.addSubReport(createProfilReport(profil));
 
     }
 
@@ -137,7 +137,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
   @Override
   public AllProfilesReport createAllProfilesReport(Profil p) throws IllegalArgumentException {
-    if (this.administration == null) {
+    if (administration == null) {
       return null;
     }
 
@@ -153,10 +153,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     // result.addRow(headline);
 
     // alle Profile abfragen
-    ArrayList<Profil> profile = this.administration.getProfilesByAehnlichkeitsmass(p);
+    ArrayList<Profil> profile = administration.getProfilesByAehnlichkeitsmass(p);
 
     for (Profil profil : profile) {
-      result.addSubReport(this.createProfilReport(profil));
+      result.addSubReport(createProfilReport(profil));
 
     }
 
@@ -166,7 +166,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
   @Override
   public AllNotVisitedProfileReport createAllNotVisitedProfileReport(Profil p)
       throws IllegalArgumentException {
-    if (this.administration == null) {
+    if (administration == null) {
       return null;
     }
 
@@ -181,10 +181,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     // result.addRow(headline);
 
     // alle Profile abfragen
-    ArrayList<Profil> profile = this.administration.getAllNotVisitedProfilesByAehnlichkeitsmass(p);
+    ArrayList<Profil> profile = administration.getAllNotVisitedProfilesByAehnlichkeitsmass(p);
 
     for (Profil profil : profile) {
-      result.addSubReport(this.createProfilReport(profil));
+      result.addSubReport(createProfilReport(profil));
 
     }
 
@@ -193,7 +193,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
   @Override
   public AllNewProfileReport createAllNewProfilesReport(Profil p) {
-    if (this.administration == null) {
+    if (administration == null) {
       return null;
     }
 
@@ -208,10 +208,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     // result.addRow(headline);
 
     // alle Profile abfragen
-    ArrayList<Profil> profile = this.administration.getAllNewProfilesByAehnlichkeitsmass(p);
+    ArrayList<Profil> profile = administration.getAllNewProfilesByAehnlichkeitsmass(p);
 
     for (Profil profil : profile) {
-      result.addSubReport(this.createProfilReport(profil));
+      result.addSubReport(createProfilReport(profil));
 
     }
 

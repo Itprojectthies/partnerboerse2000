@@ -15,7 +15,7 @@ public class Kontaktsperre extends BusinessObject {
   private static final long serialVersionUID = 1L;
   /**
    * Deklaration der Parameter einer Kontaktsperre
-   * 
+   *
    * @param gesperrteProfile Dieser Parameter ist eine ArrayList vom Typ Profil. In dieser ArrayList
    *        werden alle gesperrte Profile gespeichert.
    * @param gesperrterId Die Id des gesperrten Profils.
@@ -28,16 +28,16 @@ public class Kontaktsperre extends BusinessObject {
 
   /**
    * Auslesen der Gesperrter-Id
-   * 
+   *
    * @return gesperrterId
    */
   public int getGesperrterId() {
-    return this.gesperrterId;
+    return gesperrterId;
   }
 
   /**
    * Setzen der Gesperrter-Id
-   * 
+   *
    * @param gesperrterId
    */
   public void setGesperrterId(int gesperrterId) {
@@ -46,16 +46,16 @@ public class Kontaktsperre extends BusinessObject {
 
   /**
    * Auslesen der Sperrer-Id
-   * 
+   *
    * @return sperrerId
    */
   public int getSperrerId() {
-    return this.sperrerId;
+    return sperrerId;
   }
 
   /**
    * Setzen der Sperrer-Id
-   * 
+   *
    * @param sperrerId
    */
   public void setSperrerId(int sperrerId) {
@@ -64,16 +64,16 @@ public class Kontaktsperre extends BusinessObject {
 
   /**
    * Auslesen aller gesperrten Profile
-   * 
+   *
    * @return gesperrteProfile
    */
   public ArrayList<Profil> getGesperrteProfile() {
-    return this.gesperrteProfile;
+    return gesperrteProfile;
   }
 
   /**
    * Setzen der gesperrten Profile
-   * 
+   *
    * @param gesperrteProfile
    */
   public void setGesperrteProfile(ArrayList<Profil> gesperrteProfile) {
@@ -82,11 +82,11 @@ public class Kontaktsperre extends BusinessObject {
 
   /**
    * Ein neues gesperrtes Profil hinzufügen
-   * 
+   *
    * @param p
    */
   public void addGesperrtesProfil(Profil p) {
-    this.gesperrteProfile.add(p);
+    gesperrteProfile.add(p);
   }
 
 }

@@ -74,59 +74,59 @@ public class Suche extends BasicFrame {
 
   @Override
   protected void run() {
-    this.searchPanel.setStyleName("content");
-    this.searchBoxListBox.setStyleName("pure-u-1-3 pure-form");
-    this.searchBoxProfilAttribute.setStyleName("pure-u-1-3 l-box pure-form");
-    this.searchBoxInfo.setStyleName("pure-u-1-3 l-box pure-form");
+    searchPanel.setStyleName("content");
+    searchBoxListBox.setStyleName("pure-u-1-3 pure-form");
+    searchBoxProfilAttribute.setStyleName("pure-u-1-3 l-box pure-form");
+    searchBoxInfo.setStyleName("pure-u-1-3 l-box pure-form");
 
-    this.searchPanel.add(this.searchBoxListBox);
-    this.searchPanel.add(this.searchBoxProfilAttribute);
-    this.searchPanel.add(this.searchBoxInfo);
+    searchPanel.add(searchBoxListBox);
+    searchPanel.add(searchBoxProfilAttribute);
+    searchPanel.add(searchBoxInfo);
 
-    this.fPanel.add(this.searchPanel);
+    fPanel.add(searchPanel);
 
 
     BoxPanel suchProfilName = new BoxPanel("Name des Suchprofils");
-    this.suchProfilTextbox = new ProfilAttributTextBox();
-    this.suchProfilTextbox.setName("suchProfilName");
+    suchProfilTextbox = new ProfilAttributTextBox();
+    suchProfilTextbox.setName("suchProfilName");
 
-    suchProfilName.add(this.suchProfilTextbox);
+    suchProfilName.add(suchProfilTextbox);
 
-    this.suchprofilSpeichernButton = new Button("Suchprofil Speichern");
-    this.suchprofilSpeichernButton.setStyleName("pure-button button-success");
-    this.suchprofilLöschenButton = new Button("Suchprofil löschen");
-    this.suchprofilLöschenButton.setStyleName("pure-button button-warning");
+    suchprofilSpeichernButton = new Button("Suchprofil Speichern");
+    suchprofilSpeichernButton.setStyleName("pure-button button-success");
+    suchprofilLöschenButton = new Button("Suchprofil löschen");
+    suchprofilLöschenButton.setStyleName("pure-button button-warning");
 
-    this.suchprofilErstellButton.setStyleName("pure-button pure-button-primary");
-    this.suchprofilLöschenButton.setEnabled(false);
-    this.sucheButton.setStyleName("pure-button pure-button-primary");
+    suchprofilErstellButton.setStyleName("pure-button pure-button-primary");
+    suchprofilLöschenButton.setEnabled(false);
+    sucheButton.setStyleName("pure-button pure-button-primary");
 
-    this.searchBoxListBox.add(this.suchProfilListBox);
-    this.searchBoxListBox.add(suchProfilName);
-    this.searchBoxListBox.add(this.suchprofilErstellButton);
-    this.searchBoxListBox.add(this.suchprofilSpeichernButton);
-    this.searchBoxListBox.add(this.suchprofilLöschenButton);
-    this.searchBoxListBox.add(this.sucheButton);
-
-
-    this.suchProfilListBox.setStyleName("search-box");
-
-    RootPanel.get("main").add(this.fPanel);
+    searchBoxListBox.add(suchProfilListBox);
+    searchBoxListBox.add(suchProfilName);
+    searchBoxListBox.add(suchprofilErstellButton);
+    searchBoxListBox.add(suchprofilSpeichernButton);
+    searchBoxListBox.add(suchprofilLöschenButton);
+    searchBoxListBox.add(sucheButton);
 
 
+    suchProfilListBox.setStyleName("search-box");
 
-    this.pbVerwaltung.getAllAuswahl(new AsyncCallback<ArrayList<Auswahl>>() {
+    RootPanel.get("main").add(fPanel);
+
+
+
+    pbVerwaltung.getAllAuswahl(new AsyncCallback<ArrayList<Auswahl>>() {
 
       @Override
       public void onSuccess(ArrayList<Auswahl> result) {
-        Suche.this.auswahlListe = result;
+        auswahlListe = result;
         // Erstelle Listboxen für die Auswahleigenschaften und füge sie dem FlowPanel hinzu
 
         for (Auswahl a : result) {
           BoxPanel clb = new BoxPanel(a, false);
           clb.setId(a.getId());
           clb.addKeineAngabenItem();
-          Suche.this.searchBoxInfo.add(clb);
+          searchBoxInfo.add(clb);
         }
       }
 
@@ -139,33 +139,33 @@ public class Suche extends BasicFrame {
 
 
 
-    this.suchProfilListBox.addClickHandler(new ClickHandler() {
+    suchProfilListBox.addClickHandler(new ClickHandler() {
 
       // ClickHandler um die Listboxen mit den jeweiligen Daten zu aktualisieren,
       // wenn ein Suchprofil angeklickt wird
 
       @Override
       public void onClick(ClickEvent event) {
-        Suche.this.suchprofilLöschenButton.setEnabled(true);
+        suchprofilLöschenButton.setEnabled(true);
 
         ListBox clickedLb = (ListBox) event.getSource();
-        Suche.this.suchProfilTextbox.setText(clickedLb.getSelectedItemText());
+        suchProfilTextbox.setText(clickedLb.getSelectedItemText());
 
-        Suche.this.pbVerwaltung.getSuchprofileForProfilByName(Suche.this.user,
-            clickedLb.getSelectedItemText(), new AsyncCallback<Suchprofil>() {
+        pbVerwaltung.getSuchprofileForProfilByName(user, clickedLb.getSelectedItemText(),
+            new AsyncCallback<Suchprofil>() {
 
               @Override
               public void onSuccess(Suchprofil result) {
-                Suche.this.sp = result;
+                sp = result;
 
-                final HashMap<Integer, String> auswahlListeSp = Suche.this.sp.getAuswahlListe();
+                final HashMap<Integer, String> auswahlListeSp = sp.getAuswahlListe();
 
-                for (Widget child : Suche.this.searchBoxInfo) {
+                for (Widget child : searchBoxInfo) {
                   if (child instanceof BoxPanel) {
                     BoxPanel childPanel = (BoxPanel) child;
 
                     // Infoobjekte des Suchporifls in die Listboxen schreiben
-                    for (Auswahl a : Suche.this.auswahlListe) {
+                    for (Auswahl a : auswahlListe) {
                       if (childPanel.getId() == a.getId()) {
                         childPanel.setSelectedItemForSP(
                             auswahlListeSp.get(childPanel.getAuswahl().getId()));
@@ -175,12 +175,12 @@ public class Suche extends BasicFrame {
                 }
 
 
-                for (Widget child : Suche.this.searchBoxProfilAttribute) {
+                for (Widget child : searchBoxProfilAttribute) {
                   if (child instanceof BoxPanel) {
                     BoxPanel childPanel = (BoxPanel) child;
 
                     // Infoobjekte des Suchporifls in die Listboxen schreiben
-                    for (Auswahl a : Suche.this.auswahlListe) {
+                    for (Auswahl a : auswahlListe) {
                       if (childPanel.getId() == a.getId()) {
                         childPanel.setSelectedItemForSP(
                             auswahlListeSp.get(childPanel.getAuswahl().getId()));
@@ -189,28 +189,28 @@ public class Suche extends BasicFrame {
                     // Profilattribute in die Listboxen schreiben
                     switch (childPanel.getName()) {
                       case "Raucher":
-                        childPanel.setSelectedItemForSP(Suche.this.sp.getRaucher());
+                        childPanel.setSelectedItemForSP(sp.getRaucher());
                         break;
                       case "Haarfarbe":
-                        childPanel.setSelectedItemForSP(Suche.this.sp.getHaarfarbe());
+                        childPanel.setSelectedItemForSP(sp.getHaarfarbe());
                         break;
                       case "Religion":
-                        childPanel.setSelectedItemForSP(Suche.this.sp.getReligion());
+                        childPanel.setSelectedItemForSP(sp.getReligion());
                         break;
                       case "Geschlecht":
-                        childPanel.setSelectedItemForSP(Suche.this.sp.getGeschlecht());
+                        childPanel.setSelectedItemForSP(sp.getGeschlecht());
                         break;
                       case "Körpergröße_min":
-                        childPanel.setGroesse(Suche.this.sp.getGroesse_min() + 1);
+                        childPanel.setGroesse(sp.getGroesse_min() + 1);
                         break;
                       case "Körpergröße_max":
-                        childPanel.setGroesse(Suche.this.sp.getGroesse_max() + 1);
+                        childPanel.setGroesse(sp.getGroesse_max() + 1);
                         break;
                       case "Alter_min":
-                        childPanel.setAlter(Suche.this.sp.getAlter_min());
+                        childPanel.setAlter(sp.getAlter_min());
                         break;
                       case "Alter_max":
-                        childPanel.setAlter(Suche.this.sp.getAlter_max());
+                        childPanel.setAlter(sp.getAlter_max());
                         break;
                     }
                   }
@@ -220,7 +220,7 @@ public class Suche extends BasicFrame {
 
               @Override
               public void onFailure(Throwable caught) {
-                Suche.this.logger.severe("Fehler bei Ausgabe eines Suchprofils");
+                logger.severe("Fehler bei Ausgabe eines Suchprofils");
 
               }
             });
@@ -230,97 +230,96 @@ public class Suche extends BasicFrame {
 
 
 
-    this.sucheButton.addClickHandler(new ClickHandler() {
+    sucheButton.addClickHandler(new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
         // RootPanel.get("main").clear();
-        Suche.this.sp = Suche.this.createSP();
+        sp = Suche.this.createSP();
 
-        ClientsideSettings.getPartnerboerseVerwaltung().getProfilesBySuchprofil(Suche.this.sp,
-            Suche.this.user, new GetProfilesBySuchProfilCallback());
+        ClientsideSettings.getPartnerboerseVerwaltung().getProfilesBySuchprofil(sp, user,
+            new GetProfilesBySuchProfilCallback());
 
       }
     });
 
 
-    this.suchprofilLöschenButton.addClickHandler(new ClickHandler() {
+    suchprofilLöschenButton.addClickHandler(new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
-        int i = Suche.this.suchProfilListBox.getSelectedIndex();
-        Suche.this.suchProfilListBox.removeItem(i);
+        int i = suchProfilListBox.getSelectedIndex();
+        suchProfilListBox.removeItem(i);
 
-        Suche.this.pbVerwaltung.deleteSuchprofil(Suche.this.sp, new AsyncCallback<Void>() {
+        pbVerwaltung.deleteSuchprofil(sp, new AsyncCallback<Void>() {
 
           @Override
           public void onSuccess(Void result) {
-            Suche.this.logger.info("Suchprofil erflogreich gelöscht");
+            logger.info("Suchprofil erflogreich gelöscht");
 
           }
 
           @Override
           public void onFailure(Throwable caught) {
-            Suche.this.logger.info("Suchprofil nicht erfolgreich gelöscht");
+            logger.info("Suchprofil nicht erfolgreich gelöscht");
           }
         });
 
       }
     });
 
-    this.suchprofilSpeichernButton.addClickHandler(new ClickHandler() {
+    suchprofilSpeichernButton.addClickHandler(new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
         Suchprofil tmpSp = Suche.this.createSP();
-        tmpSp.setId(Suche.this.sp.getId());
-        Suche.this.sp = tmpSp;
+        tmpSp.setId(sp.getId());
+        sp = tmpSp;
 
-        Suche.this.pbVerwaltung.save(Suche.this.sp, new AsyncCallback<Void>() {
+        pbVerwaltung.save(sp, new AsyncCallback<Void>() {
 
           @Override
           public void onSuccess(Void result) {
-            Suche.this.logger.info("Suchprofil erflogreich gespeichert");
+            logger.info("Suchprofil erflogreich gespeichert");
 
           }
 
           @Override
           public void onFailure(Throwable caught) {
-            Suche.this.logger.info("Suchprofil nicht erflogreich gespeichert");
+            logger.info("Suchprofil nicht erflogreich gespeichert");
           }
         });
 
       }
     });
 
-    this.pbVerwaltung.getAllSuchprofileForProfil(this.user,
-        new AsyncCallback<ArrayList<Suchprofil>>() {
+    pbVerwaltung.getAllSuchprofileForProfil(user, new AsyncCallback<ArrayList<Suchprofil>>() {
 
-          // Befülle die SuchProfilListBox mit bereits gespeichtern Suchprofilen
-
-
-          @Override
-          public void onSuccess(ArrayList<Suchprofil> result) {
-            Suche.this.suchProfilListe = result;
-            for (Suchprofil sp : Suche.this.suchProfilListe) {
-              Suche.this.suchProfilListBox.addItem(sp.getName());
-            }
-            if (result.size() == 0) {
-              new Notification("Sie haben keine Suchprofile", "info");
-            }
-          }
-
-          @Override
-          public void onFailure(Throwable caught) {
-            ClientsideSettings.getLogger().info("Fehler AsyncCallback alle Suchprofile");
-          }
-        });
+      // Befülle die SuchProfilListBox mit bereits gespeichtern Suchprofilen
 
 
+      @Override
+      public void onSuccess(ArrayList<Suchprofil> result) {
+        suchProfilListe = result;
+        for (Suchprofil sp : suchProfilListe) {
+          suchProfilListBox.addItem(sp.getName());
+        }
+        if (result.size() == 0) {
+          new Notification("Sie haben keine Suchprofile", "info");
+        }
+      }
 
-    this.pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
+      @Override
+      public void onFailure(Throwable caught) {
+        ClientsideSettings.getLogger().info("Fehler AsyncCallback alle Suchprofile");
+      }
+    });
 
-    this.suchprofilErstellButton.addClickHandler(new SuchButtonClickHandler());
+
+
+    pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
+
+    suchprofilErstellButton.addClickHandler(new SuchButtonClickHandler());
 
     // RootPanel.get("main").add(fPanel);
   }
@@ -334,9 +333,9 @@ public class Suche extends BasicFrame {
     @Override
     public void onSuccess(ArrayList<Profil> result) {
       if (result != null) {
-        Suche.this.profile = result;
+        profile = result;
 
-        DataGridProfiles dgp = new DataGridProfiles(Suche.this.profile);
+        DataGridProfiles dgp = new DataGridProfiles(profile);
         dgp.addClickFremdProfil();
         RootPanel.get("search-table").clear();
         RootPanel.get("search-table").add(dgp.start());
@@ -356,7 +355,7 @@ public class Suche extends BasicFrame {
       for (Auswahl a : result) {
         BoxPanel clb = new BoxPanel(a, true);
         clb.addKeineAngabenItem();
-        Suche.this.searchBoxProfilAttribute.add(clb);
+        searchBoxProfilAttribute.add(clb);
 
       }
 
@@ -385,16 +384,16 @@ public class Suche extends BasicFrame {
       // Körpergröße und Geburtstags Listboxen werden nach den
       // AuswahlProfilAttributen zum Panel hinzugefügt
 
-      Suche.this.searchBoxProfilAttribute.add(groesseMin);
-      Suche.this.searchBoxProfilAttribute.add(groesseMax);
-      Suche.this.searchBoxProfilAttribute.add(alterMin);
-      Suche.this.searchBoxProfilAttribute.add(alterMax);
+      searchBoxProfilAttribute.add(groesseMin);
+      searchBoxProfilAttribute.add(groesseMax);
+      searchBoxProfilAttribute.add(alterMin);
+      searchBoxProfilAttribute.add(alterMax);
 
     }
 
     @Override
     public void onFailure(Throwable caught) {
-      Suche.this.logger.severe("Fehler beim GetAllAuswahlProfilAttributeCallback");
+      logger.severe("Fehler beim GetAllAuswahlProfilAttributeCallback");
     }
   }
 
@@ -408,26 +407,24 @@ public class Suche extends BasicFrame {
     @Override
     public void onClick(ClickEvent event) {
 
-      Suche.this.sp = Suche.this.createSP();
+      sp = createSP();
 
 
-      if (Suche.this.suchProfilListe.contains(Suche.this.sp)) {
-        new Notification("Suchprofilname " + Suche.this.sp.getName() + " exisitiert bereits",
-            "info");
+      if (suchProfilListe.contains(sp)) {
+        new Notification("Suchprofilname " + sp.getName() + " exisitiert bereits", "info");
       } else {
-        Suche.this.suchProfilListe.add(Suche.this.sp);
-        Suche.this.suchProfilListBox.addItem(Suche.this.sp.getName());
-        Suche.this.pbVerwaltung.createSuchprofil(Suche.this.sp, new AsyncCallback<Void>() {
+        suchProfilListe.add(sp);
+        suchProfilListBox.addItem(sp.getName());
+        pbVerwaltung.createSuchprofil(sp, new AsyncCallback<Void>() {
 
           @Override
           public void onSuccess(Void result) {
-            Suche.this.logger.info("Suchprofil in DB geschreiben " + Suche.this.sp.getName());
+            logger.info("Suchprofil in DB geschreiben " + sp.getName());
           }
 
           @Override
           public void onFailure(Throwable caught) {
-            Suche.this.logger
-                .severe("Suchprofil in DB geschreiben Fehler= " + Suche.this.sp.getName());
+            logger.severe("Suchprofil in DB geschreiben Fehler= " + sp.getName());
           }
         });
       }
@@ -439,21 +436,21 @@ public class Suche extends BasicFrame {
   public Suchprofil createSP() {
     final Suchprofil sp = new Suchprofil();
 
-    sp.setProfilId(this.user.getId());
-    sp.setName(this.suchProfilTextbox.getText());
+    sp.setProfilId(user.getId());
+    sp.setName(suchProfilTextbox.getText());
 
     HashMap<Integer, String> auswahlListeSp = new HashMap<>();
 
 
 
-    for (Widget child : this.searchBoxInfo) {
+    for (Widget child : searchBoxInfo) {
       if (child instanceof BoxPanel) {
         BoxPanel childPanel = (BoxPanel) child;
         if (childPanel.getName() != null) {
 
           // Auswahleigenschaftslistboxen dynamisch auslesen und in des Hashmap auswahlListeSp
           // speichern
-          for (Auswahl a : this.auswahlListe) {
+          for (Auswahl a : auswahlListe) {
             if (childPanel.getId() == a.getId()) {
 
               if (!childPanel.getSelectedItem().equals("Keine Angabe")) {
@@ -465,14 +462,14 @@ public class Suche extends BasicFrame {
       }
     }
 
-    for (Widget child : this.searchBoxProfilAttribute) {
+    for (Widget child : searchBoxProfilAttribute) {
       if (child instanceof BoxPanel) {
         BoxPanel childPanel = (BoxPanel) child;
         if (childPanel.getName() != null) {
 
           // Auswahleigenschaftslistboxen dynamisch auslesen und in des Hashmap auswahlListeSp
           // speichern
-          for (Auswahl a : this.auswahlListe) {
+          for (Auswahl a : auswahlListe) {
             if (childPanel.getId() == a.getId()) {
 
               if (!childPanel.getSelectedItem().equals("Keine Angabe")) {

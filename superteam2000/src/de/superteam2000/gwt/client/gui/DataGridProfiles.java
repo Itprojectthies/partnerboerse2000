@@ -28,7 +28,7 @@ public class DataGridProfiles {
   private ArrayList<Profil> profilListe;
 
   public DataGridProfiles(ArrayList<Profil> list) {
-    this.profilListe = list;
+    profilListe = list;
   }
 
   private Profil selected = null;
@@ -36,7 +36,7 @@ public class DataGridProfiles {
 
 
   public ArrayList<Profil> getProfilListe() {
-    return this.profilListe;
+    return profilListe;
   }
 
   public void setProfilListe(ArrayList<Profil> profilListe) {
@@ -47,7 +47,7 @@ public class DataGridProfiles {
    * @return the table
    */
   public DataGrid<Profil> getTable() {
-    return this.table;
+    return table;
   }
 
   /**
@@ -60,16 +60,16 @@ public class DataGridProfiles {
   DataGrid<Profil> table = new DataGrid<Profil>();
 
   public FlowPanel start() {
-    this.fPanel.setStyleName("content");
+    fPanel.setStyleName("content");
 
-    this.table.setStyleName("pure-table pure-table-horizontal");
+    table.setStyleName("pure-table pure-table-horizontal");
     TextColumn<Profil> vorname = new TextColumn<Profil>() {
       @Override
       public String getValue(Profil p) {
         return p.getVorname();
       }
     };
-    this.table.addColumn(vorname, "Vorname");
+    table.addColumn(vorname, "Vorname");
 
     TextColumn<Profil> nachname = new TextColumn<Profil>() {
       @Override
@@ -77,7 +77,7 @@ public class DataGridProfiles {
         return p.getNachname();
       }
     };
-    this.table.addColumn(nachname, "Nachname");
+    table.addColumn(nachname, "Nachname");
 
     TextColumn<Profil> alter = new TextColumn<Profil>() {
       @Override
@@ -85,7 +85,7 @@ public class DataGridProfiles {
         return String.valueOf(p.getAlter());
       }
     };
-    this.table.addColumn(alter, "Alter");
+    table.addColumn(alter, "Alter");
 
     TextColumn<Profil> aehnlichkeit = new TextColumn<Profil>() {
       @Override
@@ -96,37 +96,37 @@ public class DataGridProfiles {
       }
     };
     aehnlichkeit.setCellStyleNames("test");
-    this.table.addColumn(aehnlichkeit, "Ähnlichkeit");
+    table.addColumn(aehnlichkeit, "Ähnlichkeit");
 
-    this.table.setRowCount(this.profilListe.size(), true);
-    this.table.setRowData(0, this.profilListe);
-    this.table.setWidth("80%");
+    table.setRowCount(profilListe.size(), true);
+    table.setRowData(0, profilListe);
+    table.setWidth("80%");
 
     LayoutPanel panel = new LayoutPanel();
     panel.setSize("50em", "40em");
-    panel.add(this.table);
+    panel.add(table);
     // panel.setStyleName("pure-controls");
-    this.fPanel.add(panel);
-    return this.fPanel;
+    fPanel.add(panel);
+    return fPanel;
   }
 
   public void addClickFremdProfil() {
     // Add a selection model to handle user selection.
     final SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
-    this.table.setSelectionModel(selectionModel);
+    table.setSelectionModel(selectionModel);
     selectionModel.addSelectionChangeHandler(new Handler() {
 
       @Override
       public void onSelectionChange(SelectionChangeEvent event) {
-        DataGridProfiles.this.selected = selectionModel.getSelectedObject();
+        selected = selectionModel.getSelectedObject();
         // History.newItem(selected.getNachname());
-        ClientsideSettings.getLogger().info(DataGridProfiles.this.selected.getNachname());
-        ShowFremdProfil fp = new ShowFremdProfil(DataGridProfiles.this.selected);
+        ClientsideSettings.getLogger().info(selected.getNachname());
+        ShowFremdProfil fp = new ShowFremdProfil(selected);
         RootPanel.get("main").clear();
 
         // Profil als besucht setzen
-        DataGridProfiles.this.pbVerwaltung.setVisited(ClientsideSettings.getCurrentUser(),
-            DataGridProfiles.this.selected, new AsyncCallback<Void>() {
+        pbVerwaltung.setVisited(ClientsideSettings.getCurrentUser(), selected,
+            new AsyncCallback<Void>() {
 
               @Override
               public void onSuccess(Void result) {

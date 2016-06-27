@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Hier wird ein exemplarisches Ähnlichkeitsmass eines Users realisiert. Anhand diesem kann
  * berechnet werden, wie ähnlich sich das Profil eines User mit den anderen Profilen der
  * Partnerbörse sind.
- * 
+ *
  * @author Christopher Funke, Daniel Volz
  * @version 1.0
  */
@@ -17,23 +17,23 @@ public class Aehnlichkeitsmass extends BusinessObject {
 
   /**
    * Deklaration des Parameters aehnlichkeitsmass
-   * 
+   *
    * @param aehnlichkeitsmass Dieser Parameter gibt in % an, wie ähnlich sich zwei Profile sind
    */
   private float aehnlichkeitsmass = 0;
 
   /**
    * Auslesen des Ähnlichkeitsmasses
-   * 
+   *
    * @return aehnlichkeitsmass
    */
   public float getAehnlichkeitsmass() {
-    return this.aehnlichkeitsmass;
+    return aehnlichkeitsmass;
   }
 
   /**
    * Setzen des Ähnlichkeitsmasses
-   * 
+   *
    * @param aehnlichkeitsmass
    */
   public void setAehnlichkeitsmass(int aehnlichkeitsmass) {
@@ -43,7 +43,7 @@ public class Aehnlichkeitsmass extends BusinessObject {
   /**
    * Berechnung des Ähnlichkeitsmaßes Das berechnete Ähnlichkeitsmaß zweier Profil wird in einer
    * ArrayList vom Typ Profil gespeichert.
-   * 
+   *
    * @param p
    * @param referenz
    * @return null

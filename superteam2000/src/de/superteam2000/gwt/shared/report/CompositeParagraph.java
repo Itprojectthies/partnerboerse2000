@@ -12,7 +12,7 @@ import java.util.Vector;
 public class CompositeParagraph extends Paragraph implements Serializable {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
 
@@ -23,50 +23,50 @@ public class CompositeParagraph extends Paragraph implements Serializable {
 
   /**
    * Einen Unterabschnitt hinzufügen.
-   * 
+   *
    * @param p der hinzuzufügende Unterabschnitt.
    */
   public void addSubParagraph(SimpleParagraph p) {
-    this.subParagraphs.addElement(p);
+    subParagraphs.addElement(p);
   }
 
   /**
    * Einen Unterabschnitt entfernen.
-   * 
+   *
    * @param p der zu entfernende Unterabschnitt.
    */
   public void removeSubParagraph(SimpleParagraph p) {
-    this.subParagraphs.removeElement(p);
+    subParagraphs.removeElement(p);
   }
 
   /**
    * Auslesen sämtlicher Unterabschnitte.
-   * 
+   *
    * @return <code>Vector</code>, der sämtliche Unterabschnitte enthält.
    */
   public Vector<SimpleParagraph> getSubParagraphs() {
-    return this.subParagraphs;
+    return subParagraphs;
   }
 
   /**
    * Auslesen der Anzahl der Unterabschnitte.
-   * 
+   *
    * @return Anzahl der Unterabschnitte
    */
   public int getNumParagraphs() {
-    return this.subParagraphs.size();
+    return subParagraphs.size();
   }
 
   /**
    * Auslesen eines einzelnen Unterabschnitts.
-   * 
+   *
    * @param i der Index des gewünschten Unterabschnitts (0 <= i <n), mit n = Anzahl der
    *        Unterabschnitte.
-   * 
+   *
    * @return der gewünschte Unterabschnitt.
    */
   public SimpleParagraph getParagraphAt(int i) {
-    return this.subParagraphs.elementAt(i);
+    return subParagraphs.elementAt(i);
   }
 
   /**
@@ -81,8 +81,8 @@ public class CompositeParagraph extends Paragraph implements Serializable {
     StringBuffer result = new StringBuffer();
 
     // Schleife über alle Unterabschnitte
-    for (int i = 0; i < this.subParagraphs.size(); i++) {
-      SimpleParagraph p = this.subParagraphs.elementAt(i);
+    for (int i = 0; i < subParagraphs.size(); i++) {
+      SimpleParagraph p = subParagraphs.elementAt(i);
 
       /*
        * den jew. Unterabschnitt in einen String wandeln und an den Buffer hängen.

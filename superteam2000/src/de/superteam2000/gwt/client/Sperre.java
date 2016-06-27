@@ -48,44 +48,44 @@ public class Sperre extends BasicFrame {
   @Override
   public void run() {
 
-    this.profilEntfernenButton.setEnabled(false);
-    this.profilEntfernenButton.setIcon("fa fa-times");
-    this.profilEntfernenButton.setStyleName("pure-button");
+    profilEntfernenButton.setEnabled(false);
+    profilEntfernenButton.setIcon("fa fa-times");
+    profilEntfernenButton.setStyleName("pure-button");
 
 
     FlowPanel fPanel = new FlowPanel();
 
     fPanel.setStyleName("pure-form pure-form-aligned content");
-    this.fPanel2.setStyleName("content");
+    fPanel2.setStyleName("content");
 
 
-    fPanel.add(this.profilEntfernenButton);
-    this.fPanel2.add(fPanel);
+    fPanel.add(profilEntfernenButton);
+    fPanel2.add(fPanel);
 
-    this.profilEntfernenButton.addClickHandler(new EntfernenButtonClickhandler());
+    profilEntfernenButton.addClickHandler(new EntfernenButtonClickhandler());
 
-    this.selectionModel.addSelectionChangeHandler(new Handler() {
+    selectionModel.addSelectionChangeHandler(new Handler() {
       @Override
       public void onSelectionChange(SelectionChangeEvent event) {
-        Sperre.this.profilEntfernenButton.setEnabled(true);
+        profilEntfernenButton.setEnabled(true);
         // ausgewähltes Profil setzen
-        Sperre.this.selected = Sperre.this.selectionModel.getSelectedObject();
+        selected = selectionModel.getSelectedObject();
       }
     });
 
     // Hole alle gesperrte Kontakte, um damit die Tabelle zu füllen und um diese anzuzeigen
-    this.pbVerwaltung.getKontaktsperreForProfil(this.profil, new AsyncCallback<Kontaktsperre>() {
+    pbVerwaltung.getKontaktsperreForProfil(profil, new AsyncCallback<Kontaktsperre>() {
 
       @Override
       public void onSuccess(Kontaktsperre result) {
 
-        Sperre.this.profile = result.getGesperrteProfile();
-        DataGridProfiles dgp = new DataGridProfiles(Sperre.this.profile);
+        profile = result.getGesperrteProfile();
+        DataGridProfiles dgp = new DataGridProfiles(profile);
 
-        Sperre.this.fPanel2.add(dgp.start());
-        RootPanel.get("main").add(Sperre.this.fPanel2);
+        fPanel2.add(dgp.start());
+        RootPanel.get("main").add(fPanel2);
 
-        dgp.getTable().setSelectionModel(Sperre.this.selectionModel);
+        dgp.getTable().setSelectionModel(selectionModel);
       }
 
       @Override
@@ -111,14 +111,13 @@ public class Sperre extends BasicFrame {
     @Override
     public void onClick(ClickEvent event) {
 
-      if (Sperre.this.selected != null) {
-        ClientsideSettings.getPartnerboerseVerwaltung().deleteSperre(
-            ClientsideSettings.getCurrentUser(), Sperre.this.selected, new AsyncCallback<Void>() {
+      if (selected != null) {
+        ClientsideSettings.getPartnerboerseVerwaltung()
+            .deleteSperre(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
 
               @Override
               public void onSuccess(Void result) {
-                new Notification("Sperre für " + Sperre.this.selected.getVorname() + " entfernt",
-                    "info");
+                new Notification("Sperre für " + selected.getVorname() + " entfernt", "info");
                 RootPanel.get("main").clear();
                 Sperre s = new Sperre();
                 RootPanel.get("main").add(s);

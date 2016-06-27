@@ -15,7 +15,7 @@ import de.superteam2000.gwt.shared.bo.Auswahl;
  * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
  * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
  * Methoden zur Suche, zum Speichern, L�schen und Modifizieren von Objekten.
- * 
+ *
  * @see AehnlichkeitsMapper
  * @see BeschreibungsMapper
  * @see DBConnection
@@ -24,7 +24,7 @@ import de.superteam2000.gwt.shared.bo.Auswahl;
  * @see MerkzettelMapper
  * @see ProfilMapper
  * @see SuchprofilMapper
- * 
+ *
  * @author
  */
 
@@ -36,14 +36,14 @@ public class AuswahlMapper {
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ AuswahlMapper, die die einzige Instanz der Klasse darstellt.
    *
-   * 
+   *
    */
   private static AuswahlMapper AuswahlMapper = null;
 
   /**
    * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der
    * Klasse erzeugt werden k�nnen
-   * 
+   *
    */
   protected AuswahlMapper() {}
 
@@ -64,7 +64,7 @@ public class AuswahlMapper {
   /**
    * Die Methode findByName erf�llt eine Suchfunktion und liefert Objekte des Typs Auswahl aus der
    * Datenbank zur�ck
-   * 
+   *
    * @param name
    * @return Auswahl - Ein Auswahl-Objekt in dem Informationen des Objekts Auswahl aus der Datenbank
    *         gespeichert werden
@@ -108,9 +108,9 @@ public class AuswahlMapper {
   /**
    * Die Methode findByKey implementiert die Suche nach genau einer id aus der Datenbank,
    * entsprechend wird genau ein Objekt zur�ckgegeben.
-   * 
+   *
    * @param id
-   * 
+   *
    * @return Auswahl-Objekt, das der �bergegebenen id entspricht bzw. null bei nicht vorhandenem
    *         DB-Tupel.
    */
@@ -246,7 +246,7 @@ public class AuswahlMapper {
    * Hinzuf�gen eines Auswahl-Objekts in die Datenbank.
    *
    * @param a - das zu speichernde Objekt
-   * 
+   *
    * @return das an die Datenbank �bergebene Objekt
    */
   public Auswahl insert(Auswahl a) {
@@ -278,7 +278,7 @@ public class AuswahlMapper {
 
   /**
    * Die Methode update modifiziert ein auf die Datenbank abgebildetes Auswahl-Objekt.
-   * 
+   *
    * @param a - das Objekt, welches in der Datenbank ge�ndert wird
    * @return das als Parameter �bergebene Objekt
    */

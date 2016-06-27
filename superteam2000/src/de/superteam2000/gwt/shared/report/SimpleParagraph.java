@@ -33,7 +33,7 @@ public class SimpleParagraph extends Paragraph implements Serializable {
    * einer solchen Situation aber dennoch einen No-Argument-Konstruktor benötigen, müssen wir diesen
    * wie in diesem Beispiel explizit implementieren.
    * </p>
-   * 
+   *
    * @see #SimpleParagraph(String)
    */
   public SimpleParagraph() {}
@@ -41,26 +41,26 @@ public class SimpleParagraph extends Paragraph implements Serializable {
   /**
    * Dieser Konstruktor ermöglicht es, bereits bei Instantiierung von <code>SimpleParagraph</code>
    * -Objekten deren Inhalt angeben zu können.
-   * 
+   *
    * @param value der Inhalt des Absatzes
    * @see #SimpleParagraph()
    */
   public SimpleParagraph(String value) {
-    this.text = value;
+    text = value;
   }
 
   /**
    * Auslesen des Inhalts.
-   * 
+   *
    * @return Inhalt als String
    */
   public String getText() {
-    return this.text;
+    return text;
   }
 
   /**
    * Überschreiben des Inhalts.
-   * 
+   *
    * @param text der neue Inhalt des Absatzes.
    */
   public void setText(String text) {
@@ -72,6 +72,6 @@ public class SimpleParagraph extends Paragraph implements Serializable {
    */
   @Override
   public String toString() {
-    return this.text;
+    return text;
   }
 }
