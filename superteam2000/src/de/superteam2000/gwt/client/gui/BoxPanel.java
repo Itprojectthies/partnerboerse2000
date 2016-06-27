@@ -7,7 +7,6 @@ import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
 
 public class BoxPanel extends FlowPanel {
-
   Auswahl auswahl = null;
   Beschreibung beschreibung = null;
 
@@ -39,6 +38,30 @@ public class BoxPanel extends FlowPanel {
     profilAttributTextBox.setStyleName("pure-input-1-4");
 
   }
+  
+  public BoxPanel(Beschreibung b, boolean isNameTextbox) {
+    beschreibung = b;
+    profilAttributTextBox = new ProfilAttributTextBox(b);
+    addLabelBeschreibung(isNameTextbox);
+    this.add(profilAttributTextBox);
+
+    // set style name for entire widget
+    this.setStyleName("pure-control-group-1");
+ // set style name for text box
+    profilAttributTextBox.setStyleName("pure-input-1-4");
+    
+  }
+
+  public BoxPanel(Auswahl a, boolean isNameListbox) {
+    auswahl = a;
+    profilAttributListBox = new EigenschaftListBox(a);
+    addLabelAuswahl(isNameListbox);
+
+    // set style name for entire widget
+    this.add(profilAttributListBox);
+    this.setStyleName("pure-control-group-1");
+  }
+  
 
   // Konstruktor für ein Auswahlobjekt mit vorselektiertem Item in der Listbox
   public BoxPanel(Auswahl a, String selectedItem, boolean isNameListbox) {
@@ -65,26 +88,7 @@ public class BoxPanel extends FlowPanel {
 
   }
 
-  public BoxPanel(Beschreibung b, boolean isNameTextbox) {
-    beschreibung = b;
-    addLabelBeschreibung(isNameTextbox);
-    profilAttributTextBox = new ProfilAttributTextBox(b);
-    this.add(profilAttributTextBox);
-
-    // set style name for entire widget
-    this.setStyleName("pure-control-group-1");
-
-  }
-
-  public BoxPanel(Auswahl a, boolean isNameListbox) {
-    auswahl = a;
-    addLabelAuswahl(isNameListbox);
-    profilAttributListBox = new EigenschaftListBox(a);
-
-    // set style name for entire widget
-    this.add(profilAttributListBox);
-    this.setStyleName("pure-control-group-1");
-  }
+  
 
   public BoxPanel(String text) {
     this.add(new HTML(text));
@@ -125,7 +129,7 @@ public class BoxPanel extends FlowPanel {
   public String getName() {
     return profilAttributListBox.getName();
   }
-
+  
   public void setId(int id) {
     profilAttributListBox.setListBoxAuswahlId(id);
   }
@@ -139,11 +143,11 @@ public class BoxPanel extends FlowPanel {
   }
 
   public void setText(String text) {
-    profilAttributTextBox.setText(text);
+    this.profilAttributTextBox.setText(text);
   }
 
   public String getText() {
-    return profilAttributTextBox.getText();
+    return this.profilAttributTextBox.getText();
   }
 
   public Beschreibung getBeschreibung() {
@@ -156,6 +160,15 @@ public class BoxPanel extends FlowPanel {
 
 
   public void setSelectedItem(String text) {
+    profilAttributListBox.setSelectedItemByText(text);
+  }
+  
+  public String getSelectedNumber() {
+    return profilAttributListBox.getSelectedItemText();
+  }
+  
+  
+  public void setSelectedNumber(String text) {
     profilAttributListBox.setSelectedItemByText(text);
   }
 

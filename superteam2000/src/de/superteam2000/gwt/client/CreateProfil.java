@@ -30,11 +30,11 @@ import de.superteam2000.gwt.shared.bo.Profil;
  */
 public class CreateProfil extends BasicFrame {
 
+  PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+
   /*
    * Alle notwendigen Instanzvariablen werden deklariert
    */
-
-  PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
   Profil user = ClientsideSettings.getCurrentUser();
   Logger logger = ClientsideSettings.getLogger();
@@ -174,53 +174,58 @@ public class CreateProfil extends BasicFrame {
     // verschachtelt sind
 
     for (Widget child : alignPanel) {
-      if (child instanceof EigenschaftListBox) {
-        EigenschaftListBox lb = (EigenschaftListBox) child;
-        logger.severe("test " + lb.getName());
+      if (child instanceof FlowPanel) {
+        FlowPanel childPanel = (FlowPanel) child;
+        for (Widget box : childPanel) {
+          if (box instanceof EigenschaftListBox) {
+            EigenschaftListBox lb = (EigenschaftListBox) box;
+            logger.severe("test " + lb.getName());
 
-        switch (lb.getName()) {
+            switch (lb.getName()) {
 
-          case "Raucher":
-            raucher = lb.getSelectedItemText();
-            break;
-          case "Haarfarbe":
-            haarfarbe = lb.getSelectedItemText();
-            break;
-          case "Religion":
-            religion = lb.getSelectedItemText();
-            break;
-          case "Geschlecht":
-            geschlecht = lb.getSelectedItemText();
-            break;
-          case "Körpergröße":
-            groesse = Integer.valueOf(lb.getSelectedItemText());
-            break;
-          case "GeburtstagTag":
-            geburtsTag = Integer.valueOf(lb.getSelectedItemText());
-            break;
-          case "GeburtstagMonat":
-            geburtsMonat = Integer.valueOf(lb.getSelectedItemText());
-            break;
-          case "GeburtstagJahr":
-            geburtsJahr = Integer.valueOf(lb.getSelectedItemText());
-            break;
+              case "Raucher":
+                raucher = lb.getSelectedItemText();
+                break;
+              case "Haarfarbe":
+                haarfarbe = lb.getSelectedItemText();
+                break;
+              case "Religion":
+                religion = lb.getSelectedItemText();
+                break;
+              case "Geschlecht":
+                geschlecht = lb.getSelectedItemText();
+                break;
+              case "Körpergröße":
+                groesse = Integer.valueOf(lb.getSelectedItemText());
+                break;
+              case "GeburtstagTag":
+                geburtsTag = Integer.valueOf(lb.getSelectedItemText());
+                break;
+              case "GeburtstagMonat":
+                geburtsMonat = Integer.valueOf(lb.getSelectedItemText());
+                break;
+              case "GeburtstagJahr":
+                geburtsJahr = Integer.valueOf(lb.getSelectedItemText());
+                break;
 
-        }
+            }
 
-      } else if (child instanceof TextBox) {
-        TextBox tb = (TextBox) child;
-        logger.severe("test " + tb.getName());
-        switch (tb.getName()) {
-          case "Vorname":
-            firstName = tb.getText();
-            break;
-          case "Nachname":
-            lastName = tb.getText();
-            break;
+          } else if (box instanceof TextBox) {
+            TextBox tb = (TextBox) box;
+            logger.severe("test " + tb.getName());
+            switch (tb.getName()) {
+              case "Vorname":
+                firstName = tb.getText();
+                break;
+              case "Nachname":
+                lastName = tb.getText();
+                break;
+
+            }
+          }
 
         }
       }
-
 
     }
 
