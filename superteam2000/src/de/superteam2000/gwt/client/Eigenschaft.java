@@ -2,10 +2,17 @@ package de.superteam2000.gwt.client;
 
 import java.util.ArrayList;
 
+import org.apache.bcel.generic.POP;
+
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import de.superteam2000.gwt.client.gui.CustomPopupPanel;
 import de.superteam2000.gwt.client.gui.EigenschaftPanel;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
@@ -44,16 +51,20 @@ public class Eigenschaft extends BasicFrame {
     return "Was passt zu Dir?";
   }
 
+  CustomPopupPanel pop = new CustomPopupPanel(false, true);
 
   @Override
   protected void run() {
+    
+    pop.load();
+    
     alignPanel.setStyleName("pure-form pure-form-aligned");
     contentPanel.setStyleName("content");
 
     contentPanel.add(alignPanel);
-
     RootPanel.get("main").add(contentPanel);
-
+    
+    
     pbVerwaltung.getInfoByProfile(profil, new InfoByProfileCallback());
 
     pbVerwaltung.getAllAuswahl(new AuswahlCallback());
@@ -72,12 +83,13 @@ public class Eigenschaft extends BasicFrame {
   }
 
   class AuswahlCallback implements AsyncCallback<ArrayList<Auswahl>> {
-
+    
     @Override
     public void onFailure(Throwable caught) {}
 
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
+      pop.stop();
       if (result != null) {
         for (Auswahl a : result) {
 

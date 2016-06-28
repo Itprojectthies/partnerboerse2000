@@ -111,6 +111,7 @@ public class Navbar extends VerticalPanel {
 
     @Override
     public void onClick(ClickEvent event) {
+      
       pbVerwaltung.getProfilesByAehnlichkeitsmass(user, new ProfilesByAehnlichkeitsmassCallback());
     }
   }

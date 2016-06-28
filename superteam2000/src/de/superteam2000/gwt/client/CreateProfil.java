@@ -233,12 +233,12 @@ public class CreateProfil extends BasicFrame {
     // konstruieren und in
     // ein SQL-Date-Objekt umwandeln
 
-    Date gebTag2 = DateTimeFormat.getFormat("yyyy-MM-dd")
+    Date gebTag = DateTimeFormat.getFormat("yyyy-MM-dd")
         .parse(geburtsJahr + "-" + geburtsMonat + "-" + geburtsTag);
-    java.sql.Date gebTag = new java.sql.Date(gebTag2.getTime());
+    java.sql.Date gebTagSql = new java.sql.Date(gebTag.getTime());
 
     if (!firstName.isEmpty() && !lastName.isEmpty()) {
-      pbVerwaltung.createProfil(lastName, firstName, email, gebTag, haarfarbe, raucher, religion,
+      pbVerwaltung.createProfil(lastName, firstName, email, gebTagSql, haarfarbe, raucher, religion,
           groesse, geschlecht, new CreateCustomerCallback());
     } else {
       new Notification("Bitte füllen sie alle Felder aus", "warning");

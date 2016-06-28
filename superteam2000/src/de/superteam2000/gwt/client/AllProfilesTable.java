@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.superteam2000.gwt.client.gui.DataGridProfiles;
@@ -49,7 +50,10 @@ public class AllProfilesTable extends BasicFrame {
 
   @Override
   public void run() {
-
+    
+    
+    
+    
     final Button neueProfilAnzeigenButton = new Button("Neue");
     neueProfilAnzeigenButton.setStyleName("pure-button");
 
@@ -125,12 +129,10 @@ public class AllProfilesTable extends BasicFrame {
     }
 
     @Override
-    public void onFailure(Throwable caught) {
-    }
+    public void onFailure(Throwable caught) {}
   }
 
   private class NeueProfilAnzeigeClickHandler implements ClickHandler {
-
 
     @Override
     public void onClick(ClickEvent event) {
@@ -148,7 +150,6 @@ public class AllProfilesTable extends BasicFrame {
     }
 
     @Override
-    public void onFailure(Throwable caught) {
-    }
+    public void onFailure(Throwable caught) {}
   }
 }

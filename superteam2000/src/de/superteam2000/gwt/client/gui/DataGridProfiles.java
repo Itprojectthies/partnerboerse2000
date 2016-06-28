@@ -99,13 +99,14 @@ public class DataGridProfiles {
     table.addColumn(aehnlichkeit, "Ähnlichkeit");
 
     table.setRowCount(profilListe.size(), true);
+    ClientsideSettings.getLogger().info("größe " +profilListe.size());
     table.setRowData(0, profilListe);
     table.setWidth("80%");
+    table.setVisibleRange(1, profilListe.size());
 
     LayoutPanel panel = new LayoutPanel();
     panel.setSize("50em", "40em");
     panel.add(table);
-    // panel.setStyleName("pure-controls");
     fPanel.add(panel);
     return fPanel;
   }

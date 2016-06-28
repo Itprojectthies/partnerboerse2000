@@ -7,13 +7,17 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import de.superteam2000.gwt.client.gui.CustomPopupPanel;
 import de.superteam2000.gwt.client.gui.ListItemWidget;
 import de.superteam2000.gwt.client.gui.UnorderedListWidget;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
@@ -62,11 +66,14 @@ public class ReportGen implements EntryPoint {
   FlowPanel menu = new FlowPanel();
   UnorderedListWidget menuList = new UnorderedListWidget();
   FlowPanel pureMenu = new FlowPanel();
+  CustomPopupPanel pop = new CustomPopupPanel(false, true);
 
   @Override
-  public void onModuleLoad() {
-
-
+  public void onModuleLoad() {      
+    
+    
+    
+    
     suchProfilListBox.setSize("11em", "8em");
 
     RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#191818");
@@ -156,6 +163,7 @@ public class ReportGen implements EntryPoint {
 
     @Override
     public void onSuccess(ProfilReport result) {
+      pop.stop();
       ReportGen.this.addProfileToRootPanel(result);
     }
 
@@ -164,6 +172,7 @@ public class ReportGen implements EntryPoint {
   private class AllProfilesCallback implements AsyncCallback<ArrayList<Profil>> {
     @Override
     public void onSuccess(ArrayList<Profil> result) {
+      pop.stop();
       profile = result;
       ClientsideSettings.getLogger().info("async callback get all profiles");
     }
@@ -179,6 +188,7 @@ public class ReportGen implements EntryPoint {
   private class SuchProfilCallback implements AsyncCallback<Suchprofil> {
     @Override
     public void onSuccess(Suchprofil result) {
+      pop.stop();
       if (result == null) {
         ClientsideSettings.getLogger().info("Result == null");
       }
@@ -222,6 +232,7 @@ public class ReportGen implements EntryPoint {
   private class NotVIsitedCallback implements AsyncCallback<AllNotVisitedProfileReport> {
     @Override
     public void onSuccess(AllNotVisitedProfileReport result) {
+      pop.stop();
       ReportGen.this.addProfileToRootPanel(result);
     }
 
@@ -234,6 +245,7 @@ public class ReportGen implements EntryPoint {
   private class NewProfilesCallback implements AsyncCallback<AllNewProfileReport> {
     @Override
     public void onSuccess(AllNewProfileReport result) {
+      pop.stop();
       ReportGen.this.addProfileToRootPanel(result);
     }
 
@@ -259,6 +271,8 @@ public class ReportGen implements EntryPoint {
   private class ProfilClickHandler implements ClickHandler {
     @Override
     public void onClick(ClickEvent event) {
+      RootPanel.get("main").clear();
+      pop.load();
       ClientsideSettings.getLogger().info("onClick profilAnzeigenButton");
       reportGenerator.createProfilReport(p, new createProfilReportCallback());
 
@@ -270,6 +284,8 @@ public class ReportGen implements EntryPoint {
 
     @Override
     public void onClick(ClickEvent event) {
+      RootPanel.get("main").clear();
+      pop.load();
       reportGenerator.createAllNotVisitedProfileReport(p, new NotVIsitedCallback());
     }
   }
@@ -278,6 +294,8 @@ public class ReportGen implements EntryPoint {
 
     @Override
     public void onClick(ClickEvent event) {
+      RootPanel.get("main").clear();
+      pop.load();
       reportGenerator.createAllNewProfilesReport(p, new NewProfilesCallback());
     }
   }
@@ -287,6 +305,8 @@ public class ReportGen implements EntryPoint {
 
     @Override
     public void onClick(ClickEvent event) {
+      RootPanel.get("main").clear();
+      pop.load();
       ClientsideSettings.getLogger().info("onClick Methode aufgerufen");
 
       reportGenerator.createAllProfilesReport(p, new AllProfilesReportCallback());
@@ -296,6 +316,7 @@ public class ReportGen implements EntryPoint {
   private class AllProfilesReportCallback implements AsyncCallback<AllProfilesReport> {
     @Override
     public void onSuccess(AllProfilesReport result) {
+      pop.stop();
       ReportGen.this.addProfileToRootPanel(result);
     }
 

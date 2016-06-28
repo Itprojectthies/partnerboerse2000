@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -13,6 +15,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
+import de.superteam2000.gwt.client.gui.DateTimeFormat;
 import de.superteam2000.gwt.server.db.AuswahlMapper;
 import de.superteam2000.gwt.server.db.BeschreibungMapper;
 import de.superteam2000.gwt.server.db.InfoMapper;
@@ -113,15 +116,62 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   }
 
+  public void seed() {
+    String[] vornamenMale =
+        {"Paul", "Peter", "Max", "Florian", "Johannes", "Daniel", "Christopher", "Benjamin"};
+    String[] vornamenFemale = {"Paula", "Petera", "Nora", "Ulrike", "Christina", "Olga", "Meike",
+        "Lina", "Caroline", "Christina"};
+    String[] nachnamen = {"Müller", "Schulz", "Baumann", "Reiter", "Bosch"};
+    String[] haarfarbe = {"blond", "schwarz", "brünett", "dunkel-blond", "rot"};
+    String[] religion =
+        {"römisch-katholisch", "römisch-orthodox", "muslimisch", "jüdisch", "evangelisch"};
+    String[] geschlecht = {"männlich", "weiblich"};
+    String[] raucher = {"Ja", "Nein"};
+    
+
+
+    for (int i = 0; i < 1000; i++) {
+      Profil p = new Profil();
+      p.setGeschlecht(geschlecht[new Random().nextInt(geschlecht.length)]);
+
+      if (p.getGeschlecht().equals("weiblich")) {
+        p.setVorname(vornamenFemale[new Random().nextInt(vornamenFemale.length)]);
+      } else {
+        p.setVorname(vornamenMale[new Random().nextInt(vornamenMale.length)]);
+      }
+     
+      p.setNachname(nachnamen[new Random().nextInt(nachnamen.length)]);
+      p.setHaarfarbe(haarfarbe[new Random().nextInt(haarfarbe.length)]);
+      p.setReligion(religion[new Random().nextInt(religion.length)]);
+      p.setRaucher(raucher[new Random().nextInt(raucher.length)]);
+      p.setGroesse(ThreadLocalRandom.current().nextInt(150, 189 + 1));
+      int geburtsJahr = ThreadLocalRandom.current().nextInt(1949, 1999 + 1);
+      int geburtsMonat = ThreadLocalRandom.current().nextInt(1, 11 + 1);
+      int geburtsTag = ThreadLocalRandom.current().nextInt(1, 29 + 1);
+
+      p.setEmail(p.getVorname() + "." + p.getNachname() + "@mail.com");
+
+      Date gebTag = DateTimeFormat.getFormat("yyyy-MM-dd")
+          .parse(geburtsJahr + "-" + geburtsMonat + "-" + geburtsTag);
+      java.sql.Date gebTagSql = new java.sql.Date(gebTag.getTime());
+      p.setGeburtsdatum(gebTagSql);
+
+      this.pMapper.insert(p);
+    }
+
+  }
+
   /*
-   * *************************************************************************** ABSCHNITT, Beginn:
-   * Login ***************************************************************************
+   * **************************************************************************************
+   * ABSCHNITT, Beginn: Login
+   * ***************************************************************************+++++++++++
    */
   /**
    * Login eines Users mit Überprüfung ob User schon ein Profil angelegt hat
    */
   @Override
   public Profil login(String requestUri) {
+//    seed();
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
 

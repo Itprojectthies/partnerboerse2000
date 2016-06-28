@@ -31,7 +31,7 @@ public class ProfilAttributListbox extends BoxPanel {
     profilAttributListBox.setName("Körpergröße");
     this.add(profilAttributListBox);
     profilAttributListBox.setEnabled(false);
-    this.setStyleName("pure-control-group-1");
+    this.setStyleName("pure-control-group");
   }
 
   public void createAlterListbox() {
@@ -41,7 +41,7 @@ public class ProfilAttributListbox extends BoxPanel {
     profilAttributListBox.setStyleName("pure-input-1-4");
     profilAttributListBox.setName("Alter");
     this.add(profilAttributListBox);
-    this.setStyleName("pure-control-group-1");
+    this.setStyleName("pure-control-group");
   }
 
   public void createGebtaListobx(String name) {
@@ -69,7 +69,7 @@ public class ProfilAttributListbox extends BoxPanel {
     this.add(gebDatumMonatListBox);
     this.add(gebDatumJahrListBox);
 
-    this.setStyleName("pure-control-group-1");
+    this.setStyleName("pure-control-group");
   }
 
   public void setGebtag(Date date) {
