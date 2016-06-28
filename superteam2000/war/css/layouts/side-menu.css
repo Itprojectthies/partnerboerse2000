@@ -16,7 +16,9 @@ Copyright (c) Nicolas Gallagher and Jonathan Neal
  *    user zoom.
  */
  
-
+body {
+    background: #fbf1f2;
+}
 
 #accordion-button, .subLink { 
 	display: none;
@@ -38,10 +40,7 @@ Copyright (c) Nicolas Gallagher and Jonathan Neal
 /*
  * ------------------------------------------- profil reports
  */
-body {
-  background-color: #f0f0f0;
-  /* font-family: Verdana; */
-}
+
 .container {
   width: 400px;
   margin: 120px auto 120px;
@@ -120,9 +119,7 @@ select.suchprofilListbox {
 /*
  * ------------------------------------------- pure css
  */
-body {
-    color: #777;
-}
+
 
 .pure-img-responsive {
     max-width: 100%;
@@ -173,7 +170,7 @@ The content `<div>` is where all your content goes.
      color: #333;
      text-align: center;
      padding: 2.5em 2em 0;
-     border-bottom: 1px solid #eee;
+     /* border-bottom: 1px solid #eee; */
  }
     .header h1 {
         margin: 0.2em 0;
@@ -208,7 +205,7 @@ appears on the left side of the page.
     left: 0;
     bottom: 0;
     z-index: 1000; /* so the menu or its navicon stays above all content */
-    /*background: #191818;*/
+    
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -216,7 +213,7 @@ appears on the left side of the page.
     All anchors inside the menu should be styled like this.
     */
     #menu a {
-        color: #999;
+        color: #ffecec;
         border: none;
         padding: 0.6em 0 0.6em 0.6em;
     }
@@ -242,7 +239,7 @@ appears on the left side of the page.
     */
     #menu .pure-menu ul,
     #menu .pure-menu .menu-item-divided {
-        border-top: 4px solid #333;
+        border-top: 4px solid #6f6b6b;
     }
         /*
         Change color of the anchor links on hover/focus.
@@ -266,7 +263,7 @@ appears on the left side of the page.
     */
     #menu .pure-menu-selected,
     #menu .pure-menu-heading {
-        background: #1f8dd6;
+        background: #E91E63;
     }
         /*
         This styles a link within a selected menu item `<li>`.

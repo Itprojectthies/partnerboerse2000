@@ -2,9 +2,7 @@ package de.superteam2000.gwt.client;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -44,13 +42,6 @@ public class Merkliste extends BasicFrame {
   PopupPanel pop = new PopupPanel();
   @Override
   public void run() {
-    HTML load = new HTML();
-    load.setHTML("<i class=\"fa fa-cog fa-spin fa-3x fa-fw\"></i>");
-    pop.add(load);
-    int left = (Window.getClientWidth() - 100 );
-    int top = (Window.getClientHeight()  - 650);
-    pop.setPopupPosition(left, top);
-    pop.show();
     
     // Merkliste abfragen und anzeigen
     pbVerwaltung.getMerkzettelForProfil(user, new MerkzettelForProfilCallback());

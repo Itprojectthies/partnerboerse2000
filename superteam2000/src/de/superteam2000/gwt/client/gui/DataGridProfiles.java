@@ -7,7 +7,9 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -90,24 +92,24 @@ public class DataGridProfiles {
     TextColumn<Profil> aehnlichkeit = new TextColumn<Profil>() {
       @Override
       public String getValue(Profil p) {
-        ;
+
 
         return String.valueOf(p.getAehnlichkeit()) + "%";
       }
     };
+
     aehnlichkeit.setCellStyleNames("test");
     table.addColumn(aehnlichkeit, "Ähnlichkeit");
 
-    table.setRowCount(profilListe.size(), true);
-    ClientsideSettings.getLogger().info("größe " +profilListe.size());
-    table.setRowData(0, profilListe);
-    table.setWidth("80%");
-    table.setVisibleRange(1, profilListe.size());
-
-    LayoutPanel panel = new LayoutPanel();
-    panel.setSize("50em", "40em");
-    panel.add(table);
-    fPanel.add(panel);
+     table.setRowCount(profilListe.size(), false);
+     table.setWidth("80%");
+     table.setVisibleRange(0, profilListe.size());
+     table.setRowData(0, profilListe);
+    
+     LayoutPanel panel = new LayoutPanel();
+     panel.setSize("50em", "40em");
+     panel.add(table);
+     fPanel.add(panel);
     return fPanel;
   }
 

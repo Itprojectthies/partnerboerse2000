@@ -117,20 +117,28 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   public void seed() {
-    String[] vornamenMale =
-        {"Paul", "Peter", "Max", "Florian", "Johannes", "Daniel", "Christopher", "Benjamin"};
+    String[] vornamenMale = {"Paul", "Peter", "Max", "Florian", "Johannes", "Daniel", "Christopher",
+        "Benjamin", "Christian", "Michael", "Maximilian", "Julian", "Robert", "Simon", "Jesus",
+        "Josef", "Siddatha", "Mario", "Manuel", "Dominik", "Thomas"};
+
     String[] vornamenFemale = {"Paula", "Petera", "Nora", "Ulrike", "Christina", "Olga", "Meike",
-        "Lina", "Caroline", "Christina"};
-    String[] nachnamen = {"Müller", "Schulz", "Baumann", "Reiter", "Bosch"};
+        "Lina", "Caroline", "Christina", "Stefanie", "Elisabeth", "Anne", "Adelheid", "Anna",
+        "Simone", "Theresa", "Mia", "Pia", "Melanie", "Vanessa"};
+
+    String[] nachnamen = {"Müller", "Schulz", "Baumann", "Reiter", "Bosch", "Stein", "Burkhardt",
+        "Bürkle", "Miller", "Seifert", "Lang", "Schneider", "Weber", "Bauer", "Schröder", "Klein",
+        "Schwarz", "Zimmermann", "Krüger", "Hoffmann", "Hafner"};
+
     String[] haarfarbe = {"blond", "schwarz", "brünett", "dunkel-blond", "rot"};
     String[] religion =
         {"römisch-katholisch", "römisch-orthodox", "muslimisch", "jüdisch", "evangelisch"};
+
     String[] geschlecht = {"männlich", "weiblich"};
     String[] raucher = {"Ja", "Nein"};
-    
 
 
-    for (int i = 0; i < 1000; i++) {
+
+    for (int i = 0; i < 100; i++) {
       Profil p = new Profil();
       p.setGeschlecht(geschlecht[new Random().nextInt(geschlecht.length)]);
 
@@ -139,13 +147,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       } else {
         p.setVorname(vornamenMale[new Random().nextInt(vornamenMale.length)]);
       }
-     
+
       p.setNachname(nachnamen[new Random().nextInt(nachnamen.length)]);
       p.setHaarfarbe(haarfarbe[new Random().nextInt(haarfarbe.length)]);
       p.setReligion(religion[new Random().nextInt(religion.length)]);
       p.setRaucher(raucher[new Random().nextInt(raucher.length)]);
-      p.setGroesse(ThreadLocalRandom.current().nextInt(150, 189 + 1));
-      int geburtsJahr = ThreadLocalRandom.current().nextInt(1949, 1999 + 1);
+      p.setGroesse(ThreadLocalRandom.current().nextInt(140, 200 + 1));
+      int geburtsJahr = ThreadLocalRandom.current().nextInt(1960, 1995 + 1);
       int geburtsMonat = ThreadLocalRandom.current().nextInt(1, 11 + 1);
       int geburtsTag = ThreadLocalRandom.current().nextInt(1, 29 + 1);
 
@@ -171,7 +179,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
    */
   @Override
   public Profil login(String requestUri) {
-//    seed();
+//     seed();
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
 

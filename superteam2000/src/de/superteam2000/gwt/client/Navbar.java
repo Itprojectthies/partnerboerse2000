@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.superteam2000.gwt.client.gui.CustomPopupPanel;
+import de.superteam2000.gwt.client.gui.DataGridProfiles;
 import de.superteam2000.gwt.client.gui.ListItemWidget;
 import de.superteam2000.gwt.client.gui.UnorderedListWidget;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
@@ -31,10 +33,12 @@ public class Navbar extends VerticalPanel {
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
   Profil user = ClientsideSettings.getCurrentUser();
-
+  
+  CustomPopupPanel pop = new CustomPopupPanel(false, true);
+  
   @Override
   protected void onLoad() {
-    RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#191818");
+    RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#b75d6b");
 
     if ((user != null) && user.isLoggedIn()) {
 
@@ -111,7 +115,10 @@ public class Navbar extends VerticalPanel {
 
     @Override
     public void onClick(ClickEvent event) {
-      
+      pop.load();
+      AllProfilesTable dgt = new AllProfilesTable();
+      RootPanel.get("main").clear();
+      RootPanel.get("main").add(dgt);
       pbVerwaltung.getProfilesByAehnlichkeitsmass(user, new ProfilesByAehnlichkeitsmassCallback());
     }
   }
@@ -119,9 +126,11 @@ public class Navbar extends VerticalPanel {
   private class ProfilesByAehnlichkeitsmassCallback implements AsyncCallback<ArrayList<Profil>> {
     @Override
     public void onSuccess(ArrayList<Profil> result) {
-      AllProfilesTable dgt = new AllProfilesTable(result);
+      AllProfilesTable dgt2 = new AllProfilesTable(result);
+      pop.stop();
       RootPanel.get("main").clear();
-      RootPanel.get("main").add(dgt);
+      RootPanel.get("main").add(dgt2);
+     
     }
 
     @Override

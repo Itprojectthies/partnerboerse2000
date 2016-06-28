@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.superteam2000.gwt.client.gui.BoxPanel;
+import de.superteam2000.gwt.client.gui.CustomPopupPanel;
 import de.superteam2000.gwt.client.gui.DataGridProfiles;
 import de.superteam2000.gwt.client.gui.Notification;
 import de.superteam2000.gwt.client.gui.ProfilAttributListbox;
@@ -32,7 +33,7 @@ import de.superteam2000.gwt.shared.bo.Suchprofil;
  *
  */
 public class Suche extends BasicFrame {
-
+  CustomPopupPanel pop = new CustomPopupPanel(false, true);
   ArrayList<Profil> profile = null;
   ArrayList<Suchprofil> suchProfilListe = null;
   ArrayList<Auswahl> auswahlListe = null;
@@ -236,7 +237,7 @@ public class Suche extends BasicFrame {
       public void onClick(ClickEvent event) {
         // RootPanel.get("main").clear();
         sp = Suche.this.createSP();
-
+        pop.load();
         ClientsideSettings.getPartnerboerseVerwaltung().getProfilesBySuchprofil(sp, user,
             new GetProfilesBySuchProfilCallback());
 
@@ -333,6 +334,7 @@ public class Suche extends BasicFrame {
     @Override
     public void onSuccess(ArrayList<Profil> result) {
       if (result != null) {
+        pop.stop();
         profile = result;
 
         DataGridProfiles dgp = new DataGridProfiles(profile);

@@ -66,6 +66,7 @@ public class ReportGen implements EntryPoint {
   FlowPanel menu = new FlowPanel();
   UnorderedListWidget menuList = new UnorderedListWidget();
   FlowPanel pureMenu = new FlowPanel();
+  
   CustomPopupPanel pop = new CustomPopupPanel(false, true);
 
   @Override
@@ -76,7 +77,7 @@ public class ReportGen implements EntryPoint {
     
     suchProfilListBox.setSize("11em", "8em");
 
-    RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#191818");
+    RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#b75d6b");
 
     Anchor anchor = new Anchor("PartnerBörse", GWT.getHostPageBaseURL() + "Superteam2000.html");
 
@@ -220,6 +221,7 @@ public class ReportGen implements EntryPoint {
   private class ProfileBySucheReportCallback implements AsyncCallback<AllProfilesBySucheReport> {
     @Override
     public void onSuccess(AllProfilesBySucheReport result) {
+      pop.stop();
       ReportGen.this.addProfileToRootPanel(result);
     }
 
@@ -330,6 +332,8 @@ public class ReportGen implements EntryPoint {
 
     @Override
     public void onClick(ClickEvent event) {
+      RootPanel.get("main").clear();
+      pop.load();
       reportGenerator.createSuchreportBySuchprofil(sp, p, new ProfileBySucheReportCallback());
     }
   }

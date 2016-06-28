@@ -7,21 +7,23 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import de.superteam2000.gwt.client.gui.CustomPopupPanel;
 import de.superteam2000.gwt.client.gui.DataGridProfiles;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 
 public class AllProfilesTable extends BasicFrame {
 
-
-
-  private ArrayList<Profil> profilListe;
+  CustomPopupPanel pop = new CustomPopupPanel(false, true);
+  
+  private ArrayList<Profil> profilListe = new ArrayList<Profil>();
 
   public AllProfilesTable(ArrayList<Profil> list) {
     profilListe = list;
+  }
+  public AllProfilesTable() {
   }
 
   public ArrayList<Profil> getProfilListe() {
@@ -63,18 +65,18 @@ public class AllProfilesTable extends BasicFrame {
     final Button profileAnzeigenButton = new Button("Alle");
     profileAnzeigenButton.setStyleName("pure-button");
 
-    FlowPanel fPanel = new FlowPanel();
+    FlowPanel contentPanel = new FlowPanel();
     FlowPanel fPanel2 = new FlowPanel();
     FlowPanel buttonsPanel = new FlowPanel();
 
-    fPanel.setStyleName("pure-form pure-form-aligned content");
+    contentPanel.setStyleName("pure-form pure-form-aligned content");
 
     buttonsPanel.add(profileAnzeigenButton);
     buttonsPanel.add(nichtBesuchteProfilAnzeigenButton);
     buttonsPanel.add(neueProfilAnzeigenButton);
 
-    fPanel.add(buttonsPanel);
-    fPanel2.add(fPanel);
+    contentPanel.add(buttonsPanel);
+    fPanel2.add(contentPanel);
     DataGridProfiles dgp = new DataGridProfiles(profilListe);
     dgp.addClickFremdProfil();
     fPanel2.add(dgp.start());
@@ -91,6 +93,7 @@ public class AllProfilesTable extends BasicFrame {
   private class AlleProfileClickHandler implements ClickHandler {
     @Override
     public void onClick(ClickEvent event) {
+      pop.load();
       pbVerwaltung.getProfilesByAehnlichkeitsmass(profil,
           new ProfileProfilesByAehnlichkeitsmassCallback());
     }
@@ -100,6 +103,7 @@ public class AllProfilesTable extends BasicFrame {
       implements AsyncCallback<ArrayList<Profil>> {
     @Override
     public void onSuccess(ArrayList<Profil> result) {
+      pop.stop();
       profilListe = result;
       AllProfilesTable dgt = new AllProfilesTable(result);
       RootPanel.get("main").clear();
@@ -114,6 +118,7 @@ public class AllProfilesTable extends BasicFrame {
 
     @Override
     public void onClick(ClickEvent event) {
+      pop.load();
       pbVerwaltung.getAllNotVisitedProfilesByAehnlichkeitsmass(profil,
           new AllNotVisitedProfilesByAehnlichkeitsmassCallback());
     }
@@ -123,6 +128,7 @@ public class AllProfilesTable extends BasicFrame {
       implements AsyncCallback<ArrayList<Profil>> {
     @Override
     public void onSuccess(ArrayList<Profil> result) {
+      pop.stop();
       AllProfilesTable dgt = new AllProfilesTable(result);
       RootPanel.get("main").clear();
       RootPanel.get("main").add(dgt);
@@ -136,6 +142,7 @@ public class AllProfilesTable extends BasicFrame {
 
     @Override
     public void onClick(ClickEvent event) {
+      pop.load();
       pbVerwaltung.getAllNewProfilesByAehnlichkeitsmass(profil,
           new AllNewProfilesByAehnlichkeitsmassCallback());
     }
@@ -144,6 +151,7 @@ public class AllProfilesTable extends BasicFrame {
       implements AsyncCallback<ArrayList<Profil>> {
     @Override
     public void onSuccess(ArrayList<Profil> result) {
+      pop.stop();
       AllProfilesTable dgt = new AllProfilesTable(result);
       RootPanel.get("main").clear();
       RootPanel.get("main").add(dgt);

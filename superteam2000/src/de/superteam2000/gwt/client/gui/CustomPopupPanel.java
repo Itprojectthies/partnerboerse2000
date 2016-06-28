@@ -14,7 +14,7 @@ public class CustomPopupPanel extends PopupPanel {
   public CustomPopupPanel(boolean autoHide, boolean isImage) {
     super(autoHide);
     int left = (Window.getClientWidth() - 100) ;
-    int top = (Window.getClientHeight() -  670) ;
+    int top = (Window.getClientHeight() -  600) ;
     this.setPopupPosition(left, top);
     if (isImage) {
       Image i = new Image("/img/heart.svg");
@@ -29,7 +29,7 @@ public class CustomPopupPanel extends PopupPanel {
   }
 
   public void load() {
-    t1.schedule(1000);
+    t1.schedule(500);
   }
   
   public void stop() {
