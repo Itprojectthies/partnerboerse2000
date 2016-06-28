@@ -3,7 +3,8 @@ package de.superteam2000.gwt.shared.report;
 import java.io.Serializable;
 
 /**
- * Report f�r das anzeigen eines Profils
+ * Report für das anzeigen eines Profils
+ * @author Funke
  */
 public class ProfilReport extends SimpleReport implements Serializable {
 

@@ -4,13 +4,9 @@ import java.io.Serializable;
 import java.util.Vector;
 
 /**
- * Zeile einer Tabelle eines <code>SimpleReport</code>-Objekts. <code>Row</code> -Objekte
- * implementieren das <code>Serializable</code>-Interface und können daher als Kopie z.B. vom Server
- * an den Client übertragen werden.
+ * Zeile einer Tabelle eines SimpleReport-Objekts. 
  *
- * @see SimpleReport
- * @see Column
- * @author Thies
+ * @author Thies, Volz, Funke
  */
 public class Row implements Serializable {
 
@@ -44,7 +40,7 @@ public class Row implements Serializable {
   /**
    * Auslesen sämtlicher Spalten.
    *
-   * @return <code>Vector</code>-Objekts mit sämtlichen Spalten
+   * @return Vector-Objekts mit sämtlichen Spalten
    */
   public Vector<Column> getColumns() {
     return columns;
@@ -62,7 +58,7 @@ public class Row implements Serializable {
   /**
    * Auslesen eines einzelnen Spalten-Objekts.
    *
-   * @param i der Index der auszulesenden Spalte (0 <= i < n), mit n = Anzahl der Spalten.
+   * @param i 
    * @return das gewünschte Spaltenobjekt.
    */
   public Column getColumnAt(int i) {

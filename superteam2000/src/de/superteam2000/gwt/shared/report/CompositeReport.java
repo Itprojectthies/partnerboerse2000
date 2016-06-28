@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Vector;
 
 /**
- * Ein zusammengesetzter Report. Dieser Report kann aus einer Menge von Teil-Reports (vgl. Attribut
- * <code>subReports</code>) bestehen.
+ * Ein zusammengesetzter Report. Dieser Report kann aus einer Menge von Teil-Reports
+ * @author Thies, Volz, Funke
  */
 public abstract class CompositeReport extends Report implements Serializable {
 
@@ -49,7 +49,7 @@ public abstract class CompositeReport extends Report implements Serializable {
   /**
    * Auslesen eines einzelnen Teil-Reports.
    *
-   * @param i Position des Teilreports. Bei n Elementen läuft der Index i von 0 bis n-1.
+   * @param i 
    *
    * @return Position des Teil-Reports.
    */
