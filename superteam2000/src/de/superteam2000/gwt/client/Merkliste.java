@@ -24,44 +24,60 @@ import de.superteam2000.gwt.shared.report.HTMLReportWriter;
 import de.superteam2000.gwt.shared.report.ProfilReport;
 
 /**
- * Diese Klasse ist zum Anzeigen sämtlicher vom Benutzer gemerkten Profile.
+ * Diese Klasse ist zum Anzeigen saemtlicher vom Benutzer gemerkten Profile.
  * 
+ * @param selected Hier wird das ausgewaehlte Profil gespeichert.
  * @author Christopher
  *
  */
 public class Merkliste extends BasicFrame {
 
-	// pb Verwaltung über ClientsideSettings holen
+	// pb Verwaltung ueber ClientsideSettings holen
 	PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
+	/**
+	 * Text ausgeben
+	 */
 	@Override
 	public String getHeadlineText() {
 
 		return "Von ihnen gemerkte Profile:";
 	}
 	
-	//Das ausgewählte Profil
 	private Profil selected = null;
 
 	ArrayList<Profil> profile = new ArrayList<>();
 
+	/**
+	 * Methoden f�r Merkzettel enthalten.
+	 */
 	@Override
 	public void run() {
 
-
-		// Merkliste abfragen und anzeigen
+		/**
+		 * Die Merkliste wird abfragt und anschliessend anzeigt
+		 */
 		pbVerwaltung.getMerkzettelForProfil(ClientsideSettings.getCurrentUser(), new AsyncCallback<Merkzettel>() {
 
+			/**
+			 * 
+			 * @param profile Hierin werden alle gemerkten Profile geschrieben.
+			 * @param profilEntfernenButton Mithilfe dieses Buttons kann der User ein gemerktes Profil entfernen.
+			 * @param profilAnzeigenButton Mit diesem Button kann der User ein gemerktes Profil anzeigen lassen.
+			 * @param table In dieser Tabelle werden sp�ter alle Profile hineingeschrieben.
+			 * @param selectionModel Damit soll die Auswahl der Userprofile gesteuert werden
+			 */
 			@Override
 			public void onSuccess(Merkzettel result) {
-
+				
 				profile = result.getGemerkteProfile();
 				
-				//Buttons erzeugen
 				final Button profilEntfernenButton = new Button("Profil entfernen");
 				final Button profilAnzeigenButton = new Button("Profil anzeigen");
 				
-				//Button hinzufügen
+				/**
+				 * Die zuvor erzeugten Buttons werden der Navigation hinzugefuegt.
+				 */
 				RootPanel.get("Details").add(profilEntfernenButton);
 				RootPanel.get("Details").add(profilAnzeigenButton);
 				
@@ -69,50 +85,73 @@ public class Merkliste extends BasicFrame {
 				DataGrid<Profil> table = new DataGrid<Profil>();
 				table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
+				/**
+				 * Vorname wird ausgelesen
+				 * @return Vorname
+				 */
 				TextColumn<Profil> vorname = new TextColumn<Profil>() {
 					@Override
 					public String getValue(Profil p) {
 						return p.getVorname();
 					}
 				};
+				
+				// Vorname wird Tabelle hinzugefuegt
 				table.addColumn(vorname, "Vorname");
 
+				/**
+				 * Nachname wird ausgelesen
+				 * @return Nachname
+				 */
 				TextColumn<Profil> nachname = new TextColumn<Profil>() {
 					@Override
 					public String getValue(Profil p) {
 						return p.getNachname();
 					}
 				};
+				// Nachname wird der Tabelle hinzugefuegt
 				table.addColumn(nachname, "Nachname");
 
+				/**
+				 * Alter wird ausgelesen
+				 * @return Alter
+				 */
 				TextColumn<Profil> alter = new TextColumn<Profil>() {
 					@Override
 					public String getValue(Profil p) {
 						return String.valueOf(p.getAlter());
 					}
 				};
+				// Alter wird der Tabelle hinzugefuegt
 				table.addColumn(alter, "Alter");
 
-				// Add a selection model to handle user selection.
 				final SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
 				table.setSelectionModel(selectionModel);
 				selectionModel.addSelectionChangeHandler(new Handler() {
 
+					/**
+					 * Mit dem selektierten fremden Profil moechte der User etwas machen.
+					 * @param selected ausgewaehltes Profil
+					 */
 					@Override
 					public void onSelectionChange(SelectionChangeEvent event) {
-						//ausgewähltes Profil setzen
+						//ausgewaehltes Profil setzen
 						selected = selectionModel.getSelectedObject();
 						
+						// Entfernen und Anzeigen Button dem ClickHandler hinzufuegen
 						profilEntfernenButton.addClickHandler(new EntfernenButtonClickhandler());
 						profilAnzeigenButton.addClickHandler(new ProfilAnzeigenButtonClickhandler());
 
 
 					}
 				});
+				
+				// Groesse der Tabelle wird festgelegt
 				table.setRowCount(profile.size(), true);
 				table.setRowData(0, profile);
 				table.setWidth("100%");
 
+				// Panel fuer die Tabelle wird generiert
 				LayoutPanel panel = new LayoutPanel();
 				panel.setSize("80em", "50em");
 				panel.add(table);
@@ -120,6 +159,9 @@ public class Merkliste extends BasicFrame {
 
 			}
 
+			/**
+			 * Ausgabe einer Fehlermeldung falls etwas schief ging
+			 */
 			@Override
 			public void onFailure(Throwable caught) {
 				
@@ -130,18 +172,31 @@ public class Merkliste extends BasicFrame {
 
 	}
 	/**
-	 * Clickhandler für den entfernenButton
-	 * ausgewähltes Element wird von der Liste entfernt (auch aus db)
+	 * Clickhandler fuer den entfernenButton von der Merkliste
+	 * ausgewaehltes Element wird von der Liste entfernt (auch aus DB)
 	 * @author Christopher
 	 *
 	 */
 	public class EntfernenButtonClickhandler implements ClickHandler {
+		
+		/**
+		 * Wenn Button gedrueckt wird
+		 * @param selected ausgewaehltes Profil
+		 */
 		@Override
 		public void onClick(ClickEvent event) {
 			if (selected != null) {
 				ClientsideSettings.getPartnerboerseVerwaltung().deleteMerken
+				
+				/**
+				 * Selektierter User soll entfernt werden
+				 */
 				(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
 					
+					/**
+					 * Profil wird von Merkliste entfernt, geaenderte Merkliste wird neu angezeigt.
+					 * @param m Profile der Merkliste werden gespeichert.
+					 */
 					@Override
 					public void onSuccess(Void result) {
 						RootPanel.get("Details").clear();
@@ -152,6 +207,9 @@ public class Merkliste extends BasicFrame {
 						
 					}
 					
+					/**
+					 * um Fehler abzufangen
+					 */
 					@Override
 					public void onFailure(Throwable caught) {
 						// TODO Auto-generated method stub
@@ -164,21 +222,32 @@ public class Merkliste extends BasicFrame {
 		}
 	}
 	/**
-	 * Clickhandler der das ausgewählte Profil anzeigt,
-	 *   und es als besucht markiert
+	 * Clickhandler der das ausgewaehlte Profil anzeigt und es als besucht markiert
 	 * @author Christopher
 	 *
 	 */
 	public class ProfilAnzeigenButtonClickhandler implements ClickHandler {
+		
+		/**
+		 * Wenn Button gedrueckt wird
+		 * @param selected selektiertes Userprofil der Merkliste
+		 */
 		@Override
 		public void onClick(ClickEvent event) {
 		if (selected != null) {
 
+			/**
+			 * Report des Profils erstellen um angezeigt zu werden
+			 */
 			ClientsideSettings.getReportGenerator().createProfilReport(selected, new AsyncCallback<ProfilReport>() {
 				
+				/**
+				 * @param fp enthaelt Daten und Informationen ueber anzuzeigendes Profil
+				 */
 				@Override
 				public void onSuccess(ProfilReport result) {
 					
+					// Anzeige wird gecleart und anschliessend neu angezeigt mit fremden Userprofil
 					RootPanel.get("Details").clear();
 					FremdProfil fp = new FremdProfil(selected);
 					RootPanel.get("Details").add(fp);
@@ -186,24 +255,29 @@ public class Merkliste extends BasicFrame {
 					//Profil als besucht setzen
 					pbVerwaltung.setVisited(ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
 						
+						/**
+						 * Ausgabe einer Meldung dass Profil als besucht gesetzt wurde
+						 */
 						@Override
 						public void onSuccess(Void result) {
 							ClientsideSettings.getLogger().info("User wurde als besucht markiert!");
 							
 						}
 						
+						/**
+						 * um Fehler abzufangen
+						 */
 						@Override
 						public void onFailure(Throwable caught) {
 							// TODO Auto-generated method stub
 							
 						}
 					});
-					
-					
-					
-					
 				}
 				
+				/**
+				 * um Fehler abzufangen
+				 */
 				@Override
 				public void onFailure(Throwable caught) {
 					// TODO Auto-generated method stub

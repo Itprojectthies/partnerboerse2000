@@ -13,16 +13,32 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-
+/**
+ * In dieser Klasse befinden sich alle Methode welche für den Login eines registrierten Users wichtig sind.
+ *
+ * @author 
+ *
+ */
 public class LogConsole {
 	private static DialogBox dialog;
 	
+	/**
+	 * In dieser Klasse wird der Login durchgeführt.
+	 * @param dialog ??
+	 * @param closeBtn Ein schliessen Button wird deklariert, das Aussehen wird festgesetzt und dem ClickHandler übergeben.
+	 * @return dialog ??
+	 */
 	public static DialogBox getDialogBox() {
 		if (dialog == null) {
 			dialog = new DialogBox();
 			dialog.setHTML("Log-Information<div style=\"float: right; cursor: pointer;\">x</div>");
 			Button closeBtn = new Button("x");
 			closeBtn.setStylePrimaryName("btn btn-link");
+			
+			/**
+			 * Der Button wird dem ClickHandler übergeben.
+			 * Wird der Button closeBtn vom User gedrückt, wird die Anzeige dialog entfernt.
+			 */
 			closeBtn.addClickHandler(new ClickHandler() {
 				
 				@Override
@@ -30,11 +46,15 @@ public class LogConsole {
 					dialog.hide();
 				}
 			});
-			
-			
-			
+						
+			/**
+			 * ??
+			 */
 			dialog.getCaption().addMouseDownHandler(new MouseDownHandler() {
 				
+				/**
+				 * 
+				 */
 				@Override
 				public void onMouseDown(MouseDownEvent event) {
 					dialog.hide();
@@ -55,8 +75,6 @@ public class LogConsole {
 			
 		
 			dialog.add(contentPane);
-			//dialog.setGlassEnabled(true);
-			//dialog.setAnimationEnabled(true);
 			dialog.center();
 			dialog.hide();
 			

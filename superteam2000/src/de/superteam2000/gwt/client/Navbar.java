@@ -14,20 +14,29 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.superteam2000.gwt.shared.bo.Profil;
 
+/**
+ * In dieser Klasse sind alle Methoden fuer die Navigationsbar enthalten.
+ * @param user aktuell eingeloggter User wird gespeichert
+ * @author 
+ *
+ */
 public class Navbar extends HorizontalPanel {
 	
+	/**
+	 * Beide Methoden werden durch eine Superklasse initialisiert und mit Inhalt versorgt.
+	 */
 	@Override
 	public void onLoad() {
-		/*
-		 * Bevor wir unsere eigene Formatierung veranslassen, überlassen wir es
+		/**
+		 * Bevor wir unsere eigene Formatierung veranslassen, ueberlassen wir es
 		 * der Superklasse eine Initialisierung vorzunehmen.
 		 */
 		super.onLoad();
 
-		/*
-		 * Wenn alles vorbereitet ist, stoßen wir die run()-Methode an. Auch
+		/**
+		 * Wenn alles vorbereitet ist, stossen wir die run()-Methode an. Auch
 		 * run() ist als abstrakte Methode bzw. als Einschubmethode realisiert.
-		 * Auch hier ist es Aufgabe der Subklassen, für deren Implementierung zu
+		 * Auch hier ist es Aufgabe der Subklassen, fuer deren Implementierung zu
 		 * sorgen.
 		 */
 		this.run();
@@ -35,48 +44,49 @@ public class Navbar extends HorizontalPanel {
 
 	Profil user = ClientsideSettings.getCurrentUser();
 
+	/**
+	 * ??
+	 * @param wi
+	 */
 	public void append(Widget wi) {
 		this.add(wi);
 	}
-
-	// this.setCellHorizontalAlignment(hp, ALIGN_RIGHT);
-	// hp.setHorizontalAlignment(ALIGN_RIGHT);
+	
+	/**
+	 * Navigationsbar zusammenstellen
+	 * @param logoutBtn Button fuer Logout des Users
+	 * @param profilBtn Profil des aktuellen Users anzeigen
+	 */
 	void run() {
 		
 		if (user != null && user.isLoggedIn()) {
 
 			Button logoutBtn = new Button("Logout");
-			// hp.add(logoutBtn);
 			logoutBtn.addClickHandler(new ClickHandler() {
 
+				/**
+				 * User wird ausgeloggt
+				 */
 				@Override
 				public void onClick(ClickEvent event) {
 					Window.open(user.getLogoutUrl(), "_self", "");
 				}
 			});
+			//Logout Button wird hinzugefuegt
 			append(logoutBtn);
 			
-//			Button logBtn = new Button("Logger");
-//			logBtn.addClickHandler(new ClickHandler() {
-//
-//				@Override
-//				public void onClick(ClickEvent event) {
-//					
-//					LogConsole.getDialogBox().show();
-//					
-//				}
-//			});
-//			append(logBtn);
-
+			
 			final Button profilBtn = new Button("Profil");
 			profilBtn.addClickHandler(new ClickHandler() {
 
+				/**
+				 * 
+				 * @param sp 
+				 */
 				@Override
 				public void onClick(ClickEvent event) {
 					
 					
-					
-
 					ShowProfil sp = new ShowProfil();
 					RootPanel.get("Details").clear();
 					RootPanel.get("Menu").clear();
