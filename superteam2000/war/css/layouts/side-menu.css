@@ -353,7 +353,6 @@ Hides the menu at `48em`, but modify this based on your app's needs.
 
     #layout {
         padding-left: 410px; /* left col width "#menu" */
-        left: 20px;
     }
     #menu {
         left: 700px;
@@ -379,7 +378,6 @@ Hides the menu at `48em`, but modify this based on your app's needs.
 
     #layout {
         padding-left: 410px; /* left col width "#menu" */
-        left: 20px;
     }
     #menu {
         left: 1200px;
