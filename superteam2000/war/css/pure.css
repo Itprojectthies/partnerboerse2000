@@ -16,6 +16,18 @@ Copyright (c) Nicolas Gallagher and Jonathan Neal
  *    user zoom.
  */
  
+ .pricing-tables,
+ .information {
+    max-width: 980px;
+    margin: 0 auto;
+ }
+ 
+.pricing-tables {
+    margin-bottom: 3.125em;
+    text-align: center;
+}
+
+ 
  .profil-attribute p {
  	display: inline-block;
     text-align: left;

@@ -10,16 +10,21 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
+import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
 import de.superteam2000.gwt.shared.bo.Info;
 import de.superteam2000.gwt.shared.bo.Profil;
 
 public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHandler {
-  Profil profil = ClientsideSettings.getCurrentUser();
-  SimpleCheckBox check1 = new SimpleCheckBox();
-  SimpleCheckBox check2 = new SimpleCheckBox();
+  Profil user = ClientsideSettings.getCurrentUser();
+  PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+
+  SimpleCheckBox check = new SimpleCheckBox();
+  
+
   int infoId = 0;
+
   Info i = new Info();
 
   /**
@@ -36,188 +41,166 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
     this.infoId = infoId;
   }
 
-  public EigenschaftPanel(Auswahl a) {
-    super(a);
-  }
-
-  public EigenschaftPanel(Beschreibung b) {
-    super(b);
-  }
-
-  public EigenschaftPanel(Auswahl a, String selectedItem, boolean isNameListbox) {
-    super(a, selectedItem, isNameListbox);
-    check1.setStyleName("pure-checkbox");
-  }
-
-  public EigenschaftPanel(Beschreibung b, String text, boolean isNameTextbox) {
-    super(b, text, isNameTextbox);
-  }
-
   public EigenschaftPanel(Beschreibung b, boolean isNameTextbox, ArrayList<Info> infoListe) {
     super(b, isNameTextbox);
-    this.add(check2);
-    check2.addClickHandler(this);
+    this.add(check);
+    check.addClickHandler(this);
 
     for (Info info : infoListe) {
       if (b.getId() == info.getEigenschaftId()) {
-        check2.setValue(true);
+        check.setValue(true);
+        i = info;
+        setInfoId(info.getId());
         setText(info.getText());
       }
     }
 
-    check2.setStyleName("pure-checkbox");
+    check.setStyleName("pure-checkbox");
   }
 
   public EigenschaftPanel(Auswahl a, boolean isNameListbox, ArrayList<Info> infoListe) {
     super(a, isNameListbox);
-    this.add(check1);
-    check1.addClickHandler(this);
+    this.add(check);
+    check.addClickHandler(this);
     profilAttributListBox.addChangeHandler(this);
 
     for (Info info : infoListe) {
       if (a.getId() == info.getEigenschaftId()) {
-        check1.setValue(true);
+        check.setValue(true);
         i = info;
         setInfoId(info.getId());
         setSelectedItem(info.getText());
       }
     }
 
-    check1.setStyleName("pure-checkbox");
+    check.setStyleName("pure-checkbox");
   }
 
-  public EigenschaftPanel(String text) {
-    super(text);
-  }
-
-  public EigenschaftPanel() {}
 
   @Override
   public void onClick(ClickEvent event) {
-    if (check1.getValue()) {
+
+    if (check.getValue() && auswahl != null) {
+      ClientsideSettings.getLogger().info("check 1 auswahl gespeichert" + auswahl.getName());
       saveAuswahlSelection();
 
-
-    } else if (check2.getValue()) {
-      saveBeschreibung();
-
-    } else {
-      try {
-        deleteAuswahlInfo();
-        ClientsideSettings.getLogger().info("Info " + i.getText());
-
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-      try {
-        deleteBeschreibungInfo();
-
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+    } else if (!check.getValue() && auswahl != null) {
+      deleteAuswahlInfo();
+      ClientsideSettings.getLogger().info("check 1 auswahl gelöscht" + auswahl.getName());
     }
+    if (check.getValue() && beschreibung != null) {
+      ClientsideSettings.getLogger().info("check 1 auswahl gespeichert" + beschreibung.getName());
+      saveBeschreibung();
+      
+    } else if (!check.getValue() && beschreibung != null) {
+      deleteBeschreibungInfo();
+      ClientsideSettings.getLogger().info("check 1 auswahl gelöscht" + beschreibung.getName());
+    }
+
+//    if (check.getValue()) {
+//      saveBeschreibung();
+//      ClientsideSettings.getLogger().info("check 2 beschreibung gespeichert" + beschreibung.getName());
+//    } else if (!check.getValue()) {
+//      deleteBeschreibungInfo();
+//      ClientsideSettings.getLogger().info("check 2 beschreibung gelöscht" + beschreibung.getName());
+//    }
+
+
+
   }
 
   private void deleteAuswahlInfo() {
 
-    ClientsideSettings.getPartnerboerseVerwaltung().getInfoById(getInfoId(),
-        new AsyncCallback<Info>() {
+    pbVerwaltung.getInfoById(getInfoId(), new AsyncCallback<Info>() {
+      @Override
+      public void onSuccess(Info result) {
+        new Notification("Auswahl " + result.getText() + " gelöscht", "success");
+        pbVerwaltung.delete(result, new AsyncCallback<Void>() {
+
           @Override
-          public void onSuccess(Info result) {
-            new Notification("Auswahl " + result.getText() + " gelöscht", "success");
-            ClientsideSettings.getLogger()
-                .info("name= " + result.getText() + " id= " + result.getId() + "gelöscht");
-            ClientsideSettings.getPartnerboerseVerwaltung().delete(result,
-                new AsyncCallback<Void>() {
+          public void onSuccess(Void result) {
 
-                  @Override
-                  public void onSuccess(Void result) {
-
-                    ClientsideSettings.getLogger().info("Auswahl Info gelöscht");
-                  }
-
-                  @Override
-                  public void onFailure(Throwable caught) {
-                    new Notification("Fehler beim Löschen der Eigenschaft", "error");
-                  }
-                });
+            ClientsideSettings.getLogger().info("Auswahl Info gelöscht");
           }
 
           @Override
           public void onFailure(Throwable caught) {
-            ClientsideSettings.getLogger().severe("Info nicht geholt");
-
+            new Notification("Fehler beim Löschen der Eigenschaft", "error");
           }
         });
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+        ClientsideSettings.getLogger().severe("Info nicht geholt");
+
+      }
+    });
   }
 
   private void deleteBeschreibungInfo() {
     profilAttributTextBox.setText("");
-    ClientsideSettings.getPartnerboerseVerwaltung().getInfoByEigenschaftsId(beschreibung.getId(),
+
+    pbVerwaltung.getInfoById(getInfoId(), new AsyncCallback<Info>() {
+
+      @Override
+      public void onSuccess(Info result) {
+        new Notification("Beschreibung " + result.getText() + " gelöscht", "success");
+        pbVerwaltung.delete(result, new AsyncCallback<Void>() {
+
+          @Override
+          public void onSuccess(Void result) {
+
+            ClientsideSettings.getLogger().info("beschreibungs Info gelöscht");
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            new Notification("Fehler beim Löschen der Eigenschaft", "error");
+          }
+        });
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+        ClientsideSettings.getLogger().severe("Info nicht geholt");
+
+      }
+    });
+  }
+
+  private void saveAuswahlSelection() {
+    pbVerwaltung.createInfoFor(user, auswahl, getSelectedItem(), new AsyncCallback<Info>() {
+
+      @Override
+      public void onSuccess(Info result) {
+        i = result;
+        EigenschaftPanel.this.setInfoId(result.getId());
+        result.setId(EigenschaftPanel.this.getInfoId());
+
+        new Notification("Auswahl " + result.getText() + " gespeichert", "success");
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+        ClientsideSettings.getLogger().info("Fehler Auswahl speichern");
+
+      }
+    });
+  }
+
+  private void saveBeschreibung() {
+    pbVerwaltung.createInfoFor(user, beschreibung, profilAttributTextBox.getText(),
         new AsyncCallback<Info>() {
 
           @Override
           public void onSuccess(Info result) {
-            new Notification("Beschreibung " + result.getText() + " gelöscht", "success");
-            ClientsideSettings.getPartnerboerseVerwaltung().delete(result,
-                new AsyncCallback<Void>() {
-
-                  @Override
-                  public void onSuccess(Void result) {
-
-                    ClientsideSettings.getLogger().info("beschreibungs Info gelöscht");
-                  }
-
-                  @Override
-                  public void onFailure(Throwable caught) {
-                    new Notification("Fehler beim Löschen der Eigenschaft", "error");
-                  }
-                });
-          }
-
-          @Override
-          public void onFailure(Throwable caught) {
-            ClientsideSettings.getLogger().severe("Info nicht geholt");
-
-          }
-        });
-  }
-
-  private void saveAuswahlSelection() {
-    ClientsideSettings.getPartnerboerseVerwaltung().createInfoFor(profil, auswahl,
-        getSelectedItem(), new AsyncCallback<Info>() {
-
-          @Override
-          public void onSuccess(Info result) {
-            i = result;
-            EigenschaftPanel.this.setInfoId(result.getId());
-            result.setId(EigenschaftPanel.this.getInfoId());
-            new Notification("Auswahl " + result.getText() + " gespeichert", "success");
-            ClientsideSettings.getLogger()
-                .info("name= " + result.getText() + " id= " + result.getId() + " erstellt");
-          }
-
-          @Override
-          public void onFailure(Throwable caught) {
-            ClientsideSettings.getLogger().info("neeeiinn auswahl");
-
-          }
-        });
-  }
-
-  private void saveBeschreibung() {
-    ClientsideSettings.getPartnerboerseVerwaltung().createInfoFor(profil, beschreibung,
-        profilAttributTextBox.getText(), new AsyncCallback<Info>() {
-
-          @Override
-          public void onSuccess(Info result) {
             new Notification("Beschreibung " + result.getText() + " gespeichert", "success");
-            ClientsideSettings.getLogger().info("juhu beschreibung");
           }
 
           @Override
           public void onFailure(Throwable caught) {
-            ClientsideSettings.getLogger().info("neeeiinn beschreibung");
+            ClientsideSettings.getLogger().info("Fehler Beschreibung speichern");
 
           }
         });
@@ -225,21 +208,17 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
 
   @Override
   public void onChange(ChangeEvent event) {
-    if (check1.getValue()) {
+    if (check.getValue()) {
       i.setText(getSelectedItem());
       new Notification("Eigenschaft auf " + i.getText() + " geändert!", "success");
 
-      ClientsideSettings.getPartnerboerseVerwaltung().save(i, new AsyncCallback<Void>() {
+      pbVerwaltung.save(i, new AsyncCallback<Void>() {
 
         @Override
-        public void onSuccess(Void result) {
-
-        }
+        public void onSuccess(Void result) {}
 
         @Override
-        public void onFailure(Throwable caught) {
-
-        }
+        public void onFailure(Throwable caught) {}
       });
     }
   }
