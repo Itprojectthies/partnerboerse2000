@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Vector;
 
 /**
- * Diese Klasse stellt eine Menge einzelner Absätze ( <code>SimpleParagraph</code>-Objekte) dar.
- * Diese werden als Unterabschnitte in einem <code>Vector</code> abgelegt verwaltet.
+ * Diese Klasse stellt eine Menge einzelner Absätze (SimpleParagraph-Objekte) dar.
+ * Diese werden als Unterabschnitte in einem Vector abgelegt verwaltet.
  *
  * @author Thies
  */
@@ -42,7 +42,7 @@ public class CompositeParagraph extends Paragraph implements Serializable {
   /**
    * Auslesen sämtlicher Unterabschnitte.
    *
-   * @return <code>Vector</code>, der sämtliche Unterabschnitte enthält.
+   * @return Vector, der sämtliche Unterabschnitte enthält.
    */
   public Vector<SimpleParagraph> getSubParagraphs() {
     return subParagraphs;
@@ -60,8 +60,7 @@ public class CompositeParagraph extends Paragraph implements Serializable {
   /**
    * Auslesen eines einzelnen Unterabschnitts.
    *
-   * @param i der Index des gewünschten Unterabschnitts (0 <= i <n), mit n = Anzahl der
-   *        Unterabschnitte.
+   * @param i 
    *
    * @return der gewünschte Unterabschnitt.
    */
@@ -70,29 +69,21 @@ public class CompositeParagraph extends Paragraph implements Serializable {
   }
 
   /**
-   * Umwandeln eines <code>CompositeParagraph</code> in einen <code>String</code>.
+   * Umwandeln eines CompositeParagraph in einen String.
    */
   @Override
   public String toString() {
-    /*
-     * Wir legen einen leeren Buffer an, in den wir sukzessive sämtliche String-Repräsentationen der
-     * Unterabschnitte eintragen.
-     */
+
     StringBuffer result = new StringBuffer();
 
-    // Schleife über alle Unterabschnitte
+
     for (int i = 0; i < subParagraphs.size(); i++) {
       SimpleParagraph p = subParagraphs.elementAt(i);
 
-      /*
-       * den jew. Unterabschnitt in einen String wandeln und an den Buffer hängen.
-       */
       result.append(p.toString() + "<br>");
     }
 
-    /*
-     * Schließlich wird der Buffer in einen String umgewandelt und zurückgegeben.
-     */
+
     return result.toString();
   }
 }

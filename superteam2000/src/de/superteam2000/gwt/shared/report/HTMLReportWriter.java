@@ -8,29 +8,28 @@ import com.google.gwt.user.client.ui.RootPanel;
 import de.superteam2000.gwt.client.ClientsideSettings;
 
 /**
- * Ein <code>ReportWriter</code>, der Reports mittels HTML formatiert. Das im Zielformat vorliegende
- * Ergebnis wird in der Variable <code>reportText</code> abgelegt und kann nach Aufruf der
- * entsprechenden Prozessierungsmethode mit <code>getReportText()</code> ausgelesen werden.
+ * Ein ReportWriter, der Reports mittels HTML formatiert. Das im Zielformat vorliegende
+ * Ergebnis wird in der Variable reportText abgelegt und kann nach Aufruf der
+ * entsprechenden Prozessierungsmethode mit getReportText() ausgelesen werden.
  *
- * @author Thies
+ * @author Thies, Volz, Funke
  */
 public class HTMLReportWriter extends ReportWriter {
 
   /**
-   * Diese Variable wird mit dem Ergebnis einer Umwandlung (vgl. <code>process...</code>-Methoden)
-   * belegt. Format: HTML-Text
+   * In dieser Variable wird der HTML Text gespeichert
    */
   private String reportText = "";
 
   /**
-   * Zurücksetzen der Variable <code>reportText</code>.
+   * Zurücksetzen der Variable reportText.
    */
   public void resetReportText() {
     reportText = "";
   }
 
   /**
-   * Umwandeln eines <code>Paragraph</code>-Objekts in HTML.
+   * Umwandeln eines Paragraph-Objekts in HTML.
    *
    * @param p der Paragraph
    * @return HTML-Text
@@ -44,7 +43,7 @@ public class HTMLReportWriter extends ReportWriter {
   }
 
   /**
-   * Umwandeln eines <code>CompositeParagraph</code>-Objekts in HTML.
+   * Umwandeln eines CompositeParagraph-Objekts in HTML.
    *
    * @param p der CompositeParagraph
    * @return HTML-Text
@@ -60,7 +59,7 @@ public class HTMLReportWriter extends ReportWriter {
   }
 
   /**
-   * Umwandeln eines <code>SimpleParagraph</code>-Objekts in HTML.
+   * Umwandeln eines SimpleParagraph-Objekts in HTML.
    *
    * @param p der SimpleParagraph
    * @return HTML-Text
@@ -91,117 +90,65 @@ public class HTMLReportWriter extends ReportWriter {
   }
 
   /**
-   * Prozessieren des übergebenen Reports und Ablage im Zielformat. Ein Auslesen des Ergebnisses
-   * kann später mittels <code>getReportText()</code> erfolgen.
+   * Prozessieren des übergebenen Reports und Ablage im Zielformat. 
    *
-   * @param r der zu prozessierende Report
+   * @param r der zu prozessierende AllNotVisitedProfileReport
    */
   @Override
   public void process(AllNotVisitedProfileReport r) {
-    // Zunächst löschen wir das Ergebnis vorhergehender Prozessierungen.
+
     resetReportText();
 
-    /*
-     * In diesen Buffer schreiben wir während der Prozessierung sukzessive unsere Ergebnisse.
-     */
     StringBuffer result = new StringBuffer();
 
-    /*
-     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports ausgelesen und in
-     * HTML-Form übersetzt.
-     */
     HTML titel = new HTML("<h1>" + r.getTitle() + "</h1>");
     titel.setStyleName("header");
     RootPanel.get("main").add(titel);
 
-    /*
-     * Da AllAccountsOfAllCustomersReport ein CompositeReport ist, enth�lt r eine Menge von
-     * Teil-Reports des Typs AllAccountsOfCustomerReport. F�r jeden dieser Teil-Reports rufen wir
-     * processAllAccountsOfCustomerReport auf. Das Ergebnis des jew. Aufrufs f�gen wir dem Buffer
-     * hinzu.
-     */
+
     for (int i = 0; i < r.getNumSubReports(); i++) {
-      /*
-       * AllAccountsOfCustomerReport wird als Typ der SubReports vorausgesetzt. Sollte dies in einer
-       * erweiterten Form des Projekts nicht mehr gelten, so m�sste hier eine detailliertere
-       * Implementierung erfolgen.
-       */
+
       ProfilReport subReport = (ProfilReport) r.getSubReportAt(i);
 
       this.process(subReport);
 
       result.append(reportText + "\n");
 
-      /*
-       * Nach jeder �bersetzung eines Teilreports und anschlie�endem Auslesen sollte die
-       * Ergebnisvariable zur�ckgesetzt werden.
-       */
+
       resetReportText();
     }
 
-    /*
-     * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und der reportText-Variable
-     * zugewiesen. Dadurch wird es m�glich, anschlie�end das Ergebnis mittels getReportText()
-     * auszulesen.
-     */
+
     reportText = result.toString();
   }
 
   /**
-   * Prozessieren des übergebenen Reports und Ablage im Zielformat. Ein Auslesen des Ergebnisses
-   * kann später mittels <code>getReportText()</code> erfolgen.
+   * Prozessieren des übergebenen Reports und Ablage im Zielformat. 
    *
-   * @param r der zu prozessierende Report
+   * @param r der zu prozessierende AllNewProfileReport
    */
   @Override
   public void process(AllNewProfileReport r) {
-    // Zunächst löschen wir das Ergebnis vorhergehender Prozessierungen.
+
     resetReportText();
 
-    /*
-     * In diesen Buffer schreiben wir während der Prozessierung sukzessive unsere Ergebnisse.
-     */
     StringBuffer result = new StringBuffer();
 
-    /*
-     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports ausgelesen und in
-     * HTML-Form übersetzt.
-     */
     HTML titel = new HTML("<h1>" + r.getTitle() + "</h1>");
     titel.setStyleName("header");
     RootPanel.get("main").add(titel);
 
-
-    /*
-     * Da AllAccountsOfAllCustomersReport ein CompositeReport ist, enth�lt r eine Menge von
-     * Teil-Reports des Typs AllAccountsOfCustomerReport. F�r jeden dieser Teil-Reports rufen wir
-     * processAllAccountsOfCustomerReport auf. Das Ergebnis des jew. Aufrufs f�gen wir dem Buffer
-     * hinzu.
-     */
     for (int i = 0; i < r.getNumSubReports(); i++) {
-      /*
-       * AllAccountsOfCustomerReport wird als Typ der SubReports vorausgesetzt. Sollte dies in einer
-       * erweiterten Form des Projekts nicht mehr gelten, so m�sste hier eine detailliertere
-       * Implementierung erfolgen.
-       */
+
       ProfilReport subReport = (ProfilReport) r.getSubReportAt(i);
 
       this.process(subReport);
 
       result.append(reportText + "\n");
 
-      /*
-       * Nach jeder �bersetzung eines Teilreports und anschlie�endem Auslesen sollte die
-       * Ergebnisvariable zur�ckgesetzt werden.
-       */
       resetReportText();
     }
 
-    /*
-     * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und der reportText-Variable
-     * zugewiesen. Dadurch wird es m�glich, anschlie�end das Ergebnis mittels getReportText()
-     * auszulesen.
-     */
     reportText = result.toString();
 
   }
@@ -214,20 +161,17 @@ public class HTMLReportWriter extends ReportWriter {
   public String getReportText() {
     return getHeader() + reportText + getTrailer();
   }
-
+  
+  /**
+   * Prozessieren des übergebenen Reports und Ablage im Zielformat. 
+   *
+   * @param r der zu prozessierende ProfilReport
+   */
   @Override
   public void process(ProfilReport r) {
     resetReportText();
 
-    /*
-     * In diesen Buffer schreiben wir während der Prozessierung sukzessive unsere Ergebnisse.
-     */
     StringBuffer result = new StringBuffer();
-
-    /*
-     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports ausgelesen und in
-     * HTML-Form übersetzt.
-     */
 
     result.append("<div class=\"container\">");
     result.append("<div class=\"avatar-flip\">");
@@ -267,88 +211,57 @@ public class HTMLReportWriter extends ReportWriter {
     result.append("</div>");
     result.append("</div>");
 
-    /*
-     * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und der reportText-Variable
-     * zugewiesen. Dadurch wird es möglich, anschließend das Ergebnis mittels getReportText()
-     * auszulesen.
-     */
+
     reportText = result.toString();
 
   }
 
+  /**
+   * Prozessieren des übergebenen Reports und Ablage im Zielformat. 
+   *
+   * @param r der zu prozessierende AllProfilesReport
+   */
 
   @Override
   public void process(AllProfilesReport r) {
-    // Zunächst löschen wir das Ergebnis vorhergehender Prozessierungen.
+
     resetReportText();
 
-    /*
-     * In diesen Buffer schreiben wir während der Prozessierung sukzessive unsere Ergebnisse.
-     */
     StringBuffer result = new StringBuffer();
 
-    /*
-     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports ausgelesen und in
-     * HTML-Form übersetzt.
-     */
     HTML titel = new HTML("<h1>" + r.getTitle() + "</h1>");
     titel.setStyleName("header");
     RootPanel.get("main").add(titel);
-    // result.append("<div class=\"header\">");
-    // result.append("<h1>" + r.getTitle() + "</h1>");
-    // result.append("</div>");
 
-    // result.append("<td>" + paragraph2HTML(r.getImprint()) + "</td>");
-    // result.append("</tr><tr><td></td><td>" + r.getCreated().toString() + "</td></tr></table>");
-
-    /*
-     * Da AllAccountsOfAllCustomersReport ein CompositeReport ist, enth�lt r eine Menge von
-     * Teil-Reports des Typs AllAccountsOfCustomerReport. F�r jeden dieser Teil-Reports rufen wir
-     * processAllAccountsOfCustomerReport auf. Das Ergebnis des jew. Aufrufs f�gen wir dem Buffer
-     * hinzu.
-     */
     for (int i = 0; i < r.getNumSubReports(); i++) {
-      /*
-       * AllAccountsOfCustomerReport wird als Typ der SubReports vorausgesetzt. Sollte dies in einer
-       * erweiterten Form des Projekts nicht mehr gelten, so m�sste hier eine detailliertere
-       * Implementierung erfolgen.
-       */
+
       ProfilReport subReport = (ProfilReport) r.getSubReportAt(i);
 
       this.process(subReport);
 
       result.append(reportText + "\n");
 
-      /*
-       * Nach jeder �bersetzung eines Teilreports und anschlie�endem Auslesen sollte die
-       * Ergebnisvariable zur�ckgesetzt werden.
-       */
       resetReportText();
     }
     result.append("</div>");
-    /*
-     * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und der reportText-Variable
-     * zugewiesen. Dadurch wird es m�glich, anschlie�end das Ergebnis mittels getReportText()
-     * auszulesen.
-     */
+
     reportText = result.toString();
 
   }
 
+  /**
+   * Prozessieren des übergebenen Reports und Ablage im Zielformat. 
+   *
+   * @param r der zu prozessierende AllProfilesBySucheReport
+   */
+
   @Override
   public void process(AllProfilesBySucheReport r) {
-    // Zun�chst l�schen wir das Ergebnis vorhergehender Prozessierungen.
+
     resetReportText();
 
-    /*
-     * In diesen Buffer schreiben wir w�hrend der Prozessierung sukzessive unsere Ergebnisse.
-     */
     StringBuffer result = new StringBuffer();
 
-    /*
-     * Nun werden Schritt f�r Schritt die einzelnen Bestandteile des Reports ausgelesen und in
-     * HTML-Form �bersetzt.
-     */
     HTML titel = new HTML("<h1>" + r.getTitle() + "</h1>");
     titel.setStyleName("header");
     RootPanel.get("main").add(titel);
@@ -359,29 +272,16 @@ public class HTMLReportWriter extends ReportWriter {
 
 
     for (int i = 0; i < r.getNumSubReports(); i++) {
-      /*
-       * AllAccountsOfCustomerReport wird als Typ der SubReports vorausgesetzt. Sollte dies in einer
-       * erweiterten Form des Projekts nicht mehr gelten, so m�sste hier eine detailliertere
-       * Implementierung erfolgen.
-       */
+
       ProfilReport subReport = (ProfilReport) r.getSubReportAt(i);
 
       this.process(subReport);
 
       result.append(reportText + "\n");
 
-      /*
-       * Nach jeder �bersetzung eines Teilreports und anschlie�endem Auslesen sollte die
-       * Ergebnisvariable zur�ckgesetzt werden.
-       */
       resetReportText();
     }
 
-    /*
-     * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und der reportText-Variable
-     * zugewiesen. Dadurch wird es m�glich, anschlie�end das Ergebnis mittels getReportText()
-     * auszulesen.
-     */
     reportText = result.toString();
 
   }

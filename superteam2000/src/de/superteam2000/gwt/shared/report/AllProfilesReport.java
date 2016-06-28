@@ -3,7 +3,9 @@ package de.superteam2000.gwt.shared.report;
 import java.io.Serializable;
 
 /**
- * Report f�r alle Profile (noch unsortiert)
+ * Report für das Ausgeben aller Profile
+ * @author Christopher
+ *
  */
 public class AllProfilesReport extends CompositeReport implements Serializable {
 

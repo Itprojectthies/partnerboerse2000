@@ -6,34 +6,24 @@ import java.util.Date;
 import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
- * <p>
  * Basisklasse aller Reports. Reports sind als <code>Serializable</code> deklariert, damit sie von
- * dem Server an den Client gesendet werden können. Der Zugriff auf Reports erfolgt also nach deren
- * Bereitstellung lokal auf dem Client.
- * </p>
- * <p>
+ * dem Server an den Client gesendet werden können.
+
  * Ein Report besitzt eine Reihe von Standardelementen. Sie werden mittels Attributen modelliert und
  * dort dokumentiert.
- * </p>
  *
  * @see Report
- * @author Thies
+ * @author Thies, Volz, Funke
  */
 public abstract class Report implements Serializable {
 
-  /**
-   *
-   */
+
   private static final long serialVersionUID = 1L;
 
 
   private Profil profil = null;
 
-  /**
-   * Ein kleines Impressum, das eine Art Briefkopf darstellt. Jedes Unternehmen einige Daten wie
-   * Firmenname, Adresse, Logo, etc. auf Geschäftsdokumenten ab. Dies gilt auch für die hier
-   * realisierten Reports.
-   */
+
   private Paragraph name = null;
 
   private CompositeParagraph attribute = null;
@@ -41,25 +31,24 @@ public abstract class Report implements Serializable {
 
 
   /**
-   * Kopfdaten des Berichts.
+   * ein Paragraph für die Ähnlichkeit
    */
   private Paragraph aehnlichkeit = null;
 
   /**
-   * Jeder Bericht kann einen individuellen Titel besitzen.
+   * Titel des Reports
    */
   private String title = "Report";
+  /**
+   * Unterüberschrift des Reports
+   */
   private String subtitle = "";
   /**
-   * Datum der Erstellung des Berichts.
+   * Datum der Erstellung des Reports
    */
   private Date created = new Date();
 
-  /**
-   * Auslesen des Impressums.
-   *
-   * @return Text des Impressums
-   */
+  
   public Paragraph getName() {
     return name;
   }
@@ -69,7 +58,7 @@ public abstract class Report implements Serializable {
   }
 
   /**
-   * Setzen des Impressums.
+   * Setzen der Profilattribute
    *
    * @param attribute Text des Impressums
    */
@@ -90,67 +79,69 @@ public abstract class Report implements Serializable {
   }
 
   /**
-   * Auslesen der Kopfdaten.
+   * Auslesen der Ähnlichkeit.
    *
-   * @return Text der Kopfdaten.
+   * @return Ähnlichkeit.
    */
   public Paragraph getAehnlichkeit() {
     return aehnlichkeit;
   }
 
   /**
-   * Setzen der Kopfdaten.
+   * Setzen der Ähnlichkeit.
    *
-   * @param aehnlichkeit Text der Kopfdaten.
+   * @param aehnlichkeit 
    */
   public void setAehnlichekit(Paragraph aehnlichkeit) {
     this.aehnlichkeit = aehnlichkeit;
   }
 
   /**
-   * Auslesen des Berichtstitels.
+   * Auslesen des Titels.
    *
    * @return Titeltext
    */
   public String getTitle() {
     return title;
   }
+  /**
+   * Setzen des Titels.
+   *
+   * @param title Titeltext
+   */
+  public void setTitle(String title) {
+	  this.title = title;
+  }
 
   /**
-   * Setzen des Berichtstitels.
+   * Setzen der Unterüberschrift.
    *
    * @param title Titeltext
    */
   public void setSubTitle(String subtitle) {
     this.subtitle = subtitle;
   }
-
+  /**
+   * Auslesen der Unterüberschrift
+   *
+   * @return Unterüberschrift
+   */
   public String getSubTitle() {
     return subtitle;
   }
 
-  /**
-   * Setzen des Berichtstitels.
-   *
-   * @param title Titeltext
-   */
-  public void setTitle(String title) {
-    this.title = title;
-  }
 
   /**
    * Auslesen des Erstellungsdatums.
    *
-   * @return Datum der Erstellung des Berichts
+   * @return Datum der Erstellung des Reports
    */
   public Date getCreated() {
     return created;
   }
 
   /**
-   * Setzen des Erstellungsdatums. <b>Hinweis:</b> Der Aufruf dieser Methoden ist nicht unbedingt
-   * erforderlich, da jeder Report bei seiner Erstellung automatisch den aktuellen Zeitpunkt
-   * festhält.
+   * Setzen des Erstellungsdatums.
    *
    * @param created Zeitpunkt der Erstellung
    */
@@ -158,10 +149,17 @@ public abstract class Report implements Serializable {
     this.created = created;
   }
 
+  /**
+   * gibt das gesetzte Profil zurück
+   * @return Profil
+   */
   public Profil getProfil() {
     return profil;
   }
-
+/**
+ * setzen des Profils
+ * @param profil
+ */
   public void setProfil(Profil profil) {
     this.profil = profil;
   }
