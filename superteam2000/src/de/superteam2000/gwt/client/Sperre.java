@@ -61,7 +61,7 @@ public class Sperre extends BasicFrame {
     profilEntfernenButton.setStyleName("pure-button");
 
     alignPanel.setStyleName("pure-form pure-form-aligned content");
-    contentPanel.setStyleName("content");
+//    contentPanel.setStyleName("content");
 
     alignPanel.add(profilEntfernenButton);
     contentPanel.add(alignPanel);

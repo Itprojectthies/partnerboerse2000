@@ -111,9 +111,6 @@ public class Suche extends BasicFrame {
 
     suchProfilListBox.setStyleName("search-box");
 
-    RootPanel.get("main").add(this);
-
-
     suchProfilListBox.addClickHandler(new SuchProfilListBoxClickHandler());
     sucheButton.addClickHandler(new SucheButtonClickHandler());
     suchprofilLöschenButton.addClickHandler(new SuchprofilLöschenButtonClickHandler());
