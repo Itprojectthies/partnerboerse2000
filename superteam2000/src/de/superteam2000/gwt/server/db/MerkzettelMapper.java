@@ -9,147 +9,148 @@ import java.util.ArrayList;
 import de.superteam2000.gwt.shared.bo.Merkzettel;
 import de.superteam2000.gwt.shared.bo.Profil;
 
-	/**
-	 * Klasse, die die Aufgabe erfüllt, die Objekte einer persistenten Klasse auf die Datenbank abzubilden und dort zu speichern.
-	 * Die zu speichernden Objekte werden dematerialisiert und zu gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird
-	 * als indirektes Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende Methoden zur Suche, zum Speichern, Löschen und 
- 	 * Modifizieren von Objekten. 
-	 * @see AehnlichkeitsMapper
-	 * @see AuswahlMapper
-	 * @see BeschreibungMapper
-	 * @see DBConnection
-	 * @see InfoMapper
-	 * @see KontaktsperreMapper
-	 * @see ProfilMapper
-	 * @see SuchprofilMapper
-	 * @author 
-	 */
+/**
+ * Klasse, die die Aufgabe erfï¿½llt, die Objekte einer persistenten Klasse auf die Datenbank
+ * abzubilden und dort zu speichern. Die zu speichernden Objekte werden dematerialisiert und zu
+ * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
+ * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
+ * Methoden zur Suche, zum Speichern, Lï¿½schen und Modifizieren von Objekten.
+ *
+ * @see AehnlichkeitsMapper
+ * @see AuswahlMapper
+ * @see BeschreibungMapper
+ * @see DBConnection
+ * @see InfoMapper
+ * @see KontaktsperreMapper
+ * @see ProfilMapper
+ * @see SuchprofilMapper
+ * @author
+ */
 
 
 public class MerkzettelMapper {
 
-	/**
-	 * Von der Klasse MerkzettelMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die Singleton-Eigenschaft.
-	 * Dies geschieht mittels eines private default-Konstruktors und genau einer statischen Variablen vom 
-	 * Typ MerkzettelMapper, die die einzige Instanz der Klasse darstellt.
-	 * 
-	 */
-	private static MerkzettelMapper merkzettelMapper = null;
+  /**
+   * Von der Klasse MerkzettelMapper kann nur eine Instanz erzeugt werden. Sie erfï¿½llt die
+   * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
+   * einer statischen Variablen vom Typ MerkzettelMapper, die die einzige Instanz der Klasse
+   * darstellt.
+   *
+   */
+  private static MerkzettelMapper merkzettelMapper = null;
 
 
-	/**
-	 * Durch den Modifier "private" geschützter Konstruktor, der verhindert das weiter Instanzen der Klasse erzeugt werden können
-	 *  
-	 */
-	protected MerkzettelMapper() {
-	}
+  /**
+   * Durch den Modifier "private" geschï¿½tzter Konstruktor, der verhindert das weiter Instanzen der
+   * Klasse erzeugt werden kï¿½nnen
+   *
+   */
+  protected MerkzettelMapper() {}
 
-	/**
-	 * Von der Klasse MerkzettelMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die Singleton-Eigenschaft.
-	 * Dies geschieht mittels eines private default-Konstruktors und genau einer statischen Variablen vom 
-	 * Typ MerkzettelMapper, die die einzige Instanz der Klasse darstellt.
-	 */
-	
-	public static MerkzettelMapper merkzettelMapper() {
-		if (merkzettelMapper == null) {
-			merkzettelMapper = new MerkzettelMapper();
-		}
+  /**
+   * Von der Klasse MerkzettelMapper kann nur eine Instanz erzeugt werden. Sie erfï¿½llt die
+   * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
+   * einer statischen Variablen vom Typ MerkzettelMapper, die die einzige Instanz der Klasse
+   * darstellt.
+   */
 
-		return merkzettelMapper;
-	}
+  public static MerkzettelMapper merkzettelMapper() {
+    if (merkzettelMapper == null) {
+      merkzettelMapper = new MerkzettelMapper();
+    }
 
-
-
-	/**
-	 * Auslesen aller Merkzetteleintäge aus der Datenbank für ein Profil.
-	 *
-	 * @param p  - Profil p
-	 * @return Merkzettel des Profils
-	 * 
-	 */
-	
-	
-	public Merkzettel findAllForProfil(Profil p) {
-		Connection con = DBConnection.connection();
-		// Ergebnisvektor vorbereiten
-		Merkzettel result = new Merkzettel();
-		ArrayList<Profil> profile = new ArrayList<>();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery("SELECT Gemerkter_id "
-					+ "FROM Merkzettel WHERE Merker_id=" + p.getId());
-			result.setMerkerId(p.getId());
-
-			// Für jeden Eintrag im Suchergebnis wird nun ein Merkzettel-Objekt
-			// erstellt.
-			while (rs.next()) {
-				Profil profil = ProfilMapper.profilMapper().findByKey(rs.getInt("Gemerkter_id"));
-				profile.add(profil);
-				
-			}
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		//Profilliste in Merkzettel schreiben
-		result.setGemerkteProfile(profile);
-		
-		// Ergebnis zurÃ¼ckgeben
-		return result;
-	}
-
-
-	/**
-	 * Einfügen eines Merkzettel-Objekts in die Datenbank. 
-	 * @param m das zu speichernde Objekt 
-	 * 
-	 */
-	public void insertMerkenForProfil(Profil merker, Profil gemerkter) {
-
-		Connection con = DBConnection.connection();
-		try {
-			Statement stmt = con.createStatement();
-			// Jetzt erst erfolgt die tatsÃ¤chliche EinfÃ¼geoperation
-
-			stmt.execute("INSERT INTO Merkzettel(Gemerkter_id, Merker_id)" 
-			+ "VALUES ("+gemerkter.getId()+"," + merker.getId()+  ")");
-			Merkzettel m = new Merkzettel();
-
-			m.setMerkerId(merker.getId());
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		
-	}
+    return merkzettelMapper;
+  }
 
 
 
-	/**
-	 * Löschen der Daten eines Merkzettel-Eintrags aus der
-	 Datenbank.
-	 *
-	 * @param zwei Profile, der zu löschende und der "löschende"
-	 */
-	public void deleteMerkenFor(Profil entferner, Profil entfernter) {
-		Connection con = DBConnection.connection();
-		
-		
+  /**
+   * Auslesen aller Merkzetteleintï¿½ge aus der Datenbank fï¿½r ein Profil.
+   *
+   * @param p - Profil p
+   * @return Merkzettel des Profils
+   *
+   */
 
-		try {
-			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM Merkzettel WHERE Merker_id=" +
-			entferner.getId()+ " AND Gemerkter_id=" + entfernter.getId());
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+  public Merkzettel findAllForProfil(Profil p) {
+    Connection con = DBConnection.connection();
+    // Ergebnisvektor vorbereiten
+    Merkzettel result = new Merkzettel();
+    ArrayList<Profil> profile = new ArrayList<Profil>();
+
+    try {
+      Statement stmt = con.createStatement();
+
+      ResultSet rs = stmt
+          .executeQuery("SELECT Gemerkter_id " + "FROM Merkzettel WHERE Merker_id=" + p.getId());
+      result.setMerkerId(p.getId());
+
+      // Fï¿½r jeden Eintrag im Suchergebnis wird nun ein Merkzettel-Objekt
+      // erstellt.
+      while (rs.next()) {
+        Profil profil = ProfilMapper.profilMapper().findByKey(rs.getInt("Gemerkter_id"));
+        profile.add(profil);
+
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Profilliste in Merkzettel schreiben
+    result.setGemerkteProfile(profile);
+
+    // Ergebnis zurÃ¼ckgeben
+    return result;
+  }
+
+
+  /**
+   * Einfï¿½gen eines Merkzettel-Objekts in die Datenbank.
+   *
+   * @param m das zu speichernde Objekt
+   *
+   */
+  public void insertMerkenForProfil(Profil merker, Profil gemerkter) {
+
+    Connection con = DBConnection.connection();
+    try {
+      Statement stmt = con.createStatement();
+      // Jetzt erst erfolgt die tatsÃ¤chliche EinfÃ¼geoperation
+
+      stmt.execute("INSERT INTO Merkzettel(Gemerkter_id, Merker_id)" + "VALUES ("
+          + gemerkter.getId() + "," + merker.getId() + ")");
+      Merkzettel m = new Merkzettel();
+
+      m.setMerkerId(merker.getId());
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+
+  }
+
+
+
+  /**
+   * Lï¿½schen der Daten eines Merkzettel-Eintrags aus der Datenbank.
+   *
+   * @param zwei Profile, der zu lï¿½schende und der "lï¿½schende"
+   */
+  public void deleteMerkenFor(Profil entferner, Profil entfernter) {
+    Connection con = DBConnection.connection();
+
+
+
+    try {
+      Statement stmt = con.createStatement();
+
+      stmt.executeUpdate("DELETE FROM Merkzettel WHERE Merker_id=" + entferner.getId()
+          + " AND Gemerkter_id=" + entfernter.getId());
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 
 
 

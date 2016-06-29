@@ -2,240 +2,100 @@ package de.superteam2000.gwt.client;
 
 import java.util.ArrayList;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import org.apache.bcel.generic.POP;
 
-import de.superteam2000.gwt.client.gui.ProfilAttributeBoxPanel;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.RootPanel;
+
+import de.superteam2000.gwt.client.gui.CustomPopupPanel;
+import de.superteam2000.gwt.client.gui.EigenschaftPanel;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
 import de.superteam2000.gwt.shared.bo.Info;
 import de.superteam2000.gwt.shared.bo.Profil;
 
+/**
+ * Klasse zum Anzeigen, Hinzufügen und Löschen von Eigenschaften
+ *
+ * @author Volz Daniel
+ */
+
 public class Eigenschaft extends BasicFrame {
+  /*
+   * Alle notwendigen Instanzvariablen werden deklariert
+   */
 
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
-  Profil currentProfil = ClientsideSettings.getCurrentUser();
 
-  int rowCounter1 = 0;
-  int rowCounter2 = 0;
-  CheckBox checkBox1 = new CheckBox();
-  FlexTable flexTableAuswahl = null;
-  FlexTable flexTableBeschreibung = null;
-  ArrayList<Info> infoListe;
+  Profil profil = ClientsideSettings.getCurrentUser();
+
+  ArrayList<Info> infoListe = new ArrayList<Info>();
+
+  FlowPanel alignPanel = new FlowPanel();
+  FlowPanel contentPanel = new FlowPanel();
+
 
   @Override
   protected String getHeadlineText() {
-    // TODO Auto-generated method stub
     return "Eigenschaften";
   }
 
   @Override
+  protected String getSubHeadlineText() {
+    return "Was passt zu Dir?";
+  }
+
+  CustomPopupPanel pop = new CustomPopupPanel(false, true);
+
+  @Override
   protected void run() {
-    pbVerwaltung.getInfoByProfile(currentProfil, new AsyncCallback<ArrayList<Info>>() {
+    
+    pop.load();
+    
+    alignPanel.setStyleName("pure-form pure-form-aligned");
+    contentPanel.setStyleName("content");
 
-      @Override
-      public void onSuccess(ArrayList<Info> result) {
-        infoListe = result;
-
-      }
-
-      @Override
-      public void onFailure(Throwable caught) {
-        // TODO Auto-generated method stub
-
-      }
-    });
-
-    // Create a Flex Table
-    flexTableAuswahl = new FlexTable();
-    // FlexCellFormatter cellFormatter = flexTable.getFlexCellFormatter();
-    flexTableAuswahl.addStyleName("flexTable");
-    flexTableAuswahl.setWidth("40em");
-    flexTableAuswahl.setCellSpacing(5);
-    flexTableAuswahl.setCellPadding(10);
-
-    // Create a Flex Table
-    flexTableBeschreibung = new FlexTable();
-    // FlexCellFormatter cellFormatter = flexTable.getFlexCellFormatter();
-    flexTableBeschreibung.addStyleName("flexTable2");
-    flexTableBeschreibung.setWidth("40em");
-    flexTableBeschreibung.setCellSpacing(5);
-    flexTableBeschreibung.setCellPadding(10);
-
-
-    // Add some text
-    // cellFormatter.setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_LEFT);
-    // cellFormatter.setColSpan(0, 0, 3);
-
-    VerticalPanel buttonPanel = new VerticalPanel();
-    buttonPanel.setStyleName("flexTable-buttonPanel");
-    // cellFormatter.setVerticalAlignment(0, 2, HasVerticalAlignment.ALIGN_MIDDLE);
-    Button addInfo = new Button("Speichern");
-    addInfo.addClickHandler(new ClickHandler() {
-
-      @Override
-      public void onClick(ClickEvent event) {
-        for (int i = 0, n = flexTableAuswahl.getRowCount(); i < n; i++) {
-          CheckBox box = (CheckBox) flexTableAuswahl.getWidget(i, 0);
-          if (box.getValue()) {
-            Auswahl a = ((ProfilAttributeBoxPanel) flexTableAuswahl.getWidget(i, 2)).getAuswahl();
-            String text =
-                ((ProfilAttributeBoxPanel) flexTableAuswahl.getWidget(i, 2)).getSelectedItem();
-
-            pbVerwaltung.createInfoFor(currentProfil, a, text, new AsyncCallback<Info>() {
-
-              @Override
-              public void onSuccess(Info result) {
-                ClientsideSettings.getLogger().info("Info erstellt");
-
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-                ClientsideSettings.getLogger().info("Info nicht erstellt");
-              }
-            });
-            ClientsideSettings.getLogger()
-                .info("CheckBox is "
-                    + ((ProfilAttributeBoxPanel) flexTableAuswahl.getWidget(i, 2)).getSelectedItem()
-                    + " checked");
-          } else {
-            Auswahl a = ((ProfilAttributeBoxPanel) flexTableAuswahl.getWidget(i, 2)).getAuswahl();
-            pbVerwaltung.getInfoByEigenschaftsId(a.getId(), new AsyncCallback<Info>() {
-
-              @Override
-              public void onSuccess(Info result) {
-                pbVerwaltung.delete(result, new AsyncCallback<Void>() {
-
-                  @Override
-                  public void onSuccess(Void result) {
-                    ClientsideSettings.getLogger().info("Info gelöscht");
-                  }
-
-                  @Override
-                  public void onFailure(Throwable caught) {
-                    ClientsideSettings.getLogger().severe("Fehler bei Info löschen");
-                  }
-                });
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-                ClientsideSettings.getLogger().severe("Info nicht geholt");
-
-              }
-            });
-
-          }
-        }
-
-        for (int i = 0, n = flexTableBeschreibung.getRowCount(); i < n; i++) {
-          CheckBox box = (CheckBox) flexTableBeschreibung.getWidget(i, 0);
-          if (box.getValue()) {
-            Beschreibung b =
-                ((ProfilAttributeBoxPanel) flexTableBeschreibung.getWidget(i, 2)).getBeschreibung();
-            String text =
-                ((ProfilAttributeBoxPanel) flexTableBeschreibung.getWidget(i, 2)).getText();
-
-            pbVerwaltung.createInfoFor(currentProfil, b, text, new AsyncCallback<Info>() {
-
-              @Override
-              public void onSuccess(Info result) {
-                ClientsideSettings.getLogger().info("Info erstellt");
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-                ClientsideSettings.getLogger().info("Info nicht erstellt");
-              }
-            });
-            ClientsideSettings.getLogger()
-                .info("CheckBox is "
-                    + ((ProfilAttributeBoxPanel) flexTableBeschreibung.getWidget(i, 2)).getText()
-                    + " checked");
-
-          } else {
-            Beschreibung b =
-                ((ProfilAttributeBoxPanel) flexTableBeschreibung.getWidget(i, 2)).getBeschreibung();
-            pbVerwaltung.getInfoByEigenschaftsId(b.getId(), new AsyncCallback<Info>() {
-
-              @Override
-              public void onSuccess(Info result) {
-                pbVerwaltung.delete(result, new AsyncCallback<Void>() {
-
-                  @Override
-                  public void onSuccess(Void result) {
-                    ClientsideSettings.getLogger().info("Info gelöscht");
-                  }
-
-                  @Override
-                  public void onFailure(Throwable caught) {
-                    ClientsideSettings.getLogger().severe("Fehler bei Info löschen");
-                  }
-                });
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-                ClientsideSettings.getLogger().severe("Info nicht geholt");
-
-              }
-            });
-
-          }
-        }
-
-      }
-    });
-
-    RootPanel.get("Details").add(flexTableAuswahl);
-    RootPanel.get("Details").add(flexTableBeschreibung);
-    RootPanel.get("Details").add(addInfo);
+    contentPanel.add(alignPanel);
+    RootPanel.get("main").add(contentPanel);
+    
+    
+    pbVerwaltung.getInfoByProfile(profil, new InfoByProfileCallback());
 
     pbVerwaltung.getAllAuswahl(new AuswahlCallback());
 
 
   }
 
-  class AuswahlCallback implements AsyncCallback<ArrayList<Auswahl>> {
+  private class InfoByProfileCallback implements AsyncCallback<ArrayList<Info>> {
+    @Override
+    public void onSuccess(ArrayList<Info> result) {
+      infoListe = result;
+    }
 
+    @Override
+    public void onFailure(Throwable caught) {}
+  }
+
+  class AuswahlCallback implements AsyncCallback<ArrayList<Auswahl>> {
+    
     @Override
     public void onFailure(Throwable caught) {}
 
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
+      pop.stop();
       if (result != null) {
         for (Auswahl a : result) {
+
           // Befülle die Zeilen der Tabelle mit Auswahlobjektinformationen und der Checkbox
-          CheckBox checkBox1 = new CheckBox();
-          ProfilAttributeBoxPanel pabp = new ProfilAttributeBoxPanel(a);
-          flexTableAuswahl.setWidget(rowCounter1, 0, checkBox1);
-          flexTableAuswahl.setText(rowCounter1, 1, a.getBeschreibungstext());
-          flexTableAuswahl.setWidget(rowCounter1, 2, pabp);
-          rowCounter1++;
-
-
-
-          for (int i = 0, n = flexTableAuswahl.getRowCount(); i < n; i++) {
-            CheckBox box = (CheckBox) flexTableAuswahl.getWidget(i, 0);
-            Auswahl a1 = ((ProfilAttributeBoxPanel) flexTableAuswahl.getWidget(i, 2)).getAuswahl();
-            int auswahlId = a1.getId();
-            for (Info info : infoListe) {
-              if (auswahlId == info.getEigenschaftId()) {
-                box.setValue(true);
-                ((ProfilAttributeBoxPanel) flexTableAuswahl.getWidget(i, 2))
-                    .setSelectedItem(info.getText());
-              }
-            }
-          }
-
+          EigenschaftPanel ePanel = new EigenschaftPanel(a, false, infoListe);
+          alignPanel.add(ePanel);
         }
         pbVerwaltung.getAllBeschreibung(new BeschreibungCallback());
       } else {
@@ -247,39 +107,14 @@ public class Eigenschaft extends BasicFrame {
   class BeschreibungCallback implements AsyncCallback<ArrayList<Beschreibung>> {
 
     @Override
-    public void onFailure(Throwable caught) {
-      // TODO Auto-generated method stub
-
-    }
+    public void onFailure(Throwable caught) {}
 
     @Override
     public void onSuccess(ArrayList<Beschreibung> result) {
       if (result != null) {
         for (Beschreibung b : result) {
-          CheckBox checkBox1 = new CheckBox();
-          ProfilAttributeBoxPanel pabp = new ProfilAttributeBoxPanel(b);
-          flexTableBeschreibung.setWidget(rowCounter2, 0, checkBox1);
-          flexTableBeschreibung.setText(rowCounter2, 1, b.getBeschreibungstext());
-          flexTableBeschreibung.setWidget(rowCounter2, 2, pabp);
-          rowCounter2++;
-
-
-
-          for (int i = 0, n = flexTableBeschreibung.getRowCount(); i < n; i++) {
-            CheckBox box = (CheckBox) flexTableBeschreibung.getWidget(i, 0);
-            Beschreibung b1 =
-                ((ProfilAttributeBoxPanel) flexTableBeschreibung.getWidget(i, 2)).getBeschreibung();
-            int beschreibungId = b1.getId();
-            for (Info info : infoListe) {
-              if (beschreibungId == info.getEigenschaftId()) {
-                box.setValue(true);
-                ClientsideSettings.getLogger().info("was ist hier los?" + info.getText());
-                ((ProfilAttributeBoxPanel) flexTableBeschreibung.getWidget(i, 2))
-                    .setText(info.getText());
-              }
-            }
-          }
-
+          EigenschaftPanel ePanel = new EigenschaftPanel(b, false, infoListe);
+          alignPanel.add(ePanel);
         }
 
       } else {

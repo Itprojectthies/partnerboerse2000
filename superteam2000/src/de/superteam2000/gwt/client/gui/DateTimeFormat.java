@@ -7,20 +7,17 @@ import java.util.Map;
 
 /*
  * Copyright 2008 Google Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 
 import com.google.gwt.core.shared.impl.StringCase;
 import com.google.gwt.i18n.shared.DateTimeFormatInfo;
@@ -30,9 +27,9 @@ import com.google.gwt.i18n.shared.impl.DateRecord;
 
 /**
  * Formats and parses dates and times using locale-sensitive patterns.
- * 
+ *
  * <h3>Patterns</h3>
- * 
+ *
  * <table>
  * <tr>
  * <th>Symbol</th>
@@ -40,140 +37,140 @@ import com.google.gwt.i18n.shared.impl.DateRecord;
  * <th>Presentation</th>
  * <th>Example</th>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>G</code></td>
  * <td>era designator</td>
  * <td>Text</td>
  * <td><code>AD</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>y</code></td>
  * <td>year</td>
  * <td>Number</td>
  * <td><code>1996</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>L</code></td>
  * <td>standalone month in year</td>
  * <td>Text or Number</td>
  * <td><code>July (or) 07</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>M</code></td>
  * <td>month in year</td>
  * <td>Text or Number</td>
  * <td><code>July (or) 07</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>d</code></td>
  * <td>day in month</td>
  * <td>Number</td>
  * <td><code>10</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>h</code></td>
  * <td>hour in am/pm (1-12)</td>
  * <td>Number</td>
  * <td><code>12</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>H</code></td>
  * <td>hour in day (0-23)</td>
  * <td>Number</td>
  * <td><code>0</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>m</code></td>
  * <td>minute in hour</td>
  * <td>Number</td>
  * <td><code>30</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>s</code></td>
  * <td>second in minute</td>
  * <td>Number</td>
  * <td><code>55</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>S</code></td>
  * <td>fractional second</td>
  * <td>Number</td>
  * <td><code>978</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>E</code></td>
  * <td>day of week</td>
  * <td>Text</td>
  * <td><code>Tuesday</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>c</code></td>
  * <td>standalone day of week</td>
  * <td>Text</td>
  * <td><code>Tuesday</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>a</code></td>
  * <td>am/pm marker</td>
  * <td>Text</td>
  * <td><code>PM</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>k</code></td>
  * <td>hour in day (1-24)</td>
  * <td>Number</td>
  * <td><code>24</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>K</code></td>
  * <td>hour in am/pm (0-11)</td>
  * <td>Number</td>
  * <td><code>0</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>z</code></td>
  * <td>time zone</td>
  * <td>Text</td>
  * <td><code>Pacific Standard Time(see comment)</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>Z</code></td>
  * <td>time zone (RFC 822)</td>
  * <td>Text</td>
  * <td><code>-0800(See comment)</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>v</code></td>
  * <td>time zone id</td>
  * <td>Text</td>
  * <td><code>America/Los_Angeles(See comment)</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>'</code></td>
  * <td>escape for text</td>
  * <td>Delimiter</td>
  * <td><code>'Date='</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>''</code></td>
  * <td>single quote</td>
@@ -181,57 +178,52 @@ import com.google.gwt.i18n.shared.impl.DateRecord;
  * <td><code>'o''clock'</code></td>
  * </tr>
  * </table>
- * 
+ *
  * <p>
  * The number of pattern letters influences the format, as follows:
  * </p>
- * 
+ *
  * <dl>
  * <dt>Text</dt>
- * <dd>if 4 or more, then use the full form; if less than 4, use short or
- * abbreviated form if it exists (e.g., <code>"EEEE"</code> produces
- * <code>"Monday"</code>, <code>"EEE"</code> produces <code>"Mon"</code>)</dd>
- * 
+ * <dd>if 4 or more, then use the full form; if less than 4, use short or abbreviated form if it
+ * exists (e.g., <code>"EEEE"</code> produces <code>"Monday"</code>, <code>"EEE"</code> produces
+ * <code>"Mon"</code>)</dd>
+ *
  * <dt>Number</dt>
- * <dd>the minimum number of digits. Shorter numbers are zero-padded to this
- * amount (e.g. if <code>"m"</code> produces <code>"6"</code>, <code>"mm"</code>
- * produces <code>"06"</code>). Year is handled specially; that is, if the count
- * of 'y' is 2, the Year will be truncated to 2 digits. (e.g., if
- * <code>"yyyy"</code> produces <code>"1997"</code>, <code>"yy"</code> produces
- * <code>"97"</code>.) Unlike other fields, fractional seconds are padded on the
- * right with zero.</dd>
- * 
+ * <dd>the minimum number of digits. Shorter numbers are zero-padded to this amount (e.g. if
+ * <code>"m"</code> produces <code>"6"</code>, <code>"mm"</code> produces <code>"06"</code>). Year
+ * is handled specially; that is, if the count of 'y' is 2, the Year will be truncated to 2 digits.
+ * (e.g., if <code>"yyyy"</code> produces <code>"1997"</code>, <code>"yy"</code> produces
+ * <code>"97"</code>.) Unlike other fields, fractional seconds are padded on the right with zero.
+ * </dd>
+ *
  * <dt>Text or Number</dt>
- * <dd>3 or more, use text, otherwise use number. (e.g. <code>"M"</code>
- * produces <code>"1"</code>, <code>"MM"</code> produces <code>"01"</code>,
- * <code>"MMM"</code> produces <code>"Jan"</code>, and <code>"MMMM"</code>
- * produces <code>"January"</code>.  Some pattern letters also treat a count
- * of 5 specially, meaning a single-letter abbreviation: <code>L</code>,
- * <code>M</code>, <code>E</code>, and <code>c</code>.</dd>
+ * <dd>3 or more, use text, otherwise use number. (e.g. <code>"M"</code> produces <code>"1"</code>,
+ * <code>"MM"</code> produces <code>"01"</code>, <code>"MMM"</code> produces <code>"Jan"</code>, and
+ * <code>"MMMM"</code> produces <code>"January"</code>. Some pattern letters also treat a count of 5
+ * specially, meaning a single-letter abbreviation: <code>L</code>, <code>M</code>, <code>E</code>,
+ * and <code>c</code>.</dd>
  * </dl>
- * 
+ *
  * <p>
- * Any characters in the pattern that are not in the ranges of ['<code>a</code>
- * '..'<code>z</code>'] and ['<code>A</code>'..'<code>Z</code>'] will be treated
- * as quoted text. For instance, characters like '<code>:</code>', '
- * <code>.</code>', '<code> </code>' (space), '<code>#</code>' and '
- * <code>@</code>' will appear in the resulting time text even they are not
- * embraced within single quotes.
+ * Any characters in the pattern that are not in the ranges of ['<code>a</code> '..'<code>z</code>']
+ * and ['<code>A</code>'..'<code>Z</code>'] will be treated as quoted text. For instance, characters
+ * like '<code>:</code>', ' <code>.</code>', '<code> </code>' (space), '<code>#</code>' and '
+ * <code>@</code>' will appear in the resulting time text even they are not embraced within single
+ * quotes.
  * </p>
- * 
+ *
  * <p>
- * [Time Zone Handling] Web browsers don't provide all the information we need
- * for proper time zone formating -- so GWT has a copy of the required data, for
- * your convenience. For simpler cases, one can also use a fallback
- * implementation that only keeps track of the current timezone offset. These
- * two approaches are called, respectively, Common TimeZones and Simple
- * TimeZones, although both are implemented with the same TimeZone class.
- * 
- * "TimeZone createTimeZone(String timezoneData)" returns a Common TimeZone
- * object, and "TimeZone createTimeZone(int timeZoneOffsetInMinutes)" returns a
- * Simple TimeZone object. The one provided by OS fall into to Simple TimeZone
- * category. For formatting purpose, following table shows the behavior of GWT
- * DateTimeFormat.
+ * [Time Zone Handling] Web browsers don't provide all the information we need for proper time zone
+ * formating -- so GWT has a copy of the required data, for your convenience. For simpler cases, one
+ * can also use a fallback implementation that only keeps track of the current timezone offset.
+ * These two approaches are called, respectively, Common TimeZones and Simple TimeZones, although
+ * both are implemented with the same TimeZone class.
+ *
+ * "TimeZone createTimeZone(String timezoneData)" returns a Common TimeZone object, and
+ * "TimeZone createTimeZone(int timeZoneOffsetInMinutes)" returns a Simple TimeZone object. The one
+ * provided by OS fall into to Simple TimeZone category. For formatting purpose, following table
+ * shows the behavior of GWT DateTimeFormat.
  * </p>
  * <table>
  * <tr>
@@ -270,187 +262,156 @@ import com.google.gwt.i18n.shared.impl.DateRecord;
  * <td>Etc/GMT+7</td>
  * </tr>
  * </table>
- * 
+ *
  * <h3>Parsing Dates and Times</h3>
  * <p>
- * The pattern does not need to specify every field.  If the year, month, or
- * day is missing from the pattern, the corresponding value will be taken from
- * the current date.  If the month is specified but the day is not, the day will
- * be constrained to the last day within the specified month.  If the hour,
- * minute, or second is missing, the value defaults to zero.
+ * The pattern does not need to specify every field. If the year, month, or day is missing from the
+ * pattern, the corresponding value will be taken from the current date. If the month is specified
+ * but the day is not, the day will be constrained to the last day within the specified month. If
+ * the hour, minute, or second is missing, the value defaults to zero.
  * </p>
- * 
+ *
  * <p>
- * As with formatting (described above), the count of pattern letters determines
- * the parsing behavior.
+ * As with formatting (described above), the count of pattern letters determines the parsing
+ * behavior.
  * </p>
- * 
+ *
  * <dl>
  * <dt>Text</dt>
- * <dd>4 or more pattern letters--use full form, less than 4--use short or
- * abbreviated form if one exists. In parsing, we will always try long format,
- * then short.</dd>
- * 
+ * <dd>4 or more pattern letters--use full form, less than 4--use short or abbreviated form if one
+ * exists. In parsing, we will always try long format, then short.</dd>
+ *
  * <dt>Number</dt>
  * <dd>the minimum number of digits.</dd>
- * 
+ *
  * <dt>Text or Number</dt>
  * <dd>3 or more characters means use text, otherwise use number</dd>
  * </dl>
- * 
+ *
  * <p>
- * Although the current pattern specification doesn't not specify behavior for
- * all letters, it may in the future. It is strongly discouraged to use
- * unspecified letters as literal text without quoting them.
+ * Although the current pattern specification doesn't not specify behavior for all letters, it may
+ * in the future. It is strongly discouraged to use unspecified letters as literal text without
+ * quoting them.
  * </p>
  * <p>
- * [Note on TimeZone] The time zone support for parsing is limited. Only
- * standard GMT and RFC format are supported. Time zone specification using time
- * zone id (like America/Los_Angeles), time zone names (like PST, Pacific
- * Standard Time) are not supported. Normally, it is too much a burden for a
- * client application to load all the time zone symbols. And in almost all those
- * cases, it is a better choice to do such parsing on server side through
- * certain RPC mechanism. This decision is based on particular use cases we have
- * studied; in principle, it could be changed in future versions.
+ * [Note on TimeZone] The time zone support for parsing is limited. Only standard GMT and RFC format
+ * are supported. Time zone specification using time zone id (like America/Los_Angeles), time zone
+ * names (like PST, Pacific Standard Time) are not supported. Normally, it is too much a burden for
+ * a client application to load all the time zone symbols. And in almost all those cases, it is a
+ * better choice to do such parsing on server side through certain RPC mechanism. This decision is
+ * based on particular use cases we have studied; in principle, it could be changed in future
+ * versions.
  * </p>
- * 
+ *
  * <h3>Examples</h3>
  * <table>
  * <tr>
  * <th>Pattern</th>
  * <th>Formatted Text</th>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>"yyyy.MM.dd G 'at' HH:mm:ss vvvv"</code></td>
  * <td><code>1996.07.10 AD at 15:08:56 America/Los_Angeles</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>"EEE, MMM d, ''yy"</code></td>
  * <td><code>Wed, July 10, '96</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>"h:mm a"</code></td>
  * <td><code>12:08 PM</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>"hh 'o''clock' a, zzzz"</code></td>
  * <td><code> 12 o'clock PM, Pacific Daylight Time</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>"K:mm a, vvvv"</code></td>
  * <td><code> 0:00 PM, America/Los_Angeles</code></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td><code>"yyyyy.MMMMM.dd GGG hh:mm aaa"</code></td>
  * <td><code>01996.July.10 AD 12:08 PM</code></td>
  * </tr>
  * </table>
- * 
+ *
  * <h3>Additional Parsing Considerations</h3>
  * <p>
- * When parsing a date string using the abbreviated year pattern (
- * <code>"yy"</code>), the parser must interpret the abbreviated year relative
- * to some century. It does this by adjusting dates to be within 80 years before
- * and 20 years after the time the parser instance is created. For example,
- * using a pattern of <code>"MM/dd/yy"</code> and a <code>DateTimeFormat</code>
- * object created on Jan 1, 1997, the string <code>"01/11/12"</code> would be
- * interpreted as Jan 11, 2012 while the string <code>"05/04/64"</code> would be
- * interpreted as May 4, 1964. During parsing, only strings consisting of
- * exactly two digits, as defined by {@link java.lang.Character#isDigit(char)},
- * will be parsed into the default century. If the year pattern does not have
- * exactly two 'y' characters, the year is interpreted literally, regardless of
- * the number of digits. For example, using the pattern
- * <code>"MM/dd/yyyy"</code>, "01/11/12" parses to Jan 11, 12 A.D.
+ * When parsing a date string using the abbreviated year pattern ( <code>"yy"</code>), the parser
+ * must interpret the abbreviated year relative to some century. It does this by adjusting dates to
+ * be within 80 years before and 20 years after the time the parser instance is created. For
+ * example, using a pattern of <code>"MM/dd/yy"</code> and a <code>DateTimeFormat</code> object
+ * created on Jan 1, 1997, the string <code>"01/11/12"</code> would be interpreted as Jan 11, 2012
+ * while the string <code>"05/04/64"</code> would be interpreted as May 4, 1964. During parsing,
+ * only strings consisting of exactly two digits, as defined by
+ * {@link java.lang.Character#isDigit(char)}, will be parsed into the default century. If the year
+ * pattern does not have exactly two 'y' characters, the year is interpreted literally, regardless
+ * of the number of digits. For example, using the pattern <code>"MM/dd/yyyy"</code>, "01/11/12"
+ * parses to Jan 11, 12 A.D.
  * </p>
- * 
+ *
  * <p>
- * When numeric fields abut one another directly, with no intervening delimiter
- * characters, they constitute a run of abutting numeric fields. Such runs are
- * parsed specially. For example, the format "HHmmss" parses the input text
- * "123456" to 12:34:56, parses the input text "12345" to 1:23:45, and fails to
- * parse "1234". In other words, the leftmost field of the run is flexible,
- * while the others keep a fixed width. If the parse fails anywhere in the run,
- * then the leftmost field is shortened by one character, and the entire run is
- * parsed again. This is repeated until either the parse succeeds or the
- * leftmost field is one character in length. If the parse still fails at that
- * point, the parse of the run fails.
+ * When numeric fields abut one another directly, with no intervening delimiter characters, they
+ * constitute a run of abutting numeric fields. Such runs are parsed specially. For example, the
+ * format "HHmmss" parses the input text "123456" to 12:34:56, parses the input text "12345" to
+ * 1:23:45, and fails to parse "1234". In other words, the leftmost field of the run is flexible,
+ * while the others keep a fixed width. If the parse fails anywhere in the run, then the leftmost
+ * field is shortened by one character, and the entire run is parsed again. This is repeated until
+ * either the parse succeeds or the leftmost field is one character in length. If the parse still
+ * fails at that point, the parse of the run fails.
  * </p>
- * 
+ *
  * <p>
- * In the current implementation, timezone parsing only supports
- * <code>GMT:hhmm</code>, <code>GMT:+hhmm</code>, and <code>GMT:-hhmm</code>.
+ * In the current implementation, timezone parsing only supports <code>GMT:hhmm</code>,
+ * <code>GMT:+hhmm</code>, and <code>GMT:-hhmm</code>.
  * </p>
- * 
+ *
  * <h3>Example</h3> {@example com.google.gwt.examples.DateTimeFormatExample}
- * 
+ *
  */
 public class DateTimeFormat {
 
   /**
-   * Predefined date/time formats -- see {@link CustomDateTimeFormat} if you
-   * need some format that isn't supplied here.
+   * Predefined date/time formats -- see {@link CustomDateTimeFormat} if you need some format that
+   * isn't supplied here.
    */
   public enum PredefinedFormat {
     // TODO(jat): Javadoc to explain these formats
 
     /**
      * ISO 8601 date format, fixed across all locales.
-     * <p>Example: {@code 2008-10-03T10:29:40.046-04:00}
-     * <p>http://code.google.com/p/google-web-toolkit/issues/detail?id=3068
-     * <p>http://www.iso.org/iso/support/faqs/faqs_widely_used_standards/widely_used_standards_other/date_and_time_format.htm
+     * <p>
+     * Example: {@code 2008-10-03T10:29:40.046-04:00}
+     * <p>
+     * http://code.google.com/p/google-web-toolkit/issues/detail?id=3068
+     * <p>
+     * http://www.iso.org/iso/support/faqs/faqs_widely_used_standards/widely_used_standards_other/
+     * date_and_time_format.htm
      */
     ISO_8601,
 
     /**
      * RFC 2822 date format, fixed across all locales.
-     * <p>Example: {@code Thu, 20 May 2010 17:54:50 -0700}
-     * <p>http://tools.ietf.org/html/rfc2822#section-3.3
+     * <p>
+     * Example: {@code Thu, 20 May 2010 17:54:50 -0700}
+     * <p>
+     * http://tools.ietf.org/html/rfc2822#section-3.3
      */
     RFC_2822,
 
-    DATE_FULL,
-    DATE_LONG,
-    DATE_MEDIUM,
-    DATE_SHORT,
+    DATE_FULL, DATE_LONG, DATE_MEDIUM, DATE_SHORT,
 
-    TIME_FULL,
-    TIME_LONG,
-    TIME_MEDIUM,
-    TIME_SHORT,
+    TIME_FULL, TIME_LONG, TIME_MEDIUM, TIME_SHORT,
 
-    DATE_TIME_FULL,
-    DATE_TIME_LONG,
-    DATE_TIME_MEDIUM,
-    DATE_TIME_SHORT,
+    DATE_TIME_FULL, DATE_TIME_LONG, DATE_TIME_MEDIUM, DATE_TIME_SHORT,
 
-    DAY,
-    HOUR_MINUTE,
-    HOUR_MINUTE_SECOND,
-    HOUR24_MINUTE,
-    HOUR24_MINUTE_SECOND,
-    MINUTE_SECOND,
-    MONTH,
-    MONTH_ABBR,
-    MONTH_ABBR_DAY,
-    MONTH_DAY,
-    MONTH_NUM_DAY,
-    MONTH_WEEKDAY_DAY,
-    YEAR,
-    YEAR_MONTH,
-    YEAR_MONTH_ABBR,
-    YEAR_MONTH_ABBR_DAY,
-    YEAR_MONTH_DAY,
-    YEAR_MONTH_NUM,
-    YEAR_MONTH_NUM_DAY,
-    YEAR_MONTH_WEEKDAY_DAY,
-    YEAR_QUARTER,
-    YEAR_QUARTER_ABBR,
+    DAY, HOUR_MINUTE, HOUR_MINUTE_SECOND, HOUR24_MINUTE, HOUR24_MINUTE_SECOND, MINUTE_SECOND, MONTH, MONTH_ABBR, MONTH_ABBR_DAY, MONTH_DAY, MONTH_NUM_DAY, MONTH_WEEKDAY_DAY, YEAR, YEAR_MONTH, YEAR_MONTH_ABBR, YEAR_MONTH_ABBR_DAY, YEAR_MONTH_DAY, YEAR_MONTH_NUM, YEAR_MONTH_NUM_DAY, YEAR_MONTH_WEEKDAY_DAY, YEAR_QUARTER, YEAR_QUARTER_ABBR,
   }
 
   /**
@@ -496,10 +457,10 @@ public class DateTimeFormat {
 
   /**
    * Get a DateTimeFormat instance for a predefined format.
-   * 
-   * <p>See {@link CustomDateTimeFormat} if you need a localized format that is
-   * not supported here.
-   * 
+   *
+   * <p>
+   * See {@link CustomDateTimeFormat} if you need a localized format that is not supported here.
+   *
    * @param predef {@link PredefinedFormat} describing desired format
    * @return a DateTimeFormat instance for the specified format
    */
@@ -534,20 +495,16 @@ public class DateTimeFormat {
         pattern = dtfi.dateFormatShort();
         break;
       case DATE_TIME_FULL:
-        pattern = dtfi.dateTimeFull(dtfi.timeFormatFull(),
-            dtfi.dateFormatFull());
+        pattern = dtfi.dateTimeFull(dtfi.timeFormatFull(), dtfi.dateFormatFull());
         break;
       case DATE_TIME_LONG:
-        pattern = dtfi.dateTimeLong(dtfi.timeFormatLong(),
-            dtfi.dateFormatLong());
+        pattern = dtfi.dateTimeLong(dtfi.timeFormatLong(), dtfi.dateFormatLong());
         break;
       case DATE_TIME_MEDIUM:
-        pattern = dtfi.dateTimeMedium(dtfi.timeFormatMedium(),
-            dtfi.dateFormatMedium());
+        pattern = dtfi.dateTimeMedium(dtfi.timeFormatMedium(), dtfi.dateFormatMedium());
         break;
       case DATE_TIME_SHORT:
-        pattern = dtfi.dateTimeShort(dtfi.timeFormatShort(),
-            dtfi.dateFormatShort());
+        pattern = dtfi.dateTimeShort(dtfi.timeFormatShort(), dtfi.dateFormatShort());
         break;
       case DAY:
         pattern = dtfi.formatDay();
@@ -628,31 +585,28 @@ public class DateTimeFormat {
         pattern = dtfi.formatYearQuarterShort();
         break;
       default:
-        throw new IllegalArgumentException("Unexpected predefined format "
-            + predef);
+        throw new IllegalArgumentException("Unexpected predefined format " + predef);
     }
     return getFormat(pattern, dtfi);
   }
 
   /**
-   * Returns a DateTimeFormat object using the specified pattern. If you need to
-   * format or parse repeatedly using the same pattern, it is highly recommended
-   * that you cache the returned <code>DateTimeFormat</code> object and reuse it
-   * rather than calling this method repeatedly.
-   * 
-   * <p>Note that the pattern supplied is used as-is -- for example, if you
-   * supply "MM/dd/yyyy" as the pattern, that is the order you will get the
-   * fields, even in locales where the order is different.  It is recommended to
-   * use {@link #getFormat(PredefinedFormat)} instead -- if you use this method,
-   * you are taking responsibility for localizing the patterns yourself.
-   * 
+   * Returns a DateTimeFormat object using the specified pattern. If you need to format or parse
+   * repeatedly using the same pattern, it is highly recommended that you cache the returned
+   * <code>DateTimeFormat</code> object and reuse it rather than calling this method repeatedly.
+   *
+   * <p>
+   * Note that the pattern supplied is used as-is -- for example, if you supply "MM/dd/yyyy" as the
+   * pattern, that is the order you will get the fields, even in locales where the order is
+   * different. It is recommended to use {@link #getFormat(PredefinedFormat)} instead -- if you use
+   * this method, you are taking responsibility for localizing the patterns yourself.
+   *
    * @param pattern string to specify how the date should be formatted
-   * 
-   * @return a <code>DateTimeFormat</code> object that can be used for format or
-   *         parse date/time values matching the specified pattern
-   * 
-   * @throws IllegalArgumentException if the specified pattern could not be
-   *           parsed
+   *
+   * @return a <code>DateTimeFormat</code> object that can be used for format or parse date/time
+   *         values matching the specified pattern
+   *
+   * @throws IllegalArgumentException if the specified pattern could not be parsed
    */
   public static DateTimeFormat getFormat(String pattern) {
     return getFormat(pattern, getDefaultDateTimeFormatInfo());
@@ -660,13 +614,12 @@ public class DateTimeFormat {
 
   /**
    * Internal factory method that provides caching.
-   * 
+   *
    * @param pattern
    * @param dtfi
    * @return DateTimeFormat instance
    */
-  protected static DateTimeFormat getFormat(String pattern,
-      DateTimeFormatInfo dtfi) {
+  protected static DateTimeFormat getFormat(String pattern, DateTimeFormatInfo dtfi) {
     DateTimeFormatInfo defaultDtfi = getDefaultDateTimeFormatInfo();
     DateTimeFormat dtf = null;
     if (dtfi == defaultDtfi) {
@@ -687,10 +640,12 @@ public class DateTimeFormat {
   }
 
   /**
-   * Returns true if the predefined format is one that specifies always using
-   * English names/separators.
-   * <p>This should be a method on PredefinedFormat, but that would defeat the
-   * enum optimizations GWT is currently capable of.
+   * Returns true if the predefined format is one that specifies always using English
+   * names/separators.
+   * <p>
+   * This should be a method on PredefinedFormat, but that would defeat the enum optimizations GWT
+   * is currently capable of.
+   *
    * @param predef
    * @return true if the specified format requires English names/separators
    */
@@ -712,9 +667,9 @@ public class DateTimeFormat {
   private final String pattern;
 
   /**
-   * Constructs a format object using the specified pattern and the date time
-   * constants for the default locale.
-   * 
+   * Constructs a format object using the specified pattern and the date time constants for the
+   * default locale.
+   *
    * @param pattern string pattern specification
    */
   protected DateTimeFormat(String pattern) {
@@ -722,44 +677,42 @@ public class DateTimeFormat {
   }
 
   /**
-   * Constructs a format object using the specified pattern and user-supplied
-   * date time constants.
-   * 
+   * Constructs a format object using the specified pattern and user-supplied date time constants.
+   *
    * @param pattern string pattern specification
    * @param dtfi DateTimeFormatInfo instance to use
    */
   protected DateTimeFormat(String pattern, DateTimeFormatInfo dtfi) {
     this.pattern = pattern;
-    this.dateTimeFormatInfo = dtfi;
+    dateTimeFormatInfo = dtfi;
 
     /*
-     * Even though the pattern is only compiled for use in parsing and parsing
-     * is far less common than formatting, the pattern is still parsed eagerly
-     * here to fail fast in case the pattern itself is malformed.
+     * Even though the pattern is only compiled for use in parsing and parsing is far less common
+     * than formatting, the pattern is still parsed eagerly here to fail fast in case the pattern
+     * itself is malformed.
      */
     parsePattern(pattern);
   }
 
   /**
    * Format a date object.
-   * 
+   *
    * @param date the date object being formatted
-   * 
+   *
    * @return string representation for this date in desired format
    */
   public String format(Date date) {
-    return format(date, null);
+    return this.format(date, null);
   }
 
   /**
    * Format a date object using specified time zone.
-   * 
+   *
    * @param date the date object being formatted
-   * @param timeZone a TimeZone object that holds time zone information, or
-   *     {@code null} to use the default
-   * 
-   * @return string representation for this date in the format defined by this
-   *         object
+   * @param timeZone a TimeZone object that holds time zone information, or {@code null} to use the
+   *        default
+   *
+   * @return string representation for this date in the format defined by this object
    */
   @SuppressWarnings("deprecation")
   public String format(Date date, TimeZone timeZone) {
@@ -807,10 +760,10 @@ public class DateTimeFormat {
     int j, n = pattern.length();
     for (int i = 0; i < n;) {
       char ch = pattern.charAt(i);
-      if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
+      if (((ch >= 'a') && (ch <= 'z')) || ((ch >= 'A') && (ch <= 'Z'))) {
         // ch is a date-time pattern character to be interpreted by subFormat().
         // Count the number of times it is repeated.
-        for (j = i + 1; j < n && pattern.charAt(j) == ch; ++j) {
+        for (j = i + 1; (j < n) && (pattern.charAt(j) == ch); ++j) {
         }
         subFormat(toAppendTo, ch, j - i, date, keepDate, keepTime, timeZone);
         i = j;
@@ -822,7 +775,7 @@ public class DateTimeFormat {
         ++i;
 
         // If start with '', just add ' and continue.
-        if (i < n && pattern.charAt(i) == '\'') {
+        if ((i < n) && (pattern.charAt(i) == '\'')) {
           toAppendTo.append('\'');
           ++i;
           continue;
@@ -833,7 +786,7 @@ public class DateTimeFormat {
         while (!trailQuote) {
           // j points to next ' or EOS.
           j = i;
-          while (j < n && pattern.charAt(j) != '\'') {
+          while ((j < n) && (pattern.charAt(j) != '\'')) {
             ++j;
           }
 
@@ -843,7 +796,7 @@ public class DateTimeFormat {
           }
 
           // Look ahead to detect '' within quotes.
-          if (j + 1 < n && pattern.charAt(j + 1) == '\'') {
+          if (((j + 1) < n) && (pattern.charAt(j + 1) == '\'')) {
             ++j;
           } else {
             trailQuote = true;
@@ -863,7 +816,7 @@ public class DateTimeFormat {
 
   /**
    * Retrieve the pattern used in this DateTimeFormat object.
-   * 
+   *
    * @return pattern string
    */
   public String getPattern() {
@@ -871,71 +824,66 @@ public class DateTimeFormat {
   }
 
   /**
-   * Parses text to produce a {@link Date} value. An
-   * {@link IllegalArgumentException} is thrown if either the text is empty or
-   * if the parse does not consume all characters of the text.
-   * 
-   * Dates are parsed leniently, so invalid dates will be wrapped around as
-   * needed. For example, February 30 will wrap to March 2.
-   * 
+   * Parses text to produce a {@link Date} value. An {@link IllegalArgumentException} is thrown if
+   * either the text is empty or if the parse does not consume all characters of the text.
+   *
+   * Dates are parsed leniently, so invalid dates will be wrapped around as needed. For example,
+   * February 30 will wrap to March 2.
+   *
    * @param text the string being parsed
    * @return a parsed date/time value
-   * @throws IllegalArgumentException if the entire text could not be converted
-   *           into a number
+   * @throws IllegalArgumentException if the entire text could not be converted into a number
    */
   public Date parse(String text) throws IllegalArgumentException {
-    return parse(text, false);
+    return this.parse(text, false);
   }
 
   /**
-   * This method modifies a {@link Date} object to reflect the date that is
-   * parsed from an input string.
-   * 
-   * Dates are parsed leniently, so invalid dates will be wrapped around as
-   * needed. For example, February 30 will wrap to March 2.
-   * 
+   * This method modifies a {@link Date} object to reflect the date that is parsed from an input
+   * string.
+   *
+   * Dates are parsed leniently, so invalid dates will be wrapped around as needed. For example,
+   * February 30 will wrap to March 2.
+   *
    * @param text the string that need to be parsed
    * @param start the character position in "text" where parsing should start
    * @param date the date object that will hold parsed value
-   * 
+   *
    * @return 0 if parsing failed, otherwise the number of characters advanced
    */
   public int parse(String text, int start, Date date) {
-    return parse(text, start, date, false);
+    return this.parse(text, start, date, false);
   }
 
   /**
-   * Parses text to produce a {@link Date} value. An
-   * {@link IllegalArgumentException} is thrown if either the text is empty or
-   * if the parse does not consume all characters of the text.
-   * 
-   * Dates are parsed strictly, so invalid dates will result in an
-   * {@link IllegalArgumentException}.
-   * 
+   * Parses text to produce a {@link Date} value. An {@link IllegalArgumentException} is thrown if
+   * either the text is empty or if the parse does not consume all characters of the text.
+   *
+   * Dates are parsed strictly, so invalid dates will result in an {@link IllegalArgumentException}.
+   *
    * @param text the string being parsed
    * @return a parsed date/time value
-   * @throws IllegalArgumentException if the entire text could not be converted
-   *           into a number
+   * @throws IllegalArgumentException if the entire text could not be converted into a number
    */
   public Date parseStrict(String text) throws IllegalArgumentException {
-    return parse(text, true);
+    return this.parse(text, true);
   }
 
   /**
-   * This method modifies a {@link Date} object to reflect the date that is
-   * parsed from an input string.
-   * 
-   * Dates are parsed strictly, so invalid dates will return 0. For example,
-   * February 30 will return 0 because February only has 28 days.
-   * 
+   * This method modifies a {@link Date} object to reflect the date that is parsed from an input
+   * string.
+   *
+   * Dates are parsed strictly, so invalid dates will return 0. For example, February 30 will return
+   * 0 because February only has 28 days.
+   *
    * @param text the string that need to be parsed
    * @param start the character position in "text" where parsing should start
    * @param date the date object that will hold parsed value
-   * 
+   *
    * @return 0 if parsing failed, otherwise the number of characters advanced
    */
   public int parseStrict(String text, int start, Date date) {
-    return parse(text, start, date, true);
+    return this.parse(text, start, date, true);
   }
 
   /**
@@ -948,9 +896,9 @@ public class DateTimeFormat {
   }
 
   /**
-   * Method append current content in buf as pattern part if there is any, and
-   * clear buf for next part.
-   * 
+   * Method append current content in buf as pattern part if there is any, and clear buf for next
+   * part.
+   *
    * @param buf pattern part text specification
    * @param count pattern part repeat count
    */
@@ -963,10 +911,9 @@ public class DateTimeFormat {
 
   /**
    * Formats (0..11) Hours field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
   @SuppressWarnings("deprecation")
@@ -977,10 +924,9 @@ public class DateTimeFormat {
 
   /**
    * Formats (0..23) Hours field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
   @SuppressWarnings("deprecation")
@@ -991,10 +937,9 @@ public class DateTimeFormat {
 
   /**
    * Formats (1..12) Hours field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
   @SuppressWarnings("deprecation")
@@ -1009,10 +954,9 @@ public class DateTimeFormat {
 
   /**
    * Formats (1..24) Hours field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
   @SuppressWarnings("deprecation")
@@ -1027,13 +971,13 @@ public class DateTimeFormat {
 
   /**
    * Formats AM/PM field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
    * @param date hold the date object to be formatted
    */
   @SuppressWarnings("deprecation")
   private void formatAmPm(StringBuilder buf, Date date) {
-    if (date.getHours() >= 12 && date.getHours() < 24) {
+    if ((date.getHours() >= 12) && (date.getHours() < 24)) {
       buf.append(dateTimeFormatInfo.ampms()[1]);
     } else {
       buf.append(dateTimeFormatInfo.ampms()[0]);
@@ -1042,10 +986,9 @@ public class DateTimeFormat {
 
   /**
    * Formats Date field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
   private void formatDate(StringBuilder buf, int count, Date date) {
@@ -1056,10 +999,9 @@ public class DateTimeFormat {
 
   /**
    * Formats Day of week field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
   private void formatDayOfWeek(StringBuilder buf, int count, Date date) {
@@ -1076,10 +1018,9 @@ public class DateTimeFormat {
 
   /**
    * Formats Era field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
   private void formatEra(StringBuilder buf, int count, Date date) {
@@ -1094,21 +1035,18 @@ public class DateTimeFormat {
 
   /**
    * Formats Fractional seconds field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
   private void formatFractionalSeconds(StringBuilder buf, int count, Date date) {
     /*
-     * Fractional seconds should be left-justified, ie. zero must be padded from
-     * left. For example, if the value in milliseconds is 5, and the count is 3,
-     * the output will be "005".
-     * 
-     * Values with less than three digits are rounded to the desired number of
-     * places, but the rounded values are truncated at 9 or 99 in order to avoid
-     * changing the values of seconds.
+     * Fractional seconds should be left-justified, ie. zero must be padded from left. For example,
+     * if the value in milliseconds is 5, and the count is 3, the output will be "005".
+     *
+     * Values with less than three digits are rounded to the desired number of places, but the
+     * rounded values are truncated at 9 or 99 in order to avoid changing the values of seconds.
      */
     long time = date.getTime();
     int value;
@@ -1137,10 +1075,9 @@ public class DateTimeFormat {
 
   /**
    * Formats Minutes field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
   private void formatMinutes(StringBuilder buf, int count, Date date) {
@@ -1151,10 +1088,9 @@ public class DateTimeFormat {
 
   /**
    * Formats Month field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
   private void formatMonth(StringBuilder buf, int count, Date date) {
@@ -1177,10 +1113,9 @@ public class DateTimeFormat {
 
   /**
    * Formats Quarter field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
   private void formatQuarter(StringBuilder buf, int count, Date date) {
@@ -1195,10 +1130,9 @@ public class DateTimeFormat {
 
   /**
    * Formats Seconds field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
   private void formatSeconds(StringBuilder buf, int count, Date date) {
@@ -1209,10 +1143,9 @@ public class DateTimeFormat {
 
   /**
    * Formats Standalone weekday field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
   private void formatStandaloneDay(StringBuilder buf, int count, Date date) {
@@ -1231,10 +1164,9 @@ public class DateTimeFormat {
 
   /**
    * Formats Standalone Month field according to pattern specified.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
   private void formatStandaloneMonth(StringBuilder buf, int count, Date date) {
@@ -1253,14 +1185,12 @@ public class DateTimeFormat {
 
   /**
    * Formats Timezone field.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
-  private void formatTimeZone(StringBuilder buf, int count, Date date,
-      TimeZone timeZone) {
+  private void formatTimeZone(StringBuilder buf, int count, Date date, TimeZone timeZone) {
     if (count < 4) {
       buf.append(timeZone.getShortName(date));
     } else {
@@ -1270,14 +1200,12 @@ public class DateTimeFormat {
 
   /**
    * Formats Timezone field following RFC.
-   * 
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date hold the date object to be formatted
    */
-  private void formatTimeZoneRFC(StringBuilder buf, int count, Date date,
-      TimeZone timeZone) {
+  private void formatTimeZoneRFC(StringBuilder buf, int count, Date date, TimeZone timeZone) {
     if (count < 3) {
       buf.append(timeZone.getRFCTimeZoneString(date));
     } else if (count == 3) {
@@ -1288,15 +1216,15 @@ public class DateTimeFormat {
   }
 
   /**
-   * Formats Year field according to pattern specified. Javascript Date object
-   * seems incapable handling 1BC and year before. It can show you year 0 which
-   * does not exists. following we just keep consistent with javascript's
-   * toString method. But keep in mind those things should be unsupported.
-   * 
+   * Formats Year field according to pattern specified. Javascript Date object seems incapable
+   * handling 1BC and year before. It can show you year 0 which does not exists. following we just
+   * keep consistent with javascript's toString method. But keep in mind those things should be
+   * unsupported.
+   *
    * @param buf where formatted string will be appended to
-   * @param count number of time pattern char repeats; this controls how a field
-   *     should be formatted; 2 is treated specially with the last two digits of
-   *     the year, while more than 2 digits are zero-padded
+   * @param count number of time pattern char repeats; this controls how a field should be
+   *        formatted; 2 is treated specially with the last two digits of the year, while more than
+   *        2 digits are zero-padded
    * @param date hold the date object to be formatted
    */
   private void formatYear(StringBuilder buf, int count, Date date) {
@@ -1319,9 +1247,8 @@ public class DateTimeFormat {
   }
 
   /**
-   * Method getNextCharCountInPattern calculate character repeat count in
-   * pattern.
-   * 
+   * Method getNextCharCountInPattern calculate character repeat count in pattern.
+   *
    * @param pattern describe the format of date string that need to be parsed
    * @param start the position of pattern character
    * @return repeat count
@@ -1329,21 +1256,19 @@ public class DateTimeFormat {
   private int getNextCharCountInPattern(String pattern, int start) {
     char ch = pattern.charAt(start);
     int next = start + 1;
-    while (next < pattern.length() && pattern.charAt(next) == ch) {
+    while ((next < pattern.length()) && (pattern.charAt(next) == ch)) {
       ++next;
     }
     return next - start;
   }
 
   /**
-   * Method identifies the start of a run of abutting numeric fields. Take the
-   * pattern "HHmmss" as an example. We will try to parse 2/2/2 characters of
-   * the input text, then if that fails, 1/2/2. We only adjust the width of the
-   * leftmost field; the others remain fixed. This allows "123456" => 12:34:56,
-   * but "12345" => 1:23:45. Likewise, for the pattern "yyyyMMdd" we try 4/2/2,
-   * 3/2/2, 2/2/2, and finally 1/2/2. The first field of connected numeric
-   * fields will be marked as abutStart, its width can be reduced to accomodate
-   * others.
+   * Method identifies the start of a run of abutting numeric fields. Take the pattern "HHmmss" as
+   * an example. We will try to parse 2/2/2 characters of the input text, then if that fails, 1/2/2.
+   * We only adjust the width of the leftmost field; the others remain fixed. This allows "123456"
+   * => 12:34:56, but "12345" => 1:23:45. Likewise, for the pattern "yyyyMMdd" we try 4/2/2, 3/2/2,
+   * 2/2/2, and finally 1/2/2. The first field of connected numeric fields will be marked as
+   * abutStart, its width can be reduced to accomodate others.
    */
   private void identifyAbutStart() {
     // 'abut' parts are continuous numeric parts. abutStart is the switch
@@ -1354,7 +1279,7 @@ public class DateTimeFormat {
     for (int i = 0; i < len; i++) {
       if (isNumeric(patternParts.get(i))) {
         // If next part is not following abut sequence, and isNumeric.
-        if (!abut && i + 1 < len && isNumeric(patternParts.get(i + 1))) {
+        if (!abut && ((i + 1) < len) && isNumeric(patternParts.get(i + 1))) {
           abut = true;
           patternParts.get(i).abutStart = true;
         }
@@ -1366,7 +1291,7 @@ public class DateTimeFormat {
 
   /**
    * Method checks if the pattern part is a numeric field.
-   * 
+   *
    * @param part pattern part to be examined
    * @return <code>true</code> if the pattern part is numberic field
    */
@@ -1376,21 +1301,20 @@ public class DateTimeFormat {
     }
     int i = NUMERIC_FORMAT_CHARS.indexOf(part.text.charAt(0));
     // M & L (index 0 and 1) are only numeric if there are less than 3 chars
-    return (i > 1 || (i >= 0 && part.count < 3));
+    return ((i > 1) || ((i >= 0) && (part.count < 3)));
   }
 
   /**
-   * Method attempts to match the text at a given position against an array of
-   * strings. Since multiple strings in the array may match (for example, if the
-   * array contains "a", "ab", and "abc", all will match the input string
-   * "abcd") the longest match is returned.
-   * 
+   * Method attempts to match the text at a given position against an array of strings. Since
+   * multiple strings in the array may match (for example, if the array contains "a", "ab", and
+   * "abc", all will match the input string "abcd") the longest match is returned.
+   *
    * @param text the time text being parsed
    * @param start where to start parsing
    * @param data the string array to parsed
    * @param pos to receive where the match stopped
-   * @return the new start position if matching succeeded; a negative number
-   *         indicating matching failure
+   * @return the new start position if matching succeeded; a negative number indicating matching
+   *         failure
    */
   private int matchString(String text, int start, String[] data, int[] pos) {
     int count = data.length;
@@ -1405,8 +1329,7 @@ public class DateTimeFormat {
       int length = data[i].length();
       // Always compare if we have no match yet; otherwise only compare
       // against potentially better matches (longer strings).
-      if (length > bestMatchLength
-          && textInLowerCase.startsWith(StringCase.toLower(data[i]))) {
+      if ((length > bestMatchLength) && textInLowerCase.startsWith(StringCase.toLower(data[i]))) {
         bestMatch = i;
         bestMatchLength = length;
       }
@@ -1418,45 +1341,40 @@ public class DateTimeFormat {
   }
 
   /**
-   * Parses text to produce a {@link Date} value. An
-   * {@link IllegalArgumentException} is thrown if either the text is empty or
-   * if the parse does not consume all characters of the text.
-   * 
-   * If using lenient parsing, certain invalid dates and times will be parsed.
-   * For example, February 32nd would be parsed as March 4th in lenient mode,
-   * but would throw an exception in non-lenient mode.
-   * 
+   * Parses text to produce a {@link Date} value. An {@link IllegalArgumentException} is thrown if
+   * either the text is empty or if the parse does not consume all characters of the text.
+   *
+   * If using lenient parsing, certain invalid dates and times will be parsed. For example, February
+   * 32nd would be parsed as March 4th in lenient mode, but would throw an exception in non-lenient
+   * mode.
+   *
    * @param text the string being parsed
    * @param strict true to be strict when parsing, false to be lenient
    * @return a parsed date/time value
-   * @throws IllegalArgumentException if the entire text could not be converted
-   *           into a number
+   * @throws IllegalArgumentException if the entire text could not be converted into a number
    */
   private Date parse(String text, boolean strict) {
     Date curDate = new Date();
     @SuppressWarnings("deprecation")
-    Date date = new Date(curDate.getYear(), curDate.getMonth(),
-        curDate.getDate());
-    int charsConsumed = parse(text, 0, date, strict);
-    if (charsConsumed == 0 || charsConsumed < text.length()) {
+    Date date = new Date(curDate.getYear(), curDate.getMonth(), curDate.getDate());
+    int charsConsumed = this.parse(text, 0, date, strict);
+    if ((charsConsumed == 0) || (charsConsumed < text.length())) {
       throw new IllegalArgumentException(text);
     }
     return date;
   }
 
   /**
-   * This method parses the input string and fills its value into a {@link Date}
-   * .
-   * 
-   * If using lenient parsing, certain invalid dates and times will be parsed.
-   * For example, February 32nd would be parsed as March 4th in lenient mode,
-   * but would return 0 in non-lenient mode.
-   * 
+   * This method parses the input string and fills its value into a {@link Date} .
+   *
+   * If using lenient parsing, certain invalid dates and times will be parsed. For example, February
+   * 32nd would be parsed as March 4th in lenient mode, but would return 0 in non-lenient mode.
+   *
    * @param text the string that need to be parsed
    * @param start the character position in "text" where parsing should start
    * @param date the date object that will hold parsed value
    * @param strict true to be strict when parsing, false to be lenient
-   * 
+   *
    * @return 0 if parsing failed, otherwise the number of characters advanced
    */
   private int parse(String text, int start, Date date, boolean strict) {
@@ -1476,7 +1394,7 @@ public class DateTimeFormat {
       PatternPart part = patternParts.get(i);
 
       if (part.count > 0) {
-        if (abutPat < 0 && part.abutStart) {
+        if ((abutPat < 0) && part.abutStart) {
           abutPat = i;
           abutStart = parsePos[0];
           abutPass = 0;
@@ -1552,10 +1470,10 @@ public class DateTimeFormat {
 
   /**
    * Method parses a integer string and return integer value.
-   * 
+   *
    * @param text string being parsed
    * @param pos parse position
-   * 
+   *
    * @return integer value
    */
   private int parseInt(String text, int[] pos) {
@@ -1565,8 +1483,8 @@ public class DateTimeFormat {
       return -1;
     }
     char ch = text.charAt(ind);
-    while (ch >= '0' && ch <= '9') {
-      ret = ret * 10 + (ch - '0');
+    while ((ch >= '0') && (ch <= '9')) {
+      ret = (ret * 10) + (ch - '0');
       ind++;
       if (ind >= text.length()) {
         break;
@@ -1582,9 +1500,8 @@ public class DateTimeFormat {
   }
 
   /**
-   * Method parses the input pattern string a generate a vector of pattern
-   * parts.
-   * 
+   * Method parses the input pattern string a generate a vector of pattern parts.
+   *
    * @param pattern describe the format of date string that need to be parsed
    */
   private void parsePattern(String pattern) {
@@ -1599,7 +1516,7 @@ public class DateTimeFormat {
         addPart(buf, 0);
         buf.append(' ');
         addPart(buf, 0);
-        while (i + 1 < pattern.length() && pattern.charAt(i + 1) == ' ') {
+        while (((i + 1) < pattern.length()) && (pattern.charAt(i + 1) == ' ')) {
           i++;
         }
         continue;
@@ -1608,7 +1525,7 @@ public class DateTimeFormat {
       // If inside quote, except two quote connected, just copy or exit.
       if (inQuote) {
         if (ch == '\'') {
-          if (i + 1 < pattern.length() && pattern.charAt(i + 1) == '\'') {
+          if (((i + 1) < pattern.length()) && (pattern.charAt(i + 1) == '\'')) {
             // Quote appeared twice continuously, interpret as one quote.
             buf.append(ch);
             ++i;
@@ -1634,7 +1551,7 @@ public class DateTimeFormat {
 
       // Two consecutive quotes is a quote literal, inside or outside of quotes.
       if (ch == '\'') {
-        if (i + 1 < pattern.length() && pattern.charAt(i + 1) == '\'') {
+        if (((i + 1) < pattern.length()) && (pattern.charAt(i + 1) == '\'')) {
           buf.append('\'');
           i++;
         } else {
@@ -1652,13 +1569,12 @@ public class DateTimeFormat {
 
   /**
    * Method parses time zone offset.
-   * 
+   *
    * @param text the time text to be parsed
    * @param pos Parse position
    * @param cal DateRecord object that holds parsed value
-   * 
-   * @return <code>true</code> if parsing successful, otherwise
-   *         <code>false</code>
+   *
+   * @return <code>true</code> if parsing successful, otherwise <code>false</code>
    */
   private boolean parseTimeZoneOffset(String text, int[] pos, DateRecord cal) {
     if (pos[0] >= text.length()) {
@@ -1683,18 +1599,18 @@ public class DateTimeFormat {
     // Look for hours:minutes or hhmm.
     int st = pos[0];
     int value = parseInt(text, pos);
-    if (value == 0 && pos[0] == st) {
+    if ((value == 0) && (pos[0] == st)) {
       return false;
     }
 
     int offset;
-    if (pos[0] < text.length() && text.charAt(pos[0]) == ':') {
+    if ((pos[0] < text.length()) && (text.charAt(pos[0]) == ':')) {
       // This is the hours:minutes case.
       offset = value * MINUTES_PER_HOUR;
       ++(pos[0]);
       st = pos[0];
       value = parseInt(text, pos);
-      if (value == 0 && pos[0] == st) {
+      if ((value == 0) && (pos[0] == st)) {
         return false;
       }
       offset += value;
@@ -1702,10 +1618,10 @@ public class DateTimeFormat {
       // This is the hhmm case.
       offset = value;
       // Assume "-23".."+23" refers to hours.
-      if (offset < 24 && (pos[0] - st) <= 2) {
+      if ((offset < 24) && ((pos[0] - st) <= 2)) {
         offset *= MINUTES_PER_HOUR;
       } else {
-        offset = offset % 100 + offset / 100 * MINUTES_PER_HOUR;
+        offset = (offset % 100) + ((offset / 100) * MINUTES_PER_HOUR);
       }
     }
 
@@ -1716,32 +1632,30 @@ public class DateTimeFormat {
 
   /**
    * Method skips space in the string as pointed by pos.
-   * 
+   *
    * @param text input string
    * @param pos where skip start, and return back where skip stop
    */
   private void skipSpace(String text, int[] pos) {
-    while (pos[0] < text.length()
-        && WHITE_SPACE.indexOf(text.charAt(pos[0])) >= 0) {
+    while ((pos[0] < text.length()) && (WHITE_SPACE.indexOf(text.charAt(pos[0])) >= 0)) {
       ++(pos[0]);
     }
   }
 
   /**
    * Formats a single field according to pattern specified.
-   * 
+   *
    * @param ch pattern character for this field
-   * @param count number of time pattern char repeats; this controls how a field
-   *          should be formatted
+   * @param count number of time pattern char repeats; this controls how a field should be formatted
    * @param date the date object to be formatted
    * @param adjustedDate holds the time zone adjusted date fields
    * @param adjustedTime holds the time zone adjusted time fields
-   * 
+   *
    * @return <code>true</code> if pattern valid, otherwise <code>false</code>
-   * 
+   *
    */
-  private boolean subFormat(StringBuilder buf, char ch, int count, Date date,
-      Date adjustedDate, Date adjustedTime, TimeZone timezone) {
+  private boolean subFormat(StringBuilder buf, char ch, int count, Date date, Date adjustedDate,
+      Date adjustedTime, TimeZone timezone) {
     switch (ch) {
       case 'G':
         formatEra(buf, count, adjustedDate);
@@ -1807,20 +1721,20 @@ public class DateTimeFormat {
   }
 
   /**
-   * Converts one field of the input string into a numeric field value. Returns
-   * <code>false</code> if failed.
-   * 
+   * Converts one field of the input string into a numeric field value. Returns <code>false</code>
+   * if failed.
+   *
    * @param text the time text to be parsed
    * @param pos Parse position
    * @param part the pattern part for this field
    * @param digitCount when greater than 0, numeric parsing must obey the count
    * @param cal DateRecord object that will hold parsed value
-   * 
+   *
    * @return <code>true</code> if parsing successful
    */
   @SuppressWarnings("fallthrough")
-  private boolean subParse(String text, int[] pos, PatternPart part,
-      int digitCount, DateRecord cal) {
+  private boolean subParse(String text, int[] pos, PatternPart part, int digitCount,
+      DateRecord cal) {
 
     skipSpace(text, pos);
 
@@ -1905,7 +1819,7 @@ public class DateTimeFormat {
 
       case 'Z': // time zone RFC
         // ISO-8601 times can have a literal Z to indicate GMT+0
-        if (start < text.length() && text.charAt(start) == 'Z') {
+        if ((start < text.length()) && (text.charAt(start) == 'Z')) {
           pos[0]++;
           cal.setTzOffset(0);
           return true;
@@ -1921,17 +1835,15 @@ public class DateTimeFormat {
 
   /**
    * Method subParseDayOfWeek parses day of the week field.
-   * 
+   *
    * @param text the time text to be parsed
    * @param pos Parse position
    * @param start from where parse start
    * @param cal DateRecord object that holds parsed value
-   * 
-   * @return <code>true</code> if parsing successful, otherwise
-   *         <code>false</code>
+   *
+   * @return <code>true</code> if parsing successful, otherwise <code>false</code>
    */
-  private boolean subParseDayOfWeek(String text, int[] pos, int start,
-      DateRecord cal) {
+  private boolean subParseDayOfWeek(String text, int[] pos, int start, DateRecord cal) {
     int value;
     // 'E' - DAY_OF_WEEK
     // Want to be able to parse both short and long forms.
@@ -1949,16 +1861,14 @@ public class DateTimeFormat {
 
   /**
    * Method subParseFractionalSeconds parses fractional seconds field.
-   * 
+   *
    * @param value parsed numberic value
    * @param start
    * @param end parse position
    * @param cal DateRecord object that holds parsed value
-   * @return <code>true</code> if parsing successful, otherwise
-   *         <code>false</code>
+   * @return <code>true</code> if parsing successful, otherwise <code>false</code>
    */
-  private boolean subParseFractionalSeconds(int value, int start, int end,
-      DateRecord cal) {
+  private boolean subParseFractionalSeconds(int value, int start, int end, DateRecord cal) {
     // Fractional seconds left-justify.
     int i = end - start;
     if (i < 3) {
@@ -1980,18 +1890,16 @@ public class DateTimeFormat {
 
   /**
    * Parses Month field.
-   * 
+   *
    * @param text the time text to be parsed
    * @param pos Parse position
    * @param cal DateRecord object that will hold parsed value
-   * @param value numeric value if this field is expressed using numberic
-   *          pattern
+   * @param value numeric value if this field is expressed using numberic pattern
    * @param start from where parse start
-   * 
+   *
    * @return <code>true</code> if parsing successful
    */
-  private boolean subParseMonth(String text, int[] pos, DateRecord cal,
-      int value, int start) {
+  private boolean subParseMonth(String text, int[] pos, DateRecord cal, int value, int start) {
     // When month is symbols, i.e., MMM or MMMM, value will be -1.
     if (value < 0) {
       // Want to be able to parse both short and long forms.
@@ -2014,26 +1922,22 @@ public class DateTimeFormat {
 
   /**
    * Parses standalone day of the week field.
-   * 
+   *
    * @param text the time text to be parsed
    * @param pos Parse position
    * @param start from where parse start
    * @param cal DateRecord object that holds parsed value
-   * 
-   * @return <code>true</code> if parsing successful, otherwise
-   *         <code>false</code>
+   *
+   * @return <code>true</code> if parsing successful, otherwise <code>false</code>
    */
-  private boolean subParseStandaloneDay(String text, int[] pos, int start,
-      DateRecord cal) {
+  private boolean subParseStandaloneDay(String text, int[] pos, int start, DateRecord cal) {
     int value;
     // 'c' - DAY_OF_WEEK
     // Want to be able to parse both short and long forms.
     // Try count == 4 (cccc) first:
-    value = matchString(text, start, dateTimeFormatInfo.weekdaysFullStandalone(),
-        pos);
+    value = matchString(text, start, dateTimeFormatInfo.weekdaysFullStandalone(), pos);
     if (value < 0) {
-      value = matchString(text, start,
-          dateTimeFormatInfo.weekdaysShortStandalone(), pos);
+      value = matchString(text, start, dateTimeFormatInfo.weekdaysShortStandalone(), pos);
     }
     if (value < 0) {
       return false;
@@ -2044,27 +1948,24 @@ public class DateTimeFormat {
 
   /**
    * Parses a standalone month field.
-   * 
+   *
    * @param text the time text to be parsed
    * @param pos Parse position
    * @param cal DateRecord object that will hold parsed value
-   * @param value numeric value if this field is expressed using numberic
-   *          pattern
+   * @param value numeric value if this field is expressed using numberic pattern
    * @param start from where parse start
-   * 
+   *
    * @return <code>true</code> if parsing successful
    */
-  private boolean subParseStandaloneMonth(String text, int[] pos,
-      DateRecord cal, int value, int start) {
+  private boolean subParseStandaloneMonth(String text, int[] pos, DateRecord cal, int value,
+      int start) {
     // When month is symbols, i.e., LLL or LLLL, value will be -1.
     if (value < 0) {
       // Want to be able to parse both short and long forms.
       // Try count == 4 first:
-      value = matchString(text, start,
-          dateTimeFormatInfo.monthsFullStandalone(), pos);
+      value = matchString(text, start, dateTimeFormatInfo.monthsFullStandalone(), pos);
       if (value < 0) { // count == 4 failed, now try count == 3.
-        value = matchString(text, start,
-            dateTimeFormatInfo.monthsShortStandalone(), pos);
+        value = matchString(text, start, dateTimeFormatInfo.monthsShortStandalone(), pos);
       }
       if (value < 0) {
         return false;
@@ -2080,17 +1981,15 @@ public class DateTimeFormat {
 
   /**
    * Method parses GMT type timezone.
-   * 
+   *
    * @param text the time text to be parsed
    * @param start from where parse start
    * @param pos Parse position
    * @param cal DateRecord object that holds parsed value
-   * 
-   * @return <code>true</code> if parsing successful, otherwise
-   *         <code>false</code>
+   *
+   * @return <code>true</code> if parsing successful, otherwise <code>false</code>
    */
-  private boolean subParseTimeZoneInGMT(String text, int start, int[] pos,
-      DateRecord cal) {
+  private boolean subParseTimeZoneInGMT(String text, int start, int[] pos, DateRecord cal) {
     // First try to parse generic forms such as GMT-07:00. Do this first
     // in case localized DateFormatZoneData contains the string "GMT"
     // for a zone; in that case, we don't want to match the first three
@@ -2126,24 +2025,23 @@ public class DateTimeFormat {
   }
 
   /**
-   * Method subParseYear parse year field. Year field is special because 1, two
-   * digit year need to be resolved. 2, we allow year to take a sign. 3, year
-   * field participate in abut processing. In my testing, negative year does not
-   * seem working due to JDK (or GWT implementation) limitation. It is not a
-   * big deal so we don't worry about it. But keep the logic here so that we
-   * might want to replace DateRecord with our a calendar class.
-   * 
+   * Method subParseYear parse year field. Year field is special because 1, two digit year need to
+   * be resolved. 2, we allow year to take a sign. 3, year field participate in abut processing. In
+   * my testing, negative year does not seem working due to JDK (or GWT implementation) limitation.
+   * It is not a big deal so we don't worry about it. But keep the logic here so that we might want
+   * to replace DateRecord with our a calendar class.
+   *
    * @param text the time text to be parsed
    * @param pos parse position
    * @param start where this field starts
    * @param value integer value of year
    * @param part the pattern part for this field
    * @param cal DateRecord object that will hold parsed value
-   * 
+   *
    * @return <code>true</code> if successful
    */
-  private boolean subParseYear(String text, int[] pos, int start, int value,
-      PatternPart part, DateRecord cal) {
+  private boolean subParseYear(String text, int[] pos, int start, int value, PatternPart part,
+      DateRecord cal) {
     char ch = ' ';
     if (value < 0) {
       if (pos[0] >= text.length()) {
@@ -2151,7 +2049,7 @@ public class DateTimeFormat {
       }
       ch = text.charAt(pos[0]);
       // Check if it is a sign.
-      if (ch != '+' && ch != '-') {
+      if ((ch != '+') && (ch != '-')) {
         return false;
       }
       ++(pos[0]);
@@ -2165,7 +2063,7 @@ public class DateTimeFormat {
     }
 
     // no sign, only 2 digit was actually parsed, pattern say it has 2 digit.
-    if (ch == ' ' && (pos[0] - start) == 2 && part.count == 2) {
+    if ((ch == ' ') && ((pos[0] - start) == 2) && (part.count == 2)) {
       // Assume for example that the defaultCenturyStart is 6/18/1903.
       // This means that two-digit years will be forced into the range
       // 6/18/1903 to 6/17/2003. As a result, years 00, 01, and 02
@@ -2176,28 +2074,25 @@ public class DateTimeFormat {
       // two-digit years are unambiguous.
       Date date = new Date();
       @SuppressWarnings("deprecation")
-      int defaultCenturyStartYear = date.getYear() + 1900 - 80;
+      int defaultCenturyStartYear = (date.getYear() + 1900) - 80;
       int ambiguousTwoDigitYear = defaultCenturyStartYear % 100;
       cal.setAmbiguousYear(value == ambiguousTwoDigitYear);
-      value += (defaultCenturyStartYear / 100) * 100
-          + (value < ambiguousTwoDigitYear ? 100 : 0);
+      value += ((defaultCenturyStartYear / 100) * 100) + (value < ambiguousTwoDigitYear ? 100 : 0);
     }
     cal.setYear(value);
     return true;
   }
 
   /**
-   * Formats a number with the specified minimum number of digits, using zero to
-   * fill the gap.
-   * 
+   * Formats a number with the specified minimum number of digits, using zero to fill the gap.
+   *
    * @param buf where zero padded string will be written to
    * @param value the number value being formatted
-   * @param minWidth minimum width of the formatted string; zero will be padded
-   *          to reach this width
+   * @param minWidth minimum width of the formatted string; zero will be padded to reach this width
    */
   private void zeroPaddingNumber(StringBuilder buf, int value, int minWidth) {
     int b = NUMBER_BASE;
-    for (int i = 0; i < minWidth - 1; i++) {
+    for (int i = 0; i < (minWidth - 1); i++) {
       if (value < b) {
         buf.append('0');
       }

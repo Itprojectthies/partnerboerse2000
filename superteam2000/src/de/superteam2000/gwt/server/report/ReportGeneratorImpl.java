@@ -7,13 +7,13 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.server.PartnerboerseAdministrationImpl;
-import de.superteam2000.gwt.shared.PartnerboerseAdministration;
 import de.superteam2000.gwt.shared.ReportGenerator;
 import de.superteam2000.gwt.shared.bo.Info;
 import de.superteam2000.gwt.shared.bo.Profil;
+import de.superteam2000.gwt.shared.bo.Suchprofil;
 import de.superteam2000.gwt.shared.report.AllNewProfileReport;
 import de.superteam2000.gwt.shared.report.AllNotVisitedProfileReport;
-import de.superteam2000.gwt.shared.report.AllProfileBySuche;
+import de.superteam2000.gwt.shared.report.AllProfilesBySucheReport;
 import de.superteam2000.gwt.shared.report.AllProfilesReport;
 import de.superteam2000.gwt.shared.report.Column;
 import de.superteam2000.gwt.shared.report.CompositeParagraph;
@@ -23,192 +23,201 @@ import de.superteam2000.gwt.shared.report.SimpleParagraph;
 
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator {
 
-    private static final long serialVersionUID = 1L;
-    private PartnerboerseAdministration administration = null;
+  private static final long serialVersionUID = 1L;
+  private PartnerboerseAdministrationImpl administration = null;
 
-    public ReportGeneratorImpl() throws IllegalArgumentException {
+  public ReportGeneratorImpl() throws IllegalArgumentException {}
+
+  @Override
+  public void init() throws IllegalArgumentException {
+    /*
+     * Ein ReportGeneratorImpl-Objekt instantiiert für seinen Eigenbedarf eine
+     * pbAdministration-Instanz.
+     */
+    PartnerboerseAdministrationImpl a = new PartnerboerseAdministrationImpl();
+    a.init();
+    administration = a;
+  }
+
+  @Override
+  public ProfilReport createProfilReport(Profil p) throws IllegalArgumentException {
+    if (administration == null) {
+      return null;
     }
 
-    @Override
-    public void init() throws IllegalArgumentException {
-	/*
-	 * Ein ReportGeneratorImpl-Objekt instantiiert für seinen Eigenbedarf
-	 * eine pbAdministration-Instanz.
-	 */
-	PartnerboerseAdministrationImpl a = new PartnerboerseAdministrationImpl();
-	a.init();
-	this.administration = a;
+    // zu befüllenden Report erstellen
+    ProfilReport result = new ProfilReport();
+    result.setProfilId(p.getId());
+
+    // ab hier result mit Inhalten befüllen
+    result.setTitle("Mein Profil");
+
+
+    SimpleParagraph aehnlickeit = new SimpleParagraph(String.valueOf(p.getAehnlichkeit()));
+    result.setAehnlichekit(aehnlickeit);
+
+    SimpleParagraph name = new SimpleParagraph(p.getVorname() + " " + p.getNachname());
+    result.setName(name);
+
+    CompositeParagraph profilAttributBez = new CompositeParagraph();
+    profilAttributBez.addSubParagraph(new SimpleParagraph("Email: "));
+    profilAttributBez.addSubParagraph(new SimpleParagraph("Geschlecht: "));
+    profilAttributBez.addSubParagraph(new SimpleParagraph("Alter: "));
+    profilAttributBez.addSubParagraph(new SimpleParagraph("Raucher: "));
+    profilAttributBez.addSubParagraph(new SimpleParagraph("Religion: "));
+    profilAttributBez.addSubParagraph(new SimpleParagraph("Haarfarbe: "));
+    result.setProfilAttributeBez(profilAttributBez);
+
+    CompositeParagraph profilAttribute = new CompositeParagraph();
+    profilAttribute.addSubParagraph(new SimpleParagraph(p.getEmail()));
+    profilAttribute.addSubParagraph(new SimpleParagraph(p.getGeschlecht()));
+    profilAttribute.addSubParagraph(new SimpleParagraph("" + p.getAlter()));
+    profilAttribute.addSubParagraph(new SimpleParagraph(p.getRaucher()));
+    profilAttribute.addSubParagraph(new SimpleParagraph(p.getReligion()));
+    profilAttribute.addSubParagraph(new SimpleParagraph(p.getHaarfarbe()));
+    result.setProfilAttribute(profilAttribute);
+
+
+    // Eigenschaften anhängen als Tabelle mit zwei Spalten
+    // TODO ggf Info anpassen für besseres auslesen
+
+    ArrayList<Info> infos = administration.getInfoByProfile(p);
+
+
+
+    if (infos != null) {
+
+      for (Info i : infos) {
+        Row infoRow = new Row();
+
+
+        infoRow.addColumn(
+            new Column(administration.getEigenschaftsBeschreibungById(i.getEigenschaftId())));
+        infoRow.addColumn(new Column(i.getText()));
+        result.addRow(infoRow);
+
+      }
     }
 
-    @Override
-    public ProfilReport createProfilReport(Profil p) throws IllegalArgumentException {
-	if (this.administration == null) {
-	    return null;
-	}
+    return result;
 
-	// zu befüllenden Report erstellen
-	ProfilReport result = new ProfilReport();
-	result.setProfilId(p.getId());
+  }
 
-	// ab hier result mit Inhalten befüllen
-	//result.setTitle(p.getVorname() + " " + p.getNachname());
-	// result.setCreated(new Date());
+  @Override
+  public AllProfilesBySucheReport createSuchreportBySuchprofil(Suchprofil sp, Profil p) {
 
-	// Header des Reports erstellen
-	CompositeParagraph header = new CompositeParagraph();
-	header.addSubParagraph(new SimpleParagraph(p.getVorname() + " " + p.getNachname()));
-	header.addSubParagraph(new SimpleParagraph(String.valueOf(p.getAehnlichkeit())));
-
-	result.setHeaderData(header);
-
-	// "Impressum" mit Attributen des Profils befüllen
-	// TODO restliche benötigten Attribute hinzufügen
-	CompositeParagraph imprint = new CompositeParagraph();
-	imprint.addSubParagraph(new SimpleParagraph("Email: " + p.getEmail()));
-	imprint.addSubParagraph(new SimpleParagraph("Geschlecht: " + p.getGeschlecht()));
-	result.setImprint(imprint);
-	
-	CompositeParagraph imprint2 = new CompositeParagraph();
-	imprint2.addSubParagraph(new SimpleParagraph("Alter: " + p.getAlter()));
-	imprint2.addSubParagraph(new SimpleParagraph("Raucher: " + p.getRaucher()));
-	result.setImprint2(imprint2);
-
-	CompositeParagraph imprint3 = new CompositeParagraph();
-	imprint3.addSubParagraph(new SimpleParagraph("Religion: " + p.getReligion()));
-	imprint3.addSubParagraph(new SimpleParagraph("Haarfarbe: "+ p.getHaarfarbe()));
-	result.setImprint3(imprint3);
-
-	// Eigenschaften anhängen als Tabelle mit zwei Spalten
-	// TODO ggf Info anpassen für besseres auslesen
-
-	ArrayList<Info> infos = this.administration.getInfoByProfile(p);
-
-
-
-	if (infos != null) {
-
-	    for (Info i : infos) {
-		Row infoRow = new Row();
-		
-		
-		infoRow.addColumn(new Column(i.getText()));
-		infoRow.addColumn(new Column(administration.getEigenschaftsNameById(i.getEigenschaftId())));
-		result.addRow(infoRow);
-		
-	    }
-	}
-
-	return result;
-
+    ClientsideSettings.getLogger().info("createSuchreport Methode in ReportGenerator aufgerufen");
+    if (administration == null) {
+      return null;
     }
 
-    @Override
-    public AllProfileBySuche createSuchreport(ArrayList<Profil> p) {
 
-	ClientsideSettings.getLogger().info("createSuchreport Methode in ReportGenerator aufgerufen");
-	if (this.administration == null) {
-	    return null;
-	}
+    ArrayList<Profil> profilesList = administration.getProfilesBySuchprofil(sp, p);
+    AllProfilesBySucheReport result = new AllProfilesBySucheReport();
+    ArrayList<String> suchprofilItems = administration.getItemsOfSuchprofil(sp);
 
-	AllProfileBySuche result = new AllProfileBySuche();
+    result.setTitle("Suche nach Suchprofilen");
+    StringBuilder items = new StringBuilder();
 
-	// mit Inhalt befüllen
-	result.setTitle("Die Suche ergab: " + p.size() + " Treffer");
-	// result.setCreated(new Date());
+    for (String string : suchprofilItems) {
+      items.append(string + " <br>");
+    }
 
-	for (Profil profil : p) {
-	    result.addSubReport(this.createProfilReport(profil));
+    result.setSubTitle("Die Suche ergab: " + profilesList.size() + " Treffer"
+        + "<p>Suchkritierien: <br>" + items.toString() + "</p>");
 
-	}
-	return result;
+    for (Profil profil : profilesList) {
+      result.addSubReport(createProfilReport(profil));
 
     }
 
-    @Override
-    public AllProfilesReport createAllProfilesReport() throws IllegalArgumentException {
-	if (this.administration == null) {
-	    return null;
-	}
+    return result;
 
-	// zu befüllenden Report erstellen
-	AllProfilesReport result = new AllProfilesReport();
+  }
 
-	// mit Inhalt befüllen
-	result.setTitle("Alle Profile anzeigen Report");
-	result.setCreated(new Date());
-
-	// Hinzufügen der Kopfzeile
-	// result.addRow(headline);
-
-	// alle Profile abfragen
-	ArrayList<Profil> profile = this.administration.getAllProfiles();
-
-	for (Profil p : profile) {
-	    result.addSubReport(this.createProfilReport(p));
-
-	}
-
-	return result;
+  @Override
+  public AllProfilesReport createAllProfilesReport(Profil p) throws IllegalArgumentException {
+    if (administration == null) {
+      return null;
     }
 
-    @Override
-    public AllNotVisitedProfileReport createAllNotVisitedProfileReport(Profil p) throws IllegalArgumentException {
-	if (this.administration == null) {
-	    return null;
-	}
+    // zu befüllenden Report erstellen
+    AllProfilesReport result = new AllProfilesReport();
 
-	// zu befüllenden Report erstellen
-	AllNotVisitedProfileReport result = new AllNotVisitedProfileReport();
+    // mit Inhalt befüllen
 
-	// // mit Inhalt befüllen
-	result.setTitle("Alle nicht besuchen Profile anzeigen Report");
-	result.setCreated(new Date());
+    result.setTitle("Alle Profile");
+    result.setCreated(new Date());
 
-	// Hinzufügen der Kopfzeile
-	// result.addRow(headline);
+    // Hinzufügen der Kopfzeile
+    // result.addRow(headline);
 
-	// alle Profile abfragen
-	ArrayList<Profil> profile = this.administration.getAllNotVisitedProfilesByAehnlichkeitsmass(p);
+    // alle Profile abfragen
+    ArrayList<Profil> profile = administration.getProfilesByAehnlichkeitsmass(p);
 
-	for (Profil profil : profile) {
-	    result.addSubReport(this.createProfilReport(profil));
+    for (Profil profil : profile) {
+      result.addSubReport(createProfilReport(profil));
 
-	}
-
-	return result;
     }
 
-    @Override
-    public AllNewProfileReport createAllNewProfilesReport(Profil p) {
-	if (this.administration == null) {
-	    return null;
-	}
+    return result;
+  }
 
-	// zu befüllenden Report erstellen
-	AllNewProfileReport result = new AllNewProfileReport();
-
-	// mit Inhalt befüllen
-	result.setTitle("Alle neuen Profile anzeigen Report");
-	result.setCreated(new Date());
-
-	// Hinzufügen der Kopfzeile
-	// result.addRow(headline);
-
-	// alle Profile abfragen
-	ArrayList<Profil> profile = this.administration.getAllNewProfilesByAehnlichkeitsmass(p);
-
-	for (Profil profil : profile) {
-	    result.addSubReport(this.createProfilReport(profil));
-
-	}
-
-	return result;
+  @Override
+  public AllNotVisitedProfileReport createAllNotVisitedProfileReport(Profil p)
+      throws IllegalArgumentException {
+    if (administration == null) {
+      return null;
     }
 
-    @Override
-    public AllProfileBySuche createAllProfileBySucheReport(Profil p) throws IllegalArgumentException {
-	// TODO Auto-generated method stub
-	return null;
+    // zu befüllenden Report erstellen
+    AllNotVisitedProfileReport result = new AllNotVisitedProfileReport();
+
+    // // mit Inhalt befüllen
+    result.setTitle("Nicht besuchte Profile");
+    // result.setCreated(new Date());
+
+    // Hinzufügen der Kopfzeile
+    // result.addRow(headline);
+
+    // alle Profile abfragen
+    ArrayList<Profil> profile = administration.getAllNotVisitedProfilesByAehnlichkeitsmass(p);
+
+    for (Profil profil : profile) {
+      result.addSubReport(createProfilReport(profil));
+
     }
+
+    return result;
+  }
+
+  @Override
+  public AllNewProfileReport createAllNewProfilesReport(Profil p) {
+    if (administration == null) {
+      return null;
+    }
+
+    // zu befüllenden Report erstellen
+    AllNewProfileReport result = new AllNewProfileReport();
+
+    // mit Inhalt befüllen
+    result.setTitle("Neue Profile");
+    // result.setCreated(new Date());
+
+    // Hinzufügen der Kopfzeile
+    // result.addRow(headline);
+
+    // alle Profile abfragen
+    ArrayList<Profil> profile = administration.getAllNewProfilesByAehnlichkeitsmass(p);
+
+    for (Profil profil : profile) {
+      result.addSubReport(createProfilReport(profil));
+
+    }
+
+    return result;
+  }
+
+
 
 }

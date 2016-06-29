@@ -4,139 +4,136 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.cellview.client.DataGrid;
-import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
-import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
 
+import de.superteam2000.gwt.client.gui.CustomButton;
+import de.superteam2000.gwt.client.gui.DataGridProfiles;
+import de.superteam2000.gwt.client.gui.Notification;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Kontaktsperre;
 import de.superteam2000.gwt.shared.bo.Profil;
 
+/**
+ * Klasse zur Darstellung des Profils eines eingeloggten Users
+ *
+ * @author Volz, Funke
+ */
 public class Sperre extends BasicFrame {
-
-  @Override
-  public String getHeadlineText() {
-
-    return "Von ihnen gesperrte Profile:";
-  }
-
-  ArrayList<Profil> profile = new ArrayList<>();
+  /*
+   * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
+   */
 
   // pbVerwaltung über ClientsideSettings holen
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+  Profil user = ClientsideSettings.getCurrentUser();
+
+  CustomButton profilEntfernenButton = new CustomButton("Entfernen ");
+  ArrayList<Profil> profile = new ArrayList<>();
+
+  FlowPanel alignPanel = new FlowPanel();
+  FlowPanel contentPanel = new FlowPanel();
+
+  Profil selectedProfile;
+  DataGridProfiles dgp;
+
+  SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
+
+  @Override
+  public String getHeadlineText() {
+    return "Sperrliste";
+  }
+
+  @Override
+  protected String getSubHeadlineText() {
+    return "Hier findest du deine gesperrten Profile";
+  }
 
   @Override
   public void run() {
 
-    pbVerwaltung.getKontaktsperreForProfil(ClientsideSettings.getCurrentUser(),
-        new AsyncCallback<Kontaktsperre>() {
+    profilEntfernenButton.setEnabled(false);
+    profilEntfernenButton.setIcon("fa fa-times");
+    profilEntfernenButton.setStyleName("pure-button");
 
-          @Override
-          public void onSuccess(Kontaktsperre result) {
+    alignPanel.setStyleName("pure-form pure-form-aligned content");
+    contentPanel.setStyleName("content");
 
-            final Button profilEntfernenButton = new Button("Profil von Sperrliste entfernen");
-            RootPanel.get("Details").add(profilEntfernenButton);
+    alignPanel.add(profilEntfernenButton);
+    contentPanel.add(alignPanel);
 
-            profile = result.getGesperrteProfile();
+    profilEntfernenButton.addClickHandler(new EntfernenButtonClickhandler());
 
+    selectionModel.addSelectionChangeHandler(new SelectionChangeHandler());
 
+    // Hole alle gesperrte Kontakte, um damit die Tabelle zu füllen und um diese anzuzeigen
+    pbVerwaltung.getKontaktsperreForProfil(user, new KontaktsperreForProfilCallback());
 
-            DataGrid<Profil> table = new DataGrid<Profil>();
-            table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+  }
 
-            TextColumn<Profil> vorname = new TextColumn<Profil>() {
-              @Override
-              public String getValue(Profil p) {
-                return p.getVorname();
-              }
-            };
-            table.addColumn(vorname, "Vorname");
+  private class KontaktsperreForProfilCallback implements AsyncCallback<Kontaktsperre> {
+    @Override
+    public void onSuccess(Kontaktsperre result) {
 
-            TextColumn<Profil> nachname = new TextColumn<Profil>() {
-              @Override
-              public String getValue(Profil p) {
-                return p.getNachname();
-              }
-            };
-            table.addColumn(nachname, "Nachname");
+      profile = result.getGesperrteProfile();
+      DataGridProfiles dgp = new DataGridProfiles(profile);
 
-            TextColumn<Profil> alter = new TextColumn<Profil>() {
-              @Override
-              public String getValue(Profil p) {
-                return String.valueOf(p.getAlter());
-              }
-            };
-            table.addColumn(alter, "Alter");
+      contentPanel.add(dgp.start());
+      RootPanel.get("main").add(contentPanel);
 
-            // Add a selection model to handle user selection.
-            final SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
-            table.setSelectionModel(selectionModel);
+      dgp.getTable().setSelectionModel(selectionModel);
+    }
 
-            selectionModel.addSelectionChangeHandler(new Handler() {
+    @Override
+    public void onFailure(Throwable caught) {
+      ClientsideSettings.getLogger().info("Fehler KontaktsperreForProfilCallback");
 
-              @Override
-              public void onSelectionChange(SelectionChangeEvent event) {
-                final Profil selected = selectionModel.getSelectedObject();
-                profilEntfernenButton.addClickHandler(new ClickHandler() {
+    }
+  }
 
-                  @Override
-                  public void onClick(ClickEvent event) {
-                    if (selected != null) {
-                      ClientsideSettings.getPartnerboerseVerwaltung().deleteSperre(
-                          ClientsideSettings.getCurrentUser(), selected, new AsyncCallback<Void>() {
+  private class SelectionChangeHandler implements Handler {
+    @Override
+    public void onSelectionChange(SelectionChangeEvent event) {
+      profilEntfernenButton.setEnabled(true);
+      // ausgewähltes Profil setzen
+      selectedProfile = selectionModel.getSelectedObject();
+    }
+  }
 
-                            @Override
-                            public void onSuccess(Void result) {
-                              RootPanel.get("Details").clear();
-                              Sperre s = new Sperre();
-                              RootPanel.get("Details").add(s);
-                              Window.alert("Profil wurde von der Sperrliste entfernt!");
+  /**
+   * Clickhandler für den entfernenButton ausgewähltes Element wird von der Liste entfernt (auch aus
+   * db)
+   *
+   * @author Funke, Volz
+   *
+   */
+  public class EntfernenButtonClickhandler implements ClickHandler {
 
-                            }
+    @Override
+    public void onClick(ClickEvent event) {
 
-                            @Override
-                            public void onFailure(Throwable caught) {
-                              // TODO Auto-generated method stub
+      if (selectedProfile != null) {
+        pbVerwaltung.deleteSperre(user, selectedProfile, new DeleteSperreCallback());
+      }
+    }
+  }
 
-                            }
-                          });
+  private class DeleteSperreCallback implements AsyncCallback<Void> {
+    @Override
+    public void onSuccess(Void result) {
+      new Notification("Sperre für " + selectedProfile.getVorname() + " entfernt", "info");
+      
+      RootPanel.get("main").clear();
+      Sperre s = new Sperre();
+      RootPanel.get("main").add(s);
+    }
 
-
-                    }
-
-                  }
-                });
-
-
-              }
-            });
-
-            table.setRowCount(profile.size(), true);
-            table.setRowData(0, profile);
-            table.setWidth("100%");
-
-            LayoutPanel panel = new LayoutPanel();
-            panel.setSize("80em", "50em");
-            panel.add(table);
-            RootPanel.get("Details").add(panel);
-
-          }
-
-          @Override
-          public void onFailure(Throwable caught) {
-            ClientsideSettings.getLogger().info("Fehler !!");
-
-          }
-        });
-
+    @Override
+    public void onFailure(Throwable caught) {}
   }
 
 }

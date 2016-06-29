@@ -2,204 +2,191 @@ package de.superteam2000.gwt.client;
 
 import java.util.ArrayList;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
+import de.superteam2000.gwt.client.gui.CustomPopupPanel;
+import de.superteam2000.gwt.client.gui.DataGridProfiles;
+import de.superteam2000.gwt.client.gui.ListItemWidget;
+import de.superteam2000.gwt.client.gui.UnorderedListWidget;
+import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 
-public class Navbar extends HorizontalPanel {
-	
-	@Override
-	public void onLoad() {
-		/*
-		 * Bevor wir unsere eigene Formatierung veranslassen, überlassen wir es
-		 * der Superklasse eine Initialisierung vorzunehmen.
-		 */
-		super.onLoad();
+/**
+ * Diese Klasse bildet die Navigationsleiste ab
+ *
+ * @author Volz Daniel
+ *
+ */
+public class Navbar extends VerticalPanel {
+  /*
+   * Alle notwendigen Instanzvariablen werden deklariert
+   */
 
-		/*
-		 * Wenn alles vorbereitet ist, stoßen wir die run()-Methode an. Auch
-		 * run() ist als abstrakte Methode bzw. als Einschubmethode realisiert.
-		 * Auch hier ist es Aufgabe der Subklassen, für deren Implementierung zu
-		 * sorgen.
-		 */
-		this.run();
-	}
+  PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
-	Profil user = ClientsideSettings.getCurrentUser();
+  Profil user = ClientsideSettings.getCurrentUser();
+  
+  CustomPopupPanel pop = new CustomPopupPanel(false, true);
+  
+  @Override
+  protected void onLoad() {
+    RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#b75d6b");
 
-	public void append(Widget wi) {
-		this.add(wi);
-	}
+    if ((user != null) && user.isLoggedIn()) {
 
-	// this.setCellHorizontalAlignment(hp, ALIGN_RIGHT);
-	// hp.setHorizontalAlignment(ALIGN_RIGHT);
-	void run() {
-		
-		if (user != null && user.isLoggedIn()) {
+      FlowPanel menu = new FlowPanel();
+      FlowPanel pureMenu = new FlowPanel();
+      UnorderedListWidget menuList = new UnorderedListWidget();
 
-			Button logoutBtn = new Button("Logout");
-			// hp.add(logoutBtn);
-			logoutBtn.addClickHandler(new ClickHandler() {
+      Anchor home = new Anchor("PartnerBörse", GWT.getHostPageBaseURL() + "Superteam2000.html");
 
-				@Override
-				public void onClick(ClickEvent event) {
-					Window.open(user.getLogoutUrl(), "_self", "");
-				}
-			});
-			append(logoutBtn);
-			
-//			Button logBtn = new Button("Logger");
-//			logBtn.addClickHandler(new ClickHandler() {
-//
-//				@Override
-//				public void onClick(ClickEvent event) {
-//					
-//					LogConsole.getDialogBox().show();
-//					
-//				}
-//			});
-//			append(logBtn);
+      menuList.setStyleName("pure-menu-list");
+      home.setStyleName("pure-menu-heading");
+      pureMenu.setStyleName("pure-menu");
 
-			final Button profilBtn = new Button("Profil");
-			profilBtn.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					
-					
-					
-
-					ShowProfil sp = new ShowProfil();
-					RootPanel.get("Details").clear();
-					RootPanel.get("Menu").clear();
-					RootPanel.get("rechts").clear();
-					
-					RootPanel.get("Details").add(sp);				
-				}
-			});
-			append(profilBtn);
-			
-			
-			Button merklisteBtn = new Button("Merkliste");
-			// hp.add(merklisteBtn);
-			merklisteBtn.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					Merkliste m = new Merkliste();
-					RootPanel.get("Details").clear();
-					RootPanel.get("rechts").clear();
-					RootPanel.get("Menu").clear();
-					RootPanel.get("Details").add(m);
-					
-					
-				}
-			});
-			append(merklisteBtn);
-
-			Button sperrlisteBtn = new Button("Sperrliste");
-			sperrlisteBtn.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					Sperre s = new Sperre();
-					RootPanel.get("Details").clear();
-					RootPanel.get("rechts").clear();
-					RootPanel.get("Menu").clear();
-					RootPanel.get("Details").add(s);
-				}
-
-			});
-			append(sperrlisteBtn);
-
-			Button suchprofilBtn = new Button("Suchprofil");
-			suchprofilBtn.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					Suche s = new Suche();
-					
-					RootPanel.get("Details").clear();
-					RootPanel.get("rechts").clear();
-					RootPanel.get("Menu").clear();
-					RootPanel.get("Details").add(s);
-				}
-			});
-			append(suchprofilBtn);
-
-			Button eigenschaftenBtn = new Button("Eigenschaften");
-			eigenschaftenBtn.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-
-					Eigenschaft e = new Eigenschaft();
-					VerticalPanel detailsPanel = new VerticalPanel();
-					detailsPanel.add(e);
-					RootPanel.get("Details").clear();
-					RootPanel.get("rechts").clear();
-					RootPanel.get("Menu").clear();
-					 RootPanel.get("Details").add(detailsPanel);
-				}
-			});
-			append(eigenschaftenBtn);
-			
-			Button dataGridBtn = new Button("Alle Profile");
-			dataGridBtn.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					ClientsideSettings.getPartnerboerseVerwaltung().getProfilesByAehnlichkeitsmass(user, new AsyncCallback<ArrayList<Profil>>() {
-						
-						@Override
-						public void onSuccess(ArrayList<Profil> result) {
-							DataGridForProfiles dgt = new DataGridForProfiles(result);
-							VerticalPanel detailsPanel = new VerticalPanel();
-							detailsPanel.add(dgt);
-							RootPanel.get("Details").clear();
-							RootPanel.get("rechts").clear();
-							RootPanel.get("Menu").clear();
-							RootPanel.get("Details").add(detailsPanel);
-							
-						}
-						
-						@Override
-						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
-							
-						}
-					} );
+      Anchor logoutAnchor = new Anchor("Logout");
+      Anchor profilAnchor = new Anchor("Profil");
+      Anchor merklisteAnchor = new Anchor("Merkliste");
+      Anchor sperrlisteAnchor = new Anchor("Sperrliste");
+      Anchor suchprofilAnchor = new Anchor("Suchprofil");
+      Anchor eigenschaftenAnchor = new Anchor("Eigenschaften");
+      Anchor allProfilesAnchor = new Anchor("Alle Profile");
+      Anchor reportAnchor = new Anchor("Report");
 
 
-				}
-			});
-			append(dataGridBtn);
-			
-			Button reportButton = new Button("Report");
-			// hp.add(logoutBtn);
-			reportButton.addClickHandler(new ClickHandler() {
+      profilAnchor.setStyleName("pure-menu-link");
+      menuList.add(new ListItemWidget(profilAnchor));
 
-				@Override
-				public void onClick(ClickEvent event) {
-//					Window.open(user.getLogoutUrl(), "_self", "");
-//					Window.confirm("OK = true      Cancel = false");
-					Window.Location.replace("http://127.0.0.1:8888/Reportgen.html");
-				}
-			});
-			append(reportButton);
+      eigenschaftenAnchor.setStyleName("pure-menu-link");
+      menuList.add(new ListItemWidget(eigenschaftenAnchor));
 
-			// Anchor logOutLink = new Anchor("Logout");
-			// logOutLink.setHref(user.getLogoutUrl());
-			// this.append(logOutLink);
-		}
-	}
+      merklisteAnchor.setStyleName("pure-menu-link");
+      menuList.add(new ListItemWidget(merklisteAnchor));
+
+      sperrlisteAnchor.setStyleName("pure-menu-link");
+      menuList.add(new ListItemWidget(sperrlisteAnchor));
+
+      suchprofilAnchor.setStyleName("pure-menu-link");
+      menuList.add(new ListItemWidget(suchprofilAnchor));
+
+      allProfilesAnchor.setStyleName("pure-menu-link");
+      menuList.add(new ListItemWidget(allProfilesAnchor));
+
+      reportAnchor.setStyleName("pure-menu-link");
+      menuList.add(new ListItemWidget(reportAnchor));
+
+      logoutAnchor.setStyleName("pure-menu-link");
+      menuList.add(new ListItemWidget(logoutAnchor));
+
+      pureMenu.add(home);
+      pureMenu.add(menuList);
+      menu.add(pureMenu);
+
+      RootPanel.get("menu").add(menu);
+
+      logoutAnchor.addClickHandler(new LogoutClickHandler());
+      profilAnchor.addClickHandler(new ProfilClickHandler());
+      merklisteAnchor.addClickHandler(new MerklisteClickHandler());
+      sperrlisteAnchor.addClickHandler(new SperrlisteClickHandler());
+      suchprofilAnchor.addClickHandler(new SuchprofilClickHandler());
+      eigenschaftenAnchor.addClickHandler(new EigenschaftenClickHandler());
+      allProfilesAnchor.addClickHandler(new AlleProfileClickHandler());
+      reportAnchor.addClickHandler(new ReportClickHandler());
+
+    }
+  }
+
+  private class ReportClickHandler implements ClickHandler {
+    @Override
+    public void onClick(ClickEvent event) {
+      Window.Location.replace(GWT.getHostPageBaseURL() + "ReportGen.html");
+    }
+  }
+
+  private class AlleProfileClickHandler implements ClickHandler {
+
+    @Override
+    public void onClick(ClickEvent event) {
+      pop.load();
+      AllProfilesTable dgt = new AllProfilesTable();
+      RootPanel.get("main").clear();
+      RootPanel.get("main").add(dgt);
+      pbVerwaltung.getProfilesByAehnlichkeitsmass(user, new ProfilesByAehnlichkeitsmassCallback());
+    }
+  }
+
+  private class ProfilesByAehnlichkeitsmassCallback implements AsyncCallback<ArrayList<Profil>> {
+    @Override
+    public void onSuccess(ArrayList<Profil> result) {
+      AllProfilesTable dgt2 = new AllProfilesTable(result);
+      pop.stop();
+      RootPanel.get("main").clear();
+      RootPanel.get("main").add(dgt2);
+     
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {}
+  }
+
+  private class EigenschaftenClickHandler implements ClickHandler {
+    @Override
+    public void onClick(ClickEvent event) {
+      Eigenschaft e = new Eigenschaft();
+      RootPanel.get("main").clear();
+      RootPanel.get("main").add(e);
+    }
+  }
+
+  private class SuchprofilClickHandler implements ClickHandler {
+    @Override
+    public void onClick(ClickEvent event) {
+      Suche s = new Suche();
+      RootPanel.get("main").clear();
+      RootPanel.get("main").add(s);
+    }
+  }
+
+  private class SperrlisteClickHandler implements ClickHandler {
+    @Override
+    public void onClick(ClickEvent event) {
+      Sperre s = new Sperre();
+      RootPanel.get("main").clear();
+      RootPanel.get("main").add(s);
+    }
+  }
+
+  private class MerklisteClickHandler implements ClickHandler {
+    @Override
+    public void onClick(ClickEvent event) {
+      Merkliste m = new Merkliste();
+      RootPanel.get("main").clear();
+      RootPanel.get("main").add(m);
+    }
+  }
+
+  private class ProfilClickHandler implements ClickHandler {
+    @Override
+    public void onClick(ClickEvent event) {
+      ShowProfil sp = new ShowProfil();
+      RootPanel.get("main").clear();
+      RootPanel.get("main").add(sp);
+    }
+  }
+
+  private class LogoutClickHandler implements ClickHandler {
+    @Override
+    public void onClick(ClickEvent event) {
+      Window.open(user.getLogoutUrl(), "_self", "");
+    }
+  }
 
 }

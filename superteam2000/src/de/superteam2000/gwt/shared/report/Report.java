@@ -6,156 +6,163 @@ import java.util.Date;
 import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
- * <p>
- * Basisklasse aller Reports. Reports sind als <code>Serializable</code>
- * deklariert, damit sie von dem Server an den Client gesendet werden können.
- * Der Zugriff auf Reports erfolgt also nach deren Bereitstellung lokal auf dem
- * Client.
- * </p>
- * <p>
- * Ein Report besitzt eine Reihe von Standardelementen. Sie werden mittels
- * Attributen modelliert und dort dokumentiert.
- * </p>
- * 
+ * Basisklasse aller Reports. Reports sind als <code>Serializable</code> deklariert, damit sie von
+ * dem Server an den Client gesendet werden können.
+
+ * Ein Report besitzt eine Reihe von Standardelementen. Sie werden mittels Attributen modelliert und
+ * dort dokumentiert.
+ *
  * @see Report
- * @author Thies
+ * @author Thies, Volz, Funke
  */
 public abstract class Report implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	
-	private Profil profil = null;
 
-	/**
-	 * Ein kleines Impressum, das eine Art Briefkopf darstellt. Jedes
-	 * Unternehmen einige Daten wie Firmenname, Adresse, Logo, etc. auf
-	 * Geschäftsdokumenten ab. Dies gilt auch für die hier realisierten Reports.
-	 */
-	private Paragraph imprint = null;
-	
-	private Paragraph imprint2 = null;
-	
-	private Paragraph imprint3 = null;
+  private static final long serialVersionUID = 1L;
 
-	/**
-	 * Kopfdaten des Berichts.
-	 */
-	private Paragraph headerData = null;
 
-	/**
-	 * Jeder Bericht kann einen individuellen Titel besitzen.
-	 */
-	private String title = "Report";
+  private Profil profil = null;
 
-	/**
-	 * Datum der Erstellung des Berichts.
-	 */
-	private Date created = new Date();
 
-	/**
-	 * Auslesen des Impressums.
-	 * 
-	 * @return Text des Impressums
-	 */
-	public Paragraph getImprint() {
-		return this.imprint;
-	}
+  private Paragraph name = null;
 
-	/**
-	 * Setzen des Impressums.
-	 * 
-	 * @param imprint
-	 *            Text des Impressums
-	 */
-	public void setImprint(Paragraph imprint) {
-		this.imprint = imprint;
-	}
+  private CompositeParagraph attribute = null;
+  private CompositeParagraph attributeBez = null;
 
-	/**
-	 * Auslesen der Kopfdaten.
-	 * 
-	 * @return Text der Kopfdaten.
-	 */
-	public Paragraph getHeaderData() {
-		return this.headerData;
-	}
 
-	/**
-	 * Setzen der Kopfdaten.
-	 * 
-	 * @param headerData
-	 *            Text der Kopfdaten.
-	 */
-	public void setHeaderData(Paragraph headerData) {
-		this.headerData = headerData;
-	}
+  /**
+   * ein Paragraph für die Ähnlichkeit
+   */
+  private Paragraph aehnlichkeit = null;
 
-	/**
-	 * Auslesen des Berichtstitels.
-	 * 
-	 * @return Titeltext
-	 */
-	public String getTitle() {
-		return this.title;
-	}
+  /**
+   * Titel des Reports
+   */
+  private String title = "Report";
+  /**
+   * Unterüberschrift des Reports
+   */
+  private String subtitle = "";
+  /**
+   * Datum der Erstellung des Reports
+   */
+  private Date created = new Date();
 
-	/**
-	 * Setzen des Berichtstitels.
-	 * 
-	 * @param title
-	 *            Titeltext
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
+  
+  public Paragraph getName() {
+    return name;
+  }
 
-	/**
-	 * Auslesen des Erstellungsdatums.
-	 * 
-	 * @return Datum der Erstellung des Berichts
-	 */
-	public Date getCreated() {
-		return this.created;
-	}
+  public void setName(Paragraph name) {
+    this.name = name;
+  }
 
-	/**
-	 * Setzen des Erstellungsdatums. <b>Hinweis:</b> Der Aufruf dieser Methoden
-	 * ist nicht unbedingt erforderlich, da jeder Report bei seiner Erstellung
-	 * automatisch den aktuellen Zeitpunkt festhält.
-	 * 
-	 * @param created
-	 *            Zeitpunkt der Erstellung
-	 */
-	public void setCreated(Date created) {
-		this.created = created;
-	}
+  /**
+   * Setzen der Profilattribute
+   *
+   * @param attribute Text des Impressums
+   */
+  public void setProfilAttribute(CompositeParagraph attribute) {
+    this.attribute = attribute;
+  }
 
-	public Profil getProfil() {
-		return profil;
-	}
+  public CompositeParagraph getProfilAttribute() {
+    return attribute;
+  }
 
-	public void setProfil(Profil profil) {
-		this.profil = profil;
-	}
+  public void setProfilAttributeBez(CompositeParagraph attributeBez) {
+    this.attributeBez = attributeBez;
+  }
 
-	public Paragraph getImprint2() {
-		return imprint2;
-	}
+  public CompositeParagraph getProfilAttributeBez() {
+    return attributeBez;
+  }
 
-	public void setImprint2(Paragraph imprint2) {
-		this.imprint2 = imprint2;
-	}
+  /**
+   * Auslesen der Ähnlichkeit.
+   *
+   * @return Ähnlichkeit.
+   */
+  public Paragraph getAehnlichkeit() {
+    return aehnlichkeit;
+  }
 
-	public Paragraph getImprint3() {
-		return imprint3;
-	}
+  /**
+   * Setzen der Ähnlichkeit.
+   *
+   * @param aehnlichkeit 
+   */
+  public void setAehnlichekit(Paragraph aehnlichkeit) {
+    this.aehnlichkeit = aehnlichkeit;
+  }
 
-	public void setImprint3(Paragraph imprint3) {
-		this.imprint3 = imprint3;
-	}
+  /**
+   * Auslesen des Titels.
+   *
+   * @return Titeltext
+   */
+  public String getTitle() {
+    return title;
+  }
+  /**
+   * Setzen des Titels.
+   *
+   * @param title Titeltext
+   */
+  public void setTitle(String title) {
+	  this.title = title;
+  }
+
+  /**
+   * Setzen der Unterüberschrift.
+   *
+   * @param title Titeltext
+   */
+  public void setSubTitle(String subtitle) {
+    this.subtitle = subtitle;
+  }
+  /**
+   * Auslesen der Unterüberschrift
+   *
+   * @return Unterüberschrift
+   */
+  public String getSubTitle() {
+    return subtitle;
+  }
+
+
+  /**
+   * Auslesen des Erstellungsdatums.
+   *
+   * @return Datum der Erstellung des Reports
+   */
+  public Date getCreated() {
+    return created;
+  }
+
+  /**
+   * Setzen des Erstellungsdatums.
+   *
+   * @param created Zeitpunkt der Erstellung
+   */
+  public void setCreated(Date created) {
+    this.created = created;
+  }
+
+  /**
+   * gibt das gesetzte Profil zurück
+   * @return Profil
+   */
+  public Profil getProfil() {
+    return profil;
+  }
+/**
+ * setzen des Profils
+ * @param profil
+ */
+  public void setProfil(Profil profil) {
+    this.profil = profil;
+  }
+
 
 }

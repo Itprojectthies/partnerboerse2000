@@ -4,72 +4,64 @@ import java.io.Serializable;
 import java.util.Vector;
 
 /**
- * Zeile einer Tabelle eines <code>SimpleReport</code>-Objekts. <code>Row</code>
- * -Objekte implementieren das <code>Serializable</code>-Interface und können
- * daher als Kopie z.B. vom Server an den Client übertragen werden.
- * 
- * @see SimpleReport
- * @see Column
- * @author Thies
+ * Zeile einer Tabelle eines SimpleReport-Objekts. 
+ *
+ * @author Thies, Volz, Funke
  */
 public class Row implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/**
-	 * Speicherplatz für die Spalten der Zeile.
-	 */
-	private Vector<Column> columns = new Vector<Column>();
+  /**
+   *
+   */
+  private static final long serialVersionUID = 1L;
+  /**
+   * Speicherplatz für die Spalten der Zeile.
+   */
+  private Vector<Column> columns = new Vector<Column>();
 
-	/**
-	 * Hinzufügen einer Spalte.
-	 * 
-	 * @param c
-	 *            das Spaltenobjekt
-	 */
-	public void addColumn(Column c) {
-		this.columns.addElement(c);
-	}
+  /**
+   * Hinzufügen einer Spalte.
+   *
+   * @param c das Spaltenobjekt
+   */
+  public void addColumn(Column c) {
+    columns.addElement(c);
+  }
 
-	/**
-	 * Entfernen einer benannten Spalte
-	 * 
-	 * @param c
-	 *            das zu entfernende Spaltenobjekt
-	 */
-	public void removeColumn(Column c) {
-		this.columns.removeElement(c);
-	}
+  /**
+   * Entfernen einer benannten Spalte
+   *
+   * @param c das zu entfernende Spaltenobjekt
+   */
+  public void removeColumn(Column c) {
+    columns.removeElement(c);
+  }
 
-	/**
-	 * Auslesen sämtlicher Spalten.
-	 * 
-	 * @return <code>Vector</code>-Objekts mit sämtlichen Spalten
-	 */
-	public Vector<Column> getColumns() {
-		return this.columns;
-	}
+  /**
+   * Auslesen sämtlicher Spalten.
+   *
+   * @return Vector-Objekts mit sämtlichen Spalten
+   */
+  public Vector<Column> getColumns() {
+    return columns;
+  }
 
-	/**
-	 * Auslesen der Anzahl sämtlicher Spalten.
-	 * 
-	 * @return int Anzahl der Spalten
-	 */
-	public int getNumColumns() {
-		return this.columns.size();
-	}
+  /**
+   * Auslesen der Anzahl sämtlicher Spalten.
+   *
+   * @return int Anzahl der Spalten
+   */
+  public int getNumColumns() {
+    return columns.size();
+  }
 
-	/**
-	 * Auslesen eines einzelnen Spalten-Objekts.
-	 * 
-	 * @param i
-	 *            der Index der auszulesenden Spalte (0 <= i < n), mit n =
-	 *            Anzahl der Spalten.
-	 * @return das gewünschte Spaltenobjekt.
-	 */
-	public Column getColumnAt(int i) {
-		return this.columns.elementAt(i);
-	}
+  /**
+   * Auslesen eines einzelnen Spalten-Objekts.
+   *
+   * @param i 
+   * @return das gewünschte Spaltenobjekt.
+   */
+  public Column getColumnAt(int i) {
+    return columns.elementAt(i);
+  }
 }

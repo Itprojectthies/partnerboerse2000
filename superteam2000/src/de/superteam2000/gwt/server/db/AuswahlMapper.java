@@ -9,311 +9,311 @@ import java.util.ArrayList;
 import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 
-	 /**
-  	 * Klasse, die die Aufgabe erfüllt, die Objekte einer persistenten Klasse auf die Datenbank abzubilden und dort zu speichern.
- 	 * Die zu speichernden Objekte werden dematerialisiert und zu gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird
- 	 * als indirektes Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende Methoden zur Suche, zum Speichern, Löschen und 
- 	 * Modifizieren von Objekten.
- 	 * @see AehnlichkeitsMapper
- 	 * @see BeschreibungsMapper
-	 * @see DBConnection
-	 * @see InfoMapper
-	 * @see KontaktsperreMapper
-	 * @see MerkzettelMapper
-	 * @see ProfilMapper
-	 * @see SuchprofilMapper
- 
-	 * @author 
-	 */
+/**
+ * Klasse, die die Aufgabe erfï¿½llt, die Objekte einer persistenten Klasse auf die Datenbank
+ * abzubilden und dort zu speichern. Die zu speichernden Objekte werden dematerialisiert und zu
+ * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
+ * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
+ * Methoden zur Suche, zum Speichern, Lï¿½schen und Modifizieren von Objekten.
+ *
+ * @see AehnlichkeitsMapper
+ * @see BeschreibungsMapper
+ * @see DBConnection
+ * @see InfoMapper
+ * @see KontaktsperreMapper
+ * @see MerkzettelMapper
+ * @see ProfilMapper
+ * @see SuchprofilMapper
+ *
+ * @author
+ */
 
 public class AuswahlMapper {
 
 
-	/**
-	 * Von der Klasse AuswahlMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die Singleton-Eigenschaft.
-	 * Dies geschieht mittels eines private default-Konstruktors und genau einer statischen Variablen vom 
-	 * Typ AuswahlMapper, die die einzige Instanz der Klasse darstellt.
-	 *
-	 * 
-	 */
-	private static AuswahlMapper AuswahlMapper = null;
+  /**
+   * Von der Klasse AuswahlMapper kann nur eine Instanz erzeugt werden. Sie erfï¿½llt die
+   * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
+   * einer statischen Variablen vom Typ AuswahlMapper, die die einzige Instanz der Klasse darstellt.
+   *
+   *
+   */
+  private static AuswahlMapper AuswahlMapper = null;
 
-	/**
-	 * Durch den Modifier "private" geschützter Konstruktor, der verhindert das weiter Instanzen der Klasse erzeugt werden können
-	 *  
-	 */
-	protected AuswahlMapper() {
-	}
+  /**
+   * Durch den Modifier "private" geschï¿½tzter Konstruktor, der verhindert das weiter Instanzen der
+   * Klasse erzeugt werden kï¿½nnen
+   *
+   */
+  protected AuswahlMapper() {}
 
-	/**
-	 * Von der Klasse AuswahlMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die Singleton-Eigenschaft.
-	 * Dies geschieht mittels eines private default-Konstruktors und genau einer statischen Variablen vom 
-	 * Typ AuswahlMapper, die die einzige Instanz der Klasse darstellt.
-	 */
-	public static AuswahlMapper auswahlMapper() {
-		if (AuswahlMapper == null) {
-			AuswahlMapper = new AuswahlMapper();
-		}
+  /**
+   * Von der Klasse AuswahlMapper kann nur eine Instanz erzeugt werden. Sie erfï¿½llt die
+   * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
+   * einer statischen Variablen vom Typ AuswahlMapper, die die einzige Instanz der Klasse darstellt.
+   */
+  public static AuswahlMapper auswahlMapper() {
+    if (AuswahlMapper == null) {
+      AuswahlMapper = new AuswahlMapper();
+    }
 
-		return AuswahlMapper;
-		
-	}
-	
-	/**
-	 * Die Methode findByName erfüllt eine Suchfunktion und liefert Objekte des Typs Auswahl aus der Datenbank zurück
-	 * 
-	 * @param name 
-	 * @return Auswahl - Ein Auswahl-Objekt in dem Informationen des Objekts Auswahl aus der Datenbank gespeichert werden
-	 */
+    return AuswahlMapper;
 
-	public Auswahl findByName(String name) {
-		Connection con = DBConnection.connection();
+  }
 
-		try {
-			Statement stmt = con.createStatement();
-			Statement stmt2 = con.createStatement();
+  /**
+   * Die Methode findByName erfï¿½llt eine Suchfunktion und liefert Objekte des Typs Auswahl aus der
+   * Datenbank zurï¿½ck
+   *
+   * @param name
+   * @return Auswahl - Ein Auswahl-Objekt in dem Informationen des Objekts Auswahl aus der Datenbank
+   *         gespeichert werden
+   */
 
-			ResultSet rs1 = stmt.executeQuery(
-					"SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE Name=\"" + name + "\" AND e_typ='p_a'");
+  public Auswahl findByName(String name) {
+    Connection con = DBConnection.connection();
 
-			
-			if (rs1.next()) {
-				Auswahl a = new Auswahl();
-				a.setId(rs1.getInt("id"));
-				a.setName(rs1.getString("Name"));
-				a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
-				ResultSet rs2 = stmt2.executeQuery("SELECT Text FROM Alternative WHERE Auswahl_id=" + rs1.getInt("id"));
-				ArrayList<String> al = new ArrayList<>();
-				while (rs2.next()) {
-					al.add(rs2.getString("Text"));
-				}
-				a.setAlternativen(al);
+    try {
+      Statement stmt = con.createStatement();
+      Statement stmt2 = con.createStatement();
 
-				return a;
-			}
-		} catch (SQLException a) {
-			a.printStackTrace();
-			return null;
-		}
+      ResultSet rs1 =
+          stmt.executeQuery("SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE Name=\""
+              + name + "\" AND e_typ='p_a'");
 
-		return null;
-	}
 
-	/**
-	 * Die Methode findByKey implementiert die Suche nach genau einer id aus der Datenbank, entsprechend wird 
-	 * genau ein Objekt zurückgegeben.
-	 * 
-	 * @param id
-	 * 
-	 * @return Auswahl-Objekt, das der übergegebenen id entspricht bzw. null bei
-	 *         nicht vorhandenem DB-Tupel.
-	 */
-	public Auswahl findByKey(int id) {
-		// DB-Verbindung holen
-		Connection con = DBConnection.connection();
+      if (rs1.next()) {
+        Auswahl a = new Auswahl();
+        a.setId(rs1.getInt("id"));
+        a.setName(rs1.getString("Name"));
+        a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
+        ResultSet rs2 =
+            stmt2.executeQuery("SELECT Text FROM Alternative WHERE Auswahl_id=" + rs1.getInt("id"));
+        ArrayList<String> al = new ArrayList<String>();
+        while (rs2.next()) {
+          al.add(rs2.getString("Text"));
+        }
+        a.setAlternativen(al);
 
-		try {
-			// Leeres SQL-Statement (JDBC) anlegen
-			Statement stmt = con.createStatement();
-			Statement stmt2 = con.createStatement();
+        return a;
+      }
+    } catch (SQLException a) {
+      a.printStackTrace();
+      return null;
+    }
 
-			// Statement ausfÃ¼llen und als Query an die DB schicken
-			ResultSet rs1 = stmt.executeQuery(
-					"SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE id=" + id + " AND e_typ='a'");
+    return null;
+  }
 
-			/*
-			 * Da id PrimÃ¤rschlÃ¼ssel ist, kann max. nur ein Tupel zurÃ¼ckgegeben
-			 * werden. PrÃ¼fe, ob ein Ergebnis vorliegt.
-			 */
+  /**
+   * Die Methode findByKey implementiert die Suche nach genau einer id aus der Datenbank,
+   * entsprechend wird genau ein Objekt zurï¿½ckgegeben.
+   *
+   * @param id
+   *
+   * @return Auswahl-Objekt, das der ï¿½bergegebenen id entspricht bzw. null bei nicht vorhandenem
+   *         DB-Tupel.
+   */
+  public Auswahl findByKey(int id) {
+    // DB-Verbindung holen
+    Connection con = DBConnection.connection();
 
-			if (rs1.next()) {
-				// Ergebnis-Tupel in Objekt umwandeln
-				Auswahl a = new Auswahl();
-				a.setId(rs1.getInt("id"));
-				a.setName(rs1.getString("Name"));
-				a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
-				ResultSet rs2 = stmt2.executeQuery("SELECT Text FROM Alternative WHERE Auswahl_id=" + rs1.getInt("id"));
-				ArrayList<String> al = new ArrayList<>();
-				while (rs2.next()) {
-					al.add(rs2.getString("Text"));
-				}
-				a.setAlternativen(al);
+    try {
+      // Leeres SQL-Statement (JDBC) anlegen
+      Statement stmt = con.createStatement();
+      Statement stmt2 = con.createStatement();
 
-				return a;
-			}
-		} catch (SQLException a) {
-			a.printStackTrace();
-			return null;
-		}
+      // Statement ausfÃ¼llen und als Query an die DB schicken
+      ResultSet rs1 = stmt.executeQuery(
+          "SELECT id, Name, Beschreibungstext FROM Eigenschaft WHERE id=" + id + " AND e_typ='a'");
 
-		return null;
-	}
+      /*
+       * Da id PrimÃ¤rschlÃ¼ssel ist, kann max. nur ein Tupel zurÃ¼ckgegeben werden. PrÃ¼fe, ob ein
+       * Ergebnis vorliegt.
+       */
 
-	/**
-	 * Auslesen aller Auswahl-Tupel.
-	 *
-	 * @return Eine ArrayList mit Auswahl-Objekten
-	 */
-	public ArrayList<Auswahl> findAll() {
-		Connection con = DBConnection.connection();
-		ArrayList<Auswahl> result = new ArrayList<Auswahl>();
+      if (rs1.next()) {
+        // Ergebnis-Tupel in Objekt umwandeln
+        Auswahl a = new Auswahl();
+        a.setId(rs1.getInt("id"));
+        a.setName(rs1.getString("Name"));
+        a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
+        ResultSet rs2 =
+            stmt2.executeQuery("SELECT Text FROM Alternative WHERE Auswahl_id=" + rs1.getInt("id"));
+        ArrayList<String> al = new ArrayList<String>();
+        while (rs2.next()) {
+          al.add(rs2.getString("Text"));
+        }
+        a.setAlternativen(al);
 
-		try {
-			Statement stmt1 = con.createStatement();
-			ResultSet rs1 = stmt1
-					.executeQuery("SELECT id, Name, Beschreibungstext"
-							+ " FROM Eigenschaft WHERE e_typ='a'");
+        return a;
+      }
+    } catch (SQLException a) {
+      a.printStackTrace();
+      return null;
+    }
 
-			Statement stmt2 = con.createStatement();
+    return null;
+  }
 
-			
+  /**
+   * Auslesen aller Auswahl-Tupel.
+   *
+   * @return Eine ArrayList mit Auswahl-Objekten
+   */
+  public ArrayList<Auswahl> findAll() {
+    Connection con = DBConnection.connection();
+    ArrayList<Auswahl> result = new ArrayList<Auswahl>();
 
-			while (rs1.next()) {
-				Auswahl a = new Auswahl();
-				a.setId(rs1.getInt("id"));
-				a.setName(rs1.getString("Name"));
-				a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
-				ResultSet rs2 = stmt2
-						.executeQuery("SELECT Text FROM Alternative WHERE" 
-								+ " Auswahl_id=" + rs1.getInt("id"));
-				ArrayList<String> al = new ArrayList<>();
-				while (rs2.next()) {
-					al.add(rs2.getString("Text"));
-				}
-				a.setAlternativen(al);
-				// HinzufÃ¼gen des neuen Objekts zum Ergebnisvektor
-				result.add(a);
+    try {
+      Statement stmt1 = con.createStatement();
+      ResultSet rs1 = stmt1
+          .executeQuery("SELECT id, Name, Beschreibungstext" + " FROM Eigenschaft WHERE e_typ='a'");
 
-			}
+      Statement stmt2 = con.createStatement();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			ClientsideSettings.getLogger()
-			.severe("Fehler beim schreiben in die DB" + e.getMessage() + " " 
-					+ e.getCause() + " ");
-		}
 
-		return result;
-	}
 
-	/**
-	 * Auslesen aller Auswahl-Tupel.
-	 *
-	 * @return Eine ArrayList  mit Auswahl-Objekten, bei einem Fehler wird eine SQL-Exception ausgelöst
-	 */
-	public ArrayList<Auswahl> findAllProfilAtrribute() {
-		Connection con = DBConnection.connection();
-		// Ergebnisvektor vorbereiten
-		ArrayList<Auswahl> result = new ArrayList<Auswahl>();
+      while (rs1.next()) {
+        Auswahl a = new Auswahl();
+        a.setId(rs1.getInt("id"));
+        a.setName(rs1.getString("Name"));
+        a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
+        ResultSet rs2 = stmt2
+            .executeQuery("SELECT Text FROM Alternative WHERE" + " Auswahl_id=" + rs1.getInt("id"));
+        ArrayList<String> al = new ArrayList<String>();
+        while (rs2.next()) {
+          al.add(rs2.getString("Text"));
+        }
+        a.setAlternativen(al);
+        // HinzufÃ¼gen des neuen Objekts zum Ergebnisvektor
+        result.add(a);
 
-		try {
-			Statement stmt1 = con.createStatement();
-			ResultSet rs1 = stmt1
-					.executeQuery("SELECT id, Name, Beschreibungstext" 
-							+ " FROM Eigenschaft WHERE e_typ='p_a'");
+      }
 
-			Statement stmt2 = con.createStatement();
+    } catch (SQLException e) {
+      e.printStackTrace();
+      ClientsideSettings.getLogger()
+          .severe("Fehler beim schreiben in die DB" + e.getMessage() + " " + e.getCause() + " ");
+    }
 
-			while (rs1.next()) {
-				Auswahl a = new Auswahl();
-				a.setId(rs1.getInt("id"));
-				a.setName(rs1.getString("Name"));
-				a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
-				ResultSet rs2 = stmt2.executeQuery("SELECT Text FROM Alternative "
-						+ "WHERE Auswahl_id=" + rs1.getInt("id"));
-				ArrayList<String> al = new ArrayList<>();
-				while (rs2.next()) {
-					al.add(rs2.getString("Text"));
-				}
-				a.setAlternativen(al);
-				result.add(a);
+    return result;
+  }
 
-			}
+  /**
+   * Auslesen aller Auswahl-Tupel.
+   *
+   * @return Eine ArrayList mit Auswahl-Objekten, bei einem Fehler wird eine SQL-Exception ausgelï¿½st
+   */
+  public ArrayList<Auswahl> findAllProfilAtrribute() {
+    Connection con = DBConnection.connection();
+    // Ergebnisvektor vorbereiten
+    ArrayList<Auswahl> result = new ArrayList<Auswahl>();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			ClientsideSettings.getLogger()
-			.severe("Fehler beim schreiben in die DB" + e.getMessage() 
-			+ " " + e.getCause() + " ");
-		}
+    try {
+      Statement stmt1 = con.createStatement();
+      ResultSet rs1 = stmt1.executeQuery(
+          "SELECT id, Name, Beschreibungstext" + " FROM Eigenschaft WHERE e_typ='p_a'");
 
-		return result;
-	}
+      Statement stmt2 = con.createStatement();
 
-	/**
-	 * Hinzufügen eines Auswahl-Objekts in die Datenbank. 
-	 *
-	 * @param a - das zu speichernde Objekt
-	 *            
-	 * @return das an die Datenbank übergebene Objekt
-	 */
-	public Auswahl insert(Auswahl a) {
-		Connection con = DBConnection.connection();
+      while (rs1.next()) {
+        Auswahl a = new Auswahl();
+        a.setId(rs1.getInt("id"));
+        a.setName(rs1.getString("Name"));
+        a.setBeschreibungstext(rs1.getString("Beschreibungstext"));
+        ResultSet rs2 = stmt2
+            .executeQuery("SELECT Text FROM Alternative " + "WHERE Auswahl_id=" + rs1.getInt("id"));
+        ArrayList<String> al = new ArrayList<String>();
+        while (rs2.next()) {
+          al.add(rs2.getString("Text"));
+        }
+        a.setAlternativen(al);
+        result.add(a);
 
-		try {
-			Statement stmt = con.createStatement();
+      }
 
-			
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " 
-			 + "FROM Eigenschaft ");
+    } catch (SQLException e) {
+      e.printStackTrace();
+      ClientsideSettings.getLogger()
+          .severe("Fehler beim schreiben in die DB" + e.getMessage() + " " + e.getCause() + " ");
+    }
 
-			if (rs.next()) {
-			
-				a.setId(rs.getInt("maxid") + 1);
+    return result;
+  }
 
-				stmt = con.createStatement();
+  /**
+   * Hinzufï¿½gen eines Auswahl-Objekts in die Datenbank.
+   *
+   * @param a - das zu speichernde Objekt
+   *
+   * @return das an die Datenbank ï¿½bergebene Objekt
+   */
+  public Auswahl insert(Auswahl a) {
+    Connection con = DBConnection.connection();
 
-				// Jetzt erst erfolgt die tatsÃ¤chliche EinfÃ¼geoperation
-				stmt.executeUpdate("INSERT INTO Eigenschaft (id, Name, "
-						+ "Beschreibungstext, e_typ) VALUES (" + a.getId()
-						+ ",'" + a.getName() + "','" + a.getBeschreibungstext() + "','a')");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+    try {
+      Statement stmt = con.createStatement();
 
-		return a;
-	}
 
-	/**
-	 * Die Methode update modifiziert ein auf die Datenbank abgebildetes Auswahl-Objekt.
-	 * @param a - das Objekt, welches in der Datenbank geändert wird
-	 * @return das als Parameter übergebene Objekt
-	 */
-	public Auswahl update(Auswahl a) {
-		Connection con = DBConnection.connection();
+      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM Eigenschaft ");
 
-		try {
-			Statement stmt = con.createStatement();
+      if (rs.next()) {
 
-			stmt.executeUpdate("UPDATE Eigenschaft SET Name='" + a.getName() + 
-					"', Beschreibungstext='"+ a.getBeschreibungstext() 
-					+ "', e_typ='a' WHERE id=" + a.getId());
+        a.setId(rs.getInt("maxid") + 1);
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+        stmt = con.createStatement();
 
-		// Um Analogie zu insert(Auswahl a) zu wahren, geben wir a zurÃ¼ck
-		return a;
-	}
+        // Jetzt erst erfolgt die tatsÃ¤chliche EinfÃ¼geoperation
+        stmt.executeUpdate(
+            "INSERT INTO Eigenschaft (id, Name, " + "Beschreibungstext, e_typ) VALUES (" + a.getId()
+                + ",'" + a.getName() + "','" + a.getBeschreibungstext() + "','a')");
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
 
-	/**
-	 * Löschen eines auf die Datenbank abgebildeteten Auswahl-Objekts
-	 *
-	 * @param a das aus der DB zu löschende Objekt
-	 */
-	public void delete(Auswahl a) {
-		Connection con = DBConnection.connection();
+    return a;
+  }
 
-		try {
-			Statement stmt = con.createStatement();
+  /**
+   * Die Methode update modifiziert ein auf die Datenbank abgebildetes Auswahl-Objekt.
+   *
+   * @param a - das Objekt, welches in der Datenbank geï¿½ndert wird
+   * @return das als Parameter ï¿½bergebene Objekt
+   */
+  public Auswahl update(Auswahl a) {
+    Connection con = DBConnection.connection();
 
-			stmt.executeUpdate("DELETE FROM Eigenschaft " 
-			+ "WHERE id=" + a.getId());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+    try {
+      Statement stmt = con.createStatement();
+
+      stmt.executeUpdate("UPDATE Eigenschaft SET Name='" + a.getName() + "', Beschreibungstext='"
+          + a.getBeschreibungstext() + "', e_typ='a' WHERE id=" + a.getId());
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Um Analogie zu insert(Auswahl a) zu wahren, geben wir a zurÃ¼ck
+    return a;
+  }
+
+  /**
+   * Lï¿½schen eines auf die Datenbank abgebildeteten Auswahl-Objekts
+   *
+   * @param a das aus der DB zu lï¿½schende Objekt
+   */
+  public void delete(Auswahl a) {
+    Connection con = DBConnection.connection();
+
+    try {
+      Statement stmt = con.createStatement();
+
+      stmt.executeUpdate("DELETE FROM Eigenschaft " + "WHERE id=" + a.getId());
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 
 }
