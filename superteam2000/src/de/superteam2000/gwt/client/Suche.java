@@ -33,13 +33,18 @@ import de.superteam2000.gwt.shared.bo.Suchprofil;
  *
  */
 public class Suche extends BasicFrame {
+
+  Profil user = ClientsideSettings.getCurrentUser();
+  Logger logger = ClientsideSettings.getLogger();
+  PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+
   CustomPopupPanel pop = new CustomPopupPanel(false, true);
+
   ArrayList<Profil> profile = null;
   ArrayList<Suchprofil> suchProfilListe = null;
   ArrayList<Auswahl> auswahlListe = null;
 
   Profil profil = null;
-  FlowPanel fPanel = new FlowPanel();
 
   Suchprofil sp = null;
   ProfilAttributTextBox suchProfilTextbox = null;
@@ -52,10 +57,6 @@ public class Suche extends BasicFrame {
 
   @SuppressWarnings("deprecation")
   ListBox suchProfilListBox = new ListBox(true);
-
-  Profil user = ClientsideSettings.getCurrentUser();
-  Logger logger = ClientsideSettings.getLogger();
-  PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
   @Override
   protected String getHeadlineText() {
@@ -84,8 +85,7 @@ public class Suche extends BasicFrame {
     searchPanel.add(searchBoxProfilAttribute);
     searchPanel.add(searchBoxInfo);
 
-    fPanel.add(searchPanel);
-
+    this.add(searchPanel);
 
     BoxPanel suchProfilName = new BoxPanel("Name des Suchprofils");
     suchProfilTextbox = new ProfilAttributTextBox();
@@ -109,220 +109,139 @@ public class Suche extends BasicFrame {
     searchBoxListBox.add(suchprofilLöschenButton);
     searchBoxListBox.add(sucheButton);
 
-
     suchProfilListBox.setStyleName("search-box");
 
-    RootPanel.get("main").add(fPanel);
+    RootPanel.get("main").add(this);
 
 
-
-    pbVerwaltung.getAllAuswahl(new AsyncCallback<ArrayList<Auswahl>>() {
-
-      @Override
-      public void onSuccess(ArrayList<Auswahl> result) {
-        auswahlListe = result;
-        // Erstelle Listboxen für die Auswahleigenschaften und füge sie dem FlowPanel hinzu
-
-        for (Auswahl a : result) {
-          BoxPanel clb = new BoxPanel(a, false);
-          clb.setId(a.getId());
-          clb.addKeineAngabenItem();
-          searchBoxInfo.add(clb);
-        }
-      }
-
-      @Override
-      public void onFailure(Throwable caught) {
-        // TODO Auto-generated method stub
-
-      }
-    });
-
-
-
-    suchProfilListBox.addClickHandler(new ClickHandler() {
-
-      // ClickHandler um die Listboxen mit den jeweiligen Daten zu aktualisieren,
-      // wenn ein Suchprofil angeklickt wird
-
-      @Override
-      public void onClick(ClickEvent event) {
-        suchprofilLöschenButton.setEnabled(true);
-
-        ListBox clickedLb = (ListBox) event.getSource();
-        suchProfilTextbox.setText(clickedLb.getSelectedItemText());
-
-        pbVerwaltung.getSuchprofileForProfilByName(user, clickedLb.getSelectedItemText(),
-            new AsyncCallback<Suchprofil>() {
-
-              @Override
-              public void onSuccess(Suchprofil result) {
-                sp = result;
-
-                final HashMap<Integer, String> auswahlListeSp = sp.getAuswahlListe();
-
-                for (Widget child : searchBoxInfo) {
-                  if (child instanceof BoxPanel) {
-                    BoxPanel childPanel = (BoxPanel) child;
-
-                    // Infoobjekte des Suchporifls in die Listboxen schreiben
-                    for (Auswahl a : auswahlListe) {
-                      if (childPanel.getId() == a.getId()) {
-                        childPanel.setSelectedItemForSP(
-                            auswahlListeSp.get(childPanel.getAuswahl().getId()));
-                      }
-                    }
-                  }
-                }
-
-
-                for (Widget child : searchBoxProfilAttribute) {
-                  if (child instanceof BoxPanel) {
-                    BoxPanel childPanel = (BoxPanel) child;
-
-                    // Infoobjekte des Suchporifls in die Listboxen schreiben
-                    for (Auswahl a : auswahlListe) {
-                      if (childPanel.getId() == a.getId()) {
-                        childPanel.setSelectedItemForSP(
-                            auswahlListeSp.get(childPanel.getAuswahl().getId()));
-                      }
-                    }
-                    // Profilattribute in die Listboxen schreiben
-                    switch (childPanel.getName()) {
-                      case "Raucher":
-                        childPanel.setSelectedItemForSP(sp.getRaucher());
-                        break;
-                      case "Haarfarbe":
-                        childPanel.setSelectedItemForSP(sp.getHaarfarbe());
-                        break;
-                      case "Religion":
-                        childPanel.setSelectedItemForSP(sp.getReligion());
-                        break;
-                      case "Geschlecht":
-                        childPanel.setSelectedItemForSP(sp.getGeschlecht());
-                        break;
-                      case "Körpergröße_min":
-                        childPanel.setGroesse(sp.getGroesse_min() + 1);
-                        break;
-                      case "Körpergröße_max":
-                        childPanel.setGroesse(sp.getGroesse_max() + 1);
-                        break;
-                      case "Alter_min":
-                        childPanel.setAlter(sp.getAlter_min());
-                        break;
-                      case "Alter_max":
-                        childPanel.setAlter(sp.getAlter_max());
-                        break;
-                    }
-                  }
-                }
-
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-                logger.severe("Fehler bei Ausgabe eines Suchprofils");
-
-              }
-            });
-
-      }
-    });
-
-
-
-    sucheButton.addClickHandler(new ClickHandler() {
-
-      @Override
-      public void onClick(ClickEvent event) {
-        // RootPanel.get("main").clear();
-        sp = Suche.this.createSP();
-        pop.load();
-        ClientsideSettings.getPartnerboerseVerwaltung().getProfilesBySuchprofil(sp, user,
-            new GetProfilesBySuchProfilCallback());
-
-      }
-    });
-
-
-    suchprofilLöschenButton.addClickHandler(new ClickHandler() {
-
-      @Override
-      public void onClick(ClickEvent event) {
-        int i = suchProfilListBox.getSelectedIndex();
-        suchProfilListBox.removeItem(i);
-
-        pbVerwaltung.deleteSuchprofil(sp, new AsyncCallback<Void>() {
-
-          @Override
-          public void onSuccess(Void result) {
-            logger.info("Suchprofil erflogreich gelöscht");
-
-          }
-
-          @Override
-          public void onFailure(Throwable caught) {
-            logger.info("Suchprofil nicht erfolgreich gelöscht");
-          }
-        });
-
-      }
-    });
-
-    suchprofilSpeichernButton.addClickHandler(new ClickHandler() {
-
-      @Override
-      public void onClick(ClickEvent event) {
-        Suchprofil tmpSp = Suche.this.createSP();
-        tmpSp.setId(sp.getId());
-        sp = tmpSp;
-
-        pbVerwaltung.save(sp, new AsyncCallback<Void>() {
-
-          @Override
-          public void onSuccess(Void result) {
-            logger.info("Suchprofil erflogreich gespeichert");
-
-          }
-
-          @Override
-          public void onFailure(Throwable caught) {
-            logger.info("Suchprofil nicht erflogreich gespeichert");
-          }
-        });
-
-      }
-    });
-
-    pbVerwaltung.getAllSuchprofileForProfil(user, new AsyncCallback<ArrayList<Suchprofil>>() {
-
-      // Befülle die SuchProfilListBox mit bereits gespeichtern Suchprofilen
-
-
-      @Override
-      public void onSuccess(ArrayList<Suchprofil> result) {
-        suchProfilListe = result;
-        for (Suchprofil sp : suchProfilListe) {
-          suchProfilListBox.addItem(sp.getName());
-        }
-        if (result.size() == 0) {
-          new Notification("Sie haben keine Suchprofile", "info");
-        }
-      }
-
-      @Override
-      public void onFailure(Throwable caught) {
-        ClientsideSettings.getLogger().info("Fehler AsyncCallback alle Suchprofile");
-      }
-    });
-
-
-
+    suchProfilListBox.addClickHandler(new SuchProfilListBoxClickHandler());
+    sucheButton.addClickHandler(new SucheButtonClickHandler());
+    suchprofilLöschenButton.addClickHandler(new SuchprofilLöschenButtonClickHandler());
+    suchprofilSpeichernButton.addClickHandler(new SuchprofilSpeichernButtonClickHandler());
+    suchprofilErstellButton.addClickHandler(new SuchButtonClickHandler());
+    
+    pbVerwaltung.getAllAuswahl(new AllAuswahlCallback());
+    pbVerwaltung.getAllSuchprofileForProfil(user, new AllSuchprofileForProfilCallback());
     pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
 
-    suchprofilErstellButton.addClickHandler(new SuchButtonClickHandler());
+    
 
-    // RootPanel.get("main").add(fPanel);
+  }
+
+  private class AllSuchprofileForProfilCallback implements AsyncCallback<ArrayList<Suchprofil>> {
+    @Override
+    public void onSuccess(ArrayList<Suchprofil> result) {
+      suchProfilListe = result;
+      for (Suchprofil sp : suchProfilListe) {
+        suchProfilListBox.addItem(sp.getName());
+      }
+      if (result.size() == 0) {
+        new Notification("Sie haben keine Suchprofile", "info");
+      }
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {
+      ClientsideSettings.getLogger().info("Fehler AsyncCallback alle Suchprofile");
+    }
+  }
+
+  private class SuchprofilSpeichernButtonClickHandler implements ClickHandler {
+
+    @Override
+    public void onClick(ClickEvent event) {
+      Suchprofil tmpSp = Suche.this.createSP();
+      tmpSp.setId(sp.getId());
+      sp = tmpSp;
+
+      pbVerwaltung.save(sp, new SaveSuchprofilCallback());
+    }
+  }
+
+  private class SaveSuchprofilCallback implements AsyncCallback<Void> {
+    @Override
+    public void onSuccess(Void result) {
+      logger.info("Suchprofil erflogreich gespeichert");
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {
+      logger.info("Suchprofil nicht erflogreich gespeichert");
+    }
+  }
+
+  private class SuchprofilLöschenButtonClickHandler implements ClickHandler {
+
+    @Override
+    public void onClick(ClickEvent event) {
+      int i = suchProfilListBox.getSelectedIndex();
+      suchProfilListBox.removeItem(i);
+
+      pbVerwaltung.deleteSuchprofil(sp, new DeleteSuchprofilCallback());
+
+    }
+  }
+
+  private class DeleteSuchprofilCallback implements AsyncCallback<Void> {
+    @Override
+    public void onSuccess(Void result) {
+      logger.info("Suchprofil erflogreich gelöscht");
+
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {
+      logger.info("Suchprofil nicht erfolgreich gelöscht");
+    }
+  }
+
+  private class SucheButtonClickHandler implements ClickHandler {
+    @Override
+    public void onClick(ClickEvent event) {
+      // RootPanel.get("main").clear();
+      sp = Suche.this.createSP();
+      pop.load();
+      ClientsideSettings.getPartnerboerseVerwaltung().getProfilesBySuchprofil(sp, user,
+          new GetProfilesBySuchProfilCallback());
+
+    }
+  }
+
+  private class SuchProfilListBoxClickHandler implements ClickHandler {
+
+
+    @Override
+    public void onClick(ClickEvent event) {
+      suchprofilLöschenButton.setEnabled(true);
+
+      ListBox clickedLb = (ListBox) event.getSource();
+      suchProfilTextbox.setText(clickedLb.getSelectedItemText());
+
+      pbVerwaltung.getSuchprofileForProfilByName(user, clickedLb.getSelectedItemText(),
+          new SuchprofileForProfilByNameCallback());
+
+    }
+  }
+
+  private class AllAuswahlCallback implements AsyncCallback<ArrayList<Auswahl>> {
+    @Override
+    public void onSuccess(ArrayList<Auswahl> result) {
+      auswahlListe = result;
+      // Erstelle Listboxen für die Auswahleigenschaften und füge sie dem FlowPanel hinzu
+
+      for (Auswahl a : result) {
+        BoxPanel clb = new BoxPanel(a, false);
+        clb.setId(a.getId());
+        clb.addKeineAngabenItem();
+        searchBoxInfo.add(clb);
+      }
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {
+      // TODO Auto-generated method stub
+
+    }
   }
 
   private final class GetProfilesBySuchProfilCallback implements AsyncCallback<ArrayList<Profil>> {
@@ -342,12 +261,79 @@ public class Suche extends BasicFrame {
         RootPanel.get("search-table").clear();
         RootPanel.get("search-table").add(dgp.start());
       }
-
     }
 
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().info("Fehler Callback getProfilesBySuche");
+    }
+  }
+
+  private class SuchprofileForProfilByNameCallback implements AsyncCallback<Suchprofil> {
+    @Override
+    public void onSuccess(Suchprofil result) {
+      sp = result;
+
+      final HashMap<Integer, String> auswahlListeSp = sp.getAuswahlListe();
+
+      for (Widget child : searchBoxInfo) {
+        if (child instanceof BoxPanel) {
+          BoxPanel childPanel = (BoxPanel) child;
+
+          // Infoobjekte des Suchporifls in die Listboxen schreiben
+          for (Auswahl a : auswahlListe) {
+            if (childPanel.getId() == a.getId()) {
+              childPanel.setSelectedItemForSP(auswahlListeSp.get(childPanel.getAuswahl().getId()));
+            }
+          }
+        }
+      }
+
+
+      for (Widget child : searchBoxProfilAttribute) {
+        if (child instanceof BoxPanel) {
+          BoxPanel childPanel = (BoxPanel) child;
+
+          // Infoobjekte des Suchporifls in die Listboxen schreiben
+          for (Auswahl a : auswahlListe) {
+            if (childPanel.getId() == a.getId()) {
+              childPanel.setSelectedItemForSP(auswahlListeSp.get(childPanel.getAuswahl().getId()));
+            }
+          }
+          // Profilattribute in die Listboxen schreiben
+          switch (childPanel.getName()) {
+            case "Raucher":
+              childPanel.setSelectedItemForSP(sp.getRaucher());
+              break;
+            case "Haarfarbe":
+              childPanel.setSelectedItemForSP(sp.getHaarfarbe());
+              break;
+            case "Religion":
+              childPanel.setSelectedItemForSP(sp.getReligion());
+              break;
+            case "Geschlecht":
+              childPanel.setSelectedItemForSP(sp.getGeschlecht());
+              break;
+            case "Körpergröße_min":
+              childPanel.setGroesse(sp.getGroesse_min() + 1);
+              break;
+            case "Körpergröße_max":
+              childPanel.setGroesse(sp.getGroesse_max() + 1);
+              break;
+            case "Alter_min":
+              childPanel.setAlter(sp.getAlter_min());
+              break;
+            case "Alter_max":
+              childPanel.setAlter(sp.getAlter_max());
+              break;
+          }
+        }
+      }
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {
+      logger.severe("Fehler bei Ausgabe eines Suchprofils");
     }
   }
 
@@ -358,7 +344,6 @@ public class Suche extends BasicFrame {
         BoxPanel clb = new BoxPanel(a, true);
         clb.addKeineAngabenItem();
         searchBoxProfilAttribute.add(clb);
-
       }
 
       ProfilAttributListbox groesseMin = new ProfilAttributListbox();
@@ -390,7 +375,6 @@ public class Suche extends BasicFrame {
       searchBoxProfilAttribute.add(groesseMax);
       searchBoxProfilAttribute.add(alterMin);
       searchBoxProfilAttribute.add(alterMax);
-
     }
 
     @Override
@@ -408,31 +392,28 @@ public class Suche extends BasicFrame {
 
     @Override
     public void onClick(ClickEvent event) {
-
       sp = createSP();
-
 
       if (suchProfilListe.contains(sp)) {
         new Notification("Suchprofilname " + sp.getName() + " exisitiert bereits", "info");
       } else {
         suchProfilListe.add(sp);
         suchProfilListBox.addItem(sp.getName());
-        pbVerwaltung.createSuchprofil(sp, new AsyncCallback<Void>() {
-
-          @Override
-          public void onSuccess(Void result) {
-            logger.info("Suchprofil in DB geschreiben " + sp.getName());
-          }
-
-          @Override
-          public void onFailure(Throwable caught) {
-            logger.severe("Suchprofil in DB geschreiben Fehler= " + sp.getName());
-          }
-        });
+        pbVerwaltung.createSuchprofil(sp, new CreateSuchprofilCallback());
       }
+    }
+  }
 
+  private class CreateSuchprofilCallback implements AsyncCallback<Void> {
+    @Override
+    public void onSuccess(Void result) {
+      logger.info("Suchprofil in DB geschreiben " + sp.getName());
     }
 
+    @Override
+    public void onFailure(Throwable caught) {
+      logger.severe("Suchprofil in DB geschreiben Fehler= " + sp.getName());
+    }
   }
 
   public Suchprofil createSP() {
@@ -524,7 +505,7 @@ public class Suche extends BasicFrame {
     return sp;
   }
 
-  private boolean isKeineAngabeSelected (BoxPanel box) {
+  private boolean isKeineAngabeSelected(BoxPanel box) {
     if (box.getSelectedItem().equals("Keine Angabe")) {
       return true;
     }

@@ -19,6 +19,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
   public void init() throws IllegalArgumentException;
 
+  // Profil
   public Profil login(String requestUri) throws IllegalArgumentException;
 
   public Profil createProfil(String nachname, String vorname, String email, Date date,
@@ -31,6 +32,8 @@ public interface PartnerboerseAdministration extends RemoteService {
   public ArrayList<Profil> getAllProfiles() throws IllegalArgumentException;
 
   public Profil getProfilById(int id) throws IllegalArgumentException;
+  
+  public Profil getProfilByMail(String email) throws IllegalArgumentException;
 
   // Auswahl Eigenschaft
   public Auswahl createAuswahl(String name, String beschreibungstext,
@@ -57,7 +60,6 @@ public interface PartnerboerseAdministration extends RemoteService {
   public Beschreibung getBeschreibungById(int id) throws IllegalArgumentException;
 
   // Info
-
   public void save(Info info) throws IllegalArgumentException;
 
   public void delete(Info info) throws IllegalArgumentException;
@@ -66,7 +68,13 @@ public interface PartnerboerseAdministration extends RemoteService {
 
   public Info getInfoByEigenschaftsId(int id) throws IllegalArgumentException;
 
-  // 'hnlichkeitsmaß
+  public Info createInfoFor(Profil profil, Auswahl auswahl, String text)
+      throws IllegalArgumentException;
+
+  public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text)
+      throws IllegalArgumentException;
+  
+  // Ähnlichkeitsmaß
   public ArrayList<Profil> getProfilesByAehnlichkeitsmass(Profil profil)
       throws IllegalArgumentException;
 
@@ -80,18 +88,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 
   public void deleteMerken(Profil entferner, Profil entfernter) throws IllegalArgumentException;
 
-
   // Kontaktsperre
-
   public Kontaktsperre getKontaktsperreForProfil(Profil profil) throws IllegalArgumentException;
-
-  public Info createInfoFor(Profil profil, Auswahl auswahl, String text)
-      throws IllegalArgumentException;
-
-  public Info createInfoFor(Profil profil, Beschreibung beschreibung, String text)
-      throws IllegalArgumentException;
-
-  public Profil getProfilByMail(String email) throws IllegalArgumentException;
 
   public String getEigenschaftsNameById(int id) throws IllegalArgumentException;
 
@@ -110,16 +108,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 
   public void deleteSperre(Profil entferner, Profil entfernter);
 
-  public void createSuchprofil(Suchprofil sp) throws IllegalArgumentException;
-
-  public ArrayList<Suchprofil> getAllSuchprofileForProfil(Profil p) throws IllegalArgumentException;
-
-  public Suchprofil getSuchprofileForProfilByName(Profil p, String name)
-      throws IllegalArgumentException;
-
-  public void deleteSuchprofil(Suchprofil sp);
-
-  public void save(Suchprofil sp) throws IllegalArgumentException;
 
   public ArrayList<Profil> getProfilesBySuchprofil(Suchprofil sp, Profil user)
       throws IllegalArgumentException;
@@ -128,16 +116,23 @@ public interface PartnerboerseAdministration extends RemoteService {
 
   public ArrayList<Profil> getAllNewProfilesByAehnlichkeitsmass(Profil p);
 
-  public ArrayList<String> getItemsOfSuchprofil(Suchprofil sp);
-
   public String getEigenschaftsBeschreibungById(int id) throws IllegalArgumentException;
 
   public Info getInfoById(int id) throws IllegalArgumentException;
 
   public ArrayList<Profil> getAllProfilesByAehnlichkeit(Profil p) throws IllegalArgumentException;
 
-
-
   // Suchprofil
+  public void createSuchprofil(Suchprofil sp) throws IllegalArgumentException;
 
+  public ArrayList<Suchprofil> getAllSuchprofileForProfil(Profil p) throws IllegalArgumentException;
+
+  public void deleteSuchprofil(Suchprofil sp);
+  
+  public void save(Suchprofil sp) throws IllegalArgumentException;
+  
+  public ArrayList<String> getItemsOfSuchprofil(Suchprofil sp);
+  
+  public Suchprofil getSuchprofileForProfilByName(Profil p, String name)
+      throws IllegalArgumentException;
 }

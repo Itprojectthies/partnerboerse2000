@@ -4,7 +4,12 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-
+/**
+ * Die Klasse ListItemWidget
+ * 
+ * @author Volz
+ *
+ */
 public class ListItemWidget extends SimplePanel {
   public ListItemWidget() {
     super((Element) Document.get().createLIElement().cast());

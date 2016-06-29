@@ -5,7 +5,13 @@ import com.google.gwt.user.client.ui.HTML;
 
 import de.superteam2000.gwt.shared.bo.Auswahl;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
-
+/**
+ * Die Klasse BoxPanel ist ein CustomFlowPanel, welches Info-Objekte mit ihrem Namen und
+ * einer Auswahlliste bzw. eines Textfeldes darstellt
+ *
+ * @author Volz
+ *
+ */
 public class BoxPanel extends FlowPanel {
   Auswahl auswahl = null;
   Beschreibung beschreibung = null;
@@ -88,8 +94,6 @@ public class BoxPanel extends FlowPanel {
 
   }
 
-  
-
   public BoxPanel(String text) {
     this.add(new HTML(text));
   }
@@ -163,15 +167,6 @@ public class BoxPanel extends FlowPanel {
     profilAttributListBox.setSelectedItemByText(text);
   }
   
-  public String getSelectedNumber() {
-    return profilAttributListBox.getSelectedItemText();
-  }
-  
-  
-  public void setSelectedNumber(String text) {
-    profilAttributListBox.setSelectedItemByText(text);
-  }
-
   public void setSelectedItemForSP(String text) {
     profilAttributListBox.setSelectedItemByTextForSPLB(text);
   }

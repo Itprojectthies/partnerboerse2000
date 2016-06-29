@@ -1,10 +1,13 @@
 package de.superteam2000.gwt.client.gui;
 
 import java.util.Date;
-
+/**
+ * Die Klasse ProfilAttributListbox
+ * 
+ * @author Volz
+ *
+ */
 public class ProfilAttributListbox extends BoxPanel {
-
-
 
   EigenschaftListBox gebDatumTagListBox = new EigenschaftListBox();
   EigenschaftListBox gebDatumMonatListBox = new EigenschaftListBox();
@@ -13,11 +16,8 @@ public class ProfilAttributListbox extends BoxPanel {
   EigenschaftListBox koerpergroesseListBox = new EigenschaftListBox();
   EigenschaftListBox alterListBox = new EigenschaftListBox();
 
-
-
   public ProfilAttributListbox(String name) {
     this.add(new Label(name));
-
   }
 
   public ProfilAttributListbox() {}

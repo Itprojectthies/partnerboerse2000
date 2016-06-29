@@ -5,7 +5,13 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.ui.ListBox;
 
 import de.superteam2000.gwt.shared.bo.Auswahl;
-
+/**
+ * Die Klasse EigenschaftListBox erweitert Listobx. Sie dient dazu Auswahleigenschaften in
+ * Listeboxen darzustellen.
+ *
+ * @author Volz
+ *
+ */
 public class EigenschaftListBox extends ListBox {
 
   public static final String CLASSNAME = "pure-input-1-4";
@@ -29,6 +35,7 @@ public class EigenschaftListBox extends ListBox {
 
   public EigenschaftListBox() {}
 
+  
   public void addAuswahlAlternativen(Auswahl a) {
     alternativenListe = a.getAlternativen();
     for (String string : alternativenListe) {
@@ -50,7 +57,6 @@ public class EigenschaftListBox extends ListBox {
   public void setSelectedItemByIndex(int i) {
     setItemSelected(i, true);
   }
-
 
   public int getListBoxAuswahlId() {
     return listBoxAuswahlId;

@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.superteam2000.gwt.client.gui.CustomPopupPanel;
-import de.superteam2000.gwt.client.gui.DataGridProfiles;
 import de.superteam2000.gwt.client.gui.ListItemWidget;
 import de.superteam2000.gwt.client.gui.UnorderedListWidget;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;

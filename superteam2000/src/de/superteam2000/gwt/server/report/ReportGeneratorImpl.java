@@ -79,17 +79,12 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 
     // Eigenschaften anhängen als Tabelle mit zwei Spalten
-    // TODO ggf Info anpassen für besseres auslesen
 
     ArrayList<Info> infos = administration.getInfoByProfile(p);
 
-
-
     if (infos != null) {
-
       for (Info i : infos) {
         Row infoRow = new Row();
-
 
         infoRow.addColumn(
             new Column(administration.getEigenschaftsBeschreibungById(i.getEigenschaftId())));
@@ -111,7 +106,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
       return null;
     }
 
-
     ArrayList<Profil> profilesList = administration.getProfilesBySuchprofil(sp, p);
     AllProfilesBySucheReport result = new AllProfilesBySucheReport();
     ArrayList<String> suchprofilItems = administration.getItemsOfSuchprofil(sp);
@@ -130,9 +124,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
       result.addSubReport(createProfilReport(profil));
 
     }
-
     return result;
-
   }
 
   @Override
@@ -145,7 +137,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     AllProfilesReport result = new AllProfilesReport();
 
     // mit Inhalt befüllen
-
     result.setTitle("Alle Profile");
     result.setCreated(new Date());
 
@@ -157,7 +148,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
     for (Profil profil : profile) {
       result.addSubReport(createProfilReport(profil));
-
     }
 
     return result;
@@ -185,7 +175,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
     for (Profil profil : profile) {
       result.addSubReport(createProfilReport(profil));
-
     }
 
     return result;
@@ -214,7 +203,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
       result.addSubReport(createProfilReport(profil));
 
     }
-
     return result;
   }
 

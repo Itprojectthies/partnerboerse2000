@@ -3,7 +3,12 @@ package de.superteam2000.gwt.client.gui;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasText;
-
+/**
+ * Die Klasse Label
+ * 
+ * @author Volz
+ *
+ */
 public class Label extends FocusWidget implements HasText {
 
   @SuppressWarnings("deprecation")

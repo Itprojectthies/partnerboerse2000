@@ -16,27 +16,29 @@ import de.superteam2000.gwt.shared.bo.Beschreibung;
 import de.superteam2000.gwt.shared.bo.Info;
 import de.superteam2000.gwt.shared.bo.Profil;
 
+/**
+ * Die Klasse EigenschaftPanel erweitert BoxPanel. Sie dient dazu Info-Objekte mit ihrem Namen und
+ * einer Auswahlliste bzw. eines Textfeldes darstellt. Zusätzlich wid eine Checkbox zum hinzufügen
+ * der ausgewählten Eigenschaften hinzugefügt.
+ * 
+ * @author Volz
+ *
+ */
 public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHandler {
+  
   Profil user = ClientsideSettings.getCurrentUser();
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
   SimpleCheckBox check = new SimpleCheckBox();
-  
 
   int infoId = 0;
 
   Info i = new Info();
 
-  /**
-   * @return the infoId
-   */
   public synchronized int getInfoId() {
     return infoId;
   }
 
-  /**
-   * @param infoId the infoId to set
-   */
   public synchronized void setInfoId(int infoId) {
     this.infoId = infoId;
   }
@@ -97,14 +99,6 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
       ClientsideSettings.getLogger().info("check 1 auswahl gelöscht" + beschreibung.getName());
     }
 
-//    if (check.getValue()) {
-//      saveBeschreibung();
-//      ClientsideSettings.getLogger().info("check 2 beschreibung gespeichert" + beschreibung.getName());
-//    } else if (!check.getValue()) {
-//      deleteBeschreibungInfo();
-//      ClientsideSettings.getLogger().info("check 2 beschreibung gelöscht" + beschreibung.getName());
-//    }
-
 
 
   }
@@ -133,7 +127,6 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
       @Override
       public void onFailure(Throwable caught) {
         ClientsideSettings.getLogger().severe("Info nicht geholt");
-
       }
     });
   }
@@ -145,7 +138,11 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
 
       @Override
       public void onSuccess(Info result) {
-        new Notification("Beschreibung " + result.getText() + " gelöscht", "success");
+        try {
+          new Notification("Beschreibung " + result.getText() + " gelöscht", "success");
+        } catch (Exception e) {
+          new Notification("Hups, da ist wohl was schief gelaufen. Lade die Seite bitte neu", "info");
+        }
         pbVerwaltung.delete(result, new AsyncCallback<Void>() {
 
           @Override

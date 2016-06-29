@@ -8,7 +8,12 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.UIObject;
-
+/**
+ * Die Klasse Notification
+ * 
+ * @author Volz
+ *
+ */
 public class Notification extends PopupPanel implements ClickHandler {
 
   timer t1 = new timer();

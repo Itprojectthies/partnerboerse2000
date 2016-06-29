@@ -2,14 +2,8 @@ package de.superteam2000.gwt.client;
 
 import java.util.ArrayList;
 
-import org.apache.bcel.generic.POP;
-
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.superteam2000.gwt.client.gui.CustomPopupPanel;

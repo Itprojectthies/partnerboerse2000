@@ -61,6 +61,7 @@ public class Profil extends BusinessObject {
    */
   @SuppressWarnings("deprecation")
   public int getAlter() {
+    
     String dateString = DateTimeFormat.getFormat("yyyy-MM-dd").format(geburtsdatum);
     String[] gebDaten = dateString.split("-");
     Date now = new Date();

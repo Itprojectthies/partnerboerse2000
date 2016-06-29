@@ -288,6 +288,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
         return p2.getAehnlichkeit() - p1.getAehnlichkeit();
       }
+      
     });
 
     profile.remove(p);

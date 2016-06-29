@@ -1,12 +1,16 @@
 package de.superteam2000.gwt.client.gui;
 
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
-
+/**
+ * Die Klasse CustomButton erweiter die Klasse Button. Sie dient dazu Icons (FontAwesome)
+ * in einem Button darzustellen.
+ *
+ * @author Volz
+ *
+ */
 @SuppressWarnings("deprecation")
 public class CustomButton extends Button {
   private String text;
@@ -37,18 +41,10 @@ public class CustomButton extends Button {
     this.setStyleName("pure-button");
   }
 
-  public void setResource(ImageResource imageResource) {
-    Image img = new Image(imageResource);
-    String definedStyles = img.getElement().getAttribute("style");
-    img.getElement().setAttribute("style", definedStyles + "; vertical-align:middle;");
-    DOM.insertBefore(getElement(), img.getElement(), DOM.getFirstChild(getElement()));
-  }
-
   public void setIcon(String iconText) {
     iHeading.setStyleName(iconText);
     DOM.insertChild(getElement(), iHeading.getElement(), 2);
   }
-
 
   @Override
   public void setText(String text) {
