@@ -69,11 +69,11 @@ public class ReportGen implements EntryPoint {
   
   CustomPopupPanel pop = new CustomPopupPanel(false, true);
 
+  /**
+   * 
+   */
   @Override
   public void onModuleLoad() {      
-    
-    
-    
     
     suchProfilListBox.setSize("11em", "8em");
 
@@ -121,11 +121,17 @@ public class ReportGen implements EntryPoint {
    */
   class LoginCallback implements AsyncCallback<Profil> {
 
+	  /**
+	   * Fehlermeldung, falls Login fehlgeschlagen
+	   */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("Login fehlgeschlagen!");
     }
 
+    /**
+     * 
+     */
     @Override
     public void onSuccess(Profil result) {
       if (result.isLoggedIn()) {
@@ -154,30 +160,53 @@ public class ReportGen implements EntryPoint {
 
   }
 
-
+	/**
+	 * Report fuer Profil erstellen
+	 * 
+	 * @author Funke, Volz
+	 *
+	 */
   class createProfilReportCallback implements AsyncCallback<ProfilReport> {
 
+	  /**
+	   * Fehlermeldung falls Login nicht erfolgreich
+	   */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().info(caught.toString());
     }
 
+    /**
+     * Wenn Login erfolgreich, Report Generator ausgeben.
+     */
     @Override
     public void onSuccess(ProfilReport result) {
       pop.stop();
       ReportGen.this.addProfileToRootPanel(result);
     }
-
   }
 
+  /**
+   * Alle Profile im Report anzeigen lassen
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class AllProfilesCallback implements AsyncCallback<ArrayList<Profil>> {
-    @Override
+    
+	  /**
+	   * @param profile alle Profile enthalten
+	   */
+	  @Override
     public void onSuccess(ArrayList<Profil> result) {
       pop.stop();
       profile = result;
       ClientsideSettings.getLogger().info("async callback get all profiles");
     }
 
+	  /**
+	   * Fehlermeldung, wenn nicht alle Profile angezeigt werden konnten.
+	   */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("Fehler im Asynccallback Reportgen getAllProfiles");
@@ -185,9 +214,19 @@ public class ReportGen implements EntryPoint {
     }
   }
 
-
+  /**
+   * Login fuer Suchprofile pruefen; alle Suchprofile anzeigen
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class SuchProfilCallback implements AsyncCallback<Suchprofil> {
-    @Override
+    
+	  /**
+	   * Login pruefen
+	   * @param sp speichert Resultat von Abfrag ob User eingeloggt
+	   */
+	  @Override
     public void onSuccess(Suchprofil result) {
       pop.stop();
       if (result == null) {
@@ -196,14 +235,27 @@ public class ReportGen implements EntryPoint {
       sp = result;
     }
 
+	  /**
+	   * Fehlermeldung ausgeben, wenn Suchprofile nicht gefunden werden konnten.
+	   */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("Fehler getSuchprofileForProfilByName");
     }
   }
 
+  /**
+   * Suchprofile suchen
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class SuchProfileCallback implements AsyncCallback<ArrayList<Suchprofil>> {
-    @Override
+    
+	  /**
+	   * @param suchProfilListe alle Profile von Suchprofil speichern
+	   */
+	  @Override
     public void onSuccess(ArrayList<Suchprofil> result) {
       suchProfilListe = result;
       for (Suchprofil sp : suchProfilListe) {
@@ -212,54 +264,101 @@ public class ReportGen implements EntryPoint {
       reportGenerator.createProfilReport(p, new createProfilReportCallback());
     }
 
+	  /**
+	   * Fehlermeldung ausgeben, wenn nicht alle Suchprofile gefunden wurden
+	   */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().info("Fehler AsyncCallback alle Suchprofile");
     }
   }
 
+  /**
+   * 
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class ProfileBySucheReportCallback implements AsyncCallback<AllProfilesBySucheReport> {
-    @Override
+    
+	  /**
+	   * 
+	   */
+	  @Override
     public void onSuccess(AllProfilesBySucheReport result) {
       pop.stop();
       ReportGen.this.addProfileToRootPanel(result);
     }
 
+	  /**
+	   * Fehlermeldung ausgeben, wenn Suchreport nicht erstellt werden konnte
+	   */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("Fehler createSuchreport");
     }
   }
 
+  /**
+   * 
+   * @author Volz, Funke
+   *
+   */
   private class NotVIsitedCallback implements AsyncCallback<AllNotVisitedProfileReport> {
-    @Override
+   
+	  /**
+	   * 
+	   */
+	  @Override
     public void onSuccess(AllNotVisitedProfileReport result) {
       pop.stop();
       ReportGen.this.addProfileToRootPanel(result);
     }
 
+	  /**
+	   * 
+	   */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("createallnewprofiles funktioniert nicht");
     }
   }
 
+  /**
+   * 
+   * @author Volz, Funke
+   *
+   */
   private class NewProfilesCallback implements AsyncCallback<AllNewProfileReport> {
-    @Override
+    
+	  /**
+	   * 
+	   */
+	  @Override
     public void onSuccess(AllNewProfileReport result) {
       pop.stop();
       ReportGen.this.addProfileToRootPanel(result);
     }
 
+	  /**
+	   * Fehlermeldung ausgeben, wenn 
+	   */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("createallnewprofiles funktioniert nicht");
     }
   }
 
+  /**
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class SuchProfilClickhandler implements ClickHandler {
-    // ClickHandler
 
+	  /**
+	   * 
+	   */
     @Override
     public void onClick(ClickEvent event) {
       ListBox clickedLb = (ListBox) event.getSource();
@@ -270,8 +369,17 @@ public class ReportGen implements EntryPoint {
     }
   }
 
+  /**
+   * 
+   * @author volz, funke
+   *
+   */
   private class ProfilClickHandler implements ClickHandler {
-    @Override
+   
+	  /**
+	   * 
+	   */
+	  @Override
     public void onClick(ClickEvent event) {
       RootPanel.get("main").clear();
       pop.load();
@@ -281,9 +389,16 @@ public class ReportGen implements EntryPoint {
     }
   }
 
+  /**
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class NichtBesuchteProfileClickHandler implements ClickHandler {
 
-
+	  /**
+	   * 
+	   */
     @Override
     public void onClick(ClickEvent event) {
       RootPanel.get("main").clear();
@@ -292,8 +407,16 @@ public class ReportGen implements EntryPoint {
     }
   }
 
+  /**
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class NeueProfileClickHandler implements ClickHandler {
 
+	  /**
+	   * 
+	   */
     @Override
     public void onClick(ClickEvent event) {
       RootPanel.get("main").clear();
@@ -302,9 +425,16 @@ public class ReportGen implements EntryPoint {
     }
   }
 
+  /**
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class AlleProfileClickhandler implements ClickHandler {
 
-
+	  /**
+	   * 
+	   */
     @Override
     public void onClick(ClickEvent event) {
       RootPanel.get("main").clear();
@@ -315,21 +445,41 @@ public class ReportGen implements EntryPoint {
     }
   }
 
+  /**
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class AllProfilesReportCallback implements AsyncCallback<AllProfilesReport> {
-    @Override
+    
+	  /**
+	   * 
+	   */
+	  @Override
     public void onSuccess(AllProfilesReport result) {
       pop.stop();
       ReportGen.this.addProfileToRootPanel(result);
     }
 
+	  /**
+	   * Fehlermeldung ausgeben, wenn
+	   */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("createallprofiles funktioniert nicht");
     }
   }
 
+  /**
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class SucheBtnClickHandeler implements ClickHandler {
 
+	  /**
+	   * 
+	   */
     @Override
     public void onClick(ClickEvent event) {
       RootPanel.get("main").clear();
@@ -338,7 +488,10 @@ public class ReportGen implements EntryPoint {
     }
   }
 
-
+	/**
+	 * 
+	 * @param
+	 */
   private void addProfileToRootPanel(AllProfilesReport result) {
     RootPanel.get("main").clear();
     HTMLReportWriter writer = new HTMLReportWriter();
@@ -346,7 +499,11 @@ public class ReportGen implements EntryPoint {
     HTML report = new HTML(writer.getReportText());
     RootPanel.get("main").add(report);
   }
-
+  
+  /**
+   * 
+   * @param 
+   */
   private void addProfileToRootPanel(ProfilReport result) {
     RootPanel.get("main").clear();
     HTMLReportWriter writer = new HTMLReportWriter();
@@ -354,7 +511,11 @@ public class ReportGen implements EntryPoint {
     HTML report = new HTML(writer.getReportText());
     RootPanel.get("main").add(report);
   }
-
+  
+  /**
+   * 
+   * @param 
+   */
   private void addProfileToRootPanel(AllProfilesBySucheReport result) {
     RootPanel.get("main").clear();
     HTMLReportWriter writer = new HTMLReportWriter();
@@ -363,6 +524,10 @@ public class ReportGen implements EntryPoint {
     RootPanel.get("main").add(report);
   }
 
+  /**
+   * 
+   * @param 
+   */
   private void addProfileToRootPanel(AllNotVisitedProfileReport result) {
     RootPanel.get("main").clear();
     HTMLReportWriter writer = new HTMLReportWriter();
@@ -371,6 +536,10 @@ public class ReportGen implements EntryPoint {
     RootPanel.get("main").add(report);
   }
 
+  /**
+   * 
+   * @param 
+   */
   private void addProfileToRootPanel(AllNewProfileReport result) {
     RootPanel.get("main").clear();
     HTMLReportWriter writer = new HTMLReportWriter();
@@ -378,6 +547,4 @@ public class ReportGen implements EntryPoint {
     HTML report = new HTML(writer.getReportText());
     RootPanel.get("main").add(report);
   }
-
-
 }
