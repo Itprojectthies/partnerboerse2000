@@ -26,10 +26,14 @@ import de.superteam2000.gwt.shared.bo.Profil;
 /**
  * Formular zum Erstellen eines Nutzers
  *
- * @author Christian Rathke, Volz Daniel
+ * @author Christian Rathke, Volz Daniel, Christopher Funke
  */
 public class CreateProfil extends BasicFrame {
 
+	/**
+	 * Hier wird die Verbindung zum Datenbankmapper und somit zur Datenbank und zur Partnerboerse
+	 * hergestellt bzw. gespeichert.
+	 */
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
   /*
@@ -47,17 +51,38 @@ public class CreateProfil extends BasicFrame {
 
   Button confirmBtn = null;
 
+  /**
+   * HeadlineText wird erzeugt
+   * @return Text wird zurückgegeben
+   */
   @Override
   public String getHeadlineText() {
     return "Profil erstellen";
   }
 
+  /**
+   * SubHeadline wird erzeugt
+   * @return Text wird zurückgegeben
+   */
   @Override
   protected String getSubHeadlineText() {
-    // TODO Auto-generated method stub
     return "Erstelle dein Profil und lege gleich los!";
   }
 
+  /**
+   * Im Konstruktor werden die anderen Widgets erzeugt. Alle werden in einem Raster
+   * angeordnet, dessen Groesse sich aus dem Platzbedarf der enthaltenen Widgets bestimmmt.
+   * Wenn ein neuer User sich registrieren/anmelden will, werden die Grunddaten, welche
+   * nicht geloescht werden koennen, angelegt. Diese Methode bietet die Moeglichekit,
+   * die Werte/Daten einzugeben und mit der Registrierung fortzufahren. Die beiden Attribute
+   * Koerpergroesse und Geburtstag sind als Drop-down-Listen realisiert.
+   * 
+   * @param gebTag Der Beschreibungstext des Panels wird gespeichert.
+   * @param groesse Der Beschreibungstext des Panels wird hierin gespeichert.
+   * @param pbVerwaltung Die eingegebenen Werte werden hier gespeichert.
+   * @param confirmBtn Ein neuer Button namens "Weiter" wird erstellt, zum absenden der
+   * 					eingegebenen Daten an die DB.
+   */
   @Override
   public void run() {
     contentPanel.setStyleName("content");
@@ -85,6 +110,13 @@ public class CreateProfil extends BasicFrame {
 
   }
 
+  /**
+   * Für den neuen User wird ein leeres Formular angelegt.
+   * 
+   * @param clb Befüllte Formularergebnisse werden uebertragen
+   * @author Volz, Funke
+   *
+   */
   private class GetAllBeschreibungProfilAttributeCallBack
       implements AsyncCallback<ArrayList<Beschreibung>> {
 
@@ -97,10 +129,20 @@ public class CreateProfil extends BasicFrame {
       }
     }
 
+    /**
+     * Um Fehler abzufangen
+     */
     @Override
     public void onFailure(Throwable caught) {}
   }
 
+  /**
+   * Die beiden Attribute Groesse und Geburtstag werden dem Panel hinzugefuegt.
+   * 
+   * @param clb Die ausgewaehlten Elemente werden abgespeichert.
+   * @author Volz, Funke
+   *
+   */
   private class GetAllAuswahlProfilAttributeCallBack implements AsyncCallback<ArrayList<Auswahl>> {
 
     @Override
@@ -115,10 +157,19 @@ public class CreateProfil extends BasicFrame {
       alignPanel.add(confirmBtn);
     }
 
+    /**
+     * Um Fehler abzufangen.
+     */
     @Override
     public void onFailure(Throwable caught) {}
   }
 
+  /**
+   * Der ClickHandler wird eingebunden.
+   * 
+   * @author Funke
+   *
+   */
   private class ConfirmClickHandler implements ClickHandler {
 
     @Override
@@ -128,14 +179,32 @@ public class CreateProfil extends BasicFrame {
     }
   }
 
+  /**
+   * In dieser Klasse sind alle Methoden enthalten, womit das erstellte Profil eines Users
+   * angezeigt werden kann.
+   * @author Volz
+   *
+   */
   class CreateCustomerCallback implements AsyncCallback<Profil> {
 
+	  /**
+	   * @throws exception Wenn User nicht angemeldet werden konnte, wird eine Fehler-
+	   * 					meldung zurueckgegeben.
+	   */
     @Override
     public void onFailure(Throwable caught) {
       logger.severe("Erstellen des useres hat nicht funktioniert");
 
     }
 
+    /**
+     * Wenn das Profil erfolgreich erstellt und gespeichert werden konnte. Danach
+     * wird das gespeicherte Profil angezeigt. Dazu werden die Navigationsbar und
+     * die Details ausgegeben.
+     * 
+     * @param p gegenwaertig gespeichertes Profil
+     * @param nb Navigationsleiste/-bar
+     */
     @Override
     public void onSuccess(Profil p) {
       p.setLogoutUrl(user.getLogoutUrl());
@@ -152,8 +221,21 @@ public class CreateProfil extends BasicFrame {
 
   }
 
-
-
+  /**
+   * Das Profil wird angelegt.
+   * 
+   * @param firstName Vorname wird abgespeichert.
+   * @param lasName Nachname wird abgespeichert.
+   * @param haarfarbe Haarfarbe wird gespeichert.
+   * @param raucher Auswahl bei Raucher wird gespeichert.
+   * @param religion Religionsauswahl wird gespeichert.
+   * @param geschlecht Auswahl des Geschlechts wird gespeichert.
+   * @param email EMail Adresse speichern.
+   * @param groesse gibt Mindestwert fuer Koerpergroesse an.
+   * @param geburtsTag Hilfsvariable um das Alter zu berechnen/Geburtstag kann nicht negativ sein
+   * @param geburtsMonat Hilfsvariable um das Alter zu berechnen/Geburtstag kann nicht negativ sein
+   * @param geburtsJahr Hilfsvariable um das Alter zu berechnen/Geburtstag kann nicht negativ sein
+   */
   private void createProfil() {
     String firstName = "";
     String lastName = "";
@@ -170,8 +252,11 @@ public class CreateProfil extends BasicFrame {
     int geburtsMonat = 2;
     int geburtsJahr = 1901;
 
-    // Schleifen zum Auslesen der Listboxen, welche in 2 Panels
-    // verschachtelt sind
+    /*
+     * Verschachtelte Schleifen, damit die Listboxen der beiden ineinander verschachtel-
+     * ten Panels ausgelesen werden koennen. Im folgenden werden die einzelnen Werte
+     * fuer die Attribute des Users eingelesen und in den jeweiligen Variablen gespeichert.
+     */
 
     for (Widget child : alignPanel) {
       if (child instanceof FlowPanel) {
@@ -229,18 +314,27 @@ public class CreateProfil extends BasicFrame {
 
     }
 
-    // Date-Objekt aus den 3 Geburtstagswerten Tag, Monat und Jahr
-    // konstruieren und in
-    // ein SQL-Date-Objekt umwandeln
-
+    /*
+     * Um das Alter abspeichern zu koennen, wird das Geburtsdatum eingelesen und in der richtigen
+     * Reihenfolge abgespeichert. Danach wird das korrekte Geburtsdatum in ein SQL-Date-Objekt 
+     * umgewandelt, um dort richtig gespeichert zu werden.
+     */
     Date gebTag = DateTimeFormat.getFormat("yyyy-MM-dd")
         .parse(geburtsJahr + "-" + geburtsMonat + "-" + geburtsTag);
     java.sql.Date gebTagSql = new java.sql.Date(gebTag.getTime());
 
+    /*
+     * Profil wird angelegt und in die Datenbank geschrieben, mit allen eingegebenen Werten.
+     */
     if (!firstName.isEmpty() && !lastName.isEmpty()) {
       pbVerwaltung.createProfil(lastName, firstName, email, gebTagSql, haarfarbe, raucher, religion,
           groesse, geschlecht, new CreateCustomerCallback());
-    } else {
+    } 
+    /*
+     * Falls nicht alle Felder ausgefuellt wurden, erfolgt eine Warnung.
+     * Alle Pflichtfelder muessen ausgefuellt werden.
+     */
+    else {
       new Notification("Bitte fÃ¼llen sie alle Felder aus", "warning");
     }
   }

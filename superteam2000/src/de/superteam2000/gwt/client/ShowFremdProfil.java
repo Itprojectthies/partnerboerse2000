@@ -19,7 +19,9 @@ import de.superteam2000.gwt.shared.bo.Merkzettel;
 import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
- * Klasse zum anzeigen eines Fremdprofils
+ * Diese Klasse dient den Anzeigen eines fremden Profils.
+ * Somit koennen alle Profile angezeigt werden, ausser dem des derzeitigen
+ * Users.
  * 
  * @author Volz, Funke
  */
@@ -37,22 +39,42 @@ public class ShowFremdProfil extends BasicFrame {
   FlowPanel contentPanel = new FlowPanel();
   FlowPanel buttonsPanel = new FlowPanel();
 
-
+  /**
+   * Die Daten des anzuzeigenden Profils werden geholt und angezeigt.
+   * @param p Daten des Profils werden gespeichert.
+   */
   public ShowFremdProfil(Profil p) {
     this.p = p;
   }
 
+  /**
+   * Headline Text setzen.
+   * @return Text
+   */
   @Override
   protected String getHeadlineText() {
     return "Profil von " + p.getVorname();
   }
 
+  /**
+   * SubHeadline Text setzen.
+   * @return Text
+   */
   @Override
   protected String getSubHeadlineText() {
     return "Wie gefällt dir " + p.getVorname() + " " + p.getNachname() + "?";
   }
 
-
+  /**
+   * Layout und grundlegendes Design des Profils werden festgelegt.
+   * @param merkenBtn 
+   * @param sperrenBtn
+   * 					Beiden Button wird ein Style, ein Icon und ein Text verpasst,
+   * 					bevor sie zum Clickhandler hinzugefuegt werden.
+   * @param buttonsPanel Enthaelt alle Buttons
+   * @param legend Style
+   * @param aehnlichkeit Aehnlichkeit zwischen Profilen wird angegeben.
+   */
   @Override
   protected void run() {
     buttonsPanel.setStyleName("pure-controls-group");
@@ -85,8 +107,11 @@ public class ShowFremdProfil extends BasicFrame {
     this.add(contentPanel);
   }
 
-  /*
+  /**
    * Methode zum Darstellen der Fremdprofil-Eigenschaften (z.B. Raucher: ja)
+   * @param fremdProfilEigenschaftenPanel Panel, um Eigenschaften anzuzeigen
+   * @param eigenschaftName speichert Namen ab
+   * @param eigenschaftText speichert Auswahl ab
    */
   public void createProfileLabels(String eigenschaft, String text) {
     FlowPanel fremdProfilEigenschaftenPanel = new FlowPanel();
@@ -102,15 +127,26 @@ public class ShowFremdProfil extends BasicFrame {
     contentPanel.add(fremdProfilEigenschaftenPanel);
   }
 
-
+	/**
+	 * Sobald sich ein Profil auf dem Merkzettel befindet, soll der Button zum merken des
+	 * Profils als gedrueckt bzw. ausgefuellt erscheinen.
+	 * 
+	 * @author Volz, Funke
+	 *
+	 */
   private class MerkzettelCallback implements AsyncCallback<Merkzettel> {
     private ArrayList<Profil> profile;
 
+    /**
+     * Button als gedrueckt bzw. Profil als markiert markieren, falls Profil au Merkliste gefunden
+     * werden konnte.
+     * @param profile Liste der gemerkten Profile
+     * @param merkenBtn Button wird veraendert
+     */
     @Override
     public void onSuccess(Merkzettel result) {
       profile = result.getGemerkteProfile();
       
-      // Wenn Fremdprofil auf dem Merkzettel ist, soll der MerkButton gesetzt sein (Herz ausgefüllt)
       for (Profil profil : profile) {
         if (p.equals(profil)) {
           merkenBtn.setIcon("fa fa-heart");
@@ -119,13 +155,24 @@ public class ShowFremdProfil extends BasicFrame {
       }
     }
 
+    /**
+     * Falls Profil nicht auf Merkliste ist, Fehler ausgeben
+     */
     @Override
     public void onFailure(Throwable caught) {}
   }
 
+  /**
+   * Funktion des Sperren-Buttons durchfuehren
+   * 
+   * @author Volz
+   *
+   */
   public class SperrenButtonClickhandler implements ClickHandler {
-
-
+	
+	/**
+	 * Profil wird auf Sperrliste gesetzt, entsprechende Meldung wird ausgegeben.
+	 */
     @Override
     public void onClick(ClickEvent event) {
       new Notification("Profil von " + p.getVorname() + " gesperrt", "info");
@@ -133,8 +180,21 @@ public class ShowFremdProfil extends BasicFrame {
     }
   }
 
+  /**
+   * Wenn der Sperrbutton eines Profiles gedrueckt wurde, soll sich das Aussehen des Buttons
+   * dahingehend veraendern, dass er als gedrueckt bzw. markiert gesetzt wird.
+   * 
+   * @author Volz
+   *
+   */
   private class CreateSperreCallback implements AsyncCallback<Void> {
-    @Override
+    
+	  /**
+	   * Der Sperren Button wird veraendert, wenn ein Profil gesperrt ist.
+	   * @param sperrenBtn wird ausgeblendet
+	   * @param merkenBtn wird ausgeblendet
+	   */
+	  @Override
     public void onSuccess(Void result) {
       sperrenBtn.setEnabled(false);
 
@@ -142,13 +202,25 @@ public class ShowFremdProfil extends BasicFrame {
       merkenBtn.setEnabled(false);
     }
 
+	  /**
+	   * Falls Profil nicht gesperrt werden konnte oder andere Fehler auftauchen, Fehler-
+	   * meldungen abfangen.
+	   */
     @Override
     public void onFailure(Throwable caught) {}
   }
 
-
+	/**
+	 * Damit ein User auf die Merkliste gesetzt und davon wieder geloescht werden kann.
+	 * 
+	 * @author Volz
+	 *
+	 */
   public class MerkenButtonClickhandler implements ClickHandler {
 
+	  /**
+	   * Um Userprofil auf Merkliste setzen und davon wieder entfernen zu koennen.
+	   */
     @Override
     public void onClick(ClickEvent event) {
 
@@ -161,18 +233,41 @@ public class ShowFremdProfil extends BasicFrame {
     }
   }
 
+  /**
+   * Wird der User von einer Merkliste entfernt, wird der Button veraendert, sodass er
+   * das Profil nicht mehr als gemerkt darstellt, sondern wieder normal zu sehen ist.
+   * 
+   * @author Volz
+   *
+   */
   private class DeleteMerkenCallback implements AsyncCallback<Void> {
-    @Override
+    
+	  /**
+	   * Wenn User von Merkliste entfernt wird, taucht Meldung darueber auf und Button
+	   * zum merken des Profils im Profil selbst, wird wieder als nicht markiert 
+	   * dargestellt.
+	   */
+	  @Override
     public void onSuccess(Void result) {
       new Notification("Profil von " + p.getVorname() + " entmerkt", "info");
       merkenBtn.setIcon("fa fa-heart-o");
       merkenBtn.setPushed(false);
     }
 
+	  /**
+	   * Um etwaige Fehler abzufangen.
+	   */
     @Override
     public void onFailure(Throwable caught) {}
   }
 
+  /**
+   * Wurde ein Userprofil gemerkt, wird der Button zum merken des Profils veraendert.
+   * Er wird danach als selektiert bzw. markiert (Icon ist ausgefuellt) dargestellt.
+   * 
+   * @author Volz
+   *
+   */
   private class CreateMerkenCallback implements AsyncCallback<Void> {
     @Override
     public void onSuccess(Void result) {
@@ -181,12 +276,25 @@ public class ShowFremdProfil extends BasicFrame {
       merkenBtn.setPushed(true);
     }
 
+    /**
+     * Um Fehler abzufangen.
+     */
     @Override
     public void onFailure(Throwable caught) {}
   }
 
+  /**
+   * Um alle festen Eigenschaften eines Profils anzeigen zu koennen.
+   * 
+   * @author Volz
+   *
+   */
   private class GetAllAuswahlProfilAttributeCallback implements AsyncCallback<ArrayList<Auswahl>> {
 
+	  /**
+	   * Die Attribute Religion, Haarfarbe, Geschlecht und Raucher sind Auswahlattribute
+	   * und werden hier ausgelesen und zurueckgegeben.
+	   */
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
       for (Auswahl a : result) {
@@ -212,15 +320,30 @@ public class ShowFremdProfil extends BasicFrame {
 
     }
 
+    /**
+     * Um Fehler abzufangen.
+     */
     @Override
     public void onFailure(Throwable caught) {}
   }
 
+  /**
+   * Die freiwilligen Eigenschaften sollen ausgegeben werden.
+   * 
+   * @author Volz
+   *
+   */
   private class InfoCallback implements AsyncCallback<ArrayList<Info>> {
 
+	  /**
+	   * Um Fehler auszugeben.
+	   */
     @Override
     public void onFailure(Throwable caught) {}
 
+    /**
+     * Die ausgelesenen, vorhandenen Info Eigenschaften des Profils werden ausgegeben.
+     */
     @Override
     public void onSuccess(ArrayList<Info> result) {
       for (Info i : result) {
@@ -232,18 +355,34 @@ public class ShowFremdProfil extends BasicFrame {
     }
   }
 
+  /**
+   * Um die Infoeigenschaften auslesen zu koennen.
+   * 
+   * @author Volz
+   *
+   */
   private class GetAuswahlCallback implements AsyncCallback<Auswahl> {
 
     private Info i = null;
 
+    /**
+     * Um Auswahl zu bestimmen.
+     * @param i einzelne Auswahlen speichern.
+     */
     public GetAuswahlCallback(Info i) {
       this.i = i;
     }
 
+    /**
+     * Um Fehler abzufangen.
+     */
     @Override
     public void onFailure(Throwable caught) {
     }
 
+    /**
+     * Infoeigenschaften werden aus Datenbank ausgelesen.
+     */
     @Override
     public void onSuccess(Auswahl result) {
       createProfileLabels(result.getName(), i.getText());
@@ -251,18 +390,34 @@ public class ShowFremdProfil extends BasicFrame {
 
   }
 
+  /**
+   * Der Beschreibungstext zum Infoobjekt soll ausgelesen und angezeigt werden.
+   * 
+   * @author Volz
+   *
+   */
   private class GetBeschreibungCallback implements AsyncCallback<Beschreibung> {
 
     private Info i = null;
 
+    /**
+     * 
+     * @param i einzelnen Auswahlen speichern
+     */
     public GetBeschreibungCallback(Info i) {
       this.i = i;
     }
 
+    /**
+     * Um Fehler abzufangen.
+     */
     @Override
     public void onFailure(Throwable caught) {
     }
 
+    /**
+     * Ausgelesene Beschreibungstexte werden in Label uebertragen fuer Anzeige.
+     */
     @Override
     public void onSuccess(Beschreibung result) {
       createProfileLabels(result.getName(), i.getText());

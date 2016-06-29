@@ -5,7 +5,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
- * Diese Klasse ist die Basisklasse aller BasicFrames. Jeder BasicFrame ist ein FlowPanel
+ * Diese Klasse ist die Basisklasse aller BasicFrames. Jeder BasicFrame ist ein FlowPanel und
+ * kann unter GWT entsprechend dargestellt werden.
  *
  * @author Thies, Volz
  * @version 1.0
@@ -13,21 +14,25 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public abstract class BasicFrame extends FlowPanel {
 
-
+	/**
+	 * Jedes Widget muss diese Methode implementieren. Sie gibt an, was geschehen soll,
+	 * wenn eine Widget-Instanz zur Anzeige gebracht wird.
+	 */
   @Override
   public void onLoad() {
-    /*
-     * Die Super-Klasse initialisiert das Widget
-     */
+    
+	  /**
+	   * Die Super-Klasse initialisiert das Widget.
+	   */
     super.onLoad();
     
-    /*
+    /**
      * Füge die jeweilige Implementation der Headline und der Subheadline zum FlowPanel hinzu
      */
     this.add(createHeadline(getHeadlineText(), getSubHeadlineText()));
     
-    /*
-     * Lösche die Datagrid für jede konkretisierte Klasse 
+    /**
+     * Lösche die Datagrid für jede konkretisierte Klasse.
      */
     RootPanel.get("search-table").clear();
    
@@ -37,11 +42,10 @@ public abstract class BasicFrame extends FlowPanel {
 
   /**
    * Mit Hilfe dieser Methode erstellen wir aus einem String ein mittels CSS formatierbares
-   * HTML-Element. Unter CSS lässt sich das Ergebnis über <code>.bankproject-headline</code>
-   * referenzieren bzw. formatieren.
+   * HTML-Element.
    *
-   * @param text der String, den wir als andernorts HTML setzen wollen.
-   * @return GWT HTML Widget.
+   * @param content der String, den wir als andernorts HTML setzen wollen.
+   * @return content HTML Widget.
    */
   protected HTML createHeadline(String header, String subHeader) {
     HTML content = new HTML();
@@ -61,7 +65,7 @@ public abstract class BasicFrame extends FlowPanel {
   /**
   * Abstrakte Einschubmethode, die die Sub-Überschrift setzt
   *
-  * @return der Text, den wir als Headline setzen wollen.
+  * @return der Text, den wir als SubHeadline setzen wollen.
   */
   protected abstract String getSubHeadlineText();
 
