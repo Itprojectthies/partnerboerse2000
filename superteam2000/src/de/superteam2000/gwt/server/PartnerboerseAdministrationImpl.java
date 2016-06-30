@@ -37,29 +37,16 @@ import de.superteam2000.gwt.shared.bo.Suchprofil;
 /**
  * <p>
  * Implementierungsklasse des Interface PartnerboerseAdministration. Diese Klasse ist die Klasse,
- * die neben {@link ReportGeneratorImpl} sämtliche Applikationslogik (oder engl. Business Logic)
- * aggregiert. Sie überblickt die Daten der Applikation und sorgt für einen gerodneten Ablauf und
- * dauerhafte Konsistenz der Daten. Die Applikationslogik befindet sich in den Methoden dieser
- * Klasse. Hier werden analog zu Datenbanktransaktion pro Transaktion gleiche mehrere Teilaktionen
- * durchgeführt, die das System von einem konsistenten Zustand in einen anderen, auch wieder
- * konsistenten Zustand überführen. Wenn dies zwischenzeitig scheitern sollte, dann ist das
- * jeweilige Transaction Script dafür verwantwortlich, eine Fehlerbehandlung durchzuführen.
- *
- * Diese Klasse steht mit einer Reihe weiterer Datentypen in Verbindung. Dies sind:
- * {@link PartnerboerseAdministration}: Dies ist das lokale - also Server-seitige - Interface, das
- * die im System zur Verfügung gestellten Funktionen deklariert.
- * {@link PartnerboerseAdministrationAsync}: PartnerboerseAdministrationImpl und
+ * die neben {@link ReportGeneratorImpl} sämtliche Applikationslogik beinhaltet.
+ * Die Applikationslogik befindet sich in den Methoden dieser Klasse.
+ * Sie ist der Dreh- und Angelpunkt des Projekts.
+ * 
+ * PartnerboerseAdministrationImpl und
  * PartnerboerseAdministration bilden nur die Server-seitige Sicht der Applikationslogik ab. Diese
- * basiert vollständig auf synchronen Funktionsaufrufen. Wir müssen jedoch in der Lage sein,
- * Client-seitige asynchrone Aufrufe zu bedienen. Dies bedingt ein weiteres Interface, das in der
- * Regel genauso benannt wird, wie das synchrone Interface, jedoch mit dem zusätzlichen Suffix
- * "Async". Es steht nur mittelbar mit dieser Klasse in Verbindung. Die Erstellung und Pflege der
- * Async Interfaces wird durch das Google Plugin semiautomatisch unterstützt. Weitere Informationen
- * unter {@link PartnerboerseAdministrationAsync}. {@link RemoteServiceServlet}: Jede Server-seitig
- * instantiierbare und Client-seitig über GWT RPC nutzbare Klasse muss die Klasse
- * RemoteServiceServlet implementieren. Sie legt die funktionale Basis für die Anbindung von
- * PartnerboerseAdministrationImpl an die Runtime des GWT RPC-Mechanismus.
- *
+ * basiert vollständig auf synchronen Funktionsaufrufen. 
+ *  Jede Server-seitig instantiierbare und Client-seitig über GWT RPC nutzbare Klasse muss die Klasse
+ * RemoteServiceServlet implementieren. 
+ * 
  * @see PartnerboerseAdministration
  * @see PartnerboerseAdministrationAsync
  * @see RemoteServiceServlet
@@ -89,7 +76,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
    * Initialisierung der Instanz vorzunehmen.
    *
    *
-   * @see #init()
    */
 
 
