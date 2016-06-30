@@ -347,12 +347,16 @@ Hides the menu at `48em`, but modify this based on your app's needs.
 
     .header,
     .content {
-        padding-left: 2em;
+        /*padding-left: 15em;*/
         padding-right: 2em;
-    }
-
+    }	
+   
+	.footer {
+		padding-left: 17em;
+		margin-top: 200px;
+	}
     #layout {
-        padding-left: 300px; /* left col width "#menu" */
+        padding-left: 150px; /* left col width "#menu" */
     }
     #menu {
         left: 700px;

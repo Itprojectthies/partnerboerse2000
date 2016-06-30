@@ -68,10 +68,6 @@ public class ShowProfil extends BasicFrame {
     contentPanel.setStyleName("content");
     buttonsPanel.setStyleName("pure-controls-group");
 
-    HTML legend = new HTML();
-    legend.setHTML("<legend></legend>");
-
-
     editButton.setIcon("fa fa-pencil");
     editButton.addClickHandler(new EditButtonClickHandler());
 
@@ -86,7 +82,6 @@ public class ShowProfil extends BasicFrame {
     buttonsPanel.add(deleteBtn);
     buttonsPanel.add(editButton);
     buttonsPanel.add(saveButton);
-    buttonsPanel.add(legend);
 
     alignPanel.add(buttonsPanel);
 

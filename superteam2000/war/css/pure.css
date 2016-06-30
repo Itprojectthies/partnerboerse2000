@@ -16,9 +16,7 @@ Copyright (c) Nicolas Gallagher and Jonathan Neal
  *    user zoom.
  */
  
- div#main {
-    height: 800px;
-}
+
 
  ul, menu, dir {
     display: block;
@@ -50,19 +48,22 @@ Copyright (c) Nicolas Gallagher and Jonathan Neal
 }
 
     .legal-license {
-        margin-top: 0;
+        margin-top: 20px;
         text-align: left;
     }
     .legal-links {
         list-style: none;
-        padding: 0;
+        /* padding: 0; */
         margin-bottom: 0;
         text-align: right;
+        margin-top: 20px;
+        padding-right: 1em;
     }
     .legal-copyright {
         margin-top: 0;
         margin-bottom: 0;
         text-align: right;
+        padding-right: 1em;
     }
 
  
@@ -945,12 +946,12 @@ this the same font stack that Normalize.css sets for the `body`.
 .pure-button-hover,
 .pure-button:hover,
 .pure-button:focus {
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#1a000000',GradientType=0);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(transparent), color-stop(40%, rgba(0,0,0, 0.05)), to(rgba(0,0,0, 0.10)));
-    background-image: -webkit-linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, rgba(0,0,0, 0.10));
-    background-image: -moz-linear-gradient(top, rgba(0,0,0, 0.05) 0%, rgba(0,0,0, 0.10));
-    background-image: -o-linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, rgba(0,0,0, 0.10));
-    background-image: linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, rgba(0,0,0, 0.10));
+    f   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#1a000000',GradientType=0);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(transparent), color-stop(90%, rgba(0,0,0, 0.05)), to(rgba(0,0,0, 0.10)));
+    background-image: -webkit-linear-gradient(transparent, rgba(0,0,0, 0.05) 90%, rgba(0,0,0, 0.10));
+    background-image: -moz-linear-gradient(top, rgba(0,0,0, 0.95) 0%, rgba(0,0,0, 0.90));
+    background-image: -o-linear-gradient(transparent, rgba(0,0,0, 0.9) 40%, rgba(0,0,0, 0.90));
+    background-image: linear-gradient(transparent, rgba(0,0,0, 0.20) 40%, rgba(0,0,0, 0.20));
 }
 .pure-button:focus {
     outline: 0;

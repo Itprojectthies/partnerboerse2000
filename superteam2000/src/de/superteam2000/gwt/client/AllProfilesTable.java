@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import de.superteam2000.gwt.client.gui.CustomButton;
 import de.superteam2000.gwt.client.gui.CustomPopupPanel;
 import de.superteam2000.gwt.client.gui.DataGridProfiles;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
@@ -50,19 +51,23 @@ public class AllProfilesTable extends BasicFrame {
 
   Profil profil = ClientsideSettings.getCurrentUser();
 
+  final CustomButton nichtBesuchteProfilAnzeigenButton = new CustomButton("Nicht besuchte");
+  final CustomButton neueProfilAnzeigenButton = new CustomButton("Neue");
+  final CustomButton profileAnzeigenButton = new CustomButton("Alle");
+  
   @Override
   public void run() {
     
     
     
     
-    final Button neueProfilAnzeigenButton = new Button("Neue");
+    
     neueProfilAnzeigenButton.setStyleName("pure-button");
 
-    final Button nichtBesuchteProfilAnzeigenButton = new Button("Nicht besuchte");
+    
     nichtBesuchteProfilAnzeigenButton.setStyleName("pure-button");
 
-    final Button profileAnzeigenButton = new Button("Alle");
+    
     profileAnzeigenButton.setStyleName("pure-button");
 
     FlowPanel contentPanel = new FlowPanel();
@@ -78,9 +83,11 @@ public class AllProfilesTable extends BasicFrame {
     contentPanel.add(buttonsPanel);
     fPanel2.add(contentPanel);
     DataGridProfiles dgp = new DataGridProfiles(profilListe);
+    
     dgp.addClickFremdProfil();
-    fPanel2.add(dgp.start());
-    RootPanel.get("main").add(fPanel2);
+//    fPanel2.add(dgp.start());
+    RootPanel.get("main").add(contentPanel);
+    RootPanel.get("search-table").add(dgp.start());
 
     neueProfilAnzeigenButton.addClickHandler(new NeueProfilAnzeigeClickHandler());
 
@@ -104,10 +111,11 @@ public class AllProfilesTable extends BasicFrame {
     @Override
     public void onSuccess(ArrayList<Profil> result) {
       pop.stop();
+      profileAnzeigenButton.setPushed(true);
       profilListe = result;
-      AllProfilesTable dgt = new AllProfilesTable(result);
-      RootPanel.get("main").clear();
-      RootPanel.get("main").add(dgt);
+      DataGridProfiles dgp = new DataGridProfiles(profilListe);
+      RootPanel.get("search-table").clear();
+      RootPanel.get("search-table").add(dgp.start());
     }
 
     @Override
@@ -129,9 +137,12 @@ public class AllProfilesTable extends BasicFrame {
     @Override
     public void onSuccess(ArrayList<Profil> result) {
       pop.stop();
-      AllProfilesTable dgt = new AllProfilesTable(result);
-      RootPanel.get("main").clear();
-      RootPanel.get("main").add(dgt);
+      profilListe = result;
+      nichtBesuchteProfilAnzeigenButton.setPushed(true);
+      //      AllProfilesTable dgt = new AllProfilesTable(result);
+      DataGridProfiles dgp = new DataGridProfiles(result);
+      RootPanel.get("search-table").clear();
+      RootPanel.get("search-table").add(dgp.start());
     }
 
     @Override

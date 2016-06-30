@@ -866,6 +866,7 @@
 #layout {
     position: relative;
     padding-left: 0;
+    
 }
     #layout.active #menu {
         left: 160px;
@@ -897,7 +898,7 @@
     margin: 0 auto;
     padding: 1em;
     text-align: center;
-    border-bottom: 1px solid #eee;
+    
     letter-spacing: 0.05em;
 }
     .header h1 {
