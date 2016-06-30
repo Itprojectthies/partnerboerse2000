@@ -116,6 +116,34 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
   }
 
+  public void addInfosToUsers() {
+    ArrayList<Profil> alleProfile = this.pMapper.findAll();
+    ArrayList<Auswahl> alleAuswahl = this.auswahlMapper.findAll();
+
+   
+    Info info = new Info();
+    for (Auswahl auswahl : alleAuswahl) {
+      info.setEigenschaftId(auswahl.getId());
+      ArrayList<String> auswahlAlternativen = auswahl.getAlternativen();
+      String[] auswahlAlternativenArray = new String[alleAuswahl.size()];
+      auswahlAlternativen.toArray(auswahlAlternativenArray);
+      
+      for (String string : auswahlAlternativenArray) {
+        if (string != null) {
+          info.setText(string);
+        }
+        for (Profil p : alleProfile) {
+          info.setProfilId(p.getId());
+          
+        }
+      }
+//      log(auswahlAlternativenArray);
+//      log(auswahl.get);
+      // info.setText(auswahlAlternativen.);
+    }
+
+  }
+
   public void seed() {
     String[] vornamenMale = {"Paul", "Peter", "Max", "Florian", "Johannes", "Daniel", "Christopher",
         "Benjamin", "Christian", "Michael", "Maximilian", "Julian", "Robert", "Simon", "Jesus",
@@ -179,7 +207,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
    */
   @Override
   public Profil login(String requestUri) {
-//     seed();
+    // seed();
+    addInfosToUsers();
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
 
@@ -288,7 +317,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
         return p2.getAehnlichkeit() - p1.getAehnlichkeit();
       }
-      
+
     });
 
     profile.remove(p);

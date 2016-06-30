@@ -75,9 +75,9 @@ public class ClientsideSettings extends CommonSettings {
    * @since 28.02.2012
    */
   public static PartnerboerseAdministrationAsync getPartnerboerseVerwaltung() {
-    // Gab es bislang noch keine BankAdministration-Instanz, dann...
+    // Gab es bislang noch keine PartnerbörseAdministration-Instanz, dann...
     if (partnerboerseVerwaltung == null) {
-      // Zunächst instantiieren wir BankAdministration
+      // Zunächst instantiieren wir PartnerbörseAdministration
       partnerboerseVerwaltung = GWT.create(PartnerboerseAdministration.class);
     }
 

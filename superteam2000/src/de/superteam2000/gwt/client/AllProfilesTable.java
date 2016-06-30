@@ -63,13 +63,14 @@ public class AllProfilesTable extends BasicFrame {
     
     
     neueProfilAnzeigenButton.setStyleName("pure-button");
-
+    
     
     nichtBesuchteProfilAnzeigenButton.setStyleName("pure-button");
 
     
     profileAnzeigenButton.setStyleName("pure-button");
-
+    profileAnzeigenButton.setPushed(true);
+    
     FlowPanel contentPanel = new FlowPanel();
     FlowPanel fPanel2 = new FlowPanel();
     FlowPanel buttonsPanel = new FlowPanel();
@@ -100,6 +101,10 @@ public class AllProfilesTable extends BasicFrame {
   private class AlleProfileClickHandler implements ClickHandler {
     @Override
     public void onClick(ClickEvent event) {
+      profileAnzeigenButton.setPushed(true);
+      neueProfilAnzeigenButton.setPushed(false);
+      nichtBesuchteProfilAnzeigenButton.setPushed(false);
+      
       pop.load();
       pbVerwaltung.getProfilesByAehnlichkeitsmass(profil,
           new ProfileProfilesByAehnlichkeitsmassCallback());
@@ -110,13 +115,10 @@ public class AllProfilesTable extends BasicFrame {
       implements AsyncCallback<ArrayList<Profil>> {
     @Override
     public void onSuccess(ArrayList<Profil> result) {
-      pop.stop();
-      profileAnzeigenButton.setPushed(true);
-      profilListe = result;
-      DataGridProfiles dgp = new DataGridProfiles(profilListe);
-      RootPanel.get("search-table").clear();
-      RootPanel.get("search-table").add(dgp.start());
+      addProfilesToTable(result);
     }
+
+    
 
     @Override
     public void onFailure(Throwable caught) {}
@@ -126,6 +128,9 @@ public class AllProfilesTable extends BasicFrame {
 
     @Override
     public void onClick(ClickEvent event) {
+      profileAnzeigenButton.setPushed(false);
+      neueProfilAnzeigenButton.setPushed(false);
+      nichtBesuchteProfilAnzeigenButton.setPushed(true);
       pop.load();
       pbVerwaltung.getAllNotVisitedProfilesByAehnlichkeitsmass(profil,
           new AllNotVisitedProfilesByAehnlichkeitsmassCallback());
@@ -136,13 +141,7 @@ public class AllProfilesTable extends BasicFrame {
       implements AsyncCallback<ArrayList<Profil>> {
     @Override
     public void onSuccess(ArrayList<Profil> result) {
-      pop.stop();
-      profilListe = result;
-      nichtBesuchteProfilAnzeigenButton.setPushed(true);
-      //      AllProfilesTable dgt = new AllProfilesTable(result);
-      DataGridProfiles dgp = new DataGridProfiles(result);
-      RootPanel.get("search-table").clear();
-      RootPanel.get("search-table").add(dgp.start());
+      addProfilesToTable(result);
     }
 
     @Override
@@ -153,6 +152,9 @@ public class AllProfilesTable extends BasicFrame {
 
     @Override
     public void onClick(ClickEvent event) {
+      profileAnzeigenButton.setPushed(false);
+      neueProfilAnzeigenButton.setPushed(true);
+      nichtBesuchteProfilAnzeigenButton.setPushed(false);
       pop.load();
       pbVerwaltung.getAllNewProfilesByAehnlichkeitsmass(profil,
           new AllNewProfilesByAehnlichkeitsmassCallback());
@@ -162,13 +164,19 @@ public class AllProfilesTable extends BasicFrame {
       implements AsyncCallback<ArrayList<Profil>> {
     @Override
     public void onSuccess(ArrayList<Profil> result) {
-      pop.stop();
-      AllProfilesTable dgt = new AllProfilesTable(result);
-      RootPanel.get("main").clear();
-      RootPanel.get("main").add(dgt);
+      addProfilesToTable(result);
     }
 
     @Override
     public void onFailure(Throwable caught) {}
+  }
+  
+  private void addProfilesToTable(ArrayList<Profil> result) {
+    pop.stop();
+    profilListe = result;
+    DataGridProfiles dgp = new DataGridProfiles(profilListe);
+    dgp.addClickFremdProfil();
+    RootPanel.get("search-table").clear();
+    RootPanel.get("search-table").add(dgp.start());
   }
 }

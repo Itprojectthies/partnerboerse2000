@@ -28,6 +28,13 @@ public class CustomButton extends Button {
    * @param isPushed the isPushed to set
    */
   public void setPushed(boolean isPushed) {
+    if (isPushed) {
+//      this.removeStyleName("pure-button");
+      this.addStyleName("pure-button-hover");
+    } else {
+      this.setStyleName("pure-button");
+    }
+    
     this.isPushed = isPushed;
   }
 

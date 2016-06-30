@@ -868,10 +868,7 @@
     padding-left: 0;
     
 }
-    #layout.active #menu {
-        left: 160px;
-        width: 160px;
-    }
+   
 
 /* Apply the .box class on the immediate parent of any grid element (pure-u-*) to apply some padding. */
 .l-box {
