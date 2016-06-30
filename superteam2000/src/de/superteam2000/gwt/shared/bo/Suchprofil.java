@@ -3,8 +3,11 @@ package de.superteam2000.gwt.shared.bo;
 import java.util.HashMap;
 
 /**
- * Hier wird ein exemplarisches Suchprofil eines Users realisiert. Anhand eines Suchprofils können
- * andere User gesucht werden. Die gesuchten Profile werden dann nach dem Ähnlichkeitsmaß sortiert.
+ * 
+ * Die klasse Suchprofil wird benötigt um die Suchen eines Users
+ * zu realisieren. Außerdem wird sie benötigt, um die vom User
+ * durchgeführten Suchen zu speichern und von der db zum client zu
+ * transportieren.
  *
  * @author Christopher Funke, Daniel Volz
  * @version 1.0

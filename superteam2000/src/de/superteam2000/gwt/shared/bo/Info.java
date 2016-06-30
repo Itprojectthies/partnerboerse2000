@@ -1,8 +1,8 @@
 package de.superteam2000.gwt.shared.bo;
 
 /**
- * Hier wird ein exemplarisches Infoobjekt eines Users realisiert. Ein Infoobjekt ist eine vom User
- * festgelegte Eigenschaft.
+ * Hier wird ein Infoobjekt eines Users realisiert. Ein Infoobjekt ist ein
+ * vom User ausgewähltes Auswahl bzw. beschreibungs objekt.
  *
  * @author Christopher Funke, Daniel Volz
  * @version 1.0

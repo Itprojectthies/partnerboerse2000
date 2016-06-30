@@ -3,8 +3,10 @@ package de.superteam2000.gwt.shared.bo;
 import java.util.ArrayList;
 
 /**
- * Hier wird ein exemplarischer Merkzettel eines Profils realisiert. Ein User kann sich Profile, die
- * ihm gefallen, merken. Die gemerkten Profile können durch den Merkzettel angezeigt werden.
+ * Die Klasse Kontaktsperre wird benötigt, um zu realisieren, dass
+ * Nutzer andere Nutzer merken können.
+ * Sie enthält eine ArrayList an Profil (gemerkte Profile)
+ * Außerdem eine merker und gemerkter ID
  *
  * @author Christopher Funke, Daniel Volz
  * @version 1.0

@@ -6,9 +6,12 @@ import java.util.Date;
 import de.superteam2000.gwt.client.gui.DateTimeFormat;
 
 /**
- * Hier wird ein exemplarisches Profil realisiert. Ein Profil hat einige vorgegebene Eigenschaften.
- * Anhand dem Geburtstdatum kann das Alter errechnet werden. Die Eigenschaft aehnlichkeit gibt an,
- * wie viel Prozent das Profil mit einem anderen Profil übereinstimmt.
+ * Diese Klasse ist von enormer Bedeutung, da jeder
+ * Nutzer der Partnerbörse in Form eines Profils abgebildet
+ * wird.
+ * Die Klasse Profil enthält eine Reihe an Attributen, welche
+ * die "Eigenschaften" einer Person repräsentieren und die dazu-
+ * gehörigen getter und setter.
  *
  * @author Christopher Funke, Daniel Volz
  * @version 1.0

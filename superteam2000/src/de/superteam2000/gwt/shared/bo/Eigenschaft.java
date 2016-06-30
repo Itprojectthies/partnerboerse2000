@@ -1,8 +1,8 @@
 package de.superteam2000.gwt.shared.bo;
 
 /**
- * Hier wird eine exemplarisches Eigenschaftsobjekt eines Profils realisiert. Ein Eigenschaftsobjekt
- * stellt ein Hobby eines Users dar. Das Eigenschaftsobjekt besteht aus einem Namen und einem
+ * Hier wird ein Eigenschaftsobjekt eines Profils realisiert. 
+ * Das Eigenschaftsobjekt besteht aus einem Namen und einem
  * Beschreibungstext
  *
  * @author Christopher Funke, Daniel Volz
