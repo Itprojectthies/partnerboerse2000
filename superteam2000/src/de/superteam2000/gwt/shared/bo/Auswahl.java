@@ -3,8 +3,9 @@ package de.superteam2000.gwt.shared.bo;
 import java.util.ArrayList;
 
 /**
- * Hier wird eine exemplarische Auswahl für einen User realisiert. Ein User hat die Möglichkeit, bei
- * Eigenschaften durch eine Auswahl von vorgegebenen Werten eine Antwort zu treffen.
+ * Die Klasse Auswahl erweitert die Klasse Eigenschaft.
+ * sie enthält eine Reihe von Auswahlalternativen
+ * vom Typ String.
  *
  * @author Christopher Funke, Daniel Volz
  * @version 1.0

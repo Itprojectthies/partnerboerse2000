@@ -3,19 +3,13 @@ package de.superteam2000.gwt.shared.bo;
 import java.io.Serializable;
 
 /**
- * <p>
- * Die Klasse <code>BusinessObject</code> stellt die Basisklasse aller in diesem Projekt für die
+ * Die Klasse BusinessObject stellt die Basisklasse aller in diesem Projekt für die
  * Umsetzung des Fachkonzepts relevanten Klassen dar.
- * </p>
- * <p>
- * Zentrales Merkmal ist, dass jedes <code>BusinessObject</code> eine Nummer besitzt, die man in
+ * Zentrales Merkmal ist, dass jedes BusinessObject eine Nummer besitzt, die man in
  * einer relationalen Datenbank auch als Primärschlüssel bezeichnen würde. Fernen ist jedes
- * <code>BusinessObject</code> als {@link Serializable} gekennzeichnet. Durch diese Eigenschaft kann
- * jedes <code>BusinessObject</code> automatisch in eine textuelle Form überführt und z.B. zwischen
- * Client und Server transportiert werden. Bei GWT RPC ist diese textuelle Notation in JSON (siehe
- * http://www.json.org/) kodiert.
- * </p>
- *
+ * BusinessObject als link Serializable gekennzeichnet. Durch diese Eigenschaft kann
+ * jedes BusinessObject automatisch in eine textuelle Form überführt und z.B. zwischen
+ * Client und Server transportiert werden.
  * @author thies
  * @version 1.0
  */
@@ -54,14 +48,8 @@ public abstract class BusinessObject implements Serializable {
   }
 
   /**
-   * <p>
-   * Feststellen der <em>inhaltlichen</em> Gleichheit zweier <code>BusinessObject</code>-Objekte.
-   * Die Gleichheit wird in diesem Beispiel auf eine identische ID beschränkt. Die Methode
-   * <code>equals(...)</code> ist für jeden Referenzdatentyp definiert, da sie bereits in der Klasse
-   * <code>Object</code> in einfachster Form realisiert ist. Dort ist sie allerdings auf die simple
-   * Bestimmung der Gleicheit der Java-internen Objekt-ID der verglichenen Objekte beschränkt. In
-   * unseren eigenen Klassen können wir diese Methode überschreiben und ihr mehr Intelligenz
-   * verleihen.
+   * Feststellen der inhaltlichen Gleichheit zweier BusinessObject-Objekte.
+   * Die Gleichheit wird in diesem Beispiel auf eine identische ID beschränkt.
    */
   @Override
   public boolean equals(Object o) {
@@ -89,11 +77,7 @@ public abstract class BusinessObject implements Serializable {
   }
 
   /**
-   * Erzeugen einer ganzen Zahl, die für das <code>BusinessObject</code> charakteristisch ist.
-   * Zusammen mit <code>equals</code> sollte diese Methode immer definiert werden. Manche
-   * Java-Klassen verwendenden <code>hashCode</code>, um initial ein Objekt (z.B. in einer
-   * Hashtable) zu identifizieren. Erst danach würde mit <code>equals</code> festgestellt, ob es
-   * sich tatsächlich um das gesuchte Objekt handelt.
+   * Erzeugen einer ganzen Zahl, die für das <code>BusinessObject</code> charakteristisch ist. 
    */
   @Override
   public int hashCode() {

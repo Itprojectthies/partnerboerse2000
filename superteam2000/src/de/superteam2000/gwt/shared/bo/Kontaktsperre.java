@@ -3,9 +3,10 @@ package de.superteam2000.gwt.shared.bo;
 import java.util.ArrayList;
 
 /**
- * Hier wird eine exemplarische Kontaktperre eines Users realisiert. Ein User kann sich Profile, die
- * ihm nicht gefallen, sperren lassen. Die gesperrten Profile können durch die Sperrliste angezeigt
- * werden.
+ * Die Klasse Kontaktsperre wird benötigt, um zu realisieren, dass
+ * Nutzer andere Nutzer sperren können.
+ * Sie enthält eine ArrayList an Profil (gesperrte Profile)
+ * Außerdem eine sperrer und gesperrter ID
  *
  * @author Christopher Funke, Daniel Volz
  * @version 1.0
