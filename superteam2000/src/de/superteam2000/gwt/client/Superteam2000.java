@@ -24,6 +24,9 @@ public class Superteam2000 implements EntryPoint {
 
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
+  /**
+   * Anmeldevorgang eines Users
+   */
   @Override
   public void onModuleLoad() {
     
@@ -39,11 +42,17 @@ public class Superteam2000 implements EntryPoint {
    */
   class LoginCallback implements AsyncCallback<Profil> {
 
+	  /**
+	   * Fehlermeldung, wenn Login nicht durchgeführt werden konnte
+	   */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("Login fehlgeschlagen!");
     }
 
+    /**
+     * Entscheidungen werden abgefragt und geloest, fuer verschiedene Login-Faelle
+     */
     @Override
     public void onSuccess(Profil result) {
 
@@ -65,6 +74,15 @@ public class Superteam2000 implements EntryPoint {
       }
     }
 
+    /**
+     * 
+     * @param splashContaiern
+     * @param splash
+     * @param headingElement
+     * @param splashSubhead
+     * @param splashParagraph
+     * @param loginAnchor
+     */
     private void createLoginScreen(Profil result) {
       FlowPanel splashContaiern = new FlowPanel();
       splashContaiern.setStyleName("splash-container");
@@ -93,12 +111,20 @@ public class Superteam2000 implements EntryPoint {
       RootPanel.get("main").add(splashContaiern);
     }
 
+    /**
+     * Profil soll erstellt werden und angezeigt werden
+     * @param cf Profildaten laden
+     */
     private void profilErstellen() {
       BasicFrame cf = new CreateProfil();
       RootPanel.get("main").clear();
       RootPanel.get("main").add(cf);
     }
 
+    /**
+     * Profil laden und anzeigen
+     * @param nb Navigationsbar laden
+     */
     private void loadProfil() {
       Navbar nb = new Navbar();
       RootPanel.get("menu").clear();

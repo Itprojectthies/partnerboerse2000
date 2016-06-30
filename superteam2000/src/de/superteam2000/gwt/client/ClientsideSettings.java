@@ -17,7 +17,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
 /**
  * Klasse mit Eigenschaften und Diensten, die für alle Client-seitigen Klassen relevant sind.
  *
- * @author thies, volz
+ * @author thies, volz, funke
  * @version 1.0
  * @since 28.02.2012
  *
@@ -26,19 +26,19 @@ public class ClientsideSettings extends CommonSettings {
 
   /**
    * Remote Service Proxy zur Verbindungsaufnahme mit dem Server-seitgen Dienst namens
-   * <code>BankAdministration</code>.
+   * <code>PartnerboerseAdministrationAsync</code>.
    */
 
   private static PartnerboerseAdministrationAsync partnerboerseVerwaltung = null;
 
   /**
    * Remote Service Proxy zur Verbindungsaufnahme mit dem Server-seitgen Dienst namens
-   * <code>ReportGenerator</code>.
+   * <code>ReportGeneratorAsync</code>.
    */
   private static ReportGeneratorAsync reportGenerator = null;
 
   /**
-   * Der momentane Benutzer
+   * Der momentane Benutzer wird gesetzt.
    */
   private static Profil currentUser = null;
 
@@ -64,41 +64,52 @@ public class ClientsideSettings extends CommonSettings {
   }
 
   /**
-   * <p>
    * Anlegen und Auslesen der applikationsweit eindeutigen PartnerboerseAdministration. Diese Methode
    * erstellt die PartnerboerseAdministration, sofern sie noch nicht existiert. Bei wiederholtem Aufruf
    * dieser Methode wird stets das bereits zuvor angelegte Objekt zurückgegeben.
-   * </p>
    *
    * @return eindeutige Instanz des Typs <code>PartnerboerseAdministrationAsync</code>
-   * @author Peter Thies
+   * @author Peter Thies, Volz
    * @since 28.02.2012
    */
   public static PartnerboerseAdministrationAsync getPartnerboerseVerwaltung() {
-    // Gab es bislang noch keine PartnerbörseAdministration-Instanz, dann...
+  
+	  /*
+	   * Wenn es bisher noch keine partnerboerseVerwaltungs-Instanz gab, wird hiermit nun
+	   * eine erzeugt.
+	   */
     if (partnerboerseVerwaltung == null) {
-      // Zunächst instantiieren wir PartnerbörseAdministration
+      	/*
+    	 * In diesem Schritt wird die PartnerboerseAdministration instantiiert.
+    	 */
       partnerboerseVerwaltung = GWT.create(PartnerboerseAdministration.class);
     }
 
-    // So, nun brauchen wir die BankAdministration nur noch zurückzugeben.
+    /*
+     * Die PartnerboerseVerwaltung wird zurückgegeben.
+     */
     return partnerboerseVerwaltung;
   }
 
   /**
-   * <p>
    * Anlegen und Auslesen des applikationsweit eindeutigen ReportGenerators. Diese Methode erstellt
    * den ReportGenerator, sofern dieser noch nicht existiert. Bei wiederholtem Aufruf dieser Methode
    * wird stets das bereits zuvor angelegte Objekt zurückgegeben.
-   * </p>
+   * 
    * @return eindeutige Instanz des Typs <code>ReportGeneratorAsync</code>
-   * @author Peter Thies
+   * @author Peter Thies, volz
    * @since 28.02.2012
    */
   public static ReportGeneratorAsync getReportGenerator() {
-    // Gab es bislang noch keine ReportGenerator-Instanz, dann...
+  
+	  /*
+	   * Wenn es noch keine ReportGenerator-Instanz gab, wird diese hier erzeugt.
+	   */
     if (reportGenerator == null) {
-      // Zunächst instantiieren wir ReportGenerator
+      
+    	/*
+    	 * Hier wird der ReportGenerator instantiiert.
+    	 */
       reportGenerator = GWT.create(ReportGenerator.class);
 
       final AsyncCallback<Void> initReportGeneratorCallback = new AsyncCallback<Void>() {
@@ -117,13 +128,16 @@ public class ClientsideSettings extends CommonSettings {
       reportGenerator.init(initReportGeneratorCallback);
     }
 
+    /*
+     * Report Generator wird zurückgegeben.
+     */
     return reportGenerator;
   }
 
   /**
    * Auslesen des momentanen Benutzers
    *
-   * @return Momentaner Benutzer
+   * @return currentUser Momentaner Benutzer
    */
   public static Profil getCurrentUser() {
     return currentUser;

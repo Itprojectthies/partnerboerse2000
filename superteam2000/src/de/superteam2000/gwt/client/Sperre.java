@@ -43,16 +43,33 @@ public class Sperre extends BasicFrame {
 
   SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
 
+  /**
+   * Headline Text setzen
+   * @return Text
+   */
   @Override
   public String getHeadlineText() {
     return "Sperrliste";
   }
 
+  /**
+   * SubHeadline Text setzen
+   * @return Text
+   */
   @Override
   protected String getSubHeadlineText() {
     return "Hier findest du deine gesperrten Profile";
   }
 
+  /**
+   * Alle notwendigen Buttons werden hinzugefuegt und alle gesperrten Kontakte aus der DB
+   * ausgelesen, um die Tabelle zum anzeigen zu fuellen.
+   * 
+   * @param profilEntfernenButton Button zum entfernen des Profils aus der Sperrliste
+   * @param alignPanel Style setzen
+   * @param contentPanel Inhalt eingeben
+   * @param selectionModel fuer Selektion eines Profils
+   */
   @Override
   public void run() {
 
@@ -70,13 +87,25 @@ public class Sperre extends BasicFrame {
 
     selectionModel.addSelectionChangeHandler(new SelectionChangeHandler());
 
-    // Hole alle gesperrte Kontakte, um damit die Tabelle zu füllen und um diese anzuzeigen
     pbVerwaltung.getKontaktsperreForProfil(user, new KontaktsperreForProfilCallback());
 
   }
 
+  /**
+   * Kontaktsperre umsetzen, sodass ein gesperrtes Profil das sperrende Profil nicht kontaktieren kann.
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class KontaktsperreForProfilCallback implements AsyncCallback<Kontaktsperre> {
-    @Override
+   
+	  /**
+	   * Kontaktsperre fuer gesperrtes Profil durchfuehren
+	   * @param profile gesperrtes Profil
+	   * @param dpg DataGrid Hilfsvariable
+	   * @param contentPanel Style
+	   */
+	  @Override
     public void onSuccess(Kontaktsperre result) {
 
       profile = result.getGesperrteProfile();
@@ -88,18 +117,31 @@ public class Sperre extends BasicFrame {
       dgp.getTable().setSelectionModel(selectionModel);
     }
 
+	  /**
+	   * Um Fehler abzufangen und Fehlermeldung auszugeben
+	   */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().info("Fehler KontaktsperreForProfilCallback");
-
     }
   }
 
+  /**
+   * Selektieren eines Profils
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class SelectionChangeHandler implements Handler {
-    @Override
+    
+	  /**
+	   * Selektiertes Profil kann entfernt werden
+	   * @param profilEntfernenButton Button sichtbar machen, sodass Sperre aufgehoben werden kann
+	   * @param selectedProfile selektiertes Profil setzen
+	   */
+	  @Override
     public void onSelectionChange(SelectionChangeEvent event) {
       profilEntfernenButton.setEnabled(true);
-      // ausgewähltes Profil setzen
       selectedProfile = selectionModel.getSelectedObject();
     }
   }
@@ -113,6 +155,9 @@ public class Sperre extends BasicFrame {
    */
   public class EntfernenButtonClickhandler implements ClickHandler {
 
+	  /**
+	   * Sperre wird fuer selektiertes Profil aufgehoben
+	   */
     @Override
     public void onClick(ClickEvent event) {
 
@@ -122,8 +167,18 @@ public class Sperre extends BasicFrame {
     }
   }
 
+  /**
+   * Nachdem Sperre aufgehoben wurde, wird Sperrliste erneut angezeigt.
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class DeleteSperreCallback implements AsyncCallback<Void> {
-    @Override
+    
+	  /**
+	   * Sperrliste erneut anzeigen und Meldung ueber Aufhebung anzeigen.
+	   */
+	  @Override
     public void onSuccess(Void result) {
       new Notification("Sperre für " + selectedProfile.getVorname() + " entfernt", "info");
       
@@ -132,6 +187,9 @@ public class Sperre extends BasicFrame {
       RootPanel.get("main").add(s);
     }
 
+	  /**
+	   * Um Fehler abzufangen
+	   */
     @Override
     public void onFailure(Throwable caught) {}
   }

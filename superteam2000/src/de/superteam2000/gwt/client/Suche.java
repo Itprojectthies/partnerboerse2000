@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -29,14 +28,15 @@ import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.bo.Suchprofil;
 
 /**
- * Die Klasse Suche ist für die Darstellung von Möglichen Auswahlen und eine anschließende Suche
- * anhand dieser Kriterien
+ * Die Klasse Suche ist für die Darstellung von möglichen Auswahlen und eine anschließende Suche
+ * anhand dieser Kriterien verantwortlich.
  *
  * @author Funke, Volz
  *
  */
 public class Suche extends BasicFrame {
 
+  /* alle benoetigten Instanzvariablen werden deklariert */
   Profil user = ClientsideSettings.getCurrentUser();
   Logger logger = ClientsideSettings.getLogger();
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
@@ -61,14 +61,23 @@ public class Suche extends BasicFrame {
   @SuppressWarnings("deprecation")
   ListBox suchProfilListBox = new ListBox(true);
 
+  /**
+   * HeadlineText setzen
+   * 
+   * @return Text
+   */
   @Override
   protected String getHeadlineText() {
     return "Suche und finde deine bessere Hälfte";
   }
 
+  /**
+   * SubHeadline Text setzen
+   * 
+   * @return Text
+   */
   @Override
   protected String getSubHeadlineText() {
-    // TODO Auto-generated method stub
     return "Suche den perfekten Match!";
   }
 
@@ -77,6 +86,14 @@ public class Suche extends BasicFrame {
   FlowPanel searchBoxProfilAttribute = new FlowPanel();
   FlowPanel searchBoxInfo = new FlowPanel();
 
+  /**
+   * Die Buttons und deren Panel fuer die Suchoptionen werden eingefuegt.
+   * 
+   * @param suchProfilName Name des Suchprofils
+   * @param suchProfilTextbox Textboxes zum befuellen mit Inhalt
+   * @param suchprofilSpeichernButton Button um Suchprofil speichern zu koennen
+   * @param suchprofilLoeschenButton Button um Suchprofil loeschen zu koennen
+   */
   @Override
   protected void run() {
     HTML searchBoxLabel = new HTML("Suchprofile");
@@ -126,8 +143,6 @@ public class Suche extends BasicFrame {
     pbVerwaltung.getAllSuchprofileForProfil(user, new AllSuchprofileForProfilCallback());
     pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
 
-
-
   }
 
   private class AllSuchprofileForProfilCallback implements AsyncCallback<ArrayList<Suchprofil>> {
@@ -141,7 +156,10 @@ public class Suche extends BasicFrame {
         new Notification("Sie haben keine Suchprofile", "info");
       }
     }
-
+    
+    /**
+     * Um Fehler abzufangen.
+     */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().info("Fehler AsyncCallback alle Suchprofile");
@@ -149,7 +167,10 @@ public class Suche extends BasicFrame {
   }
 
   private class SuchprofilSpeichernButtonClickHandler implements ClickHandler {
-
+    /**
+     * Suchprofil anlegen und speichern
+     * @param tmpSp Suchprofil wird gespeichert
+     */
     @Override
     public void onClick(ClickEvent event) {
       Suchprofil tmpSp = Suche.this.createSP();
@@ -161,12 +182,18 @@ public class Suche extends BasicFrame {
   }
 
   private class SaveSuchprofilCallback implements AsyncCallback<Void> {
+    /**
+     * Speichert das Suchprofil Callback
+     */
     @Override
     public void onSuccess(Void result) {
       new Notification("Suchprofil gespeichert", "success");
       logger.info("Suchprofil erflogreich gespeichert");
     }
-
+    
+    /**
+     * Um Fehler abzufangen.
+     */
     @Override
     public void onFailure(Throwable caught) {
       logger.info("Suchprofil nicht erflogreich gespeichert");
@@ -175,6 +202,9 @@ public class Suche extends BasicFrame {
 
   private class SuchprofilLöschenButtonClickHandler implements ClickHandler {
 
+    /**
+     * Infoobjekte und Profilattribute des Suchprofils in die Listboxen schreiben
+     */
     @Override
     public void onClick(ClickEvent event) {
       int i = suchProfilListBox.getSelectedIndex();
@@ -186,13 +216,19 @@ public class Suche extends BasicFrame {
   }
 
   private class DeleteSuchprofilCallback implements AsyncCallback<Void> {
+    /**
+     * wenn loeschen erfolgreich, entsprechend melden
+     */
     @Override
     public void onSuccess(Void result) {
-      
+
       logger.info("Suchprofil erflogreich gelöscht");
 
     }
 
+    /**
+     * Um Fehler abzufangen.
+     */
     @Override
     public void onFailure(Throwable caught) {
       logger.info("Suchprofil nicht erfolgreich gelöscht");
@@ -200,6 +236,9 @@ public class Suche extends BasicFrame {
   }
 
   private class SucheButtonClickHandler implements ClickHandler {
+    /**
+     * Profile nach Suchprofil laden (aus DB)
+     */
     @Override
     public void onClick(ClickEvent event) {
       sp = Suche.this.createSP();
@@ -210,8 +249,11 @@ public class Suche extends BasicFrame {
   }
 
   private class SuchProfilListBoxClickHandler implements ClickHandler {
-
-
+    
+    /**
+     * ClickHandler um die Listboxen mit den jeweiligen Daten zu aktualisieren,
+     * wenn ein Suchprofil angeklickt wird/wurde.
+     */
     @Override
     public void onClick(ClickEvent event) {
       suchprofilLöschenButton.setEnabled(true);
@@ -226,10 +268,12 @@ public class Suche extends BasicFrame {
   }
 
   private class AllAuswahlCallback implements AsyncCallback<ArrayList<Auswahl>> {
+    /**
+     * Erstellt Listboxen fuer die Auswahleigenschaften und fuegt diese dem FlowPanel hinzu
+     */
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
       auswahlListe = result;
-      // Erstelle Listboxen für die Auswahleigenschaften und füge sie dem FlowPanel hinzu
 
       for (Auswahl a : result) {
         BoxPanel clb = new BoxPanel(a, false);
@@ -239,14 +283,21 @@ public class Suche extends BasicFrame {
       }
     }
 
+    /**
+     * Um Fehler abzufangen.
+     */
     @Override
-    public void onFailure(Throwable caught) {
-      // TODO Auto-generated method stub
-
-    }
+    public void onFailure(Throwable caught) {}
   }
 
+  /**
+   * Suche durchfuehren, Profile die gepasst haben ausgeben mit Aehnlichkeitsmass.
+   * 
+   * @author Funke, Volz
+   *
+   */
   private final class GetProfilesBySuchProfilCallback implements AsyncCallback<ArrayList<Profil>> {
+
     /**
      * onSuccess wird mit der ArrayList an Profilen die der Suche entsprochen haben ein Datagrid
      * erstellt welcher die Profile enthält
@@ -264,7 +315,10 @@ public class Suche extends BasicFrame {
         RootPanel.get("search-table").add(dgp.start());
       }
     }
-
+    
+    /**
+     * Um Fehler abzufangen.
+     */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().info("Fehler Callback getProfilesBySuche");
@@ -272,6 +326,9 @@ public class Suche extends BasicFrame {
   }
 
   private class SuchprofileForProfilByNameCallback implements AsyncCallback<Suchprofil> {
+    /**
+     * Infoobjekte und Profilattribute des Suchprofils in die Listboxen schreiben
+     */
     @Override
     public void onSuccess(Suchprofil result) {
       sp = result;
@@ -333,13 +390,34 @@ public class Suche extends BasicFrame {
       }
     }
 
+    /**
+     * Wenn Fehler bei Suche passierte, Meldung ausgeben.
+     */
     @Override
     public void onFailure(Throwable caught) {
       logger.severe("Fehler bei Ausgabe eines Suchprofils");
     }
   }
 
+  /**
+   * Die Koerpergroesse und das Alter sollen eingrenzbar sein im Suchprofil.
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class GetAllAuswahlProfilAttributeCallback implements AsyncCallback<ArrayList<Auswahl>> {
+
+    /**
+     * Listboxen fuer die Ober- und Untergrenze fuer Koerpergroesse und Alter werden nur fuer
+     * Suchprofil angelegt und verwendet. Dies wird den Profilattributen hinzugefuegt.
+     * 
+     * @param clb Hilfsvariable fuer BoxPanel
+     * @param groesseMin
+     * @param groesseMax
+     * @param alterMin
+     * @param alterMax speichern die Ober- und Untergrenzen des Users bei der Suche nach anderen
+     *        Suchprofilen ab (damit Koerpergroesse und Alter eingegrenzt werden kann im Suchprofil)
+     */
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
       for (Auswahl a : result) {
@@ -370,15 +448,15 @@ public class Suche extends BasicFrame {
       alterMax.addKeineAngabenItem();
       alterMax.setName("Alter_max");
 
-      // Körpergröße und Geburtstags Listboxen werden nach den
-      // AuswahlProfilAttributen zum Panel hinzugefügt
-
       searchBoxProfilAttribute.add(groesseMin);
       searchBoxProfilAttribute.add(groesseMax);
       searchBoxProfilAttribute.add(alterMin);
       searchBoxProfilAttribute.add(alterMax);
     }
 
+    /**
+     * Um Fehler abzufangen; gibt Fehlermeldung aus.
+     */
     @Override
     public void onFailure(Throwable caught) {
       logger.severe("Fehler beim GetAllAuswahlProfilAttributeCallback");
@@ -386,12 +464,17 @@ public class Suche extends BasicFrame {
   }
 
   /**
-   * Clickhandler für den "suche" Button. onClick sollen sämltiche der Suche entsprechenden Profile
-   * ausgegeben werden
+   * Clickhandler für den "suche" Button. Bei onClick sollen sämltiche der Suche entsprechenden
+   * Profile ausgegeben werden.
+   * 
+   * @author Funke, Volz
    */
 
   private class SuchButtonClickHandler implements ClickHandler {
 
+    /**
+     * alle Suchprofile werden gesucht und aufgerufen.
+     */
     @Override
     public void onClick(ClickEvent event) {
       sp = createSP();
@@ -407,17 +490,30 @@ public class Suche extends BasicFrame {
   }
 
   private class CreateSuchprofilCallback implements AsyncCallback<Void> {
+    
     @Override
     public void onSuccess(Void result) {
       logger.info("Suchprofil in DB geschreiben " + sp.getName());
     }
-
+    
+    /**
+     * Um Fehler abzufangen.
+     */
     @Override
     public void onFailure(Throwable caught) {
       logger.severe("Suchprofil in DB geschreiben Fehler= " + sp.getName());
     }
   }
 
+  /**
+   * Suchprofil soll erstellt werden. Damit koennen alle angelegten Profile durchsucht werden, um
+   * Profile zu finden, welche zum Suchprofil passen.
+   * 
+   * @param sp Suchprofil speichern
+   * @param auswahlListeSp
+   * @param childPanel
+   * @return sp Suchprofil
+   */
   public Suchprofil createSP() {
     final Suchprofil sp = new Suchprofil();
 
@@ -426,15 +522,15 @@ public class Suche extends BasicFrame {
 
     HashMap<Integer, String> auswahlListeSp = new HashMap<>();
 
-
-
     for (Widget child : searchBoxInfo) {
       if (child instanceof BoxPanel) {
         BoxPanel childPanel = (BoxPanel) child;
         if (childPanel.getName() != null) {
 
-          // Auswahleigenschaftslistboxen dynamisch auslesen und in des Hashmap auswahlListeSp
-          // speichern
+          /*
+           * Auswahleigenschaftslistboxen dynamisch auslesen und in das Hashmap auswahlListeSp
+           * speichern
+           */
           for (Auswahl a : auswahlListe) {
             if (childPanel.getId() == a.getId()) {
 
@@ -452,8 +548,10 @@ public class Suche extends BasicFrame {
         BoxPanel childPanel = (BoxPanel) child;
         if (childPanel.getName() != null) {
 
-          // Auswahleigenschaftslistboxen dynamisch auslesen und in des Hashmap auswahlListeSp
-          // speichern
+          /*
+           * Auswahleigenschaftslistboxen dynamisch auslesen und in des Hashmap auswahlListeSp
+           * speichern
+           */
           for (Auswahl a : auswahlListe) {
             if (childPanel.getId() == a.getId()) {
 
@@ -507,6 +605,11 @@ public class Suche extends BasicFrame {
     return sp;
   }
 
+  /**
+   * Wenn etwas nicht selektiert/ausgewaehlt wurde.
+   * 
+   * @return true / false Je nach Abfrage
+   */
   private boolean isKeineAngabeSelected(BoxPanel box) {
     if (box.getSelectedItem().equals("Keine Angabe")) {
       return true;

@@ -28,28 +28,49 @@ public class Merkliste extends BasicFrame {
 
   ArrayList<Profil> profile = new ArrayList<Profil>();
 
+  /**
+   * Headline Text wird gesetzt
+   * @return Text
+   */
   @Override
   public String getHeadlineText() {
 
     return "Merkliste";
   }
 
+  /**
+   * SubHeadline Text wird gesetzt
+   * @return auszugebender Text
+   */
   @Override
   protected String getSubHeadlineText() {
     return "Hier findest du deine gemerkten Profile";
   }
 
   PopupPanel pop = new PopupPanel();
+  
+  /**
+   * Die Merkliste wird abgefragt und angezeigt.
+   */
   @Override
   public void run() {
     
-    // Merkliste abfragen und anzeigen
     pbVerwaltung.getMerkzettelForProfil(user, new MerkzettelForProfilCallback());
 
   }
 
+  /**
+   * Diese Klasse enthaelt alle Methoden zum anzeigen und bearbeiten der Merkliste eines Users.
+   * @author Funke
+   *
+   */
   private class MerkzettelForProfilCallback implements AsyncCallback<Merkzettel> {
-    @Override
+    
+	  /**
+	   * Falls eine Merkliste gefunden werden konnte, werden alle dort gelisteten Profile
+	   * gesucht und in Panel uebergeben, welches die Profile ausgibt.
+	   */
+	  @Override
     public void onSuccess(Merkzettel result) {
       profile = result.getGemerkteProfile();
       DataGridProfiles dgp = new DataGridProfiles(profile);
@@ -58,6 +79,9 @@ public class Merkliste extends BasicFrame {
       RootPanel.get("main").add(dgp.start());
     }
 
+	  /**
+	   * Falls kein Merkzettel gefunden werden konnte und zum abfangen sonstiger Fehler.
+	   */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().info("Fehler AsyncCallback Merkzettel in Merkliste");

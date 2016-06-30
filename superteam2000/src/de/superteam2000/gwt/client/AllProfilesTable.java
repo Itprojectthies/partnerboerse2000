@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -15,31 +14,61 @@ import de.superteam2000.gwt.client.gui.DataGridProfiles;
 import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 
+/**
+ * Alle Methoden, welche zum Anzeigen aller Methoden in einer Tabelle dienen.
+ * 
+ * @author Funke, Volz
+ *
+ */
 public class AllProfilesTable extends BasicFrame {
 
   CustomPopupPanel pop = new CustomPopupPanel(false, true);
   
   private ArrayList<Profil> profilListe = new ArrayList<Profil>();
 
+  /**
+   * Profile werden ausgelesen und als Liste gespeichert.
+   * @param list Alle Profile in einer Liste speichern.
+   */
   public AllProfilesTable(ArrayList<Profil> list) {
     profilListe = list;
   }
+  
+  /**
+   * leere Methode um Tabelle zu befuellen.
+   */
   public AllProfilesTable() {
   }
 
+  /**
+   * Profilliste wird ausgegeben
+   * @return profilListe
+   */
   public ArrayList<Profil> getProfilListe() {
     return profilListe;
   }
 
+  /**
+   * Profilliste erstellen
+   * @param profilListe
+   */
   public void setProfilListe(ArrayList<Profil> profilListe) {
     this.profilListe = profilListe;
   }
 
+  /**
+   * Headline Text setzen
+   * @return Text
+   */
   @Override
   public String getHeadlineText() {
     return "Alle Profile";
   }
 
+  /**
+   * SubHeadline Text setzen
+   * @return Text
+   */
   @Override
   protected String getSubHeadlineText() {
     return "Hier findes du alle Profile der Partnerbörse2000";
@@ -50,6 +79,18 @@ public class AllProfilesTable extends BasicFrame {
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
   Profil profil = ClientsideSettings.getCurrentUser();
+
+  /**
+   * Alle Buttons, welche benoetigt werden, werden definiert und gestylt und dann dem Panel hinzufuegt.
+   * 
+   * @param neueProfileAnzeigenButton damit alle Profile in einer Liste angezeigt werden koennen
+   * @param nichtBesuchteProfilAnzeigenButton damit alle noch nicht besuchten Profile angezeigt werden koennen
+   * @param profileAnzeigenButton einzelner Profil anzeigen lassen
+   * @param contentPanel fuer Style
+   * @param fPanel2 Hilfsvariable
+   * @param buttonsPanel Buttons werden darauf angeordnet und angezeigt
+   * @param dgp Hilfsvariable fuer DataGrid und somit Anzeige von Profilen
+   */
 
   final CustomButton nichtBesuchteProfilAnzeigenButton = new CustomButton("Nicht besuchte");
   final CustomButton neueProfilAnzeigenButton = new CustomButton("Neue");
@@ -98,8 +139,18 @@ public class AllProfilesTable extends BasicFrame {
 
   }
 
+  /**
+   * Damit alle Profile angezeigt werden koennen.
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class AlleProfileClickHandler implements ClickHandler {
-    @Override
+    
+	  /**
+	   * Alle Profile und Daten aus Datenbank auslesen, Aehnlichkeit anzeigen
+	   */
+	  @Override
     public void onClick(ClickEvent event) {
       profileAnzeigenButton.setPushed(true);
       neueProfilAnzeigenButton.setPushed(false);
@@ -111,6 +162,12 @@ public class AllProfilesTable extends BasicFrame {
     }
   }
 
+  /**
+   * Aehnlichkeitsmass berechnen und zurueckgeben.
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class ProfileProfilesByAehnlichkeitsmassCallback
       implements AsyncCallback<ArrayList<Profil>> {
     @Override
@@ -120,12 +177,24 @@ public class AllProfilesTable extends BasicFrame {
 
     
 
+	  /**
+	   * um Fehler abzufangen.
+	   */
     @Override
     public void onFailure(Throwable caught) {}
   }
 
+  /**
+   * Damit die bisher nicht besuchten Profile angezeigt werden koennen.
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class NichtBesuchteProfileClickHandler implements ClickHandler {
 
+	  /**
+	   * Alle besuchten Profile werden ausgelesen um die nicht besuchten Profile zu erreichen.
+	   */
     @Override
     public void onClick(ClickEvent event) {
       profileAnzeigenButton.setPushed(false);
@@ -137,19 +206,42 @@ public class AllProfilesTable extends BasicFrame {
     }
   }
 
+  /**
+   * Alle nicht besuchten Profile werden ausgegeben.
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class AllNotVisitedProfilesByAehnlichkeitsmassCallback
       implements AsyncCallback<ArrayList<Profil>> {
-    @Override
+   
+	  /**
+	   * Alle nicht besuchten Profile werden ausgegeben.
+	   * @param dgt Alle nicht besuchten Profile werden gespeichert
+	   */
+	  @Override
     public void onSuccess(ArrayList<Profil> result) {
       addProfilesToTable(result);
     }
 
+	  /**
+	   * Um Fehler abzufangen
+	   */
     @Override
     public void onFailure(Throwable caught) {}
   }
 
+  /**
+   * Neue Profile, d.h. seit dem letzten Login hinzugekommene Profile, anzeigen.
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class NeueProfilAnzeigeClickHandler implements ClickHandler {
 
+	  /**
+	   * Alle neuen Profile werden aus der Datenbank ausgelesen.
+	   */
     @Override
     public void onClick(ClickEvent event) {
       profileAnzeigenButton.setPushed(false);
@@ -160,13 +252,27 @@ public class AllProfilesTable extends BasicFrame {
           new AllNewProfilesByAehnlichkeitsmassCallback());
     }
   }
+  
+  /**
+   * Aehnlichkeitsmass fuer Profile berechnen und gemeinsam ausgeben.
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class AllNewProfilesByAehnlichkeitsmassCallback
       implements AsyncCallback<ArrayList<Profil>> {
-    @Override
+    
+	  /**
+	   * Neue Profile und Aehnlichkeitsmass ausgeben.
+	   */
+	  @Override
     public void onSuccess(ArrayList<Profil> result) {
       addProfilesToTable(result);
     }
 
+	  /**
+	   * Um Fehler abzufangen.
+	   */
     @Override
     public void onFailure(Throwable caught) {}
   }
