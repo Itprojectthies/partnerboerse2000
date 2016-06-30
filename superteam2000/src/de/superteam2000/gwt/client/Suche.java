@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.Widget;
 import de.superteam2000.gwt.client.gui.BoxPanel;
 import de.superteam2000.gwt.client.gui.CustomPopupPanel;
 import de.superteam2000.gwt.client.gui.DataGridProfiles;
-import de.superteam2000.gwt.client.gui.Label;
 import de.superteam2000.gwt.client.gui.Notification;
 import de.superteam2000.gwt.client.gui.ProfilAttributListbox;
 import de.superteam2000.gwt.client.gui.ProfilAttributTextBox;
@@ -144,8 +143,15 @@ public class Suche extends BasicFrame {
     pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
 
   }
-
+  /**
+   * 
+   * @author danielvolz
+   *
+   */
   private class AllSuchprofileForProfilCallback implements AsyncCallback<ArrayList<Suchprofil>> {
+    /**
+     * Fügt die Suchprofile des Benutzers in die Suchlistbox hinzu
+     */
     @Override
     public void onSuccess(ArrayList<Suchprofil> result) {
       suchProfilListe = result;
@@ -183,7 +189,7 @@ public class Suche extends BasicFrame {
 
   private class SaveSuchprofilCallback implements AsyncCallback<Void> {
     /**
-     * Speichert das Suchprofil Callback
+     * Speichert das Suchprofil in die Datenbank
      */
     @Override
     public void onSuccess(Void result) {
@@ -201,7 +207,6 @@ public class Suche extends BasicFrame {
   }
 
   private class SuchprofilLöschenButtonClickHandler implements ClickHandler {
-
     /**
      * Infoobjekte und Profilattribute des Suchprofils in die Listboxen schreiben
      */
@@ -249,7 +254,6 @@ public class Suche extends BasicFrame {
   }
 
   private class SuchProfilListBoxClickHandler implements ClickHandler {
-    
     /**
      * ClickHandler um die Listboxen mit den jeweiligen Daten zu aktualisieren,
      * wenn ein Suchprofil angeklickt wird/wurde.
@@ -266,7 +270,13 @@ public class Suche extends BasicFrame {
 
     }
   }
-
+  
+  /**
+   * Listboxen für alle Auswahleigesnchaften erstellen
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class AllAuswahlCallback implements AsyncCallback<ArrayList<Auswahl>> {
     /**
      * Erstellt Listboxen fuer die Auswahleigenschaften und fuegt diese dem FlowPanel hinzu
@@ -325,6 +335,12 @@ public class Suche extends BasicFrame {
     }
   }
 
+  /**
+   * Suchprofilattribute in die Listbox-Felder schreiben
+   * 
+   * @author Funke, Volz
+   *
+   */
   private class SuchprofileForProfilByNameCallback implements AsyncCallback<Suchprofil> {
     /**
      * Infoobjekte und Profilattribute des Suchprofils in die Listboxen schreiben

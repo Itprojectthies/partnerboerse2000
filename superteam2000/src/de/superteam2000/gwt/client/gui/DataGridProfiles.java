@@ -25,18 +25,17 @@ import de.superteam2000.gwt.shared.bo.Profil;
  */
 public class DataGridProfiles {
 
+  /**
+   * pb Verwaltung über ClientsideSettings holen
+   */
 
-  // pb Verwaltung über ClientsideSettings holen
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
-
   Profil profil = ClientsideSettings.getCurrentUser();
 
   private FlowPanel fPanel = new FlowPanel();
-
   private ArrayList<Profil> profilListe;
-
   private Profil selected = null;
-
+  DataGrid<Profil> table = new DataGrid<Profil>();
 
   public DataGridProfiles(ArrayList<Profil> list) {
     profilListe = list;
@@ -58,8 +57,10 @@ public class DataGridProfiles {
     this.table = table;
   }
 
-  DataGrid<Profil> table = new DataGrid<Profil>();
-
+  /*
+   * Fügt der DataGrid Spalten hinzu (Profilname, Alter, Ähnlichkeit usw.) und befüllt sie mit
+   * Profilen (Zeilen)
+   */
   public FlowPanel start() {
     fPanel.setStyleName("content");
 
@@ -96,7 +97,7 @@ public class DataGridProfiles {
         return String.valueOf(p.getAehnlichkeit()) + "%";
       }
     };
-    
+
     table.addColumn(aehnlichkeit, "Ähnlichkeit");
 
     table.setRowCount(profilListe.size(), false);
@@ -111,14 +112,23 @@ public class DataGridProfiles {
     return fPanel;
   }
 
+  /**
+   * Fügt dem DataGrid einen SelectionChangeHandler hinzu, der beim Klicken auf ein Profil zur
+   * Profilseite umleitet
+   */
   public void addClickFremdProfil() {
-    // Add a selection model to handle user selection.
     final SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
     table.setSelectionModel(selectionModel);
 
     selectionModel.addSelectionChangeHandler(new SelectionChangeHandler(selectionModel));
   }
 
+  /**
+   * Der SelectionChangeHandler, welches das angeklickte Profil als Objekt zurückgibt.
+   * 
+   * @author Volz
+   *
+   */
   private class SelectionChangeHandler implements Handler {
     private final SingleSelectionModel<Profil> selectionModel;
 
@@ -139,7 +149,11 @@ public class DataGridProfiles {
       RootPanel.get("main").add(fp);
     }
   }
-
+  /**
+   * Ein Callback der einen Profilbesuch in die Datenbank schreibt
+   * @author danielvolz
+   *
+   */
   private class SetVisitedCallback implements AsyncCallback<Void> {
     @Override
     public void onSuccess(Void result) {

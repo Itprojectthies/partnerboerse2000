@@ -75,6 +75,7 @@ public class Superteam2000 implements EntryPoint {
     }
 
     /**
+     * Erstellen der Login-Seite, auf der sich der User durch einen Klick einloggen kann
      * 
      * @param splashContaiern
      * @param splash
@@ -84,6 +85,8 @@ public class Superteam2000 implements EntryPoint {
      * @param loginAnchor
      */
     private void createLoginScreen(Profil result) {
+      
+      //CSS Stylename für die entsprechenden Divs setzen und mit Texten füllen
       FlowPanel splashContaiern = new FlowPanel();
       splashContaiern.setStyleName("splash-container");
       
@@ -103,6 +106,7 @@ public class Superteam2000 implements EntryPoint {
       loginAnchor.setStyleName("pure-button-login pure-button-primary-login");
       loginAnchor.setHref(result.getLoginUrl());
 
+      //Divs und Anchor zum Div hinzufügen
       splash.add(headingElement);
       splash.add(splashSubhead);
       splash.add(loginAnchor);

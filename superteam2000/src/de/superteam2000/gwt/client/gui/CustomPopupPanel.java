@@ -22,9 +22,10 @@ public class CustomPopupPanel extends PopupPanel {
     int top = (Window.getClientHeight() - 680);
     this.setPopupPosition(left, top);
 
-    // Wenn isImage true ist, wird ein pulsierendes Herz angezeigt, 
-    // ansonsten ein drehendes Zahnrad
-    
+    /**
+     * Wenn isImage true ist, wird ein pulsierendes Herz angezeigt, ansonsten ein drehendes Zahnrad
+     */
+
     if (isImage) {
       Image i = new Image("/img/heart.svg");
       i.setPixelSize(70, 70);
@@ -36,12 +37,17 @@ public class CustomPopupPanel extends PopupPanel {
     }
   }
 
-  // ruft die show() Methode des PopupPanles nach 0,5 Sekunden auf
+  /**
+   * ruft die show() Methode des PopupPanles nach 0,5 Sekunden auf
+   */
+
   public void load() {
     t1.schedule(500);
   }
 
-  // bricht den Timer ab und versteckt das PopupPanel
+  /**
+   * bricht den Timer ab und versteckt das PopupPanel
+   */
   public void stop() {
     t1.cancel();
     this.hide();

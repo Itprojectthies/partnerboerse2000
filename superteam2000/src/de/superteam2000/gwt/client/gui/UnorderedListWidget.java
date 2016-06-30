@@ -5,7 +5,7 @@ import com.google.gwt.dom.client.UListElement;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 /**
- * Die Klasse UnorderedListWidget
+ * Die Klasse UnorderedListWidget wird für das CSS Styling benötigt.
  * 
  * @author Volz
  *

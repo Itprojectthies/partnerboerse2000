@@ -5,7 +5,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 /**
- * Die Klasse ListItemWidget
+ * Die Klasse ListItemWidget wird für das CSS Styling benötigt.
  * 
  * @author Volz
  *

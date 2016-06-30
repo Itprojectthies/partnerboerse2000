@@ -9,7 +9,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -31,10 +30,10 @@ import de.superteam2000.gwt.shared.bo.Profil;
  * @author Rathke, Volz
  */
 public class ShowProfil extends BasicFrame {
-  
-	/*
-	 * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
-	 */
+
+  /*
+   * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
+   */
 
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
@@ -55,6 +54,7 @@ public class ShowProfil extends BasicFrame {
 
   /**
    * Headline Text setzen
+   * 
    * @return Begruessung
    */
   @Override
@@ -64,6 +64,7 @@ public class ShowProfil extends BasicFrame {
 
   /**
    * SubHeadline Text setzen
+   * 
    * @return Text
    */
   @Override
@@ -72,18 +73,17 @@ public class ShowProfil extends BasicFrame {
   }
 
   /**
-   * Profilbeschreibungsattribute (Vorname, Nachname, ...) werden vom Server abgefragt, damit sie als Textboxen
-   * dargestellt werden koennen.
+   * Profilbeschreibungsattribute (Vorname, Nachname, ...) werden vom Server abgefragt, damit sie
+   * als Textboxen dargestellt werden koennen.
    * 
-   * @param legend 
-   * @param alignPanel 
+   * @param legend
+   * @param alignPanel
    * @param contentPanel
-   * @param buttonsPanel
-   * 					Panels setzen Styles und fuegen Elemente hinzu
+   * @param buttonsPanel Panels setzen Styles und fuegen Elemente hinzu
    * @param editButton Style fuer Button zum editieren
    * @param saveButton Style fuer speichern Button setzen
-   * @param deleteBtn Style fuer loeschen Button setzen
-   * 					mit Buttons koennen Eigenschaften und Infoobjekte verwaltet werden
+   * @param deleteBtn Style fuer loeschen Button setzen mit Buttons koennen Eigenschaften und
+   *        Infoobjekte verwaltet werden
    * @param buttonsPanel zeigt Buttons an
    * @param gebTag Moeglichkeit zum setzen von Geburstag geben
    * @param groesse Moeglichkeit zur Angabe der Koerpergroesse geben
@@ -135,12 +135,12 @@ public class ShowProfil extends BasicFrame {
    */
   private class GetAllAuswahlProfilAttributeCallback implements AsyncCallback<ArrayList<Auswahl>> {
 
-	  /**
-	   * Alle Eigenschaften werden ausgelesen und angezeigt.
-	   * Koerpergroesse und Geburtstags Listboxen werden nach den AuswahlProfilAttributen
-	   * zum Panel hinzugefuegt.
-	   * @param boxPanelValue Elemente werden in Panel geschrieben
-	   */
+    /**
+     * Alle Eigenschaften werden ausgelesen und angezeigt. Koerpergroesse und Geburtstags Listboxen
+     * werden nach den AuswahlProfilAttributen zum Panel hinzugefuegt.
+     * 
+     * @param boxPanelValue Elemente werden in Panel geschrieben
+     */
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
       for (Auswahl a : result) {
@@ -190,38 +190,38 @@ public class ShowProfil extends BasicFrame {
     // Schleifen zum Auslesen der Listboxen und Textboxen, welche in 2
     // Panels verschachtelt sind, um diese bearbeitbar zu machen
 
-	  /**
-	   * Schleifen dienen zum Auslesen der Listboxen und Textboxen, welche in zwei
-	   * Panels verschachtelt sind, um diese editierbar zu machen.
-	   * 
-	   * @param saveButton wird sichtbar gemacht um Aenderungen zu speichern
-	   * @param editButton deselektieren, da bereits genutzt
-	   * @param deleteBtn bei Eigenschaften nicht moeglich
-	   */
+    /**
+     * Schleifen dienen zum Auslesen der Listboxen und Textboxen, welche in zwei Panels
+     * verschachtelt sind, um diese editierbar zu machen.
+     * 
+     * @param saveButton wird sichtbar gemacht um Aenderungen zu speichern
+     * @param editButton deselektieren, da bereits genutzt
+     * @param deleteBtn bei Eigenschaften nicht moeglich
+     */
     @Override
     public void onClick(ClickEvent event) {
       /*
-       *  Save Button klickbar machen, um Aenderungen zu speichern.
+       * Save Button klickbar machen, um Aenderungen zu speichern.
        */
       saveButton.setEnabled(true);
       editButton.setEnabled(false);
       deleteBtn.setEnabled(false);
-      
+
       for (Widget child : alignPanel) {
         FlowPanel childPanel = (FlowPanel) child;
         for (Widget box : childPanel) {
-          
+
           if (box instanceof EigenschaftListBox) {
-            
+
             EigenschaftListBox lb = (EigenschaftListBox) box;
             /* Listbox auswählbar machen */
             lb.setEnabled(true);
           } else if (box instanceof TextBox) {
-            
+
             TextBox tb = (TextBox) box;
             /* Textbox beschreibbar machen */
             tb.setEnabled(true);
-            
+
           }
         }
       }
@@ -237,16 +237,16 @@ public class ShowProfil extends BasicFrame {
    */
   private class SaveButtonClickHandler implements ClickHandler {
 
-	  /**
-	   * Die Aenderungen werden geprueft und anschliessend abgespeichert wenn moeglich.
-	   * 
-	   * @param editButton wird wieder sichtbar gemacht
-	   * @param deleteBtn wird wieder sichtbar gemacht
-	   * @param p aktuelles Profil
-	   * @param geburtsTag Hilfsvariable fuer Alter
-	   * @param geburtsMonat Hilfsvariable fuer Alter
-	   * @param geburtsJahr Hilfsvariable fuer Alter
-	   */
+    /**
+     * Die Aenderungen werden geprueft und anschliessend abgespeichert wenn moeglich.
+     * 
+     * @param editButton wird wieder sichtbar gemacht
+     * @param deleteBtn wird wieder sichtbar gemacht
+     * @param p aktuelles Profil
+     * @param geburtsTag Hilfsvariable fuer Alter
+     * @param geburtsMonat Hilfsvariable fuer Alter
+     * @param geburtsJahr Hilfsvariable fuer Alter
+     */
     @SuppressWarnings("deprecation")
     @Override
     public void onClick(ClickEvent event) {
@@ -297,7 +297,7 @@ public class ShowProfil extends BasicFrame {
 
             }
 
-            /* Vorname und Nachname werden auch ausgelesen*/
+            /* Vorname und Nachname werden auch ausgelesen */
           } else if (box instanceof TextBox) {
             TextBox tb = (TextBox) box;
             switch (tb.getName()) {
@@ -316,8 +316,8 @@ public class ShowProfil extends BasicFrame {
       }
 
       /*
-       * Date-Objekt aus den 3 Geburtswerten Tag, Monat und Jahr berechnen und in SQL-State-
-       * Objekt umwandeln
+       * Date-Objekt aus den 3 Geburtswerten Tag, Monat und Jahr berechnen und in SQL-State- Objekt
+       * umwandeln
        */
       Date gebTagDate = DateTimeFormat.getFormat("yyyy-MM-dd")
           .parse(geburtsJahr + "-" + geburtsMonat + "-" + geburtsTag);
@@ -343,9 +343,9 @@ public class ShowProfil extends BasicFrame {
    */
   private class DeleteClickHandler implements ClickHandler {
 
-	  /**
-	   * Abfrage, ob User Profil loeschen will, anschliessend wird geloescht.
-	   */
+    /**
+     * Abfrage, ob User Profil loeschen will, anschliessend wird geloescht.
+     */
     @Override
     public void onClick(ClickEvent event) {
       if (Window.confirm("Möchtest du dein Profil wirklich löschen?")) {
@@ -360,19 +360,19 @@ public class ShowProfil extends BasicFrame {
    *
    */
   private class DeleteProfilCallback implements AsyncCallback<Void> {
-    
-	  /**
-	   * Profil wird geloescht, Meldung wird ausgegeben
-	   */
-	  @Override
+
+    /**
+     * Profil wird geloescht, Meldung wird ausgegeben
+     */
+    @Override
     public void onSuccess(Void result) {
       logger.severe("Profil gelöscht");
       Window.open(user.getLogoutUrl(), "_self", "");
     }
 
-	  /**
-	   * Fehler abfangen und Meldung ausgeben.
-	   */
+    /**
+     * Fehler abfangen und Meldung ausgeben.
+     */
     @Override
     public void onFailure(Throwable caught) {
       logger.severe("Fehler beim löschen des Profils");
@@ -387,9 +387,9 @@ public class ShowProfil extends BasicFrame {
    */
   private class SaveProfilCallBack implements AsyncCallback<Void> {
 
-	  /**
-	   * Aenderungen des Profils speichern und danach erneut anzeigen.
-	   */
+    /**
+     * Aenderungen des Profils speichern und danach erneut anzeigen.
+     */
     @Override
     public void onSuccess(Void result) {
       new Notification("Profiländerung gespeichert", "success");
@@ -420,10 +420,10 @@ public class ShowProfil extends BasicFrame {
   private class GetAllBeschreibungProfilAttributeCallback
       implements AsyncCallback<ArrayList<Beschreibung>> {
 
-	  /**
-	   * Fuer die Beschreibung Vorname und Nachname wird eine Textbox erstellt
-	   * und mit den Werten des aktuellen Nutzers befuellt.
-	   */
+    /**
+     * Fuer die Beschreibung Vorname und Nachname wird eine Textbox erstellt und mit den Werten des
+     * aktuellen Nutzers befuellt.
+     */
     @Override
     public void onSuccess(ArrayList<Beschreibung> result) {
       for (Beschreibung b : result) {
