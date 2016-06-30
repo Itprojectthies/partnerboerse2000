@@ -161,7 +161,7 @@ The content `<div>` is where all your content goes.
 .content {
     margin: 0 auto;
     padding: 0 2em;
-    max-width: 800px;
+   	max-width: 700px;
     margin-bottom: 20px;
     line-height: 1.6em;
 }
@@ -368,31 +368,35 @@ Hides the menu at `48em`, but modify this based on your app's needs.
         left: 210px;
     }
 }
-@media (min-width: 84em) {
 
-    .header,
-    .content {
-        padding-left: 2em;
-        padding-right: 2em;
-    }
+@media (min-width: 70em) {
 
-    #layout {
-        padding-left: 410px; /* left col width "#menu" */
-    }
     #menu {
-        left: 1200px;
-    }
-
-    .menu-link {
-        position: fixed;
-        left: 210px;
-        display: none;
-    }
-
-    #layout.active .menu-link {
-        left: 210px;
+        left: 700px;
     }
 }
+
+@media (min-width: 84em) {
+
+    #menu {
+        left: 700px;
+    }
+}
+
+@media (min-width: 117em) {
+  
+    #menu {
+        left: 1100px;
+    }
+}
+@media (min-width: 130em) {
+  
+    #menu {
+        left: 1300px;
+    }
+}
+
+
 
 @media (max-width: 48em) {
     /* Only apply this when the window is small. Otherwise, the following

@@ -20,17 +20,17 @@ public abstract class BasicFrame extends FlowPanel {
      * Die Super-Klasse initialisiert das Widget
      */
     super.onLoad();
-    
+
     /*
      * Füge die jeweilige Implementation der Headline und der Subheadline zum FlowPanel hinzu
      */
     this.add(createHeadline(getHeadlineText(), getSubHeadlineText()));
-    
+
     /*
-     * Lösche die Datagrid für jede konkretisierte Klasse 
+     * Lösche die Datagrid für jede konkretisierte Klasse
      */
     RootPanel.get("search-table").clear();
-   
+
     run();
 
   }
@@ -50,6 +50,35 @@ public abstract class BasicFrame extends FlowPanel {
     return content;
   }
 
+//  public FlowPanel createFooter() {
+//    FlowPanel footer = new FlowPanel();
+//    FlowPanel footer = new FlowPanel();
+//    footer.setStyleName("footer");
+//    <div class="footer">
+//      <div class="legal pure-g">
+//        <div class="pure-u-1 u-sm-1-2">
+//        <p class="legal-license">
+//          This site is built with &lt;3 using Pure v0.6.0<br>
+//              All code on this site is licensed under the <a href="https://github.com/yahoo/pure-site/blob/master/LICENSE.md">Yahoo BSD License</a> unless otherwise stated.
+//       </p>
+//      </div>
+//
+//<div class="pure-u-1 u-sm-1-2">
+//  <ul class="legal-links">
+//          <li><a href="https://github.com/yahoo/pure/">GitHub Project</a></li>
+//          <li><a href="https://hackerone.com/yahoo/">Security Contact Info</a></li>
+//</ul>
+//
+//<p class="legal-copyright">
+//© 2014 Yahoo! Inc. All rights reserved.
+//</p>
+//</div>
+//</div>
+
+//</div>
+    
+//    return footer;
+//  }
 
   /**
    * Abstrakte Einschubmethode, die die Überschrift setzt.
@@ -57,12 +86,12 @@ public abstract class BasicFrame extends FlowPanel {
    * @return der Text, den wir als Headline setzen wollen.
    */
   protected abstract String getHeadlineText();
-  
+
   /**
-  * Abstrakte Einschubmethode, die die Sub-Überschrift setzt
-  *
-  * @return der Text, den wir als Headline setzen wollen.
-  */
+   * Abstrakte Einschubmethode, die die Sub-Überschrift setzt
+   *
+   * @return der Text, den wir als Headline setzen wollen.
+   */
   protected abstract String getSubHeadlineText();
 
   /**

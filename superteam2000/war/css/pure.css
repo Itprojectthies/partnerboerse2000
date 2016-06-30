@@ -16,16 +16,58 @@ Copyright (c) Nicolas Gallagher and Jonathan Neal
  *    user zoom.
  */
  
- .pricing-tables,
- .information {
-    max-width: 980px;
-    margin: 0 auto;
- }
- 
-.pricing-tables {
-    margin-bottom: 3.125em;
-    text-align: center;
+ div#main {
+    height: 800px;
 }
+
+ ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+  -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 0px;
+}
+
+ /* --------------------------
+ * Footer Module Styles
+ * --------------------------
+*/
+
+.footer {
+    font-size: 87.5%;
+    border-top: 1px solid #eee;
+    margin-top: 3.4286em;
+    padding: 1.1429em;
+    background: rgb(250, 250, 250);
+}
+
+.legal {
+    line-height: 1.6;
+    text-align: center;
+    margin: 0 auto;
+}
+
+    .legal-license {
+        margin-top: 0;
+        text-align: left;
+    }
+    .legal-links {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 0;
+        text-align: right;
+    }
+    .legal-copyright {
+        margin-top: 0;
+        margin-bottom: 0;
+        text-align: right;
+    }
+
+ 
+ 
+
 
  
  .profil-attribute p {

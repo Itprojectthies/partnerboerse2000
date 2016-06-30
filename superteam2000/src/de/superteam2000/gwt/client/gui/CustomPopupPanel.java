@@ -19,7 +19,7 @@ public class CustomPopupPanel extends PopupPanel {
   public CustomPopupPanel(boolean autoHide, boolean isImage) {
     super(autoHide);
     int left = (Window.getClientWidth() - 100);
-    int top = (Window.getClientHeight() - 600);
+    int top = (Window.getClientHeight() - 680);
     this.setPopupPosition(left, top);
 
     // Wenn isImage true ist, wird ein pulsierendes Herz angezeigt, 

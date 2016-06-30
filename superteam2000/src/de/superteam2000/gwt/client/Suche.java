@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -17,6 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
 import de.superteam2000.gwt.client.gui.BoxPanel;
 import de.superteam2000.gwt.client.gui.CustomPopupPanel;
 import de.superteam2000.gwt.client.gui.DataGridProfiles;
+import de.superteam2000.gwt.client.gui.Label;
 import de.superteam2000.gwt.client.gui.Notification;
 import de.superteam2000.gwt.client.gui.ProfilAttributListbox;
 import de.superteam2000.gwt.client.gui.ProfilAttributTextBox;
@@ -76,8 +79,10 @@ public class Suche extends BasicFrame {
 
   @Override
   protected void run() {
+    HTML searchBoxLabel = new HTML("Suchprofile");
+    searchBoxListBox.add(searchBoxLabel);
     searchPanel.setStyleName("content");
-    searchBoxListBox.setStyleName("pure-u-1-3 pure-form");
+    searchBoxListBox.setStyleName("pure-u-1-3 l-box pure-form");
     searchBoxProfilAttribute.setStyleName("pure-u-1-3 l-box pure-form");
     searchBoxInfo.setStyleName("pure-u-1-3 l-box pure-form");
 
@@ -116,12 +121,12 @@ public class Suche extends BasicFrame {
     suchprofilLöschenButton.addClickHandler(new SuchprofilLöschenButtonClickHandler());
     suchprofilSpeichernButton.addClickHandler(new SuchprofilSpeichernButtonClickHandler());
     suchprofilErstellButton.addClickHandler(new SuchButtonClickHandler());
-    
+
     pbVerwaltung.getAllAuswahl(new AllAuswahlCallback());
     pbVerwaltung.getAllSuchprofileForProfil(user, new AllSuchprofileForProfilCallback());
     pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
 
-    
+
 
   }
 
@@ -158,6 +163,7 @@ public class Suche extends BasicFrame {
   private class SaveSuchprofilCallback implements AsyncCallback<Void> {
     @Override
     public void onSuccess(Void result) {
+      new Notification("Suchprofil gespeichert", "success");
       logger.info("Suchprofil erflogreich gespeichert");
     }
 
@@ -173,7 +179,7 @@ public class Suche extends BasicFrame {
     public void onClick(ClickEvent event) {
       int i = suchProfilListBox.getSelectedIndex();
       suchProfilListBox.removeItem(i);
-
+      new Notification("Suchprofil gelöscht", "info");
       pbVerwaltung.deleteSuchprofil(sp, new DeleteSuchprofilCallback());
 
     }
@@ -182,6 +188,7 @@ public class Suche extends BasicFrame {
   private class DeleteSuchprofilCallback implements AsyncCallback<Void> {
     @Override
     public void onSuccess(Void result) {
+      
       logger.info("Suchprofil erflogreich gelöscht");
 
     }
@@ -195,11 +202,9 @@ public class Suche extends BasicFrame {
   private class SucheButtonClickHandler implements ClickHandler {
     @Override
     public void onClick(ClickEvent event) {
-      // RootPanel.get("main").clear();
       sp = Suche.this.createSP();
       pop.load();
-      ClientsideSettings.getPartnerboerseVerwaltung().getProfilesBySuchprofil(sp, user,
-          new GetProfilesBySuchProfilCallback());
+      pbVerwaltung.getProfilesBySuchprofil(sp, user, new GetProfilesBySuchProfilCallback());
 
     }
   }
@@ -392,7 +397,7 @@ public class Suche extends BasicFrame {
       sp = createSP();
 
       if (suchProfilListe.contains(sp)) {
-        new Notification("Suchprofilname " + sp.getName() + " exisitiert bereits", "info");
+        new Notification("Suchprofilname \"" + sp.getName() + "\" exisitiert bereits", "info");
       } else {
         suchProfilListe.add(sp);
         suchProfilListBox.addItem(sp.getName());

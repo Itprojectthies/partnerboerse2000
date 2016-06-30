@@ -189,6 +189,11 @@ public class ShowFremdProfil extends BasicFrame {
 
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
+      
+      createProfileLabels("Email", p.getEmail());
+      createProfileLabels("Alter", String.valueOf(p.getAlter()) + " Jahre ");
+      createProfileLabels("Größe", String.valueOf(p.getGroesse()) + " cm");
+      
       for (Auswahl a : result) {
         switch (a.getName()) {
           case "Religion":
@@ -205,9 +210,6 @@ public class ShowFremdProfil extends BasicFrame {
             break;
         }
       }
-      createProfileLabels("Alter", String.valueOf(p.getAlter()) + " Jahre ");
-      createProfileLabels("Größe", String.valueOf(p.getGroesse()) + " cm");
-
       pbVerwaltung.getInfoByProfile(p, new InfoCallback());
 
     }

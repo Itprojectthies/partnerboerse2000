@@ -96,8 +96,7 @@ public class DataGridProfiles {
         return String.valueOf(p.getAehnlichkeit()) + "%";
       }
     };
-
-    aehnlichkeit.setCellStyleNames("test");
+    
     table.addColumn(aehnlichkeit, "Ähnlichkeit");
 
     table.setRowCount(profilListe.size(), false);
