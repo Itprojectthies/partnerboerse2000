@@ -14,9 +14,12 @@ import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.bo.Suchprofil;
 
 /**
- * Das asynchrone Gegenstück des Interface {@link Administration}. Es wird semiautomatisch durch das
- * Google Plugin erstellt und gepflegt. Daher erfolgt hier keine weitere Dokumentation. Für weitere
- * Informationen siehe das synchrone Interface {@link Administration}.
+ * Das asynchrone Gegenstück des Interface PartnerboerseAdministration. Es wird semiautomatisch durch das
+ * Google Plugin erstellt und gepflegt.
+ * Es enthält sämtliche Methodensignaturen analog zum synchronen Interface, allerdings
+ * sind sämtliche Rückgabetypen vom Typ void und es wird ein zusätzlicher Übergabeparameter
+ * "AsyncCallback<>" übergeben. Dies ist notwendig um die asynchrone kommunikation zwischen
+ * Client und Server zu realisieren.
  *
  * @author thies, volz, funke
  */

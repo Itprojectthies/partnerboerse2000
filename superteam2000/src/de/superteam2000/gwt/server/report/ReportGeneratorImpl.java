@@ -21,6 +21,14 @@ import de.superteam2000.gwt.shared.report.ProfilReport;
 import de.superteam2000.gwt.shared.report.Row;
 import de.superteam2000.gwt.shared.report.SimpleParagraph;
 
+/**
+ * Implementierung des synchronen Interfaces ReportGenerator.
+ * Diese enthält sämtliche Applikationslogik die für die 
+ * Erstellung und Verwaltung von Reports notwendig ist.
+ * 
+ * @author Funke, Volz
+ *
+ */
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator {
 
   private static final long serialVersionUID = 1L;
@@ -30,7 +38,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
   @Override
   public void init() throws IllegalArgumentException {
-    /*
+    /**
      * Ein ReportGeneratorImpl-Objekt instantiiert für seinen Eigenbedarf eine
      * pbAdministration-Instanz.
      */
@@ -39,17 +47,25 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     administration = a;
   }
 
+  /**
+   * Diese Methode erwartet als Übergabeparameter ein Profil-Objekt,
+   * welches in ein ProfilReport-Objekt "umgewandelt" wird.
+   * Dies geschieht mit Hilfe der Klassen welche sich in 
+   * shared.report befinden. 
+   * So werden z.B. einzelne Profilattribute in SimpleParagraph 's 
+   * gespeichert.
+   */
   @Override
   public ProfilReport createProfilReport(Profil p) throws IllegalArgumentException {
     if (administration == null) {
       return null;
     }
 
-    // zu befüllenden Report erstellen
+  
     ProfilReport result = new ProfilReport();
     result.setProfilId(p.getId());
 
-    // ab hier result mit Inhalten befüllen
+
     result.setTitle("Mein Profil");
 
 
@@ -78,7 +94,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     result.setProfilAttribute(profilAttribute);
 
 
-    // Eigenschaften anhängen als Tabelle mit zwei Spalten
+
 
     ArrayList<Info> infos = administration.getInfoByProfile(p);
 
@@ -98,6 +114,13 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
   }
 
+  /**
+   * Methode zum Erstellen des Reports für alle dem Suchprofil
+   * entsprechenden Profile.
+   * Diese Methode macht von der bereits implementierten Methode
+   * createProfilReport gebrauch, welche für jedes einzelne
+   * anzuzeigende Profil aufgerufen wird.
+   */
   @Override
   public AllProfilesBySucheReport createSuchreportBySuchprofil(Suchprofil sp, Profil p) {
 
@@ -127,6 +150,12 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     return result;
   }
 
+  /**
+   * Methode zum Erstellen des Reports für alle Profile.
+   * Diese Methode macht von der bereits implementierten Methode
+   * createProfilReport gebrauch, welche für jedes einzelne
+   * anzuzeigende Profil aufgerufen wird.
+   */ 
   @Override
   public AllProfilesReport createAllProfilesReport(Profil p) throws IllegalArgumentException {
     if (administration == null) {
@@ -136,12 +165,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     // zu befüllenden Report erstellen
     AllProfilesReport result = new AllProfilesReport();
 
-    // mit Inhalt befüllen
+
     result.setTitle("Alle Profile");
     result.setCreated(new Date());
 
-    // Hinzufügen der Kopfzeile
-    // result.addRow(headline);
 
     // alle Profile abfragen
     ArrayList<Profil> profile = administration.getProfilesByAehnlichkeitsmass(p);
@@ -153,6 +180,12 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     return result;
   }
 
+  /**
+   * Methode zum Erstellen des Reports für alle nicht besuchten Profile.
+   * Diese Methode macht von der bereits implementierten Methode
+   * createProfilReport gebrauch, welche für jedes einzelne
+   * anzuzeigende Profil aufgerufen wird.
+   */ 
   @Override
   public AllNotVisitedProfileReport createAllNotVisitedProfileReport(Profil p)
       throws IllegalArgumentException {
@@ -163,14 +196,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     // zu befüllenden Report erstellen
     AllNotVisitedProfileReport result = new AllNotVisitedProfileReport();
 
-    // // mit Inhalt befüllen
     result.setTitle("Nicht besuchte Profile");
-    // result.setCreated(new Date());
 
-    // Hinzufügen der Kopfzeile
-    // result.addRow(headline);
-
-    // alle Profile abfragen
+    // alle nicht besuchten Profile abfragen
     ArrayList<Profil> profile = administration.getAllNotVisitedProfilesByAehnlichkeitsmass(p);
 
     for (Profil profil : profile) {
@@ -180,6 +208,12 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     return result;
   }
 
+  /**
+   * Methode zum Erstellen des Reports für alle neuen Profile.
+   * Diese Methode macht von der bereits implementierten Methode
+   * createProfilReport gebrauch, welche für jedes einzelne
+   * anzuzeigende Profil aufgerufen wird.
+   */ 
   @Override
   public AllNewProfileReport createAllNewProfilesReport(Profil p) {
     if (administration == null) {
@@ -189,14 +223,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
     // zu befüllenden Report erstellen
     AllNewProfileReport result = new AllNewProfileReport();
 
-    // mit Inhalt befüllen
     result.setTitle("Neue Profile");
-    // result.setCreated(new Date());
 
-    // Hinzufügen der Kopfzeile
-    // result.addRow(headline);
-
-    // alle Profile abfragen
+    // alle neuen Profile abfragen
     ArrayList<Profil> profile = administration.getAllNewProfilesByAehnlichkeitsmass(p);
 
     for (Profil profil : profile) {

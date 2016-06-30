@@ -13,8 +13,12 @@ import de.superteam2000.gwt.shared.report.ProfilReport;
 
 /**
  * Das asynchrone Gegenstück des Interface {@link ReportGenerator}. Es wird semiautomatisch durch
- * das Google Plugin erstellt und gepflegt. Daher erfolgt hier keine weitere Dokumentation. Für
- * weitere Informationen siehe das synchrone Interface {@link ReportGenerator}.
+ * das Google Plugin erstellt und gepflegt.
+ * Es enthält sämtliche Methodensignaturen analog zum synchronen Interface, allerdings
+ * sind sämtliche Rückgabetypen vom Typ void und es wird ein zusätzlicher Übergabeparameter
+ * "AsyncCallback<>" übergeben. Dies ist notwendig um die asynchrone kommunikation zwischen
+ * Client und Server zu realisieren.
+
  *
  * @author thies, volz
  */
@@ -24,7 +28,6 @@ public interface ReportGeneratorAsync {
 
   void init(AsyncCallback<Void> callback);
 
-  // F�r das Erstellen von einem Report f�r das Anzeigen von einem Profil
   void createProfilReport(Profil p, AsyncCallback<ProfilReport> callback);
 
   void createAllNotVisitedProfileReport(Profil p,

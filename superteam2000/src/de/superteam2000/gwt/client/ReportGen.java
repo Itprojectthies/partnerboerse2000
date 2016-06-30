@@ -35,7 +35,7 @@ import de.superteam2000.gwt.shared.report.ProfilReport;
  */
 
 public class ReportGen implements EntryPoint {
-  /*
+  /**
    * Alle notwendigen Instanzvariablen werden deklariert
    */
 
@@ -67,7 +67,9 @@ public class ReportGen implements EntryPoint {
   CustomPopupPanel pop = new CustomPopupPanel(false, true);
 
   /**
-   * 
+   * Einstiegspunkt. Da ReportGen das Interface EntryPoint implementiert, muss diese 
+   * Methode implementiert werden.
+   * Sie kann analog zur main-methode in Java Applikationen gesehen werden.
    */
   @Override
   public void onModuleLoad() {      
@@ -111,7 +113,7 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Asynchrone Anmelde-Klasse. Showcase in dem die Antwort des Callbacks eingefügt wird.
+   * Asynchrone Anmelde-Klasse in dem die Antwort des Callbacks eingefügt wird.
    *
    * @author Volz, Funke
    *
@@ -158,7 +160,8 @@ public class ReportGen implements EntryPoint {
   }
 
 	/**
-	 * Report fuer Profil erstellen
+	 * Klasse die AsyncCallback implementiert.
+	 * onSuccess wird der Report für das Profil des eingeloggten Users erstellt.
 	 * 
 	 * @author Funke, Volz
 	 *
@@ -166,7 +169,7 @@ public class ReportGen implements EntryPoint {
   class createProfilReportCallback implements AsyncCallback<ProfilReport> {
 
 	  /**
-	   * Fehlermeldung falls Login nicht erfolgreich
+	   * Gibt Fehlermeldung aus falls onSuccess nicht erreicht wird
 	   */
     @Override
     public void onFailure(Throwable caught) {
@@ -174,7 +177,7 @@ public class ReportGen implements EntryPoint {
     }
 
     /**
-     * Wenn Login erfolgreich, Report Generator ausgeben.
+     * onSuccess wird der Report für den User angezeigt
      */
     @Override
     public void onSuccess(ProfilReport result) {
@@ -184,7 +187,8 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Alle Profile im Report anzeigen lassen
+   * Klasse die AsyncCallback implementiert.
+   * onSuccess werden sämtliche Profile der Partnerbörse in profile geschrieben.
    * 
    * @author Funke, Volz
    *
@@ -192,7 +196,8 @@ public class ReportGen implements EntryPoint {
   private class AllProfilesCallback implements AsyncCallback<ArrayList<Profil>> {
     
 	  /**
-	   * @param profile alle Profile enthalten
+	   * schreibt alle Profile in die Variable profile
+	   * @param ArrayList mit allen Profilen
 	   */
 	  @Override
     public void onSuccess(ArrayList<Profil> result) {
@@ -202,7 +207,7 @@ public class ReportGen implements EntryPoint {
     }
 
 	  /**
-	   * Fehlermeldung, wenn nicht alle Profile angezeigt werden konnten.
+	   * Fehlermeldung, wenn onSuccess nicht erreicht wird
 	   */
     @Override
     public void onFailure(Throwable caught) {
@@ -212,7 +217,8 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Login fuer Suchprofile pruefen; alle Suchprofile anzeigen
+   *  Klasse die AsyncCallback implementiert.
+   *  Schreibt onSuccess das Suchprofil in die Variable sp
    * 
    * @author Funke, Volz
    *
@@ -220,8 +226,7 @@ public class ReportGen implements EntryPoint {
   private class SuchProfilCallback implements AsyncCallback<Suchprofil> {
     
 	  /**
-	   * Login pruefen
-	   * @param sp speichert Resultat von Abfrag ob User eingeloggt
+	   * das result (ein Suchprofil) wird in sp gespeichert.
 	   */
 	  @Override
     public void onSuccess(Suchprofil result) {
@@ -233,7 +238,7 @@ public class ReportGen implements EntryPoint {
     }
 
 	  /**
-	   * Fehlermeldung ausgeben, wenn Suchprofile nicht gefunden werden konnten.
+	   * Fehlermeldung wenn onSuccess nicht erreicht wird
 	   */
     @Override
     public void onFailure(Throwable caught) {
@@ -242,7 +247,9 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Suchprofile suchen
+   *  Klasse die AsyncCallback implementiert.
+   *  onSuccess werden alle Suchprofile des Users in die dafür vorgesehne
+   *  ListBox geschrieben
    * 
    * @author Funke, Volz
    *
@@ -250,7 +257,10 @@ public class ReportGen implements EntryPoint {
   private class SuchProfileCallback implements AsyncCallback<ArrayList<Suchprofil>> {
     
 	  /**
-	   * @param suchProfilListe alle Profile von Suchprofil speichern
+	   * alle Suchprofile des Users werden in die dafür vorgesehene ListBox
+	   * geschrieben. Außerdem wird die createProfilReport Methode (zum erstellen
+	   * des Profilreports des eingeloggten Users) aufgerufen
+	   * @param suchProfilListe 
 	   */
 	  @Override
     public void onSuccess(ArrayList<Suchprofil> result) {
@@ -262,7 +272,7 @@ public class ReportGen implements EntryPoint {
     }
 
 	  /**
-	   * Fehlermeldung ausgeben, wenn nicht alle Suchprofile gefunden wurden
+	   * Fehlermeldung wenn onSuccess nicht erreicht wird
 	   */
     @Override
     public void onFailure(Throwable caught) {
@@ -271,7 +281,9 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * 
+   * Klasse die AsyncCallback implementiert.
+   * onSuccess wird der Report für das Suchprofil erstellt, also 
+   * für alle Profile die dem Suchprofil entsprechen.
    * 
    * @author Funke, Volz
    *
@@ -279,7 +291,7 @@ public class ReportGen implements EntryPoint {
   private class ProfileBySucheReportCallback implements AsyncCallback<AllProfilesBySucheReport> {
     
 	  /**
-	   * 
+	   * Anzeigen aller Profile die dem Suchprofil entsprechen
 	   */
 	  @Override
     public void onSuccess(AllProfilesBySucheReport result) {
@@ -288,7 +300,7 @@ public class ReportGen implements EntryPoint {
     }
 
 	  /**
-	   * Fehlermeldung ausgeben, wenn Suchreport nicht erstellt werden konnte
+	   * Fehlermeldung wenn onSuccess nicht erreicht wird
 	   */
     @Override
     public void onFailure(Throwable caught) {
@@ -297,14 +309,15 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * 
+   * Klasse die AsyncCallback implementiert.
+   * Zeigt den Report für alle nicht besuchten Profile an
    * @author Volz, Funke
    *
    */
   private class NotVIsitedCallback implements AsyncCallback<AllNotVisitedProfileReport> {
    
 	  /**
-	   * 
+	   * Zeigt den Report für alle nicht besuchten Profile an
 	   */
 	  @Override
     public void onSuccess(AllNotVisitedProfileReport result) {
@@ -313,7 +326,7 @@ public class ReportGen implements EntryPoint {
     }
 
 	  /**
-	   * 
+	   * Fehlermeldung wenn onSuccess nicht erreicht wird.
 	   */
     @Override
     public void onFailure(Throwable caught) {
@@ -322,14 +335,15 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * 
+   * Klasse die AsyncCallback implementiert.
+   * zeigt onSuccess den Report für alle neuen Profile an
    * @author Volz, Funke
    *
    */
   private class NewProfilesCallback implements AsyncCallback<AllNewProfileReport> {
     
 	  /**
-	   * 
+	   * anzeigen des Reports für alle neuen Profile
 	   */
 	  @Override
     public void onSuccess(AllNewProfileReport result) {
@@ -338,7 +352,7 @@ public class ReportGen implements EntryPoint {
     }
 
 	  /**
-	   * Fehlermeldung ausgeben, wenn 
+	   * Fehlermeldung ausgeben, wenn onSuccess nicht erreicht wird
 	   */
     @Override
     public void onFailure(Throwable caught) {
@@ -347,15 +361,15 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * 
+   * Klasse die das ClickHandler Interface implementiert
+   * onClick wird die klasse SuchProfilCallback aufgerufen und das ausgewählte 
+   * Suchprofil übergeben
    * @author Funke, Volz
    *
    */
   private class SuchProfilClickhandler implements ClickHandler {
 
-	  /**
-	   * 
-	   */
+
     @Override
     public void onClick(ClickEvent event) {
       ListBox clickedLb = (ListBox) event.getSource();
@@ -367,15 +381,14 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * 
+   * Klasse die das ClickHandler Interface implementiert
+   * onClick wird der Report für das Profil des Users kreiert.
    * @author volz, funke
    *
    */
   private class ProfilClickHandler implements ClickHandler {
    
-	  /**
-	   * 
-	   */
+
 	  @Override
     public void onClick(ClickEvent event) {
       RootPanel.get("main").clear();
@@ -387,15 +400,14 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * 
+   * Klasse die das ClickHandler Interface implementiert
+   * onClick wird der Report für alle nicht besuchten Profile erstellt.
    * @author Funke, Volz
    *
    */
   private class NichtBesuchteProfileClickHandler implements ClickHandler {
 
-	  /**
-	   * 
-	   */
+
     @Override
     public void onClick(ClickEvent event) {
       RootPanel.get("main").clear();
@@ -405,15 +417,14 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * 
+   * Klasse die das ClickHandler Interface implementiert
+   * onClick wird der Report für alle neuen Profile erstellt
    * @author Funke, Volz
    *
    */
   private class NeueProfileClickHandler implements ClickHandler {
 
-	  /**
-	   * 
-	   */
+
     @Override
     public void onClick(ClickEvent event) {
       RootPanel.get("main").clear();
@@ -423,15 +434,14 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * 
+   * Klasse die das ClickHandler Interface implementiert
+   * onClick wird der Report für alle Profile erstellt
    * @author Funke, Volz
    *
    */
   private class AlleProfileClickhandler implements ClickHandler {
 
-	  /**
-	   * 
-	   */
+
     @Override
     public void onClick(ClickEvent event) {
       RootPanel.get("main").clear();
@@ -443,14 +453,15 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * 
+   * Klasse die AsyncCallback implementiert.
+   * onSuccess wird der Report für alle Profile angezeigt
    * @author Funke, Volz
    *
    */
   private class AllProfilesReportCallback implements AsyncCallback<AllProfilesReport> {
     
 	  /**
-	   * 
+	   * anzeigen des Reports für alle Profile
 	   */
 	  @Override
     public void onSuccess(AllProfilesReport result) {
@@ -459,7 +470,7 @@ public class ReportGen implements EntryPoint {
     }
 
 	  /**
-	   * Fehlermeldung ausgeben, wenn
+	   * Fehlermeldung wenn onSuccess nicht erreicht wird
 	   */
     @Override
     public void onFailure(Throwable caught) {
@@ -468,15 +479,14 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * 
+   * Klasse die das ClickHandler Interface implementiert
+   * onClick wird der Report für das selektierte Suchprofil erstellt
    * @author Funke, Volz
    *
    */
   private class SucheBtnClickHandeler implements ClickHandler {
 
-	  /**
-	   * 
-	   */
+
     @Override
     public void onClick(ClickEvent event) {
       RootPanel.get("main").clear();
@@ -486,8 +496,8 @@ public class ReportGen implements EntryPoint {
   }
 
 	/**
-	 * 
-	 * @param
+	 * Methode Anzeigen des Reports
+	 * @param AllProfilesReport
 	 */
   private void addProfileToRootPanel(AllProfilesReport result) {
     RootPanel.get("main").clear();
@@ -498,8 +508,8 @@ public class ReportGen implements EntryPoint {
   }
   
   /**
-   * 
-   * @param 
+   * Methode Anzeigen des Reports
+   * @param ProfilReport
    */
   private void addProfileToRootPanel(ProfilReport result) {
     RootPanel.get("main").clear();
@@ -510,8 +520,8 @@ public class ReportGen implements EntryPoint {
   }
   
   /**
-   * 
-   * @param 
+   * Methode Anzeigen des Reports
+   * @param AllProfilesBySucheReport
    */
   private void addProfileToRootPanel(AllProfilesBySucheReport result) {
     RootPanel.get("main").clear();
@@ -522,8 +532,8 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * 
-   * @param 
+   * Methode Anzeigen des Reports
+   * @param AllNotVisitedProfileReport
    */
   private void addProfileToRootPanel(AllNotVisitedProfileReport result) {
     RootPanel.get("main").clear();
@@ -534,8 +544,8 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * 
-   * @param 
+   * Methode Anzeigen des Reports
+   * @param AllNewProfileReport
    */
   private void addProfileToRootPanel(AllNewProfileReport result) {
     RootPanel.get("main").clear();

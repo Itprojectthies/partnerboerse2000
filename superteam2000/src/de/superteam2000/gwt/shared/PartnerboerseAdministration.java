@@ -14,6 +14,14 @@ import de.superteam2000.gwt.shared.bo.Merkzettel;
 import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.bo.Suchprofil;
 
+/**
+ * Synchrones Interface welches das Interface RemoteService erweitert.
+ * In ihr finden sich sämtliche Methodensignaturen der Methoden, welche von
+ * der Klasse PartnerboerseAdministraionImpl zu implementieren sind.
+ * 
+ * @author Volz, Funke
+ *
+ */
 @RemoteServiceRelativePath("pba")
 public interface PartnerboerseAdministration extends RemoteService {
 
