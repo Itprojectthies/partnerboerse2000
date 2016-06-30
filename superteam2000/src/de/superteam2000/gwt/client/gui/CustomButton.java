@@ -4,9 +4,10 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
+
 /**
- * Die Klasse CustomButton erweiter die Klasse Button. Sie dient dazu Icons (FontAwesome)
- * in einem Button darzustellen.
+ * Die Klasse CustomButton erweiter die Klasse Button. Sie dient dazu Icons (FontAwesome) in einem
+ * Button darzustellen.
  *
  * @author Volz
  *
@@ -16,28 +17,7 @@ public class CustomButton extends Button {
   private String text;
   HTML iHeading = new HTML();
   boolean isPushed = false;
-
-  /**
-   * @return the isPushed
-   */
-  public boolean isPushed() {
-    return isPushed;
-  }
-
-  /**
-   * @param isPushed the isPushed to set
-   */
-  public void setPushed(boolean isPushed) {
-    if (isPushed) {
-//      this.removeStyleName("pure-button");
-      this.addStyleName("pure-button-hover");
-    } else {
-      this.setStyleName("pure-button");
-    }
-    
-    this.isPushed = isPushed;
-  }
-
+  
   public CustomButton(String text) {
     super(text);
     this.setStyleName("pure-button");
@@ -48,8 +28,32 @@ public class CustomButton extends Button {
     this.setStyleName("pure-button");
   }
 
-  public void setIcon(String iconText) {
-    iHeading.setStyleName(iconText);
+  public boolean isPushed() {
+    return isPushed;
+  }
+
+  /**
+   * Setzt die Variable isPushed und ändert den CSS Style des Buttons, wenn er geklickt wurde.
+   * 
+   * @param isPushed the isPushed to set
+   */
+  public void setPushed(boolean isPushed) {
+    if (isPushed) {
+      // this.removeStyleName("pure-button");
+      this.addStyleName("pure-button-hover");
+    } else {
+      this.setStyleName("pure-button");
+    }
+
+    this.isPushed = isPushed;
+  }
+  /**
+   * Füg einen FontAwesome-Icon über seinen Namen hinzu
+   * 
+   * @param iconName
+   */
+  public void setIcon(String iconName) {
+    iHeading.setStyleName(iconName);
     DOM.insertChild(getElement(), iHeading.getElement(), 2);
   }
 

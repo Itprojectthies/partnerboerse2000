@@ -25,24 +25,26 @@ import de.superteam2000.gwt.shared.bo.Profil;
  *
  */
 public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHandler {
-  
+  /*
+   * Alle notwendigen Instanzvariablen werden deklariert
+   */
+
   Profil user = ClientsideSettings.getCurrentUser();
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
   SimpleCheckBox check = new SimpleCheckBox();
-
   int infoId = 0;
-
   Info i = new Info();
 
-  public synchronized int getInfoId() {
-    return infoId;
-  }
-
-  public synchronized void setInfoId(int infoId) {
-    this.infoId = infoId;
-  }
-
+  /**
+   * Erstellt ein BoxPanel und fügt ihm eine Checkbox hinzu. Setzt die Checkbox true und setzt den
+   * Text der Beschreibung, wenn der User ein Info-Objekt zu der Auswahl hat.
+   * 
+   * @param b Beschreibungseigenschaft
+   * @param isNameTextbox Variable die angibt ob der Beschreibungstext oder der Name der Eigenschaft
+   *        angezeigt werden soll
+   * @param infoListe Liste mit Info-Objekten des Benutzers
+   */
   public EigenschaftPanel(Beschreibung b, boolean isNameTextbox, ArrayList<Info> infoListe) {
     super(b, isNameTextbox);
     this.add(check);
@@ -60,6 +62,15 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
     check.setStyleName("pure-checkbox");
   }
 
+  /**
+   * Erstellt ein BoxPanel und fügt ihm eine Checkbox hinzu. Setzt die Checkbox true und setzt die
+   * die Auswahlalternative der Listbox, wenn der User ein Info-Objekt zu der Auswahl hat.
+   * 
+   * @param a Auswahleigenschaften
+   * @param isNameTextbox Variable die angibt ob der Beschreibungstext oder der Name der Eigenschaft
+   *        angezeigt werden soll
+   * @param infoListe Liste mit Info-Objekten des Benutzers
+   */
   public EigenschaftPanel(Auswahl a, boolean isNameListbox, ArrayList<Info> infoListe) {
     super(a, isNameListbox);
     this.add(check);
@@ -78,31 +89,37 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
     check.setStyleName("pure-checkbox");
   }
 
+  public int getInfoId() {
+    return infoId;
+  }
+
+  public void setInfoId(int infoId) {
+    this.infoId = infoId;
+  }
+
 
   @Override
   public void onClick(ClickEvent event) {
+    // Prüft mit einer If-Kaskade, ob die Checkbox einer Auswahleigenschaft true oder false ist und löscht oder fügt diese
+    // also Info-Objekt zur DB hinzu
 
     if (check.getValue() && auswahl != null) {
-      ClientsideSettings.getLogger().info("check 1 auswahl gespeichert" + auswahl.getName());
       saveAuswahlSelection();
-
     } else if (!check.getValue() && auswahl != null) {
       deleteAuswahlInfo();
-      ClientsideSettings.getLogger().info("check 1 auswahl gelöscht" + auswahl.getName());
     }
+
+    // Prüft mit einer If-Kaskade, ob die Checkbox einer Beschreibungseigenschaft true oder false ist und löscht oder fügt
+    // diese also Info-Objekt zur DB hinzu
     if (check.getValue() && beschreibung != null) {
-      ClientsideSettings.getLogger().info("check 1 auswahl gespeichert" + beschreibung.getName());
       saveBeschreibung();
-      
     } else if (!check.getValue() && beschreibung != null) {
       deleteBeschreibungInfo();
-      ClientsideSettings.getLogger().info("check 1 auswahl gelöscht" + beschreibung.getName());
     }
-
-
-
-  }
-
+  } 
+  /**
+   * Löscht ein Auswahl-Info-Objekt eines Benutzers aus der DB
+   */
   private void deleteAuswahlInfo() {
 
     pbVerwaltung.getInfoById(getInfoId(), new AsyncCallback<Info>() {
@@ -113,7 +130,6 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
 
           @Override
           public void onSuccess(Void result) {
-
             ClientsideSettings.getLogger().info("Auswahl Info gelöscht");
           }
 
@@ -131,6 +147,9 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
     });
   }
 
+  /**
+   * Löscht ein Beschreibungs-Info-Objekt eines Benutzers aus der DB
+   */
   private void deleteBeschreibungInfo() {
     profilAttributTextBox.setText("");
 
@@ -138,10 +157,12 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
 
       @Override
       public void onSuccess(Info result) {
+        // Fängt einen Fehler ab, der öfters auftitt aber nicht reproduzierbar ist
         try {
           new Notification("Beschreibung " + result.getText() + " gelöscht", "success");
         } catch (Exception e) {
-          new Notification("Hups, da ist wohl was schief gelaufen. Lade die Seite bitte neu", "info");
+          new Notification("Hups, da ist wohl was schief gelaufen. Lade die Seite bitte neu",
+              "info");
         }
         pbVerwaltung.delete(result, new AsyncCallback<Void>() {
 
@@ -166,6 +187,9 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
     });
   }
 
+  /**
+   * Speichert ein Auswahl-Info-Objekt eines Benutzers in die DB
+   */
   private void saveAuswahlSelection() {
     pbVerwaltung.createInfoFor(user, auswahl, getSelectedItem(), new AsyncCallback<Info>() {
 
@@ -186,6 +210,9 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
     });
   }
 
+  /**
+   * Speichert ein Beschreibungs-Info-Objekt eines Benutzers in die DB
+   */
   private void saveBeschreibung() {
     pbVerwaltung.createInfoFor(user, beschreibung, profilAttributTextBox.getText(),
         new AsyncCallback<Info>() {
@@ -203,6 +230,9 @@ public class EigenschaftPanel extends BoxPanel implements ClickHandler, ChangeHa
         });
   }
 
+  /**
+   * Speichert die Selektion einer Auswahleigenschafts-Listox eines Benutzers in die DB
+   */
   @Override
   public void onChange(ChangeEvent event) {
     if (check.getValue()) {

@@ -186,7 +186,6 @@ public class HTMLReportWriter extends ReportWriter {
     result.append("<p>" + r.getProfilAttribute().toString() + "</p>");
     result.append("</div>");
 
-    // result.append(this.paragraph2HTML(r.getProfilAttribute()));
     result.append("<h3>Interessen</h3>");
 
 

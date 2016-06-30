@@ -3,8 +3,10 @@ package de.superteam2000.gwt.client.gui;
 import com.google.gwt.user.client.ui.TextBox;
 
 import de.superteam2000.gwt.shared.bo.Beschreibung;
+
 /**
- * Die Klasse ProfilAttributTextBox
+ * Die Klasse ProfilAttributTextBox dient zur Erstellung von Textboxen für
+ * Beschreibungseigenschaften.
  * 
  * @author Volz
  *
