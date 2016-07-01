@@ -18,7 +18,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
  * Klasse zum Anzeigen, Hinzufügen und Löschen von Eigenschaften. Diese Infos werden zusaetzlich
  * zu den Pflichtattributen eines Profils abgespeichert und beschreiben den User genauer.
  *
- * @author Volz Daniel
+ * @author Volz
  */
 
 public class Eigenschaft extends BasicFrame {
@@ -37,8 +37,7 @@ public class Eigenschaft extends BasicFrame {
   FlowPanel contentPanel = new FlowPanel();
 
 /**
- * Headline Text setzen
- * @return Text zurueckgeben
+ * Headline auslesen
  */
   @Override
   protected String getHeadlineText() {
@@ -46,8 +45,7 @@ public class Eigenschaft extends BasicFrame {
   }
 
   /**
-   * SubHeadline Text setzen
-   * @return Text zurueckgeben
+   * SubHeadline auslesen
    */
   @Override
   protected String getSubHeadlineText() {
@@ -57,7 +55,7 @@ public class Eigenschaft extends BasicFrame {
   CustomPopupPanel pop = new CustomPopupPanel(false, true);
 
   /**
-   * Die Eigenschaften eines Profils werden angezeigt.
+   * Die Eigenschaften werden angezeigt.
    */
   @Override
   protected void run() {
@@ -77,52 +75,37 @@ public class Eigenschaft extends BasicFrame {
 
   /**
    * Bisher gespeicherte Eigenschaften werden geholt.
-   * @author Volz
    *
    */
   private class InfoByProfileCallback implements AsyncCallback<ArrayList<Info>> {
     
 	  /**
-	   * Wenn Infos gefunden werden konnten, werden diese zurueckgegeben.
+	   * Wenn Infos gefunden werden konnten, werden diese in die infoListe gespeichert
 	   */
 	  @Override
     public void onSuccess(ArrayList<Info> result) {
       infoListe = result;
     }
 
-	  /**
-	   * Um Fehler abzufangen.
-	   */
     @Override
     public void onFailure(Throwable caught) {}
   }
 
   /**
    * Wenn der User eine Auswahl getroffen hat, wird diese hier bearbeitet.
-   * 
-   * @author Volz
    *
    */
   class AuswahlCallback implements AsyncCallback<ArrayList<Auswahl>> {
     
-	  /**
-	   * Fehler abfangen.
-	   */
     @Override
     public void onFailure(Throwable caught) {}
 
-    /**
-     * Sobald der User etwas ausgewaehlt hat, wird dies angezeigt.
-     */
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
       pop.stop();
       if (result != null) {
         for (Auswahl a : result) {
 
-        	/*
-        	 * Die Zeilen der Tabelle werden mit Auswahlobjektinformationen befuellt.
-        	 */
           EigenschaftPanel ePanel = new EigenschaftPanel(a, false, infoListe);
           alignPanel.add(ePanel);
         }
@@ -134,9 +117,7 @@ public class Eigenschaft extends BasicFrame {
   }
 
   /**
-   * Eingetragene Beschreibung wird gespeichert.
-   * 
-   * @author Volz
+   *Nested Class um die Beschreibung(en) auszulesen und anzuzeigen
    *
    */
   class BeschreibungCallback implements AsyncCallback<ArrayList<Beschreibung>> {
@@ -147,10 +128,7 @@ public class Eigenschaft extends BasicFrame {
     @Override
     public void onFailure(Throwable caught) {}
 
-    /**
-     * Wenn die Eigenschaften gefunden werden konnten, werden sie in das Panel
-     * zur Ausgabe hinzugefuegt.
-     */
+ 
     @Override
     public void onSuccess(ArrayList<Beschreibung> result) {
       if (result != null) {

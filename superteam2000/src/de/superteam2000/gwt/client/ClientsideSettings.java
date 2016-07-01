@@ -17,9 +17,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
 /**
  * Klasse mit Eigenschaften und Diensten, die für alle Client-seitigen Klassen relevant sind.
  *
- * @author thies, volz, funke
- * @version 1.0
- * @since 28.02.2012
+ * @author Thies, Volz, Funke
  *
  */
 public class ClientsideSettings extends CommonSettings {
@@ -53,9 +51,7 @@ public class ClientsideSettings extends CommonSettings {
   private static final Logger log = Logger.getLogger(LOGGER_NAME);
 
   /**
-   * <p>
    * Auslesen des applikationsweiten (Client-seitig!) zentralen Loggers.
-   * </p>
    *
    * @return die Logger-Instanz für die Server-Seite
    */
@@ -69,8 +65,7 @@ public class ClientsideSettings extends CommonSettings {
    * dieser Methode wird stets das bereits zuvor angelegte Objekt zurückgegeben.
    *
    * @return eindeutige Instanz des Typs <code>PartnerboerseAdministrationAsync</code>
-   * @author Peter Thies, Volz
-   * @since 28.02.2012
+   * @author Thies, Volz
    */
   public static PartnerboerseAdministrationAsync getPartnerboerseVerwaltung() {
   
@@ -97,8 +92,7 @@ public class ClientsideSettings extends CommonSettings {
    * wird stets das bereits zuvor angelegte Objekt zurückgegeben.
    * 
    * @return eindeutige Instanz des Typs <code>ReportGeneratorAsync</code>
-   * @author Peter Thies, volz
-   * @since 28.02.2012
+   * @author Thies, Volz
    */
   public static ReportGeneratorAsync getReportGenerator() {
   

@@ -26,14 +26,11 @@ import de.superteam2000.gwt.shared.bo.Profil;
 /**
  * Formular zum Erstellen eines Nutzers
  *
- * @author Christian Rathke, Volz Daniel, Christopher Funke
+ * @author Volz  
  */
 public class CreateProfil extends BasicFrame {
 
-	/**
-	 * Hier wird die Verbindung zum Datenbankmapper und somit zur Datenbank und zur Partnerboerse
-	 * hergestellt bzw. gespeichert.
-	 */
+
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
   /*
@@ -70,18 +67,8 @@ public class CreateProfil extends BasicFrame {
   }
 
   /**
-   * Im Konstruktor werden die anderen Widgets erzeugt. Alle werden in einem Raster
-   * angeordnet, dessen Groesse sich aus dem Platzbedarf der enthaltenen Widgets bestimmmt.
-   * Wenn ein neuer User sich registrieren/anmelden will, werden die Grunddaten, welche
-   * nicht geloescht werden koennen, angelegt. Diese Methode bietet die Moeglichekit,
-   * die Werte/Daten einzugeben und mit der Registrierung fortzufahren. Die beiden Attribute
-   * Koerpergroesse und Geburtstag sind als Drop-down-Listen realisiert.
-   * 
-   * @param gebTag Der Beschreibungstext des Panels wird gespeichert.
-   * @param groesse Der Beschreibungstext des Panels wird hierin gespeichert.
-   * @param pbVerwaltung Die eingegebenen Werte werden hier gespeichert.
-   * @param confirmBtn Ein neuer Button namens "Weiter" wird erstellt, zum absenden der
-   * 					eingegebenen Daten an die DB.
+   * In der run Methode werden die anzuzeigenden Widgets
+   * erstellt und geladen.
    */
   @Override
   public void run() {
@@ -111,10 +98,7 @@ public class CreateProfil extends BasicFrame {
   }
 
   /**
-   * Für den neuen User wird ein leeres Formular angelegt.
-   * 
-   * @param clb Befüllte Formularergebnisse werden uebertragen
-   * @author Volz, Funke
+   * Nested class für den callback der Beschreibungen zurückgibt
    *
    */
   private class GetAllBeschreibungProfilAttributeCallBack
@@ -129,18 +113,12 @@ public class CreateProfil extends BasicFrame {
       }
     }
 
-    /**
-     * Um Fehler abzufangen
-     */
     @Override
     public void onFailure(Throwable caught) {}
   }
 
   /**
-   * Die beiden Attribute Groesse und Geburtstag werden dem Panel hinzugefuegt.
-   * 
-   * @param clb Die ausgewaehlten Elemente werden abgespeichert.
-   * @author Volz, Funke
+   * Nested class für den callback der Auswahlalternativen zurückgibt
    *
    */
   private class GetAllAuswahlProfilAttributeCallBack implements AsyncCallback<ArrayList<Auswahl>> {
@@ -157,17 +135,12 @@ public class CreateProfil extends BasicFrame {
       alignPanel.add(confirmBtn);
     }
 
-    /**
-     * Um Fehler abzufangen.
-     */
     @Override
     public void onFailure(Throwable caught) {}
   }
 
   /**
-   * Der ClickHandler wird eingebunden.
-   * 
-   * @author Funke
+   * ClickHandler zum anlegen des erstellten Profils
    *
    */
   private class ConfirmClickHandler implements ClickHandler {
@@ -180,17 +153,13 @@ public class CreateProfil extends BasicFrame {
   }
 
   /**
-   * In dieser Klasse sind alle Methoden enthalten, womit das erstellte Profil eines Users
-   * angezeigt werden kann.
-   * @author Volz
+   * Nested class die den callback zum Profil erstellen implementiert.
+   * Dadurch wird das erstellte Profil an die pbAdminImpl übergeben
+   * und der User auf die eigentliche Seite weitergeleitet.
    *
    */
   class CreateCustomerCallback implements AsyncCallback<Profil> {
 
-	  /**
-	   * @throws exception Wenn User nicht angemeldet werden konnte, wird eine Fehler-
-	   * 					meldung zurueckgegeben.
-	   */
     @Override
     public void onFailure(Throwable caught) {
       logger.severe("Erstellen des useres hat nicht funktioniert");
@@ -198,12 +167,8 @@ public class CreateProfil extends BasicFrame {
     }
 
     /**
-     * Wenn das Profil erfolgreich erstellt und gespeichert werden konnte. Danach
-     * wird das gespeicherte Profil angezeigt. Dazu werden die Navigationsbar und
-     * die Details ausgegeben.
-     * 
-     * @param p gegenwaertig gespeichertes Profil
-     * @param nb Navigationsleiste/-bar
+     * Wenn das Profil erfolgreich erstellt und gespeichert werden konnte,
+     * wird das erstellte Profil angezeigt. 
      */
     @Override
     public void onSuccess(Profil p) {
@@ -224,17 +189,7 @@ public class CreateProfil extends BasicFrame {
   /**
    * Das Profil wird angelegt.
    * 
-   * @param firstName Vorname wird abgespeichert.
-   * @param lasName Nachname wird abgespeichert.
-   * @param haarfarbe Haarfarbe wird gespeichert.
-   * @param raucher Auswahl bei Raucher wird gespeichert.
-   * @param religion Religionsauswahl wird gespeichert.
-   * @param geschlecht Auswahl des Geschlechts wird gespeichert.
-   * @param email EMail Adresse speichern.
-   * @param groesse gibt Mindestwert fuer Koerpergroesse an.
-   * @param geburtsTag Hilfsvariable um das Alter zu berechnen/Geburtstag kann nicht negativ sein
-   * @param geburtsMonat Hilfsvariable um das Alter zu berechnen/Geburtstag kann nicht negativ sein
-   * @param geburtsJahr Hilfsvariable um das Alter zu berechnen/Geburtstag kann nicht negativ sein
+ 
    */
   private void createProfil() {
     String firstName = "";
@@ -324,7 +279,8 @@ public class CreateProfil extends BasicFrame {
     java.sql.Date gebTagSql = new java.sql.Date(gebTag.getTime());
 
     /*
-     * Profil wird angelegt und in die Datenbank geschrieben, mit allen eingegebenen Werten.
+     * Wenn Vor- und Nachname gesetzt sind wird die Methode zum erstellen des eben
+     * angelegten Profils aufgerufen
      */
     if (!firstName.isEmpty() && !lastName.isEmpty()) {
       pbVerwaltung.createProfil(lastName, firstName, email, gebTagSql, haarfarbe, raucher, religion,

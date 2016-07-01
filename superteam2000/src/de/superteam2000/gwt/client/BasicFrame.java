@@ -5,10 +5,10 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
- * Diese Klasse ist die Basisklasse aller BasicFrames. Jeder BasicFrame ist ein FlowPanel
+ * Diese Klasse ist die Basisklasse für viele GUI Elemente.
+ * BasicFrame erweitert die Klasse FlowPanel
  *
  * @author Thies, Volz
- * @version 1.0
  *
  */
 public abstract class BasicFrame extends FlowPanel {
