@@ -6,7 +6,7 @@ import java.util.Vector;
 /**
  * Zeile einer Tabelle eines SimpleReport-Objekts. 
  *
- * @author Thies, Volz, Funke
+ * @author Thies
  */
 public class Row implements Serializable {
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Report für alle nicht besuchten Profile
- * @author Christopher
+ * @author Funke
  *
  */
 public class AllNotVisitedProfileReport extends CompositeReport implements Serializable {

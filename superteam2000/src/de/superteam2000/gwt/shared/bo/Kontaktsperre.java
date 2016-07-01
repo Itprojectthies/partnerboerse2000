@@ -8,8 +8,7 @@ import java.util.ArrayList;
  * Sie enthält eine ArrayList an Profil (gesperrte Profile)
  * Außerdem eine sperrer und gesperrter ID
  *
- * @author Christopher Funke, Daniel Volz
- * @version 1.0
+ * @author Funke, Volz
  */
 public class Kontaktsperre extends BusinessObject {
 

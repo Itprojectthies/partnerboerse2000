@@ -10,11 +10,11 @@ import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.bo.Beschreibung;
 
 /**
- * Klasse, die die Aufgabe erf�llt, die Objekte einer persistenten Klasse auf die Datenbank
+ * Klasse, die die Aufgabe erfüllt, die Objekte einer persistenten Klasse auf die Datenbank
  * abzubilden und dort zu speichern. Die zu speichernden Objekte werden dematerialisiert und zu
  * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
  * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
- * Methoden zur Suche, zum Speichern, L�schen und Modifizieren von Objekten.
+ * Methoden zur Suche, zum Speichern, Löschen und Modifizieren von Objekten.
  *
  * @see AehnlichkeitsMapper
  * @see AuswahlMapper
@@ -25,13 +25,13 @@ import de.superteam2000.gwt.shared.bo.Beschreibung;
  * @see ProfilMapper
  * @see SuchprofilMapper
  *
- * @author
+ * @author Thies, Funke, Volz
  */
 
 public class BeschreibungMapper {
 
   /**
-   * Von der Klasse BeschreibungMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die
+   * Von der Klasse BeschreibungMapper kann nur eine Instanz erzeugt werden. Sie erfpllt die
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ BeschreibungMapper, die die einzige Instanz der Klasse
    * darstellt.
@@ -41,14 +41,14 @@ public class BeschreibungMapper {
   private static BeschreibungMapper BeschreibungMapper = null;
 
   /**
-   * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der
-   * Klasse erzeugt werden k�nnen
+   * Durch den Modifier "private" geschptzter Konstruktor, der verhindert das weiter Instanzen der
+   * Klasse erzeugt werden können
    *
    */
   protected BeschreibungMapper() {}
 
   /**
-   * Von der Klasse AuswahlMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die
+   * Von der Klasse AuswahlMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ AuswahlMapper, die die einzige Instanz der Klasse darstellt.
    */
@@ -63,8 +63,8 @@ public class BeschreibungMapper {
 
 
   /**
-   * Die Methode findByName erf�llt eine Suchfunktion und liefert Objekte des Typs Beschreibung aus
-   * der Datenbank zur�ck
+   * Die Methode findByName erfüllt eine Suchfunktion und liefert Objekte des Typs Beschreibung aus
+   * der Datenbank zurück
    *
    * @param name
    * @return Beschreibung - Ein Beschreibungs-Objekt, in dem Informationen des Objekts Beschreibung
@@ -111,11 +111,11 @@ public class BeschreibungMapper {
 
   /**
    * Die Methode findByKey implementiert die Suche nach genau einer id aus der Datenbank,
-   * entsprechend wird genau ein Objekt zur�ckgegeben.
+   * entsprechend wird genau ein Objekt zurückgegeben.
    *
    * @param id
    *
-   * @return Beschreibung, Beschreibungs-Objekt, das der �bergegebenen id entspricht, bzw. null bei
+   * @return Beschreibung, Beschreibungs-Objekt, das der übergegebenen id entspricht, bzw. null bei
    *         nicht vorhandenem DB-Tupel.
    */
   public Beschreibung findByKey(int id) {
@@ -197,7 +197,7 @@ public class BeschreibungMapper {
    * Auslesen aller auf die Datenbank abgebildeten Datenbank-Objekte.
    *
    * @return ArrayList <Beschreibung> - ArrayList mit Beschreibungs-Objekten, bei einem Fehler wird
-   *         eine SQL-Exception ausgel�st
+   *         eine SQL-Exception ausgelöst
    */
   public ArrayList<Beschreibung> findAllProfilAttribute() {
     Connection con = DBConnection.connection();
@@ -233,11 +233,11 @@ public class BeschreibungMapper {
   }
 
   /**
-   * Hinzuf�gen eines Beschreibungs-Objekts in die Datenbank.
+   * Hinzufügen eines Beschreibungs-Objekts in die Datenbank.
    *
    * @param a - das zu speichernde Objekt
    *
-   * @return das an die Datenbank �bergebene Objekt
+   * @return das an die Datenbank übergebene Objekt
    */
   public Beschreibung insert(Beschreibung b) {
     Connection con = DBConnection.connection();
@@ -282,8 +282,8 @@ public class BeschreibungMapper {
   /**
    * Die Methode update modifiziert ein auf die Datenbank abgebildetes Beschreibungs-Objekt.
    *
-   * @param a - das Objekt, welches in der Datenbank ge�ndert wird
-   * @return das als Parameter �bergebene Objekt
+   * @param a - das Objekt, welches in der Datenbank geändert wird
+   * @return das als Parameter übergebene Objekt
    */
   public Beschreibung update(Beschreibung b) {
     Connection con = DBConnection.connection();
@@ -303,9 +303,9 @@ public class BeschreibungMapper {
   }
 
   /**
-   * L�schen eines auf die Datenbank abgebildeteten Auswahl-Objekts
+   * Löschen eines auf die Datenbank abgebildeteten Auswahl-Objekts
    *
-   * @param a das aus der DB zu l�schende Objekt
+   * @param a das aus der DB zu löschende Objekt
    */
   public void delete(Beschreibung b) {
     Connection con = DBConnection.connection();

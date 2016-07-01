@@ -20,7 +20,7 @@ import de.superteam2000.gwt.shared.report.ProfilReport;
  * Client und Server zu realisieren.
 
  *
- * @author thies, volz
+ * @author Thies, Funke
  */
 public interface ReportGeneratorAsync {
 

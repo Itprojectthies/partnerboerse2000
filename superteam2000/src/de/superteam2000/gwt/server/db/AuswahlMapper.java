@@ -10,11 +10,11 @@ import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.bo.Auswahl;
 
 /**
- * Klasse, die die Aufgabe erf�llt, die Objekte einer persistenten Klasse auf die Datenbank
+ * Klasse, die die Aufgabe erfüllt, die Objekte einer persistenten Klasse auf die Datenbank
  * abzubilden und dort zu speichern. Die zu speichernden Objekte werden dematerialisiert und zu
  * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
  * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
- * Methoden zur Suche, zum Speichern, L�schen und Modifizieren von Objekten.
+ * Methoden zur Suche, zum Speichern, Löschen und Modifizieren von Objekten.
  *
  * @see AehnlichkeitsMapper
  * @see BeschreibungsMapper
@@ -25,14 +25,14 @@ import de.superteam2000.gwt.shared.bo.Auswahl;
  * @see ProfilMapper
  * @see SuchprofilMapper
  *
- * @author
+ * @author Thies, Funke, Volz
  */
 
 public class AuswahlMapper {
 
 
   /**
-   * Von der Klasse AuswahlMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die
+   * Von der Klasse AuswahlMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ AuswahlMapper, die die einzige Instanz der Klasse darstellt.
    *
@@ -41,14 +41,14 @@ public class AuswahlMapper {
   private static AuswahlMapper AuswahlMapper = null;
 
   /**
-   * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der
-   * Klasse erzeugt werden k�nnen
+   * Durch den Modifier "private" geschützter Konstruktor, der verhindert das weiter Instanzen der
+   * Klasse erzeugt werden können
    *
    */
   protected AuswahlMapper() {}
 
   /**
-   * Von der Klasse AuswahlMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die
+   * Von der Klasse AuswahlMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ AuswahlMapper, die die einzige Instanz der Klasse darstellt.
    */
@@ -62,8 +62,8 @@ public class AuswahlMapper {
   }
 
   /**
-   * Die Methode findByName erf�llt eine Suchfunktion und liefert Objekte des Typs Auswahl aus der
-   * Datenbank zur�ck
+   * Die Methode findByName erfüllt eine Suchfunktion und liefert Objekte des Typs Auswahl aus der
+   * Datenbank zurück
    *
    * @param name
    * @return Auswahl - Ein Auswahl-Objekt in dem Informationen des Objekts Auswahl aus der Datenbank
@@ -107,11 +107,11 @@ public class AuswahlMapper {
 
   /**
    * Die Methode findByKey implementiert die Suche nach genau einer id aus der Datenbank,
-   * entsprechend wird genau ein Objekt zur�ckgegeben.
+   * entsprechend wird genau ein Objekt zurückgegeben.
    *
    * @param id
    *
-   * @return Auswahl-Objekt, das der �bergegebenen id entspricht bzw. null bei nicht vorhandenem
+   * @return Auswahl-Objekt, das der übergegebenen id entspricht bzw. null bei nicht vorhandenem
    *         DB-Tupel.
    */
   public Auswahl findByKey(int id) {
@@ -203,7 +203,7 @@ public class AuswahlMapper {
   /**
    * Auslesen aller Auswahl-Tupel.
    *
-   * @return Eine ArrayList mit Auswahl-Objekten, bei einem Fehler wird eine SQL-Exception ausgel�st
+   * @return Eine ArrayList mit Auswahl-Objekten, bei einem Fehler wird eine SQL-Exception ausgelöst
    */
   public ArrayList<Auswahl> findAllProfilAtrribute() {
     Connection con = DBConnection.connection();
@@ -243,11 +243,11 @@ public class AuswahlMapper {
   }
 
   /**
-   * Hinzuf�gen eines Auswahl-Objekts in die Datenbank.
+   * Hinzufügen eines Auswahl-Objekts in die Datenbank.
    *
    * @param a - das zu speichernde Objekt
    *
-   * @return das an die Datenbank �bergebene Objekt
+   * @return das an die Datenbank übergebene Objekt
    */
   public Auswahl insert(Auswahl a) {
     Connection con = DBConnection.connection();
@@ -279,8 +279,8 @@ public class AuswahlMapper {
   /**
    * Die Methode update modifiziert ein auf die Datenbank abgebildetes Auswahl-Objekt.
    *
-   * @param a - das Objekt, welches in der Datenbank ge�ndert wird
-   * @return das als Parameter �bergebene Objekt
+   * @param a - das Objekt, welches in der Datenbank geändert wird
+   * @return das als Parameter übergebene Objekt
    */
   public Auswahl update(Auswahl a) {
     Connection con = DBConnection.connection();
@@ -300,9 +300,9 @@ public class AuswahlMapper {
   }
 
   /**
-   * L�schen eines auf die Datenbank abgebildeteten Auswahl-Objekts
+   * Löschen eines auf die Datenbank abgebildeteten Auswahl-Objekts
    *
-   * @param a das aus der DB zu l�schende Objekt
+   * @param a das aus der DB zu löschende Objekt
    */
   public void delete(Auswahl a) {
     Connection con = DBConnection.connection();

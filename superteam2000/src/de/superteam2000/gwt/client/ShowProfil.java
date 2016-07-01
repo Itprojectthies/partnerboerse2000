@@ -53,7 +53,7 @@ public class ShowProfil extends BasicFrame {
   Logger logger = ClientsideSettings.getLogger();
 
   /**
-   * Headline Text setzen
+   * Headline Text zurückgeben
    * 
    * @return Begruessung
    */
@@ -63,7 +63,7 @@ public class ShowProfil extends BasicFrame {
   }
 
   /**
-   * SubHeadline Text setzen
+   * SubHeadline Text zurückgeben
    * 
    * @return Text
    */
@@ -75,33 +75,24 @@ public class ShowProfil extends BasicFrame {
   /**
    * Profilbeschreibungsattribute (Vorname, Nachname, ...) werden vom Server abgefragt, damit sie
    * als Textboxen dargestellt werden koennen.
-   * 
-   * @param legend
-   * @param alignPanel
-   * @param contentPanel
-   * @param buttonsPanel Panels setzen Styles und fuegen Elemente hinzu
-   * @param editButton Style fuer Button zum editieren
-   * @param saveButton Style fuer speichern Button setzen
-   * @param deleteBtn Style fuer loeschen Button setzen mit Buttons koennen Eigenschaften und
-   *        Infoobjekte verwaltet werden
-   * @param buttonsPanel zeigt Buttons an
-   * @param gebTag Moeglichkeit zum setzen von Geburstag geben
-   * @param groesse Moeglichkeit zur Angabe der Koerpergroesse geben
    */
   @Override
   public void run() {
     alignPanel.setStyleName("pure-form pure-form-aligned");
     contentPanel.setStyleName("content");
+    // Panels setzen Styles und fuegen Elemente hinzu
     buttonsPanel.setStyleName("pure-controls-group");
-
+    
+    //Style fuer Editier-Button setzen
     editButton.setIcon("fa fa-pencil");
     editButton.addClickHandler(new EditButtonClickHandler());
 
+    //Style fuer Speichern-Button setzen
     saveButton.setIcon("fa fa-floppy-o");
     saveButton.addClickHandler(new SaveButtonClickHandler());
     saveButton.setEnabled(false);
 
-
+    //Style fuer Loeschen-Button setzen 
     deleteBtn.setIcon("fa fa-trash");
     deleteBtn.addClickHandler(new DeleteClickHandler());
 
@@ -110,11 +101,13 @@ public class ShowProfil extends BasicFrame {
     buttonsPanel.add(saveButton);
 
     alignPanel.add(buttonsPanel);
-
+    
+    //Moeglichkeit zum setzen von Geburstag geben
     gebTag = new ProfilAttributListbox();
     gebTag.createGebtaListobx("Geburtstag");
     gebTag.setGebtag(user.getGeburtsdatum());
-
+    
+    //Moeglichkeit zur Angabe der Koerpergroesse geben
     groesse = new ProfilAttributListbox();
     groesse.createGroesseListBox("Körpergröße");
     groesse.setGroesse(user.getGroesse());
@@ -129,22 +122,18 @@ public class ShowProfil extends BasicFrame {
 
   /**
    * Alle Attribute aus Datenbank auslesen und anzeigen.
-   * 
-   * @author Volz
-   *
    */
   private class GetAllAuswahlProfilAttributeCallback implements AsyncCallback<ArrayList<Auswahl>> {
 
     /**
      * Alle Eigenschaften werden ausgelesen und angezeigt. Koerpergroesse und Geburtstags Listboxen
      * werden nach den AuswahlProfilAttributen zum Panel hinzugefuegt.
-     * 
-     * @param boxPanelValue Elemente werden in Panel geschrieben
      */
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
       for (Auswahl a : result) {
         String boxPanelValue = "";
+        //Elemente werden in Panel geschrieben
         switch (a.getName()) {
           case "Religion":
             boxPanelValue = user.getReligion();
@@ -193,18 +182,17 @@ public class ShowProfil extends BasicFrame {
     /**
      * Schleifen dienen zum Auslesen der Listboxen und Textboxen, welche in zwei Panels
      * verschachtelt sind, um diese editierbar zu machen.
-     * 
-     * @param saveButton wird sichtbar gemacht um Aenderungen zu speichern
-     * @param editButton deselektieren, da bereits genutzt
-     * @param deleteBtn bei Eigenschaften nicht moeglich
      */
     @Override
     public void onClick(ClickEvent event) {
       /*
        * Save Button klickbar machen, um Aenderungen zu speichern.
        */
+      //Button wird sichtbar gemacht um Aenderungen zu speichern
       saveButton.setEnabled(true);
+      //deselektieren, da bereits genutzt
       editButton.setEnabled(false);
+      //bei Eigenschaften nicht moeglich
       deleteBtn.setEnabled(false);
 
       for (Widget child : alignPanel) {
@@ -229,30 +217,21 @@ public class ShowProfil extends BasicFrame {
   }
 
   /**
-   * Wurden die Eigenschaften editiert, wird geprueft ob die Aenderungen in Ordnung sind, danach
-   * werden die Aenderungen gespeichert.
-   * 
-   * @author Volz
-   *
+   * Wurden die Eigenschaften editiert, werden die Aenderungen gespeichert.
    */
   private class SaveButtonClickHandler implements ClickHandler {
 
     /**
      * Die Aenderungen werden geprueft und anschliessend abgespeichert wenn moeglich.
-     * 
-     * @param editButton wird wieder sichtbar gemacht
-     * @param deleteBtn wird wieder sichtbar gemacht
-     * @param p aktuelles Profil
-     * @param geburtsTag Hilfsvariable fuer Alter
-     * @param geburtsMonat Hilfsvariable fuer Alter
-     * @param geburtsJahr Hilfsvariable fuer Alter
      */
     @SuppressWarnings("deprecation")
     @Override
     public void onClick(ClickEvent event) {
+      //wird wieder sichtbar gemacht
       editButton.setEnabled(true);
+      //wird wieder sichtbar gemacht
       deleteBtn.setEnabled(true);
-
+      
       Profil p = new Profil();
 
       int geburtsTag = 1;
@@ -337,9 +316,6 @@ public class ShowProfil extends BasicFrame {
 
   /**
    * Wenn User sein Profil loeschen moechte.
-   * 
-   * @author Volz
-   *
    */
   private class DeleteClickHandler implements ClickHandler {
 
@@ -354,11 +330,6 @@ public class ShowProfil extends BasicFrame {
     }
   }
 
-  /**
-   * 
-   * @author Volz
-   *
-   */
   private class DeleteProfilCallback implements AsyncCallback<Void> {
 
     /**
@@ -382,8 +353,6 @@ public class ShowProfil extends BasicFrame {
   /**
    * Um Aenderungen an Profil zu speichern.
    * 
-   * @author Volz
-   *
    */
   private class SaveProfilCallBack implements AsyncCallback<Void> {
 
@@ -413,8 +382,6 @@ public class ShowProfil extends BasicFrame {
 
   /**
    * Alle Beschreibungselemente werden ausgelesen und angezeigt.
-   * 
-   * @author Volz
    *
    */
   private class GetAllBeschreibungProfilAttributeCallback

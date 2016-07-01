@@ -116,7 +116,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 
   public void deleteSperre(Profil entferner, Profil entfernter);
 
-
   public ArrayList<Profil> getProfilesBySuchprofil(Suchprofil sp, Profil user)
       throws IllegalArgumentException;
 

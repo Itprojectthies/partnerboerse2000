@@ -10,7 +10,7 @@ import java.util.Vector;
  * Dort werden in eine Tabelle zeilenweise Eintragung z.B. bzgl. Artikelnummer, Artikelbezeichnung,
  * Menge, Preis vorgenommen.
  *
- * @author Thies, Volz, Funke
+ * @author Thies
  */
 public abstract class SimpleReport extends Report {
 

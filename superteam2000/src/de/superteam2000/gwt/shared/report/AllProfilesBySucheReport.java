@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Report für alle Profile, welche als Ergebnis der Suche mit
  * einem Suchprofil geliefert werden
- * @author Christopher
+ * @author Funke
  *
  */
 public class AllProfilesBySucheReport extends CompositeReport implements Serializable {

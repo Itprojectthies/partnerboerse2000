@@ -10,11 +10,11 @@ import de.superteam2000.gwt.client.ClientsideSettings;
 import de.superteam2000.gwt.shared.bo.Info;
 
 /**
- * Klasse, die die Aufgabe erf�llt, die Objekte einer persistenten Klasse auf die Datenbank
+ * Klasse, die die Aufgabe erfüllt, die Objekte einer persistenten Klasse auf die Datenbank
  * abzubilden und dort zu speichern. Die zu speichernden Objekte werden dematerialisiert und zu
  * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
  * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
- * Methoden zur Suche, zum Speichern, L�schen und Modifizieren von Objekten.
+ * Methoden zur Suche, zum Speichern, Löschen und Modifizieren von Objekten.
  *
  * @see AehnlichkeitsMapper
  * @see AuswahlMapper
@@ -25,13 +25,13 @@ import de.superteam2000.gwt.shared.bo.Info;
  * @see ProfilMapper
  * @see SuchprofilMapper
  *
- * @author
+ * @author Thies, Funke, Volz
  */
 
 public class InfoMapper {
 
   /**
-   * Von der Klasse InfoMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die
+   * Von der Klasse InfoMapper kann nur eine Instanz erzeugt werden. Sie erföllt die
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ InfoMapper, die die einzige Instanz der Klasse darstellt.
    *
@@ -40,15 +40,15 @@ public class InfoMapper {
   private static InfoMapper infoMapper = null;
 
   /**
-   * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der
-   * Klasse erzeugt werden k�nnen
+   * Durch den Modifier "private" geschützter Konstruktor, der verhindert das weiter Instanzen der
+   * Klasse erzeugt werden können
    *
    */
   protected InfoMapper() {}
 
 
   /**
-   * Von der Klasse InfoMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die
+   * Von der Klasse InfoMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ AuswahlMapper, die die einzige Instanz der Klasse darstellt.
    */
@@ -62,11 +62,11 @@ public class InfoMapper {
 
   /**
    * Suchen eines Info-Objekts mittels der profil-id. Da diese eindeutig ist, wird genau ein Objekt
-   * zur�ckgegeben.
+   * zurückgegeben.
    *
    * @param id - vom Datentyp int
    *
-   * @return Info-Objekt, das dem �bergebenen Schl�ssel entspricht, bzw. null bei nicht vorhandenem
+   * @return Info-Objekt, das dem übergebenen Schlüssel entspricht, bzw. null bei nicht vorhandenem
    *         DB-Tupel.
    */
   public ArrayList<Info> findAllByProfilId(int id) {
@@ -112,11 +112,11 @@ public class InfoMapper {
 
   /**
    * Die Methode findByKey implementiert die Suche nach genau einer id aus der Datenbank,
-   * entsprechend wird genau ein Objekt zur�ckgegeben.
+   * entsprechend wird genau ein Objekt zurückgegeben.
    *
    * @param id
    *
-   * @return Info, Info-Objekt, das der �bergegebenen id entspricht, bzw. null bei nicht vorhandenem
+   * @return Info, Info-Objekt, das der übergegebenen id entspricht, bzw. null bei nicht vorhandenem
    *         DB-Tupel.
    */
   public Info findByKey(int id) {
@@ -210,11 +210,11 @@ public class InfoMapper {
 
 
   /**
-   * Hinzuf�gen eines Info-Objekts in die Datenbank.
+   * Hinzufügen eines Info-Objekts in die Datenbank.
    *
    * @param a - das zu speichernde Objekt
    *
-   * @return das an die Datenbank �bergebene Objekt
+   * @return das an die Datenbank übergebene Objekt
    */
   public Info insert(Info i) {
     Connection con = DBConnection.connection();
@@ -261,8 +261,8 @@ public class InfoMapper {
   /**
    * Die Methode update modifiziert ein auf die Datenbank abgebildetes Info-Objekt.
    *
-   * @param a - das Objekt, welches in der Datenbank ge�ndert wird
-   * @return das als Parameter �bergebene Objekt
+   * @param a - das Objekt, welches in der Datenbank geändert wird
+   * @return das als Parameter übergebene Objekt
    */
   public Info update(Info i) {
     Connection con = DBConnection.connection();
@@ -282,9 +282,9 @@ public class InfoMapper {
   }
 
   /**
-   * L�schen eines auf die Datenbank abgebildeteten Auswahl-Objekts
+   * Löschen eines auf die Datenbank abgebildeteten Auswahl-Objekts
    *
-   * @param a das aus der DB zu l�schende Objekt
+   * @param a das aus der DB zu löschende Objekt
    */
 
   public void delete(Info i) {

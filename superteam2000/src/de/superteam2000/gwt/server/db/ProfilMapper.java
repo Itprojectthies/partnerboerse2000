@@ -11,11 +11,11 @@ import de.superteam2000.gwt.shared.bo.Profil;
 
 
 /**
- * Klasse, die die Aufgabe erf�llt, die Objekte einer persistenten Klasse auf die Datenbank
+ * Klasse, die die Aufgabe erfüllt, die Objekte einer persistenten Klasse auf die Datenbank
  * abzubilden und dort zu speichern. Die zu speichernden Objekte werden dematerialisiert und zu
  * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
  * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
- * Methoden zur Suche, zum Speichern, L�schen und Modifizieren von Objekten.
+ * Methoden zur Suche, zum Speichern, Löschen und Modifizieren von Objekten.
  *
  * @see AehnlichkeitsMapper
  * @see AuswahlMapper
@@ -25,14 +25,14 @@ import de.superteam2000.gwt.shared.bo.Profil;
  * @see KontaktsperreMapper
  * @see MerkzettelMapper
  * @see SuchprofilMapper
- * @author
+ * @author Thies, Funek, Volz
  */
 
 public class ProfilMapper {
 
 
   /**
-   * Von der Klasse ProfilMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die
+   * Von der Klasse ProfilMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ ProfilMapper, die die einzige Instanz der Klasse darstellt.
    *
@@ -41,15 +41,15 @@ public class ProfilMapper {
 
 
   /**
-   * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der
-   * Klasse erzeugt werden k�nnen
+   * Durch den Modifier "private" geschützter Konstruktor, der verhindert das weiter Instanzen der
+   * Klasse erzeugt werden können
    *
    */
   protected ProfilMapper() {}
 
 
   /**
-   * Von der Klasse ProfilMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die
+   * Von der Klasse ProfilMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ ProfilMapper, die die einzige Instanz der Klasse darstellt.
    */
@@ -63,7 +63,7 @@ public class ProfilMapper {
   }
 
   /**
-   * Die Methode findByKey sucht auf die Datenbank abgebildete Profile �ber die Profil-id
+   * Die Methode findByKey sucht auf die Datenbank abgebildete Profile über die Profil-id
    *
    *
    * @param id
@@ -265,7 +265,7 @@ public class ProfilMapper {
   }
 
   /**
-   * �ndern eines auf die Datenbank abgebildeten Profil-Objekts
+   * Ändern eines auf die Datenbank abgebildeten Profil-Objekts
    *
    * @param Profil p
    * @return Profil
@@ -296,7 +296,7 @@ public class ProfilMapper {
   }
 
   /**
-   * L�schen eines Profil-Objektes aus der Datenbank
+   * Löschen eines Profil-Objektes aus der Datenbank
    *
    * @param Profil p
    */
@@ -351,7 +351,7 @@ public class ProfilMapper {
   }
 
   /**
-   * Holt Informationen �ber m�glicherweise erfolgten Profilbesuch aus der Datenbank
+   * Holt Informationen über möglicherweise erfolgten Profilbesuch aus der Datenbank
    *
    * @param a
    * @return Profil - ArrayList
@@ -375,7 +375,7 @@ public class ProfilMapper {
         Profil p = new Profil();
         p = ProfilMapper.findByKey(rs.getInt("Besuchter_id"));
 
-        // Hinzuf�gen des neuen Objekts zum Ergebnisvektor
+        // Hinzufügen des neuen Objekts zum Ergebnisvektor
         result.add(p);
       }
     } catch (SQLException e) {

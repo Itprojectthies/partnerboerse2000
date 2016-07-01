@@ -14,14 +14,13 @@ import de.superteam2000.gwt.shared.bo.Profil;
 import de.superteam2000.gwt.shared.bo.Suchprofil;
 
 /**
- * Das asynchrone Gegenstück des Interface PartnerboerseAdministration. Es wird semiautomatisch durch das
- * Google Plugin erstellt und gepflegt.
- * Es enthält sämtliche Methodensignaturen analog zum synchronen Interface, allerdings
- * sind sämtliche Rückgabetypen vom Typ void und es wird ein zusätzlicher Übergabeparameter
- * "AsyncCallback<>" übergeben. Dies ist notwendig um die asynchrone kommunikation zwischen
- * Client und Server zu realisieren.
+ * Das asynchrone Gegenstück des Interface PartnerboerseAdministration. Es wird semiautomatisch
+ * durch das Google Plugin erstellt und gepflegt. Es enthält sämtliche Methodensignaturen analog zum
+ * synchronen Interface, allerdings sind sämtliche Rückgabetypen vom Typ void und es wird ein
+ * zusätzlicher Übergabeparameter "AsyncCallback<>" übergeben. Dies ist notwendig um die asynchrone
+ * kommunikation zwischen Client und Server zu realisieren.
  *
- * @author thies, volz, funke
+ * @author Thies, Volz, Funke
  */
 public interface PartnerboerseAdministrationAsync {
   void init(AsyncCallback<Void> callback);
@@ -66,7 +65,6 @@ public interface PartnerboerseAdministrationAsync {
   void getBeschreibungById(int id, AsyncCallback<Beschreibung> callback);
 
   // Info
-
   void save(Info info, AsyncCallback<Void> callback);
 
   void delete(Info info, AsyncCallback<Void> callback);
@@ -138,7 +136,5 @@ public interface PartnerboerseAdministrationAsync {
   void getInfoById(int id, AsyncCallback<Info> callback);
 
   void getAllProfilesByAehnlichkeit(Profil p, AsyncCallback<ArrayList<Profil>> callback);
-
-  // Suchprofil
 
 }

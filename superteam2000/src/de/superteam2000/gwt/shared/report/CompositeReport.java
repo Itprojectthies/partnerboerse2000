@@ -5,7 +5,7 @@ import java.util.Vector;
 
 /**
  * Ein zusammengesetzter Report. Dieser Report kann aus einer Menge von Teil-Reports
- * @author Thies, Volz, Funke
+ * @author Thies
  */
 public abstract class CompositeReport extends Report implements Serializable {
 

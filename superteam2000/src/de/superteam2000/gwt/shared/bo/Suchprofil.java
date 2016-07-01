@@ -9,8 +9,7 @@ import java.util.HashMap;
  * durchgeführten Suchen zu speichern und von der db zum client zu
  * transportieren.
  *
- * @author Christopher Funke, Daniel Volz
- * @version 1.0
+ * @author Funke, Volz
  */
 public class Suchprofil extends BusinessObject {
 
@@ -18,19 +17,6 @@ public class Suchprofil extends BusinessObject {
 
   /**
    * Deklarationen der Parameter eines Suchprofils
-   *
-   * @param name
-   * @param text
-   * @param haarfarbe
-   * @param raucher
-   * @param religion
-   * @param geschlecht
-   * @param profilId Parameter gibt die ID eines Profil an
-   * @param groesse_min User hat die Möglichkeit bei einem Suchprofil anzugeben, wie groß der
-   *        gesuchte User mindestens sein soll.
-   * @param groesse_max User hat die Möglichkeit bei einem Suchprofil die Maximalgröße anzugeben
-   * @param alter_min User hat die Möglichkeit das Mindestalter anzugeben
-   * @param alter_max User hat die Möglichkeit das Maximalalter anzugeben
    */
   private String name = "";
   private String text = "";
