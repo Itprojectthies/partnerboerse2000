@@ -5,7 +5,7 @@ package de.superteam2000.gwt.shared.bo;
  * Das Eigenschaftsobjekt besteht aus einem Namen und einem
  * Beschreibungstext
  *
- * @author Christopher Funke, Daniel Volz
+ * @author Funke, Volz
  * @version 1.0
  */
 public abstract class Eigenschaft extends BusinessObject {

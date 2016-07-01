@@ -8,8 +8,7 @@ import java.util.ArrayList;
  * Sie enthält eine ArrayList an Profil (gemerkte Profile)
  * Außerdem eine merker und gemerkter ID
  *
- * @author Christopher Funke, Daniel Volz
- * @version 1.0
+ * @author Funke, Volz
  */
 public class Merkzettel extends BusinessObject {
 

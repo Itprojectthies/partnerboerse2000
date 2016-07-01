@@ -63,17 +63,16 @@ public class ReportGen implements EntryPoint {
   FlowPanel menu = new FlowPanel();
   UnorderedListWidget menuList = new UnorderedListWidget();
   FlowPanel pureMenu = new FlowPanel();
-  
+
   CustomPopupPanel pop = new CustomPopupPanel(false, true);
 
   /**
-   * Einstiegspunkt. Da ReportGen das Interface EntryPoint implementiert, muss diese 
-   * Methode implementiert werden.
-   * Sie kann analog zur main-methode in Java Applikationen gesehen werden.
+   * Einstiegspunkt. Da ReportGen das Interface EntryPoint implementiert, muss diese Methode
+   * implementiert werden. Sie kann analog zur main-methode in Java Applikationen gesehen werden.
    */
   @Override
-  public void onModuleLoad() {      
-    
+  public void onModuleLoad() {
+
     suchProfilListBox.setSize("11em", "8em");
 
     RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#b75d6b");
@@ -115,14 +114,12 @@ public class ReportGen implements EntryPoint {
   /**
    * Asynchrone Anmelde-Klasse in dem die Antwort des Callbacks eingefügt wird.
    *
-   * @author Volz, Funke
-   *
    */
   class LoginCallback implements AsyncCallback<Profil> {
 
-	  /**
-	   * Fehlermeldung, falls Login fehlgeschlagen
-	   */
+    /**
+     * Fehlermeldung, falls Login fehlgeschlagen
+     */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("Login fehlgeschlagen!");
@@ -159,18 +156,16 @@ public class ReportGen implements EntryPoint {
 
   }
 
-	/**
-	 * Klasse die AsyncCallback implementiert.
-	 * onSuccess wird der Report für das Profil des eingeloggten Users erstellt.
-	 * 
-	 * @author Funke, Volz
-	 *
-	 */
+  /**
+   * Klasse die AsyncCallback implementiert. onSuccess wird der Report für das Profil des
+   * eingeloggten Users erstellt.
+   * 
+   */
   class createProfilReportCallback implements AsyncCallback<ProfilReport> {
 
-	  /**
-	   * Gibt Fehlermeldung aus falls onSuccess nicht erreicht wird
-	   */
+    /**
+     * Gibt Fehlermeldung aus falls onSuccess nicht erreicht wird
+     */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().info(caught.toString());
@@ -187,28 +182,27 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Klasse die AsyncCallback implementiert.
-   * onSuccess werden sämtliche Profile der Partnerbörse in profile geschrieben.
-   * 
-   * @author Funke, Volz
+   * Klasse die AsyncCallback implementiert. onSuccess werden sämtliche Profile der Partnerbörse in
+   * profile geschrieben.
    *
    */
   private class AllProfilesCallback implements AsyncCallback<ArrayList<Profil>> {
-    
-	  /**
-	   * schreibt alle Profile in die Variable profile
-	   * @param ArrayList mit allen Profilen
-	   */
-	  @Override
+
+    /**
+     * schreibt alle Profile in die Variable profile
+     * 
+     * @param ArrayList mit allen Profilen
+     */
+    @Override
     public void onSuccess(ArrayList<Profil> result) {
       pop.stop();
       profile = result;
       ClientsideSettings.getLogger().info("async callback get all profiles");
     }
 
-	  /**
-	   * Fehlermeldung, wenn onSuccess nicht erreicht wird
-	   */
+    /**
+     * Fehlermeldung, wenn onSuccess nicht erreicht wird
+     */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("Fehler im Asynccallback Reportgen getAllProfiles");
@@ -217,18 +211,15 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   *  Klasse die AsyncCallback implementiert.
-   *  Schreibt onSuccess das Suchprofil in die Variable sp
+   * Klasse die AsyncCallback implementiert. Schreibt onSuccess das Suchprofil in die Variable sp
    * 
-   * @author Funke, Volz
-   *
    */
   private class SuchProfilCallback implements AsyncCallback<Suchprofil> {
-    
-	  /**
-	   * das result (ein Suchprofil) wird in sp gespeichert.
-	   */
-	  @Override
+
+    /**
+     * das result (ein Suchprofil) wird in sp gespeichert.
+     */
+    @Override
     public void onSuccess(Suchprofil result) {
       pop.stop();
       if (result == null) {
@@ -237,9 +228,9 @@ public class ReportGen implements EntryPoint {
       sp = result;
     }
 
-	  /**
-	   * Fehlermeldung wenn onSuccess nicht erreicht wird
-	   */
+    /**
+     * Fehlermeldung wenn onSuccess nicht erreicht wird
+     */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("Fehler getSuchprofileForProfilByName");
@@ -247,22 +238,20 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   *  Klasse die AsyncCallback implementiert.
-   *  onSuccess werden alle Suchprofile des Users in die dafür vorgesehne
-   *  ListBox geschrieben
+   * Klasse die AsyncCallback implementiert. onSuccess werden alle Suchprofile des Users in die
+   * dafür vorgesehne ListBox geschrieben
    * 
-   * @author Funke, Volz
-   *
    */
   private class SuchProfileCallback implements AsyncCallback<ArrayList<Suchprofil>> {
-    
-	  /**
-	   * alle Suchprofile des Users werden in die dafür vorgesehene ListBox
-	   * geschrieben. Außerdem wird die createProfilReport Methode (zum erstellen
-	   * des Profilreports des eingeloggten Users) aufgerufen
-	   * @param suchProfilListe 
-	   */
-	  @Override
+
+    /**
+     * alle Suchprofile des Users werden in die dafür vorgesehene ListBox geschrieben. Außerdem wird
+     * die createProfilReport Methode (zum erstellen des Profilreports des eingeloggten Users)
+     * aufgerufen
+     * 
+     * @param result Array von Suchprofilen
+     */
+    @Override
     public void onSuccess(ArrayList<Suchprofil> result) {
       suchProfilListe = result;
       for (Suchprofil sp : suchProfilListe) {
@@ -271,9 +260,9 @@ public class ReportGen implements EntryPoint {
       reportGenerator.createProfilReport(p, new createProfilReportCallback());
     }
 
-	  /**
-	   * Fehlermeldung wenn onSuccess nicht erreicht wird
-	   */
+    /**
+     * Fehlermeldung wenn onSuccess nicht erreicht wird
+     */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().info("Fehler AsyncCallback alle Suchprofile");
@@ -281,27 +270,24 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Klasse die AsyncCallback implementiert.
-   * onSuccess wird der Report für das Suchprofil erstellt, also 
-   * für alle Profile die dem Suchprofil entsprechen.
-   * 
-   * @author Funke, Volz
+   * Klasse die AsyncCallback implementiert. onSuccess wird der Report für das Suchprofil erstellt,
+   * also für alle Profile die dem Suchprofil entsprechen.
    *
    */
   private class ProfileBySucheReportCallback implements AsyncCallback<AllProfilesBySucheReport> {
-    
-	  /**
-	   * Anzeigen aller Profile die dem Suchprofil entsprechen
-	   */
-	  @Override
+
+    /**
+     * Anzeigen aller Profile die dem Suchprofil entsprechen
+     */
+    @Override
     public void onSuccess(AllProfilesBySucheReport result) {
       pop.stop();
       ReportGen.this.addProfileToRootPanel(result);
     }
 
-	  /**
-	   * Fehlermeldung wenn onSuccess nicht erreicht wird
-	   */
+    /**
+     * Fehlermeldung wenn onSuccess nicht erreicht wird
+     */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("Fehler createSuchreport");
@@ -309,25 +295,23 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Klasse die AsyncCallback implementiert.
-   * Zeigt den Report für alle nicht besuchten Profile an
-   * @author Volz, Funke
-   *
+   * Klasse die AsyncCallback implementiert. Zeigt den Report für alle nicht besuchten Profile an
+   * 
    */
   private class NotVIsitedCallback implements AsyncCallback<AllNotVisitedProfileReport> {
-   
-	  /**
-	   * Zeigt den Report für alle nicht besuchten Profile an
-	   */
-	  @Override
+
+    /**
+     * Zeigt den Report für alle nicht besuchten Profile an
+     */
+    @Override
     public void onSuccess(AllNotVisitedProfileReport result) {
       pop.stop();
       ReportGen.this.addProfileToRootPanel(result);
     }
 
-	  /**
-	   * Fehlermeldung wenn onSuccess nicht erreicht wird.
-	   */
+    /**
+     * Fehlermeldung wenn onSuccess nicht erreicht wird.
+     */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("createallnewprofiles funktioniert nicht");
@@ -335,25 +319,22 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Klasse die AsyncCallback implementiert.
-   * zeigt onSuccess den Report für alle neuen Profile an
-   * @author Volz, Funke
-   *
+   * Klasse die AsyncCallback implementiert. zeigt onSuccess den Report für alle neuen Profile an
    */
   private class NewProfilesCallback implements AsyncCallback<AllNewProfileReport> {
-    
-	  /**
-	   * anzeigen des Reports für alle neuen Profile
-	   */
-	  @Override
+
+    /**
+     * anzeigen des Reports für alle neuen Profile
+     */
+    @Override
     public void onSuccess(AllNewProfileReport result) {
       pop.stop();
       ReportGen.this.addProfileToRootPanel(result);
     }
 
-	  /**
-	   * Fehlermeldung ausgeben, wenn onSuccess nicht erreicht wird
-	   */
+    /**
+     * Fehlermeldung ausgeben, wenn onSuccess nicht erreicht wird
+     */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("createallnewprofiles funktioniert nicht");
@@ -361,10 +342,8 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Klasse die das ClickHandler Interface implementiert
-   * onClick wird die klasse SuchProfilCallback aufgerufen und das ausgewählte 
-   * Suchprofil übergeben
-   * @author Funke, Volz
+   * Klasse die das ClickHandler Interface implementiert onClick wird die klasse SuchProfilCallback
+   * aufgerufen und das ausgewählte Suchprofil übergeben
    *
    */
   private class SuchProfilClickhandler implements ClickHandler {
@@ -381,15 +360,13 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Klasse die das ClickHandler Interface implementiert
-   * onClick wird der Report für das Profil des Users kreiert.
-   * @author volz, funke
-   *
+   * Klasse die das ClickHandler Interface implementiert onClick wird der Report für das Profil des
+   * Users kreiert.
    */
   private class ProfilClickHandler implements ClickHandler {
-   
 
-	  @Override
+
+    @Override
     public void onClick(ClickEvent event) {
       RootPanel.get("main").clear();
       pop.load();
@@ -400,10 +377,8 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Klasse die das ClickHandler Interface implementiert
-   * onClick wird der Report für alle nicht besuchten Profile erstellt.
-   * @author Funke, Volz
-   *
+   * Klasse die das ClickHandler Interface implementiert onClick wird der Report für alle nicht
+   * besuchten Profile erstellt.
    */
   private class NichtBesuchteProfileClickHandler implements ClickHandler {
 
@@ -417,10 +392,8 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Klasse die das ClickHandler Interface implementiert
-   * onClick wird der Report für alle neuen Profile erstellt
-   * @author Funke, Volz
-   *
+   * Klasse die das ClickHandler Interface implementiert onClick wird der Report für alle neuen
+   * Profile erstellt
    */
   private class NeueProfileClickHandler implements ClickHandler {
 
@@ -434,10 +407,8 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Klasse die das ClickHandler Interface implementiert
-   * onClick wird der Report für alle Profile erstellt
-   * @author Funke, Volz
-   *
+   * Klasse die das ClickHandler Interface implementiert onClick wird der Report für alle Profile
+   * erstellt
    */
   private class AlleProfileClickhandler implements ClickHandler {
 
@@ -453,25 +424,22 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Klasse die AsyncCallback implementiert.
-   * onSuccess wird der Report für alle Profile angezeigt
-   * @author Funke, Volz
-   *
+   * Klasse die AsyncCallback implementiert. onSuccess wird der Report für alle Profile angezeigt
    */
   private class AllProfilesReportCallback implements AsyncCallback<AllProfilesReport> {
-    
-	  /**
-	   * anzeigen des Reports für alle Profile
-	   */
-	  @Override
+
+    /**
+     * anzeigen des Reports für alle Profile
+     */
+    @Override
     public void onSuccess(AllProfilesReport result) {
       pop.stop();
       ReportGen.this.addProfileToRootPanel(result);
     }
 
-	  /**
-	   * Fehlermeldung wenn onSuccess nicht erreicht wird
-	   */
+    /**
+     * Fehlermeldung wenn onSuccess nicht erreicht wird
+     */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("createallprofiles funktioniert nicht");
@@ -479,10 +447,8 @@ public class ReportGen implements EntryPoint {
   }
 
   /**
-   * Klasse die das ClickHandler Interface implementiert
-   * onClick wird der Report für das selektierte Suchprofil erstellt
-   * @author Funke, Volz
-   *
+   * Klasse die das ClickHandler Interface implementiert onClick wird der Report für das selektierte
+   * Suchprofil erstellt
    */
   private class SucheBtnClickHandeler implements ClickHandler {
 
@@ -495,10 +461,11 @@ public class ReportGen implements EntryPoint {
     }
   }
 
-	/**
-	 * Methode Anzeigen des Reports
-	 * @param AllProfilesReport
-	 */
+  /**
+   * Methode Anzeigen des Reports
+   * 
+   * @param result AllProfilesReport
+   */
   private void addProfileToRootPanel(AllProfilesReport result) {
     RootPanel.get("main").clear();
     HTMLReportWriter writer = new HTMLReportWriter();
@@ -506,10 +473,11 @@ public class ReportGen implements EntryPoint {
     HTML report = new HTML(writer.getReportText());
     RootPanel.get("main").add(report);
   }
-  
+
   /**
    * Methode Anzeigen des Reports
-   * @param ProfilReport
+   * 
+   * @param result ProfilReport
    */
   private void addProfileToRootPanel(ProfilReport result) {
     RootPanel.get("main").clear();
@@ -518,10 +486,11 @@ public class ReportGen implements EntryPoint {
     HTML report = new HTML(writer.getReportText());
     RootPanel.get("main").add(report);
   }
-  
+
   /**
    * Methode Anzeigen des Reports
-   * @param AllProfilesBySucheReport
+   * 
+   * @param result AllProfilesBySucheReport
    */
   private void addProfileToRootPanel(AllProfilesBySucheReport result) {
     RootPanel.get("main").clear();
@@ -533,7 +502,8 @@ public class ReportGen implements EntryPoint {
 
   /**
    * Methode Anzeigen des Reports
-   * @param AllNotVisitedProfileReport
+   * 
+   * @param result AllNotVisitedProfileReport
    */
   private void addProfileToRootPanel(AllNotVisitedProfileReport result) {
     RootPanel.get("main").clear();
@@ -545,7 +515,8 @@ public class ReportGen implements EntryPoint {
 
   /**
    * Methode Anzeigen des Reports
-   * @param AllNewProfileReport
+   * 
+   * @param result AllNewProfileReport
    */
   private void addProfileToRootPanel(AllNewProfileReport result) {
     RootPanel.get("main").clear();

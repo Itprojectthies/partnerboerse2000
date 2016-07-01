@@ -13,8 +13,7 @@ import de.superteam2000.gwt.client.gui.DateTimeFormat;
  * die "Eigenschaften" einer Person repräsentieren und die dazu-
  * gehörigen getter und setter.
  *
- * @author Christopher Funke, Daniel Volz
- * @version 1.0
+ * @author Funke, Volz
  */
 public class Profil extends BusinessObject {
 
@@ -22,23 +21,6 @@ public class Profil extends BusinessObject {
 
   /**
    * Deklaration der Parameter eines Profils
-   *
-   * @param nickname
-   * @param nachname
-   * @mparam vorname
-   * @param email E-Mail-Adresse des Users
-   * @param geburtsdatum
-   * @param erstelldatum Erstelldatum des Profils
-   * @param haarfarbe
-   * @param raucher Parameter gibt an, ob User Raucher oder Nichtraucher ist
-   * @param religion
-   * @param groesse
-   * @param geschlecht
-   * @param loggedIn Parameter gibt an, ob der User eingeloggt ist
-   * @param loginUrl Parameter gibt die Login-Informationen des User an
-   * @param logoutUrl Parameter gibt die Logout-Informationen des User an
-   * @param isCreated Parameter gibt an, ob Profil angelegt ist
-   * @param aehnlichkeit
    */
   private String nickname = "";
   private String nachname = "";

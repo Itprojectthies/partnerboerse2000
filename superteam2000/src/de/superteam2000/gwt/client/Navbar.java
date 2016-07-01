@@ -19,9 +19,10 @@ import de.superteam2000.gwt.shared.PartnerboerseAdministrationAsync;
 import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
- * In dieser Klasse sind alle Methoden fuer die Navigationsbar enthalten.
+ * Dient zur Anzeige der Navigationsleiste und zum aufrufen von einzelnen Seiten (z.B. eigenes
+ * Profil, Suche, Eigenschaften usw.)
  *
- * @author Volz Daniel
+ * @author Volz
  *
  */
 public class Navbar extends VerticalPanel {
@@ -32,9 +33,9 @@ public class Navbar extends VerticalPanel {
   PartnerboerseAdministrationAsync pbVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
   Profil user = ClientsideSettings.getCurrentUser();
-  
+
   CustomPopupPanel pop = new CustomPopupPanel(false, true);
-  
+
   /**
    * Hier wird die Navigationsbar geladen, die Eigenschaften und das Aussehen uebergeben.
    */
@@ -47,7 +48,7 @@ public class Navbar extends VerticalPanel {
      */
     if ((user != null) && user.isLoggedIn()) {
 
-    	// Menupanel
+      // Menupanel
       FlowPanel menu = new FlowPanel();
       FlowPanel pureMenu = new FlowPanel();
       UnorderedListWidget menuList = new UnorderedListWidget();
@@ -104,8 +105,8 @@ public class Navbar extends VerticalPanel {
       RootPanel.get("menu").add(menu);
 
       /*
-       * Die "Buttons" bzw. Anker werden dem ClickHandler ubergeben, sodass
-       * sie reagieren koennen, wenn sie geklickt werden.
+       * Die "Buttons" bzw. Anker werden dem ClickHandler ubergeben, sodass sie reagieren koennen,
+       * wenn sie geklickt werden.
        */
       logoutAnchor.addClickHandler(new LogoutClickHandler());
       profilAnchor.addClickHandler(new ProfilClickHandler());
@@ -121,32 +122,30 @@ public class Navbar extends VerticalPanel {
 
   /**
    * Die Report Seite wird an die Navbar angebunden.
-   * 
-   * @author Volz
    *
    */
   private class ReportClickHandler implements ClickHandler {
-   
-	  /**
-	   * HTML Seite des Reports anbinden.
-	   */
-	  @Override
+
+    /**
+     * HTML Seite des Reports anbinden.
+     */
+    @Override
     public void onClick(ClickEvent event) {
       Window.Location.replace(GWT.getHostPageBaseURL() + "ReportGen.html");
     }
   }
 
   /**
-   * Der Button "Alle Profile anzeigen" wird dem ClickHandler und somit auch der Navbar uebergeben.
-   * 
-   * @author Volz
+   * AlleProfileClickHandler implementriert das Interface ClickHandler. OnClick wird ein Objekt der
+   * AllProfilesTable zum RootPanel "main" hinzugefügt und alle Profile nach Aenlichkeitsmaß
+   * berechnet.
    *
    */
   private class AlleProfileClickHandler implements ClickHandler {
 
-	  /**
-	   * Eine Tabelle zur Ausgabe aller Profile wird angelegt.
-	   */
+    /**
+     * Eine Tabelle zur Ausgabe aller Profile wird angelegt.
+     */
     @Override
     public void onClick(ClickEvent event) {
       pop.load();
@@ -158,44 +157,41 @@ public class Navbar extends VerticalPanel {
   }
 
   /**
-   * Layout fuer Aehnlichkeitsmaß zwischen den Profilen.
-   * 
-   * @author Volz
+   * Die erhaltenen Profile nach Aehnlichekitsmaß werden dem AllProfilesTable kontruktor übergeben
+   * und zum RootPanel "main" hinzugefügt.
    *
    */
   private class ProfilesByAehnlichkeitsmassCallback implements AsyncCallback<ArrayList<Profil>> {
-   
-	  /**
-	   * Aehnlichkeit wird ausgegeben.
-	   */
-	  @Override
+
+    /**
+     * Aehnlichkeit wird ausgegeben.
+     */
+    @Override
     public void onSuccess(ArrayList<Profil> result) {
       AllProfilesTable dgt2 = new AllProfilesTable(result);
       pop.stop();
       RootPanel.get("main").clear();
       RootPanel.get("main").add(dgt2);
-     
+
     }
 
-	  /**
-	   * Um Fehler abzufangen.
-	   */
+    /**
+     * Um Fehler abzufangen.
+     */
     @Override
     public void onFailure(Throwable caught) {}
   }
 
   /**
-   * Die Eigenschaften werden der Navbar hinzugefuegt.
+   * EigenschaftenClickHandler zum hinzufügen eines Eigenschaften-Objekts zum RootPanel
    * 
-   * @author Volz
-   *
    */
   private class EigenschaftenClickHandler implements ClickHandler {
-    
-	  /**
-	   * Eigenschaften koennen angezeigt werden.
-	   */
-	  @Override
+
+    /**
+     * Eigenschaften koennen angezeigt werden.
+     */
+    @Override
     public void onClick(ClickEvent event) {
       Eigenschaft e = new Eigenschaft();
       RootPanel.get("main").clear();
@@ -204,14 +200,14 @@ public class Navbar extends VerticalPanel {
   }
 
   /**
-   * Die Moeglichkeit zur Suche mit Suchprofilen wird gegeben.
+   * SuchprofilClickHandler zum hinzufügen eines Suche-Objekts zum RootPanel
    */
   private class SuchprofilClickHandler implements ClickHandler {
-    
-	  /**
-	   * Die Suchoptionen werden angezeigt.
-	   */
-	  @Override
+
+    /**
+     * Die Suchoptionen werden angezeigt.
+     */
+    @Override
     public void onClick(ClickEvent event) {
       Suche s = new Suche();
       RootPanel.get("main").clear();
@@ -220,17 +216,14 @@ public class Navbar extends VerticalPanel {
   }
 
   /**
-   * Die Moeglichkeit zur Anzeige und Verwaltung einer Sperrliste in der Anzeige.
-   * 
-   * @author Volz
-   *
+   * SperrlisteClickHandler zum hinzufügen eines Sperre-Objekts zum RootPanel
    */
   private class SperrlisteClickHandler implements ClickHandler {
-   
-	  /**
-	   * Sperrliste wird angezeigt.
-	   */
-	  @Override
+
+    /**
+     * Sperrliste wird angezeigt.
+     */
+    @Override
     public void onClick(ClickEvent event) {
       Sperre s = new Sperre();
       RootPanel.get("main").clear();
@@ -239,17 +232,14 @@ public class Navbar extends VerticalPanel {
   }
 
   /**
-   * Moeglichkeit zur Verwaltung einer Merkliste in der Anzeige geben.
-   * 
-   * @author Volz
-   *
+   * MerklisteClickHandler zum hinzufügen eins Merkliste-Objekts zum RootPanel
    */
   private class MerklisteClickHandler implements ClickHandler {
-    
-	  /**
-	   * Merkliste wird der Anzeige hinzugefuegt.
-	   */
-	  @Override
+
+    /**
+     * Merkliste wird der Anzeige hinzugefuegt.
+     */
+    @Override
     public void onClick(ClickEvent event) {
       Merkliste m = new Merkliste();
       RootPanel.get("main").clear();
@@ -258,17 +248,14 @@ public class Navbar extends VerticalPanel {
   }
 
   /**
-   * Moeglichkeit zur Anzeige eines Profils geben.
-   * 
-   * @author Volz
-   *
+   * ProfilClickHandler zum hinzufügen eins ShowProfil-Objekts zum RootPanel
    */
   private class ProfilClickHandler implements ClickHandler {
-    
-	  /**
-	   * Profil kann angezeigt werden.
-	   */
-	  @Override
+
+    /**
+     * Profil kann angezeigt werden.
+     */
+    @Override
     public void onClick(ClickEvent event) {
       ShowProfil sp = new ShowProfil();
       RootPanel.get("main").clear();
@@ -277,17 +264,11 @@ public class Navbar extends VerticalPanel {
   }
 
   /**
-   * Logout Option der Anzeige hinzufuegen.
-   * 
-   * @author Volz
-   *
+   * ProfilClickHandler zum Ausloggen des Benutzers
    */
   private class LogoutClickHandler implements ClickHandler {
-   
-	  /**
-	   * User kann sich jederzeit abmelden.
-	   */
-	  @Override
+
+    @Override
     public void onClick(ClickEvent event) {
       Window.open(user.getLogoutUrl(), "_self", "");
     }

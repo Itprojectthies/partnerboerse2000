@@ -4,8 +4,7 @@ package de.superteam2000.gwt.shared.bo;
  * Hier wird ein Infoobjekt eines Users realisiert. Ein Infoobjekt ist ein
  * vom User ausgewähltes Auswahl bzw. beschreibungs objekt.
  *
- * @author Christopher Funke, Daniel Volz
- * @version 1.0
+ * @author Funke, Volz
  */
 public class Info extends BusinessObject {
 

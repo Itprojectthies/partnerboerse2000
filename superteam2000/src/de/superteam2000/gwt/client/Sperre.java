@@ -44,7 +44,7 @@ public class Sperre extends BasicFrame {
   SingleSelectionModel<Profil> selectionModel = new SingleSelectionModel<Profil>();
 
   /**
-   * Headline Text setzen
+   * Headline Text zurückgeben
    * @return Text
    */
   @Override
@@ -53,7 +53,7 @@ public class Sperre extends BasicFrame {
   }
 
   /**
-   * SubHeadline Text setzen
+   * SubHeadline Text zurückgeben
    * @return Text
    */
   @Override
@@ -64,11 +64,6 @@ public class Sperre extends BasicFrame {
   /**
    * Alle notwendigen Buttons werden hinzugefuegt und alle gesperrten Kontakte aus der DB
    * ausgelesen, um die Tabelle zum anzeigen zu fuellen.
-   * 
-   * @param profilEntfernenButton Button zum entfernen des Profils aus der Sperrliste
-   * @param alignPanel Style setzen
-   * @param contentPanel Inhalt eingeben
-   * @param selectionModel fuer Selektion eines Profils
    */
   @Override
   public void run() {
@@ -93,17 +88,11 @@ public class Sperre extends BasicFrame {
 
   /**
    * Kontaktsperre umsetzen, sodass ein gesperrtes Profil das sperrende Profil nicht kontaktieren kann.
-   * 
-   * @author Funke, Volz
-   *
    */
   private class KontaktsperreForProfilCallback implements AsyncCallback<Kontaktsperre> {
    
 	  /**
 	   * Kontaktsperre fuer gesperrtes Profil durchfuehren
-	   * @param profile gesperrtes Profil
-	   * @param dpg DataGrid Hilfsvariable
-	   * @param contentPanel Style
 	   */
 	  @Override
     public void onSuccess(Kontaktsperre result) {
@@ -128,20 +117,17 @@ public class Sperre extends BasicFrame {
 
   /**
    * Selektieren eines Profils
-   * 
-   * @author Funke, Volz
-   *
    */
   private class SelectionChangeHandler implements Handler {
     
 	  /**
 	   * Selektiertes Profil kann entfernt werden
-	   * @param profilEntfernenButton Button sichtbar machen, sodass Sperre aufgehoben werden kann
-	   * @param selectedProfile selektiertes Profil setzen
 	   */
 	  @Override
     public void onSelectionChange(SelectionChangeEvent event) {
+	  //Button sichtbar machen, sodass Sperre aufgehoben werden kann
       profilEntfernenButton.setEnabled(true);
+      //Selektiertes Profil setzen
       selectedProfile = selectionModel.getSelectedObject();
     }
   }
@@ -149,9 +135,6 @@ public class Sperre extends BasicFrame {
   /**
    * Clickhandler für den entfernenButton ausgewähltes Element wird von der Liste entfernt (auch aus
    * db)
-   *
-   * @author Funke, Volz
-   *
    */
   public class EntfernenButtonClickhandler implements ClickHandler {
 
@@ -169,9 +152,6 @@ public class Sperre extends BasicFrame {
 
   /**
    * Nachdem Sperre aufgehoben wurde, wird Sperrliste erneut angezeigt.
-   * 
-   * @author Funke, Volz
-   *
    */
   private class DeleteSperreCallback implements AsyncCallback<Void> {
     

@@ -61,7 +61,7 @@ public class Suche extends BasicFrame {
   ListBox suchProfilListBox = new ListBox(true);
 
   /**
-   * HeadlineText setzen
+   * Headline Text zurückgeben
    * 
    * @return Text
    */
@@ -71,7 +71,7 @@ public class Suche extends BasicFrame {
   }
 
   /**
-   * SubHeadline Text setzen
+   * SubHeadline Text zurückgeben
    * 
    * @return Text
    */
@@ -87,11 +87,6 @@ public class Suche extends BasicFrame {
 
   /**
    * Die Buttons und deren Panel fuer die Suchoptionen werden eingefuegt.
-   * 
-   * @param suchProfilName Name des Suchprofils
-   * @param suchProfilTextbox Textboxes zum befuellen mit Inhalt
-   * @param suchprofilSpeichernButton Button um Suchprofil speichern zu koennen
-   * @param suchprofilLoeschenButton Button um Suchprofil loeschen zu koennen
    */
   @Override
   protected void run() {
@@ -145,8 +140,6 @@ public class Suche extends BasicFrame {
   }
   /**
    * 
-   * @author danielvolz
-   *
    */
   private class AllSuchprofileForProfilCallback implements AsyncCallback<ArrayList<Suchprofil>> {
     /**
@@ -175,7 +168,6 @@ public class Suche extends BasicFrame {
   private class SuchprofilSpeichernButtonClickHandler implements ClickHandler {
     /**
      * Suchprofil anlegen und speichern
-     * @param tmpSp Suchprofil wird gespeichert
      */
     @Override
     public void onClick(ClickEvent event) {
@@ -273,9 +265,6 @@ public class Suche extends BasicFrame {
   
   /**
    * Listboxen für alle Auswahleigesnchaften erstellen
-   * 
-   * @author Funke, Volz
-   *
    */
   private class AllAuswahlCallback implements AsyncCallback<ArrayList<Auswahl>> {
     /**
@@ -302,9 +291,6 @@ public class Suche extends BasicFrame {
 
   /**
    * Suche durchfuehren, Profile die gepasst haben ausgeben mit Aehnlichkeitsmass.
-   * 
-   * @author Funke, Volz
-   *
    */
   private final class GetProfilesBySuchProfilCallback implements AsyncCallback<ArrayList<Profil>> {
 
@@ -337,9 +323,6 @@ public class Suche extends BasicFrame {
 
   /**
    * Suchprofilattribute in die Listbox-Felder schreiben
-   * 
-   * @author Funke, Volz
-   *
    */
   private class SuchprofileForProfilByNameCallback implements AsyncCallback<Suchprofil> {
     /**
@@ -417,22 +400,12 @@ public class Suche extends BasicFrame {
 
   /**
    * Die Koerpergroesse und das Alter sollen eingrenzbar sein im Suchprofil.
-   * 
-   * @author Funke, Volz
-   *
    */
   private class GetAllAuswahlProfilAttributeCallback implements AsyncCallback<ArrayList<Auswahl>> {
 
     /**
      * Listboxen fuer die Ober- und Untergrenze fuer Koerpergroesse und Alter werden nur fuer
      * Suchprofil angelegt und verwendet. Dies wird den Profilattributen hinzugefuegt.
-     * 
-     * @param clb Hilfsvariable fuer BoxPanel
-     * @param groesseMin
-     * @param groesseMax
-     * @param alterMin
-     * @param alterMax speichern die Ober- und Untergrenzen des Users bei der Suche nach anderen
-     *        Suchprofilen ab (damit Koerpergroesse und Alter eingegrenzt werden kann im Suchprofil)
      */
     @Override
     public void onSuccess(ArrayList<Auswahl> result) {
@@ -441,7 +414,8 @@ public class Suche extends BasicFrame {
         clb.addKeineAngabenItem();
         searchBoxProfilAttribute.add(clb);
       }
-
+      // Speichern die Ober- und Untergrenzen des Users bei der Suche nach anderen
+      // Suchprofilen ab (damit Koerpergroesse und Alter eingegrenzt werden kann im Suchprofil)
       ProfilAttributListbox groesseMin = new ProfilAttributListbox();
       groesseMin.createGroesseListBox("Minimale Größe");
       groesseMin.setName("Körpergröße_min");
@@ -482,8 +456,6 @@ public class Suche extends BasicFrame {
   /**
    * Clickhandler für den "suche" Button. Bei onClick sollen sämltiche der Suche entsprechenden
    * Profile ausgegeben werden.
-   * 
-   * @author Funke, Volz
    */
 
   private class SuchButtonClickHandler implements ClickHandler {
@@ -525,9 +497,6 @@ public class Suche extends BasicFrame {
    * Suchprofil soll erstellt werden. Damit koennen alle angelegten Profile durchsucht werden, um
    * Profile zu finden, welche zum Suchprofil passen.
    * 
-   * @param sp Suchprofil speichern
-   * @param auswahlListeSp
-   * @param childPanel
    * @return sp Suchprofil
    */
   public Suchprofil createSP() {
@@ -621,18 +590,4 @@ public class Suche extends BasicFrame {
     return sp;
   }
 
-  /**
-   * Wenn etwas nicht selektiert/ausgewaehlt wurde.
-   * 
-   * @return true / false Je nach Abfrage
-   */
-  private boolean isKeineAngabeSelected(BoxPanel box) {
-    if (box.getSelectedItem().equals("Keine Angabe")) {
-      return true;
-    }
-    return false;
-  }
-
 }
-
-

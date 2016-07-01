@@ -14,6 +14,7 @@ import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
  * Entry point Klasse der Partnerbörse2000
+ * 
  * @author Volz, Funke
  */
 
@@ -29,22 +30,19 @@ public class Superteam2000 implements EntryPoint {
    */
   @Override
   public void onModuleLoad() {
-    
+
     pbVerwaltung.login(GWT.getHostPageBaseURL() + "Superteam2000.html", new LoginCallback());
 
   }
 
   /**
    * Asynchrone Anmelde-Klasse.
-   *
-   * @author Volz, Funke
-   *
    */
   class LoginCallback implements AsyncCallback<Profil> {
 
-	  /**
-	   * Fehlermeldung, wenn Login nicht durchgeführt werden konnte
-	   */
+    /**
+     * Fehlermeldung, wenn Login nicht durchgeführt werden konnte
+     */
     @Override
     public void onFailure(Throwable caught) {
       ClientsideSettings.getLogger().severe("Login fehlgeschlagen!");
@@ -77,19 +75,14 @@ public class Superteam2000 implements EntryPoint {
     /**
      * Erstellen der Login-Seite, auf der sich der User durch einen Klick einloggen kann
      * 
-     * @param splashContaiern
-     * @param splash
-     * @param headingElement
-     * @param splashSubhead
-     * @param splashParagraph
-     * @param loginAnchor
+     * @param result Profil der zu erstellenden Benutzers
      */
     private void createLoginScreen(Profil result) {
-      
-      //CSS Stylename für die entsprechenden Divs setzen und mit Texten füllen
+
+      // CSS Stylename für die entsprechenden Divs setzen und mit Texten füllen
       FlowPanel splashContaiern = new FlowPanel();
       splashContaiern.setStyleName("splash-container");
-      
+
       FlowPanel splash = new FlowPanel();
       splash.setStyleName("splash");
 
@@ -106,18 +99,17 @@ public class Superteam2000 implements EntryPoint {
       loginAnchor.setStyleName("pure-button-login pure-button-primary-login");
       loginAnchor.setHref(result.getLoginUrl());
 
-      //Divs und Anchor zum Div hinzufügen
+      // Divs und Anchor zum Div hinzufügen
       splash.add(headingElement);
       splash.add(splashSubhead);
       splash.add(loginAnchor);
-      
+
       splashContaiern.add(splash);
       RootPanel.get("main").add(splashContaiern);
     }
 
     /**
      * Profil soll erstellt werden und angezeigt werden
-     * @param cf Profildaten laden
      */
     private void profilErstellen() {
       BasicFrame cf = new CreateProfil();
@@ -127,7 +119,6 @@ public class Superteam2000 implements EntryPoint {
 
     /**
      * Profil laden und anzeigen
-     * @param nb Navigationsbar laden
      */
     private void loadProfil() {
       Navbar nb = new Navbar();

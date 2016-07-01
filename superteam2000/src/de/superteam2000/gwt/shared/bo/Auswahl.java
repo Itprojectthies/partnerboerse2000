@@ -7,8 +7,7 @@ import java.util.ArrayList;
  * sie enthält eine Reihe von Auswahlalternativen
  * vom Typ String.
  *
- * @author Christopher Funke, Daniel Volz
- * @version 1.0
+ * @author Funke, Volz
  */
 public class Auswahl extends Eigenschaft {
 

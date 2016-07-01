@@ -114,11 +114,8 @@ public class HTMLReportWriter extends ReportWriter {
 
       result.append(reportText + "\n");
 
-
       resetReportText();
     }
-
-
     reportText = result.toString();
   }
 

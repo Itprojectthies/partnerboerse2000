@@ -7,7 +7,7 @@ package de.superteam2000.gwt.shared.report;
  * der Methoden deklariert, die für die Prozessierung der Quellinformation zuständig sind.
  * </p>
  *
- * @author Thies, Volz, Funke
+ * @author Thies, Funke
  */
 public abstract class ReportWriter {
 

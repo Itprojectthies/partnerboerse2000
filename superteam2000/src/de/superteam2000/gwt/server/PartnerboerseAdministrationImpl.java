@@ -50,7 +50,7 @@ import de.superteam2000.gwt.shared.bo.Suchprofil;
  * @see PartnerboerseAdministration
  * @see PartnerboerseAdministrationAsync
  * @see RemoteServiceServlet
- * @author Thies, Christopher Funke, Daniel Volz
+ * @author Thies, Funke, Volz
  */
 public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     implements PartnerboerseAdministration {
@@ -65,8 +65,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   private ProfilMapper pMapper = null;
   private SuchprofilMapper sMapper = null;
 
-
-
   /**
    * Ein RemoteServiceServlet wird unter GWT mittels GWT.create(Klassenname.class) Client-seitig
    * erzeugt. Hierzu ist ein solcher No-Argument-Konstruktor anzulegen. Ein Aufruf eines anderen
@@ -77,7 +75,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
    *
    *
    */
-
 
   public PartnerboerseAdministrationImpl() throws IllegalArgumentException {}
 

@@ -5,7 +5,7 @@ package de.superteam2000.gwt.shared.bo;
  * Sie enthält lediglich einen String (die Beschreibung) und die
  * dazugehörigen getter und setter
  * 
- * @author Christopher Funke, Daniel Volz
+ * @author Funke, Volz
  */
 public class Beschreibung extends Eigenschaft {
 

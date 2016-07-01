@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Report für alle neuen Profile
- * @author Christopher
+ * @author Funke
  *
  */
 public class AllNewProfileReport extends CompositeReport implements Serializable {

@@ -13,7 +13,7 @@ import de.superteam2000.gwt.client.ClientsideSettings;
 /**
  *
  * Die Klasse DBConnection verwaltet die Verbindung zu einer relationalen Datenbank. Dabei wird auf
- * den jdbc-Treiber zur�ckgegriffen, der eine Verbindung von JAVA zu verschiedenen Datenbank-Typen
+ * den jdbc-Treiber zurückgegriffen, der eine Verbindung von JAVA zu verschiedenen Datenbank-Typen
  * realisiert.
  *
  * @see AehnlichkeitsMapper
@@ -24,7 +24,7 @@ import de.superteam2000.gwt.client.ClientsideSettings;
  * @see ProfilMapper
  * @see SuchprofilMapper
  *
- * @author Benjamin Henn
+ * @author Henn, Thies, Volz
  *
  */
 public class DBConnection {
@@ -40,7 +40,7 @@ public class DBConnection {
 
   /**
    * Zwei verschiedene URL, da für das Testen eine lokale Datenbank verwendet wurde und für die
-   * Ausf�hrung jene von Google Cloud SQl.
+   * Ausführung jene von Google Cloud SQl.
    */
 
 
@@ -52,7 +52,7 @@ public class DBConnection {
   /**
    * Statische Methode, die genau eine Instanz der DBConnection erzeugt und die
    * Verbindungs-Informationen der Datenbank-Verbindung in dieser speichert. Eine weitere Instanz zu
-   * erzeugen ist nicht m�glich, da gepr�ft wird, ob w�hrend der Laufzeit schon eine Instanz
+   * erzeugen ist nicht möglich, da geprüft wird, ob während der Laufzeit schon eine Instanz
    * existiert.
    *
    *

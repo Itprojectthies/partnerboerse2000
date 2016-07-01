@@ -20,15 +20,18 @@ public abstract class Report implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-
   private Profil profil = null;
-
-
   private Paragraph name = null;
-
+  
+  /**
+   * ein Composite Paragraph für die Profil Attribute
+   */
   private CompositeParagraph attribute = null;
+  
+  /**
+   * ein Composite Paragraph für die Bezeichnungen der Profil Attribute
+   */
   private CompositeParagraph attributeBez = null;
-
 
   /**
    * ein Paragraph für die Ähnlichkeit
@@ -60,7 +63,7 @@ public abstract class Report implements Serializable {
   /**
    * Setzen der Profilattribute
    *
-   * @param attribute Text des Impressums
+   * @param attribute Text dbuteer Attri
    */
   public void setProfilAttribute(CompositeParagraph attribute) {
     this.attribute = attribute;

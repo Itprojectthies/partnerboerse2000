@@ -29,7 +29,7 @@ public class Merkliste extends BasicFrame {
   ArrayList<Profil> profile = new ArrayList<Profil>();
 
   /**
-   * Headline Text wird gesetzt
+   * Headline Text wird zurüchgegeben
    * @return Text
    */
   @Override
@@ -39,7 +39,7 @@ public class Merkliste extends BasicFrame {
   }
 
   /**
-   * SubHeadline Text wird gesetzt
+   * SubHeadline Text wird zurüchgegeben
    * @return auszugebender Text
    */
   @Override

@@ -10,11 +10,11 @@ import de.superteam2000.gwt.shared.bo.Merkzettel;
 import de.superteam2000.gwt.shared.bo.Profil;
 
 /**
- * Klasse, die die Aufgabe erf�llt, die Objekte einer persistenten Klasse auf die Datenbank
+ * Klasse, die die Aufgabe erfüllt, die Objekte einer persistenten Klasse auf die Datenbank
  * abzubilden und dort zu speichern. Die zu speichernden Objekte werden dematerialisiert und zu
  * gewinnende Objekte aus der Datenbank entsprechend materialisiert. Dies wird als indirektes
  * Mapping bezeichnet. Zur Verwaltung der Objekte implementiert die Mapper-Klasse entsprechende
- * Methoden zur Suche, zum Speichern, L�schen und Modifizieren von Objekten.
+ * Methoden zur Suche, zum Speichern, Löschen und Modifizieren von Objekten.
  *
  * @see AehnlichkeitsMapper
  * @see AuswahlMapper
@@ -24,14 +24,14 @@ import de.superteam2000.gwt.shared.bo.Profil;
  * @see KontaktsperreMapper
  * @see ProfilMapper
  * @see SuchprofilMapper
- * @author
+ * @author Thies, Volz, Funke
  */
 
 
 public class MerkzettelMapper {
 
   /**
-   * Von der Klasse MerkzettelMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die
+   * Von der Klasse MerkzettelMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ MerkzettelMapper, die die einzige Instanz der Klasse
    * darstellt.
@@ -41,14 +41,14 @@ public class MerkzettelMapper {
 
 
   /**
-   * Durch den Modifier "private" gesch�tzter Konstruktor, der verhindert das weiter Instanzen der
-   * Klasse erzeugt werden k�nnen
+   * Durch den Modifier "private" geschützter Konstruktor, der verhindert das weiter Instanzen der
+   * Klasse erzeugt werden können
    *
    */
   protected MerkzettelMapper() {}
 
   /**
-   * Von der Klasse MerkzettelMapper kann nur eine Instanz erzeugt werden. Sie erf�llt die
+   * Von der Klasse MerkzettelMapper kann nur eine Instanz erzeugt werden. Sie erfüllt die
    * Singleton-Eigenschaft. Dies geschieht mittels eines private default-Konstruktors und genau
    * einer statischen Variablen vom Typ MerkzettelMapper, die die einzige Instanz der Klasse
    * darstellt.
@@ -65,7 +65,7 @@ public class MerkzettelMapper {
 
 
   /**
-   * Auslesen aller Merkzetteleint�ge aus der Datenbank f�r ein Profil.
+   * Auslesen aller Merkzetteleinträge aus der Datenbank für ein Profil.
    *
    * @param p - Profil p
    * @return Merkzettel des Profils
@@ -86,7 +86,7 @@ public class MerkzettelMapper {
           .executeQuery("SELECT Gemerkter_id " + "FROM Merkzettel WHERE Merker_id=" + p.getId());
       result.setMerkerId(p.getId());
 
-      // F�r jeden Eintrag im Suchergebnis wird nun ein Merkzettel-Objekt
+      // Für jeden Eintrag im Suchergebnis wird nun ein Merkzettel-Objekt
       // erstellt.
       while (rs.next()) {
         Profil profil = ProfilMapper.profilMapper().findByKey(rs.getInt("Gemerkter_id"));
@@ -106,7 +106,7 @@ public class MerkzettelMapper {
 
 
   /**
-   * Einf�gen eines Merkzettel-Objekts in die Datenbank.
+   * Einfügen eines Merkzettel-Objekts in die Datenbank.
    *
    * @param m das zu speichernde Objekt
    *
@@ -133,9 +133,9 @@ public class MerkzettelMapper {
 
 
   /**
-   * L�schen der Daten eines Merkzettel-Eintrags aus der Datenbank.
+   * Löschen der Daten eines Merkzettel-Eintrags aus der Datenbank.
    *
-   * @param zwei Profile, der zu l�schende und der "l�schende"
+   * @param zwei Profile, der zu Löschende und der "Löschende"
    */
   public void deleteMerkenFor(Profil entferner, Profil entfernter) {
     Connection con = DBConnection.connection();

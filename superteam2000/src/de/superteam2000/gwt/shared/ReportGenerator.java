@@ -17,7 +17,7 @@ import de.superteam2000.gwt.shared.report.ProfilReport;
 * In ihr finden sich sämtliche Methodensignaturen der Methoden, welche von
 * der Klasse ReportGeneratorImpl zu implementieren sind.
 * 
- * @author Funke, Volz
+ * @author Thies, Funke
  *
  */
 @RemoteServiceRelativePath("rg")
