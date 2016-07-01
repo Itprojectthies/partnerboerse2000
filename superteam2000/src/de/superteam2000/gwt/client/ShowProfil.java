@@ -113,7 +113,7 @@ public class ShowProfil extends BasicFrame {
     groesse.setGroesse(user.getGroesse());
 
     pbVerwaltung.getAllBeschreibungProfilAttribute(new GetAllBeschreibungProfilAttributeCallback());
-    pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
+    
 
     contentPanel.add(alignPanel);
     RootPanel.get("main").add(contentPanel);
@@ -411,6 +411,9 @@ public class ShowProfil extends BasicFrame {
 
         }
       }
+      //Auswahlattribute des Profils werden erst nachdem Vorname und Nachname geladen worden sind
+      //abgefragt, um die Reihenfolge der Darstellung immer gelich zu haben.
+      pbVerwaltung.getAllAuswahlProfilAttribute(new GetAllAuswahlProfilAttributeCallback());
     }
 
     /**

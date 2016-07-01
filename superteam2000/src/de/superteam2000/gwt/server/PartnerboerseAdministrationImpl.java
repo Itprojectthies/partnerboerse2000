@@ -37,15 +37,14 @@ import de.superteam2000.gwt.shared.bo.Suchprofil;
 /**
  * <p>
  * Implementierungsklasse des Interface PartnerboerseAdministration. Diese Klasse ist die Klasse,
- * die neben {@link ReportGeneratorImpl} sämtliche Applikationslogik beinhaltet.
- * Die Applikationslogik befindet sich in den Methoden dieser Klasse.
- * Sie ist der Dreh- und Angelpunkt des Projekts.
+ * die neben {@link ReportGeneratorImpl} sämtliche Applikationslogik beinhaltet. Die
+ * Applikationslogik befindet sich in den Methoden dieser Klasse. Sie ist der Dreh- und Angelpunkt
+ * des Projekts.
  * 
- * PartnerboerseAdministrationImpl und
- * PartnerboerseAdministration bilden nur die Server-seitige Sicht der Applikationslogik ab. Diese
- * basiert vollständig auf synchronen Funktionsaufrufen. 
- *  Jede Server-seitig instantiierbare und Client-seitig über GWT RPC nutzbare Klasse muss die Klasse
- * RemoteServiceServlet implementieren. 
+ * PartnerboerseAdministrationImpl und PartnerboerseAdministration bilden nur die Server-seitige
+ * Sicht der Applikationslogik ab. Diese basiert vollständig auf synchronen Funktionsaufrufen. Jede
+ * Server-seitig instantiierbare und Client-seitig über GWT RPC nutzbare Klasse muss die Klasse
+ * RemoteServiceServlet implementieren.
  * 
  * @see PartnerboerseAdministration
  * @see PartnerboerseAdministrationAsync
@@ -103,26 +102,23 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     ArrayList<Profil> alleProfile = this.pMapper.findAll();
     ArrayList<Auswahl> alleAuswahl = this.auswahlMapper.findAll();
 
-   
-    Info info = new Info();
+
     for (Auswahl auswahl : alleAuswahl) {
-      info.setEigenschaftId(auswahl.getId());
-      ArrayList<String> auswahlAlternativen = auswahl.getAlternativen();
-      String[] auswahlAlternativenArray = new String[alleAuswahl.size()];
-      auswahlAlternativen.toArray(auswahlAlternativenArray);
       
-      for (String string : auswahlAlternativenArray) {
-        if (string != null) {
-          info.setText(string);
-        }
-        for (Profil p : alleProfile) {
-          info.setProfilId(p.getId());
+      ArrayList<String> auswahlAlternativen = auswahl.getAlternativen();
+      
+      String[] auswahlAlternativenArray = new String[alleAuswahl.size()];
+      
+      auswahlAlternativen.toArray(auswahlAlternativenArray);
+
+      for (Profil p : alleProfile) {
+        String text = auswahlAlternativenArray[new Random().nextInt(auswahlAlternativenArray.length)];
+        if (text != null) {
+          this.createInfoFor(p, auswahl, text);
           
         }
+
       }
-//      log(auswahlAlternativenArray);
-//      log(auswahl.get);
-      // info.setText(auswahlAlternativen.);
     }
 
   }
@@ -191,7 +187,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public Profil login(String requestUri) {
     // seed();
-    addInfosToUsers();
+//    addInfosToUsers();
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
 
